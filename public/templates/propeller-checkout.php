@@ -1,0 +1,1 @@
+<?php require $this->load_template('partials', DIRECTORY_SEPARATOR . 'checkout' . DIRECTORY_SEPARATOR . 'propeller-checkout-step-1.php'); ?>
