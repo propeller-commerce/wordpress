@@ -1,0 +1,14 @@
+.nav-tabs { border-bottom: none !important; }
+.nav-tabs .nav-link { color: #fa3a6b; }
+.nav-tabs .nav-link:focus { outline: none; box-shadow: none; }
+
+#page_row_template { display: none; }
+.delete-btn { border: none; background-color: transparent; padding: 0; }
+
+.propel-pages-container .form-check .form-check-label { line-height: 1rem; margin-top: -22px; margin-left: 25px; }
+
+.table th.propel-table-id { width: 1%; }
+.table th.propel-col-50 { width: 48%; }
+table .form-control:disabled, .form-control[readonly] { background-color: #fff; }
+
+.alert-fixed { position:fixed; top: 5%; right: 1%; width: auto; z-index:9999; }

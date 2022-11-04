@@ -1,0 +1,2746 @@
+# Copyright (C) 2022 Propeller
+# This file is distributed under the GPL2.
+msgid ""
+msgstr ""
+"Project-Id-Version: Propeller E-Commerce 1.0.4\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/propeller-ecommerce\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2022-04-19T10:53:53+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.6.0\n"
+"X-Domain: propeller-ecommerce\n"
+
+#. Plugin Name of the plugin
+msgid "Propeller E-Commerce"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "http://tepperefka.local/propeller-ecommerce.zip"
+msgstr ""
+
+#. Description of the plugin
+msgid "Hook for using the Propeller API in WP."
+msgstr ""
+
+#. Author of the plugin
+#: src/Frontend/partials/user/propeller-account-page.php:79
+#: src/Frontend/partials/user/propeller-login-form.php:69
+#: src/Frontend/partials/user/propeller-mini-account.php:81
+#: src/Frontend/partials/user/propeller-reset-password-form.php:49
+msgid "Propeller"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "http://propel.us"
+msgstr ""
+
+#: Custom/Includes/Plugin/Scanner/views/barcode-scanner-icon.php:2
+msgid "Scan barcode"
+msgstr ""
+
+#: Custom/Includes/Plugin/Scanner/views/barcode-scanner-modal.php:5
+msgid "Barcode scanner"
+msgstr ""
+
+#: src/Admin/views/propeller-admin-panel.php:3
+msgid "Settings"
+msgstr ""
+
+#: src/Admin/views/propeller-admin-panel.php:7
+msgid "General"
+msgstr ""
+
+#: src/Admin/views/propeller-admin-panel.php:10
+msgid "Pages"
+msgstr ""
+
+#: src/Admin/views/propeller-admin-panel.php:13
+msgid "Behavior"
+msgstr ""
+
+#: src/Admin/views/propeller-admin-panel.php:35
+msgid "Clear caches"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-behavior.php:8
+msgid "Enable Wordpress sessions"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-behavior.php:9
+msgid "(Propeller and Wordpress sessions will be combined)"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-behavior.php:13
+msgid "Is closed portal?"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-behavior.php:14
+msgid "(If checked, anonymous users will land on a login page)"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-behavior.php:21
+msgid "Select pages for exclusion"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-behavior.php:35
+msgid "(Selected pages will be available even if the user is not logged in in a closed webshop)"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-behavior.php:40
+msgid "Track attribute for users:"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-behavior.php:42
+msgid "(Personalized content will be displayed for users based on this attribute value)"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-behavior.php:47
+msgid "Reload filters"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-behavior.php:48
+msgid "(Reload the whole category page including filters when browsing)"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-behavior.php:54
+msgid "Save behavior"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-general.php:6
+msgid "API URL"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-general.php:10
+msgid "API key"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-general.php:15
+msgid "Anonymous user ID"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-general.php:19
+msgid "Catalog root ID"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-general.php:23
+msgid "Site ID"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-pages.php:20
+#: src/Admin/views/tab/propeller-admin-pages.php:46
+#: src/Admin/views/tab/propeller-admin-pages.php:98
+#: src/Admin/views/tab/propeller-admin-pages.php:158
+msgid "Page name"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-pages.php:23
+msgid "Slug"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-pages.php:26
+msgid "Type"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-pages.php:29
+msgid "Shortcode"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-pages.php:36
+#: src/Frontend/partials/user/propeller-account-addresses.php:175
+#: src/Frontend/partials/user/propeller-account-addresses.php:178
+#: src/Frontend/partials/user/propeller-account-addresses.php:249
+#: src/Frontend/partials/user/propeller-account-addresses.php:252
+#: src/Frontend/partials/user/propeller-account-delete-address-popup.php:46
+msgid "Delete"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-pages.php:49
+#: src/Admin/views/tab/propeller-admin-pages.php:101
+#: src/Admin/views/tab/propeller-admin-pages.php:161
+msgid "Page slug"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-pages.php:68
+#: src/Admin/views/tab/propeller-admin-pages.php:120
+#: src/Admin/views/tab/propeller-admin-pages.php:180
+msgid "Apply R/W rules"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-pages.php:73
+#: src/Admin/views/tab/propeller-admin-pages.php:125
+#: src/Admin/views/tab/propeller-admin-pages.php:185
+msgid "Is My account page"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-pages.php:78
+#: src/Admin/views/tab/propeller-admin-pages.php:130
+#: src/Admin/views/tab/propeller-admin-pages.php:190
+msgid "Child of My Account"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-pages.php:145
+msgid "New page"
+msgstr ""
+
+#: src/Admin/views/tab/propeller-admin-pages.php:148
+msgid "Save pages"
+msgstr ""
+
+#: src/Countries.php:8
+msgid "Afghanistan"
+msgstr ""
+
+#: src/Countries.php:9
+msgid "Åland Islands"
+msgstr ""
+
+#: src/Countries.php:10
+msgid "Albania"
+msgstr ""
+
+#: src/Countries.php:11
+msgid "Algeria"
+msgstr ""
+
+#: src/Countries.php:12
+msgid "American Samoa"
+msgstr ""
+
+#: src/Countries.php:13
+msgid "Andorra"
+msgstr ""
+
+#: src/Countries.php:14
+msgid "Angola"
+msgstr ""
+
+#: src/Countries.php:15
+msgid "Anguilla"
+msgstr ""
+
+#: src/Countries.php:16
+msgid "Antarctica"
+msgstr ""
+
+#: src/Countries.php:17
+msgid "Antigua and Barbuda"
+msgstr ""
+
+#: src/Countries.php:18
+msgid "Argentina"
+msgstr ""
+
+#: src/Countries.php:19
+msgid "Armenia"
+msgstr ""
+
+#: src/Countries.php:20
+msgid "Aruba"
+msgstr ""
+
+#: src/Countries.php:21
+msgid "Australia"
+msgstr ""
+
+#: src/Countries.php:22
+msgid "Austria"
+msgstr ""
+
+#: src/Countries.php:23
+msgid "Azerbaijan"
+msgstr ""
+
+#: src/Countries.php:24
+msgid "Bahamas"
+msgstr ""
+
+#: src/Countries.php:25
+msgid "Bahrain"
+msgstr ""
+
+#: src/Countries.php:26
+msgid "Bangladesh"
+msgstr ""
+
+#: src/Countries.php:27
+msgid "Barbados"
+msgstr ""
+
+#: src/Countries.php:28
+msgid "Belarus"
+msgstr ""
+
+#: src/Countries.php:29
+msgid "Belgium"
+msgstr ""
+
+#: src/Countries.php:30
+msgid "Belau"
+msgstr ""
+
+#: src/Countries.php:31
+msgid "Belize"
+msgstr ""
+
+#: src/Countries.php:32
+msgid "Benin"
+msgstr ""
+
+#: src/Countries.php:33
+msgid "Bermuda"
+msgstr ""
+
+#: src/Countries.php:34
+msgid "Bhutan"
+msgstr ""
+
+#: src/Countries.php:35
+msgid "Bolivia"
+msgstr ""
+
+#: src/Countries.php:36
+msgid "Bonaire, Saint Eustatius and Saba"
+msgstr ""
+
+#: src/Countries.php:37
+msgid "Bosnia and Herzegovina"
+msgstr ""
+
+#: src/Countries.php:38
+msgid "Botswana"
+msgstr ""
+
+#: src/Countries.php:39
+msgid "Bouvet Island"
+msgstr ""
+
+#: src/Countries.php:40
+msgid "Brazil"
+msgstr ""
+
+#: src/Countries.php:41
+msgid "British Indian Ocean Territory"
+msgstr ""
+
+#: src/Countries.php:42
+msgid "Brunei"
+msgstr ""
+
+#: src/Countries.php:43
+msgid "Bulgaria"
+msgstr ""
+
+#: src/Countries.php:44
+msgid "Burkina Faso"
+msgstr ""
+
+#: src/Countries.php:45
+msgid "Burundi"
+msgstr ""
+
+#: src/Countries.php:46
+msgid "Cambodia"
+msgstr ""
+
+#: src/Countries.php:47
+msgid "Cameroon"
+msgstr ""
+
+#: src/Countries.php:48
+msgid "Canada"
+msgstr ""
+
+#: src/Countries.php:49
+msgid "Cape Verde"
+msgstr ""
+
+#: src/Countries.php:50
+msgid "Cayman Islands"
+msgstr ""
+
+#: src/Countries.php:51
+msgid "Central African Republic"
+msgstr ""
+
+#: src/Countries.php:52
+msgid "Chad"
+msgstr ""
+
+#: src/Countries.php:53
+msgid "Chile"
+msgstr ""
+
+#: src/Countries.php:54
+msgid "China"
+msgstr ""
+
+#: src/Countries.php:55
+msgid "Christmas Island"
+msgstr ""
+
+#: src/Countries.php:56
+msgid "Cocos (Keeling) Islands"
+msgstr ""
+
+#: src/Countries.php:57
+msgid "Colombia"
+msgstr ""
+
+#: src/Countries.php:58
+msgid "Comoros"
+msgstr ""
+
+#: src/Countries.php:59
+msgid "Congo (Brazzaville)"
+msgstr ""
+
+#: src/Countries.php:60
+msgid "Congo (Kinshasa)"
+msgstr ""
+
+#: src/Countries.php:61
+msgid "Cook Islands"
+msgstr ""
+
+#: src/Countries.php:62
+msgid "Costa Rica"
+msgstr ""
+
+#: src/Countries.php:63
+msgid "Croatia"
+msgstr ""
+
+#: src/Countries.php:64
+msgid "Cuba"
+msgstr ""
+
+#: src/Countries.php:65
+msgid "Cura&ccedil;ao"
+msgstr ""
+
+#: src/Countries.php:66
+msgid "Cyprus"
+msgstr ""
+
+#: src/Countries.php:67
+msgid "Czech Republic"
+msgstr ""
+
+#: src/Countries.php:68
+msgid "Denmark"
+msgstr ""
+
+#: src/Countries.php:69
+msgid "Djibouti"
+msgstr ""
+
+#: src/Countries.php:70
+msgid "Dominica"
+msgstr ""
+
+#: src/Countries.php:71
+msgid "Dominican Republic"
+msgstr ""
+
+#: src/Countries.php:72
+msgid "Ecuador"
+msgstr ""
+
+#: src/Countries.php:73
+msgid "Egypt"
+msgstr ""
+
+#: src/Countries.php:74
+msgid "El Salvador"
+msgstr ""
+
+#: src/Countries.php:75
+msgid "Equatorial Guinea"
+msgstr ""
+
+#: src/Countries.php:76
+msgid "Eritrea"
+msgstr ""
+
+#: src/Countries.php:77
+msgid "Estonia"
+msgstr ""
+
+#: src/Countries.php:78
+msgid "Ethiopia"
+msgstr ""
+
+#: src/Countries.php:79
+msgid "Falkland Islands"
+msgstr ""
+
+#: src/Countries.php:80
+msgid "Faroe Islands"
+msgstr ""
+
+#: src/Countries.php:81
+msgid "Fiji"
+msgstr ""
+
+#: src/Countries.php:82
+msgid "Finland"
+msgstr ""
+
+#: src/Countries.php:83
+msgid "France"
+msgstr ""
+
+#: src/Countries.php:84
+msgid "French Guiana"
+msgstr ""
+
+#: src/Countries.php:85
+msgid "French Polynesia"
+msgstr ""
+
+#: src/Countries.php:86
+msgid "French Southern Territories"
+msgstr ""
+
+#: src/Countries.php:87
+msgid "Gabon"
+msgstr ""
+
+#: src/Countries.php:88
+msgid "Gambia"
+msgstr ""
+
+#: src/Countries.php:89
+msgid "Georgia"
+msgstr ""
+
+#: src/Countries.php:90
+msgid "Germany"
+msgstr ""
+
+#: src/Countries.php:91
+msgid "Ghana"
+msgstr ""
+
+#: src/Countries.php:92
+msgid "Gibraltar"
+msgstr ""
+
+#: src/Countries.php:93
+msgid "Greece"
+msgstr ""
+
+#: src/Countries.php:94
+msgid "Greenland"
+msgstr ""
+
+#: src/Countries.php:95
+msgid "Grenada"
+msgstr ""
+
+#: src/Countries.php:96
+msgid "Guadeloupe"
+msgstr ""
+
+#: src/Countries.php:97
+msgid "Guam"
+msgstr ""
+
+#: src/Countries.php:98
+msgid "Guatemala"
+msgstr ""
+
+#: src/Countries.php:99
+msgid "Guernsey"
+msgstr ""
+
+#: src/Countries.php:100
+msgid "Guinea"
+msgstr ""
+
+#: src/Countries.php:101
+msgid "Guinea-Bissau"
+msgstr ""
+
+#: src/Countries.php:102
+msgid "Guyana"
+msgstr ""
+
+#: src/Countries.php:103
+msgid "Haiti"
+msgstr ""
+
+#: src/Countries.php:104
+msgid "Heard Island and McDonald Islands"
+msgstr ""
+
+#: src/Countries.php:105
+msgid "Honduras"
+msgstr ""
+
+#: src/Countries.php:106
+msgid "Hong Kong"
+msgstr ""
+
+#: src/Countries.php:107
+msgid "Hungary"
+msgstr ""
+
+#: src/Countries.php:108
+msgid "Iceland"
+msgstr ""
+
+#: src/Countries.php:109
+msgid "India"
+msgstr ""
+
+#: src/Countries.php:110
+msgid "Indonesia"
+msgstr ""
+
+#: src/Countries.php:111
+msgid "Iran"
+msgstr ""
+
+#: src/Countries.php:112
+msgid "Iraq"
+msgstr ""
+
+#: src/Countries.php:113
+msgid "Ireland"
+msgstr ""
+
+#: src/Countries.php:114
+msgid "Isle of Man"
+msgstr ""
+
+#: src/Countries.php:115
+msgid "Israel"
+msgstr ""
+
+#: src/Countries.php:116
+msgid "Italy"
+msgstr ""
+
+#: src/Countries.php:117
+msgid "Ivory Coast"
+msgstr ""
+
+#: src/Countries.php:118
+msgid "Jamaica"
+msgstr ""
+
+#: src/Countries.php:119
+msgid "Japan"
+msgstr ""
+
+#: src/Countries.php:120
+msgid "Jersey"
+msgstr ""
+
+#: src/Countries.php:121
+msgid "Jordan"
+msgstr ""
+
+#: src/Countries.php:122
+msgid "Kazakhstan"
+msgstr ""
+
+#: src/Countries.php:123
+msgid "Kenya"
+msgstr ""
+
+#: src/Countries.php:124
+msgid "Kiribati"
+msgstr ""
+
+#: src/Countries.php:125
+msgid "Kuwait"
+msgstr ""
+
+#: src/Countries.php:126
+msgid "Kyrgyzstan"
+msgstr ""
+
+#: src/Countries.php:127
+msgid "Laos"
+msgstr ""
+
+#: src/Countries.php:128
+msgid "Latvia"
+msgstr ""
+
+#: src/Countries.php:129
+msgid "Lebanon"
+msgstr ""
+
+#: src/Countries.php:130
+msgid "Lesotho"
+msgstr ""
+
+#: src/Countries.php:131
+msgid "Liberia"
+msgstr ""
+
+#: src/Countries.php:132
+msgid "Libya"
+msgstr ""
+
+#: src/Countries.php:133
+msgid "Liechtenstein"
+msgstr ""
+
+#: src/Countries.php:134
+msgid "Lithuania"
+msgstr ""
+
+#: src/Countries.php:135
+msgid "Luxembourg"
+msgstr ""
+
+#: src/Countries.php:136
+msgid "Macao"
+msgstr ""
+
+#: src/Countries.php:137
+msgid "North Macedonia"
+msgstr ""
+
+#: src/Countries.php:138
+msgid "Madagascar"
+msgstr ""
+
+#: src/Countries.php:139
+msgid "Malawi"
+msgstr ""
+
+#: src/Countries.php:140
+msgid "Malaysia"
+msgstr ""
+
+#: src/Countries.php:141
+msgid "Maldives"
+msgstr ""
+
+#: src/Countries.php:142
+msgid "Mali"
+msgstr ""
+
+#: src/Countries.php:143
+msgid "Malta"
+msgstr ""
+
+#: src/Countries.php:144
+msgid "Marshall Islands"
+msgstr ""
+
+#: src/Countries.php:145
+msgid "Martinique"
+msgstr ""
+
+#: src/Countries.php:146
+msgid "Mauritania"
+msgstr ""
+
+#: src/Countries.php:147
+msgid "Mauritius"
+msgstr ""
+
+#: src/Countries.php:148
+msgid "Mayotte"
+msgstr ""
+
+#: src/Countries.php:149
+msgid "Mexico"
+msgstr ""
+
+#: src/Countries.php:150
+msgid "Micronesia"
+msgstr ""
+
+#: src/Countries.php:151
+msgid "Moldova"
+msgstr ""
+
+#: src/Countries.php:152
+msgid "Monaco"
+msgstr ""
+
+#: src/Countries.php:153
+msgid "Mongolia"
+msgstr ""
+
+#: src/Countries.php:154
+msgid "Montenegro"
+msgstr ""
+
+#: src/Countries.php:155
+msgid "Montserrat"
+msgstr ""
+
+#: src/Countries.php:156
+msgid "Morocco"
+msgstr ""
+
+#: src/Countries.php:157
+msgid "Mozambique"
+msgstr ""
+
+#: src/Countries.php:158
+msgid "Myanmar"
+msgstr ""
+
+#: src/Countries.php:159
+msgid "Namibia"
+msgstr ""
+
+#: src/Countries.php:160
+msgid "Nauru"
+msgstr ""
+
+#: src/Countries.php:161
+msgid "Nepal"
+msgstr ""
+
+#: src/Countries.php:162
+msgid "Netherlands"
+msgstr ""
+
+#: src/Countries.php:163
+msgid "New Caledonia"
+msgstr ""
+
+#: src/Countries.php:164
+msgid "New Zealand"
+msgstr ""
+
+#: src/Countries.php:165
+msgid "Nicaragua"
+msgstr ""
+
+#: src/Countries.php:166
+msgid "Niger"
+msgstr ""
+
+#: src/Countries.php:167
+msgid "Nigeria"
+msgstr ""
+
+#: src/Countries.php:168
+msgid "Niue"
+msgstr ""
+
+#: src/Countries.php:169
+msgid "Norfolk Island"
+msgstr ""
+
+#: src/Countries.php:170
+msgid "Northern Mariana Islands"
+msgstr ""
+
+#: src/Countries.php:171
+msgid "North Korea"
+msgstr ""
+
+#: src/Countries.php:172
+msgid "Norway"
+msgstr ""
+
+#: src/Countries.php:173
+msgid "Oman"
+msgstr ""
+
+#: src/Countries.php:174
+msgid "Pakistan"
+msgstr ""
+
+#: src/Countries.php:175
+msgid "Palestinian Territory"
+msgstr ""
+
+#: src/Countries.php:176
+msgid "Panama"
+msgstr ""
+
+#: src/Countries.php:177
+msgid "Papua New Guinea"
+msgstr ""
+
+#: src/Countries.php:178
+msgid "Paraguay"
+msgstr ""
+
+#: src/Countries.php:179
+msgid "Peru"
+msgstr ""
+
+#: src/Countries.php:180
+msgid "Philippines"
+msgstr ""
+
+#: src/Countries.php:181
+msgid "Pitcairn"
+msgstr ""
+
+#: src/Countries.php:182
+msgid "Poland"
+msgstr ""
+
+#: src/Countries.php:183
+msgid "Portugal"
+msgstr ""
+
+#: src/Countries.php:184
+msgid "Puerto Rico"
+msgstr ""
+
+#: src/Countries.php:185
+msgid "Qatar"
+msgstr ""
+
+#: src/Countries.php:186
+msgid "Reunion"
+msgstr ""
+
+#: src/Countries.php:187
+msgid "Romania"
+msgstr ""
+
+#: src/Countries.php:188
+msgid "Russia"
+msgstr ""
+
+#: src/Countries.php:189
+msgid "Rwanda"
+msgstr ""
+
+#: src/Countries.php:190
+msgid "Saint Barth&eacute;lemy"
+msgstr ""
+
+#: src/Countries.php:191
+msgid "Saint Helena"
+msgstr ""
+
+#: src/Countries.php:192
+msgid "Saint Kitts and Nevis"
+msgstr ""
+
+#: src/Countries.php:193
+msgid "Saint Lucia"
+msgstr ""
+
+#: src/Countries.php:194
+msgid "Saint Martin (French part)"
+msgstr ""
+
+#: src/Countries.php:195
+msgid "Saint Martin (Dutch part)"
+msgstr ""
+
+#: src/Countries.php:196
+msgid "Saint Pierre and Miquelon"
+msgstr ""
+
+#: src/Countries.php:197
+msgid "Saint Vincent and the Grenadines"
+msgstr ""
+
+#: src/Countries.php:198
+msgid "San Marino"
+msgstr ""
+
+#: src/Countries.php:199
+msgid "S&atilde;o Tom&eacute; and Pr&iacute;ncipe"
+msgstr ""
+
+#: src/Countries.php:200
+msgid "Saudi Arabia"
+msgstr ""
+
+#: src/Countries.php:201
+msgid "Senegal"
+msgstr ""
+
+#: src/Countries.php:202
+msgid "Serbia"
+msgstr ""
+
+#: src/Countries.php:203
+msgid "Seychelles"
+msgstr ""
+
+#: src/Countries.php:204
+msgid "Sierra Leone"
+msgstr ""
+
+#: src/Countries.php:205
+msgid "Singapore"
+msgstr ""
+
+#: src/Countries.php:206
+msgid "Slovakia"
+msgstr ""
+
+#: src/Countries.php:207
+msgid "Slovenia"
+msgstr ""
+
+#: src/Countries.php:208
+msgid "Solomon Islands"
+msgstr ""
+
+#: src/Countries.php:209
+msgid "Somalia"
+msgstr ""
+
+#: src/Countries.php:210
+msgid "South Africa"
+msgstr ""
+
+#: src/Countries.php:211
+msgid "South Georgia/Sandwich Islands"
+msgstr ""
+
+#: src/Countries.php:212
+msgid "South Korea"
+msgstr ""
+
+#: src/Countries.php:213
+msgid "South Sudan"
+msgstr ""
+
+#: src/Countries.php:214
+msgid "Spain"
+msgstr ""
+
+#: src/Countries.php:215
+msgid "Sri Lanka"
+msgstr ""
+
+#: src/Countries.php:216
+msgid "Sudan"
+msgstr ""
+
+#: src/Countries.php:217
+msgid "Suriname"
+msgstr ""
+
+#: src/Countries.php:218
+msgid "Svalbard and Jan Mayen"
+msgstr ""
+
+#: src/Countries.php:219
+msgid "Swaziland"
+msgstr ""
+
+#: src/Countries.php:220
+msgid "Sweden"
+msgstr ""
+
+#: src/Countries.php:221
+msgid "Switzerland"
+msgstr ""
+
+#: src/Countries.php:222
+msgid "Syria"
+msgstr ""
+
+#: src/Countries.php:223
+msgid "Taiwan"
+msgstr ""
+
+#: src/Countries.php:224
+msgid "Tajikistan"
+msgstr ""
+
+#: src/Countries.php:225
+msgid "Tanzania"
+msgstr ""
+
+#: src/Countries.php:226
+msgid "Thailand"
+msgstr ""
+
+#: src/Countries.php:227
+msgid "Timor-Leste"
+msgstr ""
+
+#: src/Countries.php:228
+msgid "Togo"
+msgstr ""
+
+#: src/Countries.php:229
+msgid "Tokelau"
+msgstr ""
+
+#: src/Countries.php:230
+msgid "Tonga"
+msgstr ""
+
+#: src/Countries.php:231
+msgid "Trinidad and Tobago"
+msgstr ""
+
+#: src/Countries.php:232
+msgid "Tunisia"
+msgstr ""
+
+#: src/Countries.php:233
+msgid "Turkey"
+msgstr ""
+
+#: src/Countries.php:234
+msgid "Turkmenistan"
+msgstr ""
+
+#: src/Countries.php:235
+msgid "Turks and Caicos Islands"
+msgstr ""
+
+#: src/Countries.php:236
+msgid "Tuvalu"
+msgstr ""
+
+#: src/Countries.php:237
+msgid "Uganda"
+msgstr ""
+
+#: src/Countries.php:238
+msgid "Ukraine"
+msgstr ""
+
+#: src/Countries.php:239
+msgid "United Arab Emirates"
+msgstr ""
+
+#: src/Countries.php:240
+msgid "United Kingdom (UK)"
+msgstr ""
+
+#: src/Countries.php:241
+msgid "United States (US)"
+msgstr ""
+
+#: src/Countries.php:242
+msgid "United States (US) Minor Outlying Islands"
+msgstr ""
+
+#: src/Countries.php:243
+msgid "Uruguay"
+msgstr ""
+
+#: src/Countries.php:244
+msgid "Uzbekistan"
+msgstr ""
+
+#: src/Countries.php:245
+msgid "Vanuatu"
+msgstr ""
+
+#: src/Countries.php:246
+msgid "Vatican"
+msgstr ""
+
+#: src/Countries.php:247
+msgid "Venezuela"
+msgstr ""
+
+#: src/Countries.php:248
+msgid "Vietnam"
+msgstr ""
+
+#: src/Countries.php:249
+msgid "Virgin Islands (British)"
+msgstr ""
+
+#: src/Countries.php:250
+msgid "Virgin Islands (US)"
+msgstr ""
+
+#: src/Countries.php:251
+msgid "Wallis and Futuna"
+msgstr ""
+
+#: src/Countries.php:252
+msgid "Western Sahara"
+msgstr ""
+
+#: src/Countries.php:253
+msgid "Samoa"
+msgstr ""
+
+#: src/Countries.php:254
+msgid "Yemen"
+msgstr ""
+
+#: src/Countries.php:255
+msgid "Zambia"
+msgstr ""
+
+#: src/Countries.php:256
+msgid "Zimbabwe"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-mini-shopping-cart.php:14
+#: src/Frontend/partials/cart/propeller-shopping-cart-popup.php:58
+#: src/Frontend/templates/propeller-shopping-cart.php:21
+msgid "Shopping cart"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-mini-shopping-cart.php:39
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:12
+#: src/Frontend/partials/checkout/propeller-checkout-step-3.php:18
+#: src/Frontend/partials/checkout/propeller-checkout-summary.php:17
+msgid "Order"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-order-type.php:11
+#: src/Frontend/partials/user/propeller-account-quote-details.php:278
+msgid "Type of order"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-order-type.php:22
+#: src/Frontend/partials/cart/propeller-order-type.php:63
+msgid "Regular order"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-order-type.php:27
+#: src/Frontend/partials/cart/propeller-order-type.php:69
+msgid "Quick order"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-order-type.php:32
+msgid "Dropshipment order"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-order-type.php:41
+msgid "Find out more about different order types here"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-order-type.php:51
+msgid "Different order types"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-order-type.php:66
+#: src/Frontend/partials/cart/propeller-order-type.php:72
+#: src/Frontend/partials/cart/propeller-order-type.php:78
+msgid "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sodales congue ipsum id ultrices. Quisque eu nisl sapien. In auctor pulvinar lorem, ac posuere mauris sagittis at. Integer maximus elementum pulvinar. Donec commodo quam id tellus fermentum."
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-order-type.php:75
+#: src/Frontend/partials/user/propeller-account-quote-details.php:293
+msgid "Dropshipment"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-pre-basket-popup.php:18
+msgid "There is not enough stock of this product."
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-pre-basket-popup.php:36
+#: src/Frontend/partials/cart/propeller-shopping-cart-popup-item.php:17
+#: src/Frontend/partials/cart/propeller-shopping-cart-popup.php:40
+#: src/Frontend/partials/cart/propeller-shopping-cart-product-item.php:47
+#: src/Frontend/partials/cart/propeller-shopping-cart-product-item.php:172
+#: src/Frontend/partials/cart/propeller-shopping-cart-summary-items.php:32
+#: src/Frontend/partials/cart/propeller-shopping-cart-summary-items.php:74
+#: src/Frontend/partials/cart/propeller-shopping-cart-totals-with-items.php:26
+#: src/Frontend/partials/product/propeller-product-card-crossupsell.php:57
+#: src/Frontend/partials/product/propeller-product-card.php:57
+#: src/Frontend/partials/user/propeller-account-favorites.php:67
+#: src/Frontend/partials/user/propeller-account-order-details.php:178
+#: src/Frontend/partials/user/propeller-account-order-details.php:225
+#: src/Frontend/partials/user/propeller-account-order-details.php:257
+#: src/Frontend/partials/user/propeller-account-orderlist.php:67
+#: src/Frontend/partials/user/propeller-account-quote-details.php:141
+#: src/Frontend/templates/propeller-product-details.php:99
+#: src/Frontend/templates/propeller-product-details.php:112
+#: src/Frontend/templates/propeller-shopping-cart.php:97
+#: src/Includes/Controller/CategoryController.php:44
+#: src/Includes/Controller/ProductController.php:40
+msgid "SKU"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-pre-basket-popup.php:49
+msgid "Desired quantity"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-pre-basket-popup.php:53
+#: src/Frontend/partials/cart/propeller-shopping-cart-product-item.php:52
+#: src/Frontend/partials/cart/propeller-shopping-cart-product-item.php:125
+#: src/Frontend/partials/cart/propeller-shopping-cart-product-item.php:177
+#: src/Frontend/partials/cart/propeller-shopping-cart-product-item.php:244
+#: src/Frontend/partials/product/propeller-product-card-crossupsell.php:119
+#: src/Frontend/partials/product/propeller-product-card.php:119
+#: src/Frontend/templates/propeller-product-details.php:134
+msgid "Available"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-pre-basket-popup.php:66
+msgid "the others"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-pre-basket-popup.php:70
+msgid "for the other"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-pre-basket-popup.php:76
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:173
+#: src/Frontend/partials/user/propeller-account-delete-address-popup.php:49
+#: src/Frontend/partials/user/propeller-forgot-password-form.php:31
+msgid "Cancel"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-pre-basket-popup.php:77
+msgid "Confirm"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-bundle-item.php:49
+msgid "Combo products:"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-bundle-item.php:62
+#: src/Frontend/partials/cart/propeller-shopping-cart-product-item.php:67
+#: src/Frontend/partials/user/propeller-account-order-details.php:151
+#: src/Frontend/partials/user/propeller-account-order-details.php:184
+#: src/Frontend/partials/user/propeller-account-quote-details.php:115
+#: src/Frontend/templates/propeller-shopping-cart.php:52
+msgid "Reference"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-bundle-item.php:71
+msgid "excl. VAT"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-bundle-item.php:95
+#: src/Frontend/partials/cart/propeller-shopping-cart-product-item.php:76
+#: src/Frontend/partials/cart/propeller-shopping-cart-product-item.php:103
+#: src/Frontend/partials/cart/propeller-shopping-cart-product-item.php:195
+#: src/Frontend/partials/cart/propeller-shopping-cart-product-item.php:224
+#: src/Frontend/partials/product/propeller-product-card-crossupsell.php:71
+#: src/Frontend/partials/product/propeller-product-card-crossupsell.php:73
+#: src/Frontend/partials/product/propeller-product-card-simple.php:74
+#: src/Frontend/partials/product/propeller-product-card-simple.php:76
+#: src/Frontend/partials/product/propeller-product-card.php:71
+#: src/Frontend/partials/product/propeller-product-card.php:73
+#: src/Frontend/partials/user/propeller-account-favorites.php:78
+#: src/Frontend/partials/user/propeller-account-orderlist.php:78
+#: src/Frontend/templates/propeller-quick-add-to-basket.php:53
+msgid "Net price, excl. VAT"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-popup-item.php:23
+#: src/Frontend/partials/cart/propeller-shopping-cart-popup.php:44
+#: src/Frontend/partials/cart/propeller-shopping-cart-summary-items.php:37
+#: src/Frontend/partials/cart/propeller-shopping-cart-summary-items.php:80
+#: src/Frontend/partials/product/propeller-product-card-crossupsell.php:91
+#: src/Frontend/partials/product/propeller-product-card.php:91
+#: src/Frontend/partials/user/propeller-account-favorites.php:51
+#: src/Frontend/partials/user/propeller-account-favorites.php:85
+#: src/Frontend/partials/user/propeller-account-order-details.php:154
+#: src/Frontend/partials/user/propeller-account-order-details.php:189
+#: src/Frontend/partials/user/propeller-account-order-details.php:231
+#: src/Frontend/partials/user/propeller-account-order-details.php:263
+#: src/Frontend/partials/user/propeller-account-orderlist.php:51
+#: src/Frontend/partials/user/propeller-account-orderlist.php:85
+#: src/Frontend/partials/user/propeller-account-orders.php:59
+#: src/Frontend/partials/user/propeller-account-orders.php:70
+#: src/Frontend/partials/user/propeller-account-orders.php:90
+#: src/Frontend/partials/user/propeller-account-quotations.php:59
+#: src/Frontend/partials/user/propeller-account-quotations.php:70
+#: src/Frontend/partials/user/propeller-account-quotations.php:81
+#: src/Frontend/partials/user/propeller-account-quote-details.php:118
+#: src/Frontend/partials/user/propeller-account-quote-details.php:149
+#: src/Frontend/templates/propeller-product-details.php:172
+#: src/Frontend/templates/propeller-product-details.php:462
+#: src/Frontend/templates/propeller-quick-add-to-basket.php:54
+#: src/Frontend/templates/propeller-shopping-cart.php:58
+msgid "Quantity"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-popup.php:22
+msgid "The item has been added to your shopping cart"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-popup.php:53
+#: src/Frontend/templates/propeller-shopping-cart.php:28
+#: src/Frontend/templates/propeller-shopping-cart.php:160
+msgid "Continue shopping"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-popup.php:60
+#: src/Frontend/partials/cart/propeller-shopping-cart-summary-totals.php:23
+#: src/Frontend/partials/cart/propeller-shopping-cart-totals-with-items.php:43
+#: src/Frontend/partials/cart/propeller-shopping-cart-totals.php:14
+#: src/Frontend/partials/user/propeller-account-order-details.php:303
+#: src/Frontend/partials/user/propeller-account-quote-details.php:213
+msgid "Subtotal"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-popup.php:68
+#: src/Frontend/partials/cart/propeller-shopping-cart-summary-totals.php:49
+#: src/Frontend/partials/cart/propeller-shopping-cart-totals-with-items.php:61
+#: src/Frontend/partials/cart/propeller-shopping-cart-totals.php:46
+#: src/Frontend/partials/user/propeller-account-order-details.php:334
+#: src/Frontend/partials/user/propeller-account-quote-details.php:244
+msgid "Total excl. VAT"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-popup.php:76
+#: src/Frontend/partials/cart/propeller-shopping-cart-summary-totals.php:58
+#: src/Frontend/partials/cart/propeller-shopping-cart-totals-with-items.php:77
+#: src/Frontend/partials/cart/propeller-shopping-cart-totals.php:66
+#: src/Frontend/partials/user/propeller-account-order-details.php:344
+#: src/Frontend/partials/user/propeller-account-quote-details.php:252
+msgid "VAT"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-popup.php:89
+#: src/Frontend/partials/cart/propeller-shopping-cart-summary-totals.php:67
+#: src/Frontend/partials/cart/propeller-shopping-cart-totals-with-items.php:91
+#: src/Frontend/partials/cart/propeller-shopping-cart-totals.php:80
+#: src/Frontend/partials/user/propeller-account-order-details.php:354
+#: src/Frontend/partials/user/propeller-account-quote-details.php:261
+#: src/Frontend/templates/propeller-quick-add-to-basket.php:155
+#: src/Frontend/templates/propeller-quick-add-to-basket.php:178
+msgid "Total"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-popup.php:100
+#: src/Frontend/templates/propeller-shopping-cart.php:33
+msgid "Continue to order"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-product-item.php:23
+#: src/Frontend/partials/cart/propeller-shopping-cart-product-item.php:163
+#: src/Frontend/partials/cart/propeller-shopping-cart-summary-items.php:21
+#: src/Frontend/partials/cart/propeller-shopping-cart-totals-with-items.php:21
+#: src/Frontend/partials/product/propeller-product-card-crossupsell.php:50
+#: src/Frontend/partials/product/propeller-product-card-simple.php:55
+#: src/Frontend/partials/product/propeller-product-card.php:50
+#: src/Frontend/partials/product/propeller-product-gallery.php:50
+#: src/Frontend/partials/product/propeller-product-gallery.php:111
+#: src/Frontend/templates/propeller-product-details.php:334
+msgid "No image found"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-product-item.php:56
+#: src/Frontend/partials/cart/propeller-shopping-cart-product-item.php:129
+#: src/Frontend/partials/cart/propeller-shopping-cart-product-item.php:181
+#: src/Frontend/partials/cart/propeller-shopping-cart-product-item.php:248
+#: src/Frontend/partials/product/propeller-product-card-crossupsell.php:121
+#: src/Frontend/partials/product/propeller-product-card.php:121
+#: src/Frontend/templates/propeller-product-details.php:136
+msgid "Available as backorder"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-product-item.php:137
+msgid "Have you thought about alternatives?"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-summary-items.php:41
+#: src/Frontend/partials/cart/propeller-shopping-cart-summary-items.php:84
+#: src/Frontend/partials/category/filter/propeller-filter-price.php:7
+#: src/Frontend/partials/user/propeller-account-favorites.php:48
+#: src/Frontend/partials/user/propeller-account-order-details.php:157
+#: src/Frontend/partials/user/propeller-account-order-details.php:193
+#: src/Frontend/partials/user/propeller-account-order-details.php:236
+#: src/Frontend/partials/user/propeller-account-order-details.php:268
+#: src/Frontend/partials/user/propeller-account-orderlist.php:48
+#: src/Frontend/partials/user/propeller-account-quote-details.php:124
+#: src/Frontend/partials/user/propeller-account-quote-details.php:159
+#: src/Frontend/templates/propeller-shopping-cart.php:61
+#: src/Includes/Controller/CategoryController.php:42
+#: src/Includes/Controller/ProductController.php:38
+msgid "Price"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-summary-items.php:52
+#: src/Frontend/templates/propeller-shopping-cart.php:77
+msgid "Bonus items"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-summary-totals.php:17
+#: src/Frontend/partials/cart/propeller-shopping-cart-totals-with-items.php:9
+#: src/Frontend/partials/cart/propeller-shopping-cart-totals.php:9
+#: src/Frontend/partials/user/propeller-account-order-details.php:142
+msgid "Order overview"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-summary-totals.php:17
+#: src/Frontend/templates/propeller-quick-add-to-basket.php:155
+msgid "products"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-summary-totals.php:32
+#: src/Frontend/partials/cart/propeller-shopping-cart-totals-with-items.php:52
+#: src/Frontend/partials/cart/propeller-shopping-cart-totals.php:23
+#: src/Frontend/partials/user/propeller-account-order-details.php:317
+#: src/Frontend/partials/user/propeller-account-quote-details.php:121
+#: src/Frontend/partials/user/propeller-account-quote-details.php:153
+#: src/Frontend/partials/user/propeller-account-quote-details.php:227
+msgid "Discount"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-summary-totals.php:41
+#: src/Frontend/partials/cart/propeller-shopping-cart-totals.php:33
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-1.php:132
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-3.php:79
+#: src/Frontend/partials/checkout/propeller-checkout-thank-you.php:88
+#: src/Frontend/partials/checkout/quick/propeller-checkout-step-1.php:86
+#: src/Frontend/partials/checkout/regular/propeller-checkout-step-1.php:85
+#: src/Frontend/partials/user/propeller-account-order-details.php:326
+#: src/Frontend/partials/user/propeller-account-quote-details.php:236
+msgid "Shipping costs"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-totals-with-items.php:9
+#: src/Frontend/partials/cart/propeller-shopping-cart-totals.php:9
+#: src/Frontend/partials/user/propeller-account-order-details.php:142
+#: src/Frontend/partials/user/propeller-account-quote-details.php:106
+msgid "items"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-voucher.php:8
+#: src/Frontend/templates/propeller-shopping-cart.php:116
+msgid "Action code"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-voucher.php:10
+msgid "<strong>Action code</strong> <div class=\"content\">Have you received a promotional code? Enter this code and click Add.</div><div class=\"content\">Only 1 promotional code can be used per order.</div><div class=\"content\"><a href=\"/\">View the promotion conditions</a></div>"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-voucher.php:25
+msgid "Your action code"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-voucher.php:26
+msgid "Add action code"
+msgstr ""
+
+#: src/Frontend/partials/cart/propeller-shopping-cart-voucher.php:30
+msgid "Your action code is added!"
+msgstr ""
+
+#: src/Frontend/partials/category/filter/propeller-filter-enum.php:39
+#: src/Frontend/partials/category/filter/propeller-filter-enumlist.php:39
+#: src/Frontend/partials/category/filter/propeller-filter-list.php:39
+#: src/Frontend/partials/category/filter/propeller-filter-text.php:41
+msgid "Filter"
+msgstr ""
+
+#: src/Frontend/partials/category/propeller-product-listing-categories.php:66
+#: src/Frontend/templates/propeller-menu.php:76
+msgid "Categories"
+msgstr ""
+
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-1.php:32
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-3.php:23
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:23
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:32
+#: src/Frontend/partials/checkout/propeller-checkout-step-3.php:29
+#: src/Frontend/partials/checkout/propeller-checkout-summary.php:27
+#: src/Frontend/partials/checkout/quick/propeller-checkout-step-1.php:30
+#: src/Frontend/partials/checkout/regular/propeller-checkout-step-1.php:29
+#: src/Frontend/partials/user/propeller-account-details.php:34
+msgid "Your details"
+msgstr ""
+
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-1.php:62
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-3.php:53
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:218
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:59
+#: src/Frontend/partials/checkout/propeller-checkout-step-3.php:56
+#: src/Frontend/partials/checkout/quick/propeller-checkout-step-1.php:60
+#: src/Frontend/partials/checkout/regular/propeller-checkout-step-1.php:59
+msgid "Delivery"
+msgstr ""
+
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-1.php:69
+msgid "For Dropshipment, adding a new (one-time) address is mandatory"
+msgstr ""
+
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-1.php:75
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-1.php:79
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:16
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:176
+msgid "Add address"
+msgstr ""
+
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-1.php:102
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-1.php:106
+msgid "Edit"
+msgstr ""
+
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-1.php:116
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:229
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:234
+msgid "Shipping method"
+msgstr ""
+
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-1.php:125
+msgid "Shipping costs are calculated after adding a delivery address."
+msgstr ""
+
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-1.php:160
+msgid "Order overview & place an order"
+msgstr ""
+
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-1.php:178
+#: src/Frontend/partials/checkout/quick/propeller-checkout-step-1.php:176
+#: src/Frontend/partials/checkout/regular/propeller-checkout-step-1.php:175
+#: src/Frontend/templates/propeller-shopping-cart.php:40
+msgid "Your shopping cart is empty."
+msgstr ""
+
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-3.php:13
+msgid "Order (Dropshipment)"
+msgstr ""
+
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-3.php:58
+#: src/Frontend/partials/checkout/propeller-checkout-step-3.php:61
+#: src/Frontend/partials/checkout/propeller-checkout-thank-you.php:64
+#: src/Frontend/partials/checkout/quick/propeller-checkout-step-1.php:65
+#: src/Frontend/partials/checkout/regular/propeller-checkout-step-1.php:64
+#: src/Frontend/partials/user/propeller-account-addresses.php:87
+#: src/Frontend/partials/user/propeller-account-order-details.php:117
+#: src/Frontend/partials/user/propeller-account-quote-details.php:80
+msgid "Delivery address"
+msgstr ""
+
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-3.php:81
+#: src/Frontend/partials/checkout/regular/propeller-checkout-step-1.php:87
+msgid "These are calculated at the time of billing."
+msgstr ""
+
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-3.php:93
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:319
+#: src/Frontend/partials/checkout/propeller-checkout-step-3.php:97
+#: src/Frontend/partials/checkout/propeller-checkout-summary.php:93
+#: src/Frontend/partials/checkout/propeller-checkout-thank-you.php:102
+#: src/Frontend/partials/checkout/quick/propeller-checkout-step-1.php:100
+#: src/Frontend/partials/checkout/regular/propeller-checkout-step-1.php:99
+msgid "Payment method"
+msgstr ""
+
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-3.php:109
+#: src/Frontend/partials/checkout/propeller-checkout-summary.php:116
+#: src/Frontend/partials/checkout/quick/propeller-checkout-step-1.php:116
+#: src/Frontend/partials/checkout/regular/propeller-checkout-step-1.php:115
+#: src/Frontend/partials/user/propeller-account-quote-details.php:310
+msgid "Notes"
+msgstr ""
+
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-3.php:119
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-3.php:125
+#: src/Frontend/partials/checkout/propeller-checkout-summary.php:128
+#: src/Frontend/partials/checkout/propeller-checkout-summary.php:134
+#: src/Frontend/partials/checkout/quick/propeller-checkout-step-1.php:128
+#: src/Frontend/partials/checkout/quick/propeller-checkout-step-1.php:134
+#: src/Frontend/partials/checkout/regular/propeller-checkout-step-1.php:127
+#: src/Frontend/partials/checkout/regular/propeller-checkout-step-1.php:133
+#: src/Frontend/partials/user/propeller-account-quote-details.php:313
+msgid "Your reference (optional)"
+msgstr ""
+
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-3.php:132
+#: src/Frontend/partials/checkout/propeller-checkout-summary.php:141
+#: src/Frontend/partials/checkout/quick/propeller-checkout-step-1.php:141
+#: src/Frontend/partials/checkout/regular/propeller-checkout-step-1.php:140
+#: src/Frontend/partials/user/propeller-account-quote-details.php:320
+msgid "Place your order"
+msgstr ""
+
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-3.php:139
+#: src/Frontend/partials/checkout/propeller-checkout-summary.php:148
+#: src/Frontend/partials/checkout/quick/propeller-checkout-step-1.php:148
+#: src/Frontend/partials/checkout/regular/propeller-checkout-step-1.php:147
+msgid "I agree with the"
+msgstr ""
+
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-3.php:139
+#: src/Frontend/partials/checkout/propeller-checkout-summary.php:148
+#: src/Frontend/partials/checkout/quick/propeller-checkout-step-1.php:148
+#: src/Frontend/partials/checkout/regular/propeller-checkout-step-1.php:147
+#: src/Frontend/partials/user/propeller-account-quote-details.php:327
+msgid "Terms and Conditions"
+msgstr ""
+
+#: src/Frontend/partials/checkout/dropshipment/propeller-checkout-step-3.php:150
+#: src/Frontend/partials/checkout/propeller-checkout-summary.php:159
+#: src/Frontend/partials/checkout/quick/propeller-checkout-step-1.php:159
+#: src/Frontend/partials/checkout/regular/propeller-checkout-step-1.php:158
+msgid "Place an order"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:22
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:31
+#: src/Frontend/partials/checkout/propeller-checkout-step-3.php:28
+msgid "Step 1"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:43
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:44
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:148
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:149
+#: src/Frontend/partials/user/propeller-forgot-password-form.php:16
+#: src/Frontend/partials/user/propeller-forgot-password-form.php:17
+#: src/Frontend/partials/user/propeller-header-login-form.php:14
+#: src/Frontend/partials/user/propeller-header-login-form.php:15
+#: src/Frontend/partials/user/propeller-login-form.php:20
+#: src/Frontend/partials/user/propeller-login-form.php:21
+#: src/Frontend/partials/user/propeller-newsletter-subscription-form.php:3
+#: src/Frontend/partials/user/propeller-newsletter-subscription-form.php:5
+#: src/Frontend/partials/user/propeller-register-form.php:73
+msgid "E-mail address"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:53
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:54
+msgid "Password (optional)"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:64
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:109
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:42
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:25
+msgid "Mr."
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:69
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:47
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:30
+msgid "Mrs."
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:74
+msgid "Unknown"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:84
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:85
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:129
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:130
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:62
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:63
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:45
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:46
+#: src/Frontend/partials/user/propeller-register-form.php:55
+msgid "First name"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:88
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:89
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:133
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:134
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:67
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:49
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:50
+#: src/Frontend/partials/user/propeller-register-form.php:59
+msgid "Insertion (optional)"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:92
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:93
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:137
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:138
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:70
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:71
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:53
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:54
+#: src/Frontend/partials/user/propeller-register-form.php:63
+msgid "Last name"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:102
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:103
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:162
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:163
+#: src/Frontend/partials/user/propeller-register-form.php:83
+msgid "Phone number"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:111
+#: src/Frontend/partials/checkout/propeller-checkout-summary.php:58
+#: src/Frontend/partials/checkout/propeller-checkout-thank-you.php:33
+#: src/Frontend/partials/user/propeller-account-addresses.php:39
+#: src/Frontend/partials/user/propeller-account-order-details.php:92
+#: src/Frontend/partials/user/propeller-account-quote-details.php:55
+msgid "Billing address"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:117
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:118
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:14
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:15
+#: src/Frontend/partials/user/propeller-register-form.php:109
+#: src/Frontend/partials/user/propeller-register-form.php:214
+msgid "Company name"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:127
+msgid "Street name"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:128
+msgid "Street number"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:131
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:132
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:86
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:87
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:79
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:80
+#: src/Frontend/partials/user/propeller-register-form.php:129
+#: src/Frontend/partials/user/propeller-register-form.php:234
+msgid "Number"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:141
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:142
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:169
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:170
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:96
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:97
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:89
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:90
+#: src/Frontend/partials/user/propeller-register-form.php:139
+#: src/Frontend/partials/user/propeller-register-form.php:244
+msgid "Address addition (building, unit, etc, optional)"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:151
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:152
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:179
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:180
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:106
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:107
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:99
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:100
+#: src/Frontend/partials/user/propeller-register-form.php:149
+#: src/Frontend/partials/user/propeller-register-form.php:254
+msgid "Postal code"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:161
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:162
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:189
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:190
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:116
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:117
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:109
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:110
+#: src/Frontend/partials/user/propeller-register-form.php:159
+#: src/Frontend/partials/user/propeller-register-form.php:264
+msgid "City"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:171
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:199
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:126
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:119
+#: src/Frontend/partials/user/propeller-register-form.php:169
+#: src/Frontend/partials/user/propeller-register-form.php:274
+msgid "Country"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:193
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:194
+#: src/Frontend/partials/user/propeller-register-form.php:93
+msgid "VAT number"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:204
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:205
+msgid "Continue"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:217
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:58
+#: src/Frontend/partials/checkout/propeller-checkout-step-3.php:55
+msgid "Step 2"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-1.php:228
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:318
+#: src/Frontend/partials/checkout/propeller-checkout-step-3.php:96
+msgid "Step 3"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:81
+#: src/Frontend/partials/user/propeller-register-form.php:198
+msgid "Delivery address is the same as billing address"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:86
+msgid "Have it delivered to a different address"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:98
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:99
+msgid "Company"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:114
+msgid "Ms."
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:119
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:52
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:35
+#: src/Frontend/partials/user/propeller-register-form.php:45
+msgid "Other"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:159
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:160
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:82
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:83
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:75
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:76
+#: src/Frontend/partials/user/propeller-register-form.php:119
+#: src/Frontend/partials/user/propeller-register-form.php:224
+msgid "Street"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:224
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:225
+msgid "Save this delivery address"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:258
+msgid "Delivery date"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:306
+msgid "Choose payment method"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-2.php:337
+msgid "Choose a delivery date"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-3.php:71
+#: src/Frontend/partials/checkout/propeller-checkout-summary.php:68
+msgid "Shipping"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-step-3.php:135
+msgid "Order overview & payment"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-summary.php:53
+msgid "Billing"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-thank-you.php:18
+msgid "Thank you for your order!"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-thank-you.php:21
+msgid "Your order with order number"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-thank-you.php:21
+msgid "has been placed."
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-thank-you.php:22
+msgid "Your order confirmation has been sent to"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-thank-you.php:22
+msgid "You can also find it in"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-thank-you.php:22
+msgid "your account."
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-thank-you.php:92
+msgid "Expected delivery"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-thank-you.php:106
+#: src/Frontend/partials/user/propeller-account-order-details.php:56
+msgid "On account"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-checkout-thank-you.php:115
+msgid "Your order"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:16
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:176
+msgid "Edit address"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:66
+msgid "Insertion"
+msgstr ""
+
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:152
+#: src/Frontend/partials/checkout/propeller-dropshipment-delivery-address.php:153
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:63
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:64
+msgid "E-mail"
+msgstr ""
+
+#: src/Frontend/partials/checkout/quick/propeller-checkout-step-1.php:19
+msgid "Order (Quick Delivery)"
+msgstr ""
+
+#: src/Frontend/partials/checkout/regular/propeller-checkout-step-1.php:17
+msgid "Order (Regular Order)"
+msgstr ""
+
+#: src/Frontend/partials/other/propeller-brand-listing-content.php:21
+msgid "Read more"
+msgstr ""
+
+#: src/Frontend/partials/other/propeller-brand-listing-content.php:22
+msgid "Read less"
+msgstr ""
+
+#: src/Frontend/partials/other/propeller-offset-sort.php:2
+msgid "Show per page"
+msgstr ""
+
+#: src/Frontend/partials/other/propeller-offset-sort.php:12
+#: src/Frontend/partials/user/propeller-account-orders.php:54
+#: src/Frontend/partials/user/propeller-account-quotations.php:54
+msgid "Sort by"
+msgstr ""
+
+#: src/Frontend/partials/other/propeller-pagination.php:33
+msgid "page"
+msgstr ""
+
+#: src/Frontend/partials/other/propeller-pagination.php:33
+msgid "from"
+msgstr ""
+
+#: src/Frontend/partials/other/propeller-prices-toggle.php:14
+msgid "Dealer prices"
+msgstr ""
+
+#: src/Frontend/partials/other/propeller-product-search.php:9
+#: src/Frontend/partials/other/propeller-product-search.php:15
+msgid "Search by product"
+msgstr ""
+
+#: src/Frontend/partials/other/propeller-product-search.php:19
+msgid "Search"
+msgstr ""
+
+#: src/Frontend/partials/other/propeller-product-slider.php:10
+#: src/Frontend/templates/propeller-brand-listing.php:80
+#: src/Frontend/templates/propeller-product-listing.php:167
+#: src/Frontend/templates/propeller-search-results.php:87
+msgid "No results"
+msgstr ""
+
+#: src/Frontend/partials/other/propeller-recent-slider.php:12
+msgid "Recenlty viewed"
+msgstr ""
+
+#: src/Frontend/partials/other/propeller-recent-slider.php:15
+msgid "Clear"
+msgstr ""
+
+#: src/Frontend/partials/product/propeller-product-card-crossupsell.php:79
+#: src/Frontend/partials/product/propeller-product-card-simple.php:81
+#: src/Frontend/partials/product/propeller-product-card.php:79
+#: src/Frontend/templates/propeller-product-details.php:127
+msgid "Retail suggested price"
+msgstr ""
+
+#: src/Frontend/partials/product/propeller-product-card-crossupsell.php:79
+#: src/Frontend/partials/product/propeller-product-card-simple.php:81
+msgid "incl. VAT"
+msgstr ""
+
+#: src/Frontend/partials/product/propeller-product-card-crossupsell.php:108
+#: src/Frontend/partials/product/propeller-product-card.php:108
+#: src/Frontend/templates/propeller-product-details.php:186
+#: src/Frontend/templates/propeller-product-details.php:399
+#: src/Frontend/templates/propeller-product-details.php:476
+msgid "In cart"
+msgstr ""
+
+#: src/Frontend/partials/product/propeller-product-card-crossupsell.php:113
+#: src/Frontend/partials/product/propeller-product-card.php:113
+#: src/Frontend/templates/propeller-product-details.php:211
+msgid "Product is no longer available"
+msgstr ""
+
+#: src/Frontend/partials/product/propeller-product-specifications.php:6
+#: src/Frontend/templates/propeller-product-details.php:250
+msgid "Specifications"
+msgstr ""
+
+#: src/Frontend/partials/product/propeller-product-specifications.php:15
+msgid "EAN code"
+msgstr ""
+
+#: src/Frontend/partials/product/propeller-product-specifications.php:25
+msgid "Brand"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-addresses.php:11
+#: src/Frontend/partials/user/propeller-account-details.php:12
+#: src/Frontend/partials/user/propeller-account-details.php:27
+#: src/Frontend/partials/user/propeller-account-favorites.php:18
+#: src/Frontend/partials/user/propeller-account-favorites.php:33
+#: src/Frontend/partials/user/propeller-account-order-details.php:19
+#: src/Frontend/partials/user/propeller-account-orderlist.php:18
+#: src/Frontend/partials/user/propeller-account-orderlist.php:33
+#: src/Frontend/partials/user/propeller-account-orders.php:33
+#: src/Frontend/partials/user/propeller-account-orders.php:48
+#: src/Frontend/partials/user/propeller-account-page.php:15
+#: src/Frontend/partials/user/propeller-account-quotations.php:34
+#: src/Frontend/partials/user/propeller-account-quotations.php:48
+#: src/Frontend/partials/user/propeller-account-quote-details.php:14
+#: src/Frontend/partials/user/propeller-mini-account.php:36
+msgid "My account"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-addresses.php:20
+#: src/Frontend/partials/user/propeller-account-details.php:128
+#: src/Frontend/partials/user/propeller-account-menu-items.php:10
+#: src/Frontend/partials/user/propeller-account-page.php:39
+#: src/Frontend/partials/user/propeller-account-sidemenu.php:31
+msgid "My addresses"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-addresses.php:24
+msgid "Default addresses"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-addresses.php:63
+#: src/Frontend/partials/user/propeller-account-addresses.php:67
+#: src/Frontend/partials/user/propeller-account-addresses.php:71
+#: src/Frontend/partials/user/propeller-account-addresses.php:72
+#: src/Frontend/partials/user/propeller-account-addresses.php:111
+#: src/Frontend/partials/user/propeller-account-addresses.php:115
+#: src/Frontend/partials/user/propeller-account-addresses.php:119
+#: src/Frontend/partials/user/propeller-account-addresses.php:120
+#: src/Frontend/partials/user/propeller-account-addresses.php:170
+#: src/Frontend/partials/user/propeller-account-addresses.php:241
+#: src/Frontend/partials/user/propeller-account-addresses.php:245
+#: src/Frontend/partials/user/propeller-account-details.php:117
+msgid "Modify"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-addresses.php:134
+msgid "Other billing adresses"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-addresses.php:166
+#: src/Frontend/partials/user/propeller-account-addresses.php:197
+#: src/Frontend/partials/user/propeller-account-addresses.php:201
+msgid "Add billing address"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-addresses.php:185
+msgid "Set as default billing address"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-addresses.php:209
+msgid "Other delivery addresses"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-addresses.php:259
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:156
+msgid "Set as default delivery address"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-addresses.php:271
+#: src/Frontend/partials/user/propeller-account-addresses.php:275
+#: src/Frontend/partials/user/propeller-account-edit-address-popup.php:18
+msgid "Add delivery address"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-change-password.php:14
+#: src/Frontend/partials/user/propeller-account-details.php:86
+#: src/Frontend/partials/user/propeller-account-details.php:113
+msgid "Password and newsletter"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-change-password.php:30
+msgid "Change password?"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-change-password.php:36
+#: src/Frontend/partials/user/propeller-account-change-password.php:37
+#: src/Frontend/partials/user/propeller-reset-password-form.php:16
+#: src/Frontend/partials/user/propeller-reset-password-form.php:17
+msgid "New password"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-change-password.php:46
+#: src/Frontend/partials/user/propeller-account-change-password.php:47
+msgid "Repeat new password"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-change-password.php:55
+msgid "Newsletter subscription"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-change-password.php:63
+msgid "Yes, I want to subscribe to the newsletter"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-change-password.php:74
+msgid "Save changes"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-delete-address-popup.php:14
+msgid "Delete delivery address"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-delete-address-popup.php:30
+msgid "Are you sure you want to delete this address?"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-details.php:30
+#: src/Frontend/partials/user/propeller-account-menu-items.php:7
+#: src/Frontend/partials/user/propeller-account-page.php:31
+#: src/Frontend/partials/user/propeller-account-sidemenu.php:23
+msgid "My account details"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-details.php:42
+msgid "Personal details"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-details.php:67
+msgid "Company details"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-details.php:71
+msgid "Company Reg No.:"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-details.php:74
+msgid "VAT number:"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-details.php:95
+msgid "Password:"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-details.php:99
+msgid "You are subscribed to our newsletter"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-details.php:102
+msgid "You are not subscribed to our newsletter"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-details.php:139
+msgid "Default billing address"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-details.php:167
+msgid "Default delivery address"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:144
+#: src/Frontend/partials/user/propeller-account-edit-address-form.php:145
+msgid "Remarks (optional)"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-favorites.php:36
+msgid "Favorites"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-favorites.php:42
+msgid "Product"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-favorites.php:45
+#: src/Frontend/partials/user/propeller-account-order-details.php:160
+#: src/Frontend/partials/user/propeller-account-order-details.php:199
+#: src/Frontend/partials/user/propeller-account-order-details.php:240
+#: src/Frontend/partials/user/propeller-account-order-details.php:272
+#: src/Frontend/partials/user/propeller-account-orderlist.php:45
+#: src/Frontend/partials/user/propeller-account-orders.php:61
+#: src/Frontend/partials/user/propeller-account-orders.php:72
+#: src/Frontend/partials/user/propeller-account-orders.php:93
+#: src/Frontend/partials/user/propeller-account-quotations.php:61
+#: src/Frontend/partials/user/propeller-account-quotations.php:72
+#: src/Frontend/partials/user/propeller-account-quotations.php:84
+msgid "Status"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-menu-items.php:13
+#: src/Frontend/partials/user/propeller-account-orders.php:51
+#: src/Frontend/partials/user/propeller-account-page.php:47
+#: src/Frontend/partials/user/propeller-account-sidemenu.php:39
+msgid "My orders"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-menu-items.php:16
+#: src/Frontend/partials/user/propeller-account-page.php:55
+#: src/Frontend/partials/user/propeller-account-quotations.php:51
+#: src/Frontend/partials/user/propeller-account-sidemenu.php:47
+msgid "My quotes"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-order-details.php:33
+msgid "Back to order overview"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-order-details.php:36
+#: src/Frontend/partials/user/propeller-account-orders.php:57
+#: src/Frontend/partials/user/propeller-account-orders.php:68
+#: src/Frontend/partials/user/propeller-account-orders.php:88
+msgid "Order number"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-order-details.php:42
+msgid "Order date:"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-order-details.php:48
+#: src/Frontend/partials/user/propeller-account-quote-details.php:43
+msgid "Total:"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-order-details.php:54
+msgid "Payment method:"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-order-details.php:60
+msgid "Shipping method:"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-order-details.php:73
+#: src/Frontend/partials/user/propeller-account-order-details.php:285
+msgid "Return request"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-order-details.php:80
+#: src/Frontend/partials/user/propeller-account-order-details.php:293
+msgid "Order again"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-order-details.php:148
+#: src/Frontend/partials/user/propeller-account-orderlist.php:42
+#: src/Frontend/partials/user/propeller-account-quote-details.php:112
+#: src/Frontend/templates/propeller-shopping-cart.php:49
+msgid "Products"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-order-details.php:211
+#: src/Frontend/partials/user/propeller-account-quote-details.php:172
+msgid "Bonus items!"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-orderlist.php:36
+msgid "Order list"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-orders.php:58
+#: src/Frontend/partials/user/propeller-account-orders.php:69
+#: src/Frontend/partials/user/propeller-account-orders.php:89
+#: src/Frontend/partials/user/propeller-account-quotations.php:58
+#: src/Frontend/partials/user/propeller-account-quotations.php:69
+#: src/Frontend/partials/user/propeller-account-quotations.php:80
+msgid "Date"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-orders.php:60
+#: src/Frontend/partials/user/propeller-account-orders.php:71
+#: src/Frontend/partials/user/propeller-account-orders.php:91
+#: src/Frontend/partials/user/propeller-account-quotations.php:82
+msgid "Order total"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-orders.php:101
+msgid "View order"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-orders.php:108
+msgid "You have not placed any orders yet."
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-page.php:21
+#: src/Frontend/partials/user/propeller-account-sidemenu.php:13
+#: src/Frontend/partials/user/propeller-mini-account.php:23
+#: src/Includes/Controller/UserController.php:196
+msgid "Welcome"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-page.php:64
+#: src/Frontend/partials/user/propeller-mini-account.php:55
+msgid "Log out"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-quotations.php:57
+#: src/Frontend/partials/user/propeller-account-quotations.php:68
+#: src/Frontend/partials/user/propeller-account-quotations.php:79
+#: src/Frontend/partials/user/propeller-account-quote-details.php:31
+msgid "Quote number"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-quotations.php:60
+#: src/Frontend/partials/user/propeller-account-quotations.php:71
+msgid "Quote total"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-quotations.php:92
+msgid "View quote"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-quotations.php:99
+msgid "You have no quotes."
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-quote-details.php:28
+msgid "Back to quote overview"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-quote-details.php:37
+msgid "Quote date:"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-quote-details.php:106
+msgid "Quote overview"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-quote-details.php:290
+msgid "Quick"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-quote-details.php:291
+msgid "Regular"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-quote-details.php:293
+msgid "order"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-quote-details.php:327
+msgid "I agree with the "
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-account-quote-details.php:338
+msgid "Place quote as order"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-forgot-password-form.php:28
+#: src/Frontend/partials/user/propeller-register-form.php:325
+msgid "Send"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-header-login-form.php:24
+#: src/Frontend/partials/user/propeller-header-login-form.php:25
+#: src/Frontend/partials/user/propeller-login-form.php:30
+#: src/Frontend/partials/user/propeller-login-form.php:31
+#: src/Frontend/partials/user/propeller-register-form.php:304
+msgid "Password"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-header-login-form.php:35
+#: src/Frontend/partials/user/propeller-header-login-form.php:36
+#: src/Frontend/partials/user/propeller-login-form.php:41
+msgid "Stay logged in"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-header-login-form.php:47
+#: src/Frontend/partials/user/propeller-login-form.php:53
+#: src/Frontend/partials/user/propeller-mini-account.php:44
+msgid "Log in"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-header-login-form.php:57
+msgid "Forgot password"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-login-form.php:11
+msgid "You are already logged in"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-login-form.php:42
+msgid "Stay logged in "
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-login-form.php:56
+msgid "Forgot password?"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-mini-account.php:22
+msgid "Account"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-mini-account.php:64
+msgid "Register"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-newsletter-subscription-form.php:6
+msgid "Sign up"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-register-form.php:102
+msgid "Address"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-register-form.php:314
+msgid "Repeat password"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-reset-password-form.php:26
+#: src/Frontend/partials/user/propeller-reset-password-form.php:27
+msgid "Repeat new password*"
+msgstr ""
+
+#: src/Frontend/partials/user/propeller-reset-password-form.php:38
+msgid "Set up and login"
+msgstr ""
+
+#: src/Frontend/templates/propeller-brand-listing.php:33
+#: src/Frontend/templates/propeller-product-listing.php:65
+#: src/Frontend/templates/propeller-product-listing.php:113
+#: src/Frontend/templates/propeller-search-results.php:40
+msgid "Filters"
+msgstr ""
+
+#: src/Frontend/templates/propeller-brand-listing.php:53
+#: src/Frontend/templates/propeller-product-listing.php:140
+#: src/Frontend/templates/propeller-search-results.php:60
+msgid "results"
+msgstr ""
+
+#: src/Frontend/templates/propeller-brand-listing.php:82
+#: src/Frontend/templates/propeller-search-results.php:89
+msgid "No results for"
+msgstr ""
+
+#: src/Frontend/templates/propeller-brand-listing.php:82
+#: src/Frontend/templates/propeller-search-results.php:89
+msgid ". No results were found that match your search criteria."
+msgstr ""
+
+#: src/Frontend/templates/propeller-brand-listing.php:85
+#: src/Frontend/templates/propeller-product-listing.php:169
+#: src/Frontend/templates/propeller-search-results.php:92
+msgid "Go to our"
+msgstr ""
+
+#: src/Frontend/templates/propeller-brand-listing.php:85
+#: src/Frontend/templates/propeller-product-listing.php:169
+#: src/Frontend/templates/propeller-search-results.php:92
+msgid "home page"
+msgstr ""
+
+#: src/Frontend/templates/propeller-product-details.php:79
+#: src/Frontend/templates/propeller-product-listing.php:37
+msgid "Home"
+msgstr ""
+
+#: src/Frontend/templates/propeller-product-details.php:246
+#: src/Frontend/templates/propeller-product-details.php:265
+msgid "Description"
+msgstr ""
+
+#: src/Frontend/templates/propeller-product-details.php:253
+#: src/Frontend/templates/propeller-product-details.php:284
+msgid "Videos"
+msgstr ""
+
+#: src/Frontend/templates/propeller-product-details.php:302
+msgid "Recomended combo deals"
+msgstr ""
+
+#: src/Frontend/templates/propeller-product-details.php:385
+msgid "Your savings"
+msgstr ""
+
+#: src/Frontend/templates/propeller-product-details.php:424
+msgid "Accessories"
+msgstr ""
+
+#: src/Frontend/templates/propeller-product-listing.php:83
+msgid "Show"
+msgstr ""
+
+#: src/Frontend/templates/propeller-product-listing.php:88
+msgid "Clear filters"
+msgstr ""
+
+#: src/Frontend/templates/propeller-product-listing.php:147
+msgid "Show as list"
+msgstr ""
+
+#: src/Frontend/templates/propeller-product-listing.php:154
+msgid "Show as blocks"
+msgstr ""
+
+#: src/Frontend/templates/propeller-quick-add-to-basket.php:16
+msgid "Upload Excel file"
+msgstr ""
+
+#: src/Frontend/templates/propeller-quick-add-to-basket.php:20
+msgid "Download XLSX template"
+msgstr ""
+
+#: src/Frontend/templates/propeller-quick-add-to-basket.php:39
+msgid "Upload"
+msgstr ""
+
+#: src/Frontend/templates/propeller-quick-add-to-basket.php:47
+msgid "Add your products manually"
+msgstr ""
+
+#: src/Frontend/templates/propeller-quick-add-to-basket.php:51
+msgid "Article no. / SKU"
+msgstr ""
+
+#: src/Frontend/templates/propeller-quick-add-to-basket.php:52
+msgid "Product name"
+msgstr ""
+
+#: src/Frontend/templates/propeller-quick-add-to-basket.php:55
+msgid "Total price"
+msgstr ""
+
+#: src/Frontend/templates/propeller-quick-add-to-basket.php:147
+msgid "Add more rows"
+msgstr ""
+
+#: src/Frontend/templates/propeller-quick-add-to-basket.php:160
+msgid "Subtotal excl. VAT"
+msgstr ""
+
+#: src/Frontend/templates/propeller-quick-add-to-basket.php:169
+msgid "21% VAT"
+msgstr ""
+
+#: src/Frontend/templates/propeller-quick-add-to-basket.php:196
+msgid "Add to cart"
+msgstr ""
+
+#: src/Frontend/templates/propeller-search-results.php:30
+msgid "You searched for"
+msgstr ""
+
+#: src/Frontend/templates/propeller-shopping-cart.php:55
+msgid "Price per piece"
+msgstr ""
+
+#: src/Frontend/templates/propeller-shopping-cart.php:167
+msgid "Request a quotation"
+msgstr ""
+
+#: src/Frontend/templates/propeller-shopping-cart.php:172
+msgid "Continue to checkout"
+msgstr ""
+
+#: src/Includes/Controller/CategoryController.php:39
+#: src/Includes/Controller/ProductController.php:35
+msgid "Date changed"
+msgstr ""
+
+#: src/Includes/Controller/CategoryController.php:40
+#: src/Includes/Controller/ProductController.php:36
+msgid "Date created"
+msgstr ""
+
+#: src/Includes/Controller/CategoryController.php:41
+#: src/Includes/Controller/ProductController.php:37
+msgid "Name"
+msgstr ""
+
+#: src/Includes/Controller/CategoryController.php:43
+#: src/Includes/Controller/ProductController.php:39
+msgid "Relevance"
+msgstr ""
+
+#: src/Includes/Controller/CategoryController.php:45
+#: src/Includes/Controller/ProductController.php:41
+msgid "Supplier code"
+msgstr ""
+
+#: src/Includes/Controller/CategoryController.php:49
+#: src/Includes/Controller/ProductController.php:45
+msgid "Asc"
+msgstr ""
+
+#: src/Includes/Controller/CategoryController.php:50
+#: src/Includes/Controller/ProductController.php:46
+msgid "Desc"
+msgstr ""
+
+#: src/Includes/Controller/ShoppingCartAjaxController.php:154
+#: src/Includes/Controller/ShoppingCartController.php:519
+msgid "Address updated"
+msgstr ""
+
+#: src/Includes/Controller/ShoppingCartAjaxController.php:188
+msgid "Completed"
+msgstr ""
+
+#: src/Includes/Controller/ShoppingCartController.php:113
+msgid "Error uploading Excel file"
+msgstr ""
+
+#: src/Includes/Controller/ShoppingCartController.php:371
+msgid "Bundle added to cart"
+msgstr ""
+
+#: src/Includes/Controller/ShoppingCartController.php:413
+msgid "Item updated"
+msgstr ""
+
+#: src/Includes/Controller/ShoppingCartController.php:450
+msgid "Item remove from cart"
+msgstr ""
+
+#: src/Includes/Controller/ShoppingCartController.php:561
+msgid "Added action code to cart"
+msgstr ""
+
+#: src/Includes/Controller/ShoppingCartController.php:600
+msgid "Action code removed"
+msgstr ""
+
+#: src/Includes/Controller/ShoppingCartController.php:653
+msgid "Order type changed"
+msgstr ""
+
+#: src/Includes/Controller/ShoppingCartController.php:795
+msgid "Cart processed"
+msgstr ""
+
+#: Custom/Frontend/assets/js/propeller-frontend.js:11
+msgid "Hello World extend"
+msgstr ""
+
+#: Custom/Frontend/assets/js/propeller-frontend.js:131
+#: Custom/Frontend/assets/js/propeller-frontend.js:208
+#: Custom/Frontend/assets/js/propeller-frontend.js:226
+#: Custom/Frontend/assets/js/propeller-frontend.js:529
+#: src/Frontend/assets/js/propeller-frontend.js:176
+#: src/Frontend/assets/js/propeller-frontend.js:220
+#: src/Frontend/assets/js/propeller-frontend.js:447
+msgid "just now"
+msgstr ""
+
+#: Custom/Frontend/assets/js/propeller-frontend.js:1421
+msgid "See All Result"
+msgstr ""
+
+#: src/Frontend/assets/js/propeller-frontend.js:11
+msgid "Hello World"
+msgstr ""
+
+#: src/Frontend/assets/js/propeller-frontend.js:1000
+msgid "See all results"
+msgstr ""
