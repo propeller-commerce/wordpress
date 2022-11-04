@@ -101,7 +101,7 @@ class ProductController extends BaseController {
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-product-bulk-prices.php');
     }
 
-    public function product_bundles($product) {
+    public function product_bundles($product, $obj) {
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-product-bundles.php');
     }
 

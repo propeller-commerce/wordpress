@@ -3,7 +3,7 @@
 /* The following constants can be overwritten in wp-config.php */
 
 if (!defined('PROPELLER_DEBUG'))
-    define('PROPELLER_DEBUG',                               true);
+    define('PROPELLER_DEBUG',                               false);
 
 if (!defined('PROPELLER_COOKIE_EXPIRATION'))
     define('PROPELLER_COOKIE_EXPIRATION',					strtotime('+30 days'));
