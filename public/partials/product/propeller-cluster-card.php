@@ -38,7 +38,7 @@ $cluster_product = $product->defaultProduct ? $product->defaultProduct : $produc
         </div>
         <div class="product-card-image">					
             
-            <a href="<?php echo $this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value); ?>">
+            <a href="<?php echo $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value); ?>">
                 <?php 
                     if ($cluster_product->has_images()) 
                 { ?>
@@ -49,7 +49,7 @@ $cluster_product = $product->defaultProduct ? $product->defaultProduct : $produc
                 <?php }
                     else { ?>
                     <img class="img-fluid"
-                        src="<?php echo $this->assets_url . '/img/no-image-card.webp';?>"
+                        src="<?php echo $obj->assets_url . '/img/no-image-card.webp';?>"
                         alt="<?php echo __('No image found', 'propeller-ecommerce'); ?>"
                         width="300" height="300" >
                 <?php } ?>
@@ -60,7 +60,7 @@ $cluster_product = $product->defaultProduct ? $product->defaultProduct : $produc
         <div class="product-code"><?php echo __('SKU', 'propeller-ecommerce'); ?>: <?= $product->sku; ?></div>
         <div class="product-name">
 
-            <a href="<?= $this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value); ?>">
+            <a href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value); ?>">
                 <?= $product->name[0]->value; ?>   
             </a>
         </div>

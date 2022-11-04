@@ -4,6 +4,6 @@
 ?>     
 
     <div class="propeller-list-item col-12 col-sm-6 col-xl-4">
-        <?php require $obj->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-' . $product->class . '-card.php'); ?>
+        <?= apply_filters('propel_' . $product->class . '_card', $product, $this); ?>
     </div>
 <?php } ?>

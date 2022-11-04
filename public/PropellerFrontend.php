@@ -34,8 +34,10 @@ class PropellerFrontend {
         $this->version = $version;  
 
         $this->assets_url = plugins_url('assets', __FILE__ );
-
         $this->assets_dir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'assets';
+
+        $this->get_assets_folder();
+
         $this->templates_dir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'templates';
         $this->partials_dir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'partials';
         $this->emails_dir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'email';
@@ -55,9 +57,18 @@ class PropellerFrontend {
         add_action('parse_request', [$this, 'parse_request'], 1, 1);
     }
 
+    private function get_assets_folder() {
+        $this->assets_url = plugins_url('assets', __FILE__ );
+
+        if (is_dir(PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'assets')) {
+            $this->assets_url = PROPELLER_PLUGIN_EXTEND_URL . '/public/assets';
+            $this->assets_dir = PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'assets';
+        }
+    }
+
     public function scripts() {
         if (!$this->assets_url)
-            $this->assets_url = plugins_url('assets', __FILE__ );
+            $this->get_assets_folder();
 
         wp_enqueue_script('jquery-ui-autocomplete');
         
@@ -74,7 +85,7 @@ class PropellerFrontend {
         $this->build_js_helper();
         
         if (file_exists($helper_js_path)) {
-            wp_enqueue_script('propeller_helper_js', $this->assets_url . '/js/propel-helper.js', array(), $this->version, true);
+            wp_enqueue_script('propeller_helper_js', plugins_url('assets', __FILE__ ) . '/js/propel-helper.js', array(), $this->version, true);
             wp_enqueue_script('propeller_helper_js');
         }
 
@@ -90,7 +101,7 @@ class PropellerFrontend {
 
     public function styles() {
         if (!$this->assets_url)
-            $this->assets_url = plugins_url('assets', __FILE__ );
+            $this->get_assets_folder();
 
         wp_enqueue_style( 'propeller_css', $this->assets_url . '/css/propel.min.css', array(), $this->version, 'all');
     }

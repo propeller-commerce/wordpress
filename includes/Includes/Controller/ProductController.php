@@ -212,6 +212,14 @@ class ProductController extends BaseController {
     public function cluster_add_favorite($cluster) {
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-cluster-add-favorite.php');
     }
+
+    public function product_card($product, $obj) {
+        require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-product-card.php');
+    }
+
+    public function cluster_card($product, $obj) {
+        require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-cluster-card.php');
+    }
     
     
     
@@ -267,7 +275,7 @@ class ProductController extends BaseController {
         }   
 
         $this->title = $this->product->name[0]->value;
-        
+
         ob_start();
         
         require $this->load_template('templates', DIRECTORY_SEPARATOR . 'propeller-' . $this->product->class . '-details.php');

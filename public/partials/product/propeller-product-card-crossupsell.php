@@ -4,8 +4,11 @@ use Propeller\Includes\Controller\PageController;
 use Propeller\PropellerHelper;
 use Propeller\Includes\Controller\SessionController;
 use Propeller\Includes\Enum\PageType;
+use Propeller\Includes\Object\Product;
 
 $user_prices = SessionController::get(PROPELLER_SPECIFIC_PRICES);
+
+$crossupsell->product = new Product($crossupsell->product);
 
 ?>
 

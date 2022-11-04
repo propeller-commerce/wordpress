@@ -74,6 +74,9 @@ class Propeller {
         'propel_category_description' => ['CategoryController', 'category_listing_description', 1], 
         'propel_category_grid' => ['CategoryController', 'category_listing_grid', 7], 
         'propel_product_listing_pre_grid' => ['CategoryController', 'product_listing_pre_grid', 6], 
+
+        'propel_product_card' => ['ProductController', 'product_card', 2], 
+        'propel_cluster_card' => ['ProductController', 'cluster_card', 2], 
         
         'propel_product_gecommerce' => ['ProductController', 'product_gecommerce', 2], 
         'propel_product_gallery' => ['ProductController', 'product_gallery', 2], 

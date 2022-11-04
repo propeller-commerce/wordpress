@@ -177,7 +177,7 @@ class Cluster extends BaseObject {
                     $found_attrs[] = current($attr_found); 
             }
             
-            if (count($found_attrs) == count($this->selected_options)) {
+            if (isset($found_attrs) && count($found_attrs) == count($this->selected_options)) {
                 $found_product = $product;
                 break;
             }
