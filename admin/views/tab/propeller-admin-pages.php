@@ -12,7 +12,7 @@ use Propeller\Propeller;
 ?>
 
 <form method="POST" class="propel-admin-form p-3 border rounded-lg" action="#" id="propel_pages_form">
-    <input type="hidden" name="action" value="save_pages">
+    <input type="hidden" name="action" value="save_propel_pages">
     <input type="hidden" name="delete_pages" id="delete_pages" value="">
         
     <div class="row">    

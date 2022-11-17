@@ -328,10 +328,6 @@ class ShoppingCartController extends BaseController {
 
             return ob_get_clean();
         }
-        else {
-            wp_redirect(home_url('/404/'));
-            exit();
-        }        
     }
     
     public function checkout_summary() {
@@ -452,38 +448,27 @@ class ShoppingCartController extends BaseController {
     }
 
     public function checkout_thank_you() {
-        if (UserController::is_propeller_logged_in()) {
-            ob_start();
+        ob_start();
 
-            $orderController = new OrderController();
-            if (isset($_GET['order_id']) && !empty($_GET['order_id'])) 
-                $order = $orderController->get_order((int) $_GET['order_id']);
-            else {
-                wp_redirect(home_url('/404/'));
-                exit();
-            }
-            if (SessionController::get(PROPELLER_USER_DATA)->userId == $order->userId) {
-                if(isset($order) && is_object($order)) {
-                    if ($order->paymentData->status == PaymentStatuses::FAILED || 
-                        $order->paymentData->status == PaymentStatuses::CANCELLED ||
-                        $order->paymentData->status == PaymentStatuses::EXPIRED) {
-                        wp_redirect('/' . PageController::get_slug(PageType::PAYMENT_FAILED_PAGE));
-                        die;
-                    } 
-                }
+        $orderController = new OrderController();
 
-                require $this->load_template('partials', DIRECTORY_SEPARATOR . 'checkout' . DIRECTORY_SEPARATOR . 'propeller-checkout-thank-you.php');
-            }
-            else {
-                wp_redirect(home_url('/403/'));
-                exit();
-            }
-            return ob_get_clean();
+        $order = isset($propel['order']) 
+            ? $propel['order'] 
+            : $orderController->get_order((int) $_GET['order_id']);
+        
+        
+        if(isset($order) && is_object($order)) {
+            if ($order->paymentData->status == PaymentStatuses::FAILED || 
+                $order->paymentData->status == PaymentStatuses::CANCELLED ||
+                $order->paymentData->status == PaymentStatuses::EXPIRED) {
+                wp_redirect('/' . PageController::get_slug(PageType::PAYMENT_FAILED_PAGE));
+                die;
+            } 
         }
-        else {
-            wp_redirect(home_url('/403/'));
-            exit();
-        }
+
+        require $this->load_template('partials', DIRECTORY_SEPARATOR . 'checkout' . DIRECTORY_SEPARATOR . 'propeller-checkout-thank-you.php');
+        
+        return ob_get_clean();
     }
 
     public function shopping_cart() {
@@ -603,6 +588,7 @@ class ShoppingCartController extends BaseController {
             $postprocess->message       = $added_item->product->name[0]->value . " added to cart";
             $postprocess->totals        = $this->get_totals();
             $postprocess->taxLevels     = $this->get_tax_levels();
+            $postprocess->postageData   = $this->get_postage_data();
             $postprocess->show_modal    = true;
             $postprocess->item          = $added_item;
         }
@@ -656,6 +642,7 @@ class ShoppingCartController extends BaseController {
             $postprocess->message       = __("Bundle added to cart", 'propeller-ecommerce');
             $postprocess->totals        = $this->get_totals();
             $postprocess->taxLevels     = $this->get_tax_levels();
+            $postprocess->postageData   = $this->get_postage_data();
             $postprocess->show_bundle   = true;
             $postprocess->item          = $added_item;
         }
@@ -704,6 +691,8 @@ class ShoppingCartController extends BaseController {
             $postprocess->message = __("Item updated", 'propeller-ecommerce');
             $postprocess->totals = $this->get_totals();
             $postprocess->items = $this->get_items();
+            $postprocess->postageData = $this->get_postage_data();
+            $postprocess->taxLevels = $this->get_tax_levels();
 
             ob_start();
             require $this->load_template('templates', DIRECTORY_SEPARATOR . 'propeller-shopping-cart.php');
@@ -754,6 +743,8 @@ class ShoppingCartController extends BaseController {
             $postprocess->message = __("Item remove from cart", 'propeller-ecommerce');
             $postprocess->remove = $item_id;
             $postprocess->totals = $this->get_totals();
+            $postprocess->postageData = $this->get_postage_data();
+            $postprocess->taxLevels = $this->get_tax_levels();
 
             ob_start();
             require $this->load_template('templates', DIRECTORY_SEPARATOR . 'propeller-shopping-cart.php');
@@ -889,6 +880,8 @@ class ShoppingCartController extends BaseController {
             $postprocess->badge = $this->get_items_count();
             $postprocess->message = __("Added action code to cart", 'propeller-ecommerce');
             $postprocess->totals = $this->get_totals();
+            $postprocess->postageData = $this->get_postage_data();
+            $postprocess->taxLevels = $this->get_tax_levels();
             $postprocess->reload = true;
         }
         else {
@@ -915,7 +908,7 @@ class ShoppingCartController extends BaseController {
             types: [' . CrossupsellTypes::ACCESSORIES . ']
         }';
         
-        $gql = $this->model->action_code(
+        $gql = $this->model->remove_action_code(
             $raw_params, 
             MediaImages::get_media_images_query([
                 'name' => MediaImagesType::LARGE
@@ -934,6 +927,102 @@ class ShoppingCartController extends BaseController {
             $postprocess->badge = $this->get_items_count();
             $postprocess->message = __("Action code removed", 'propeller-ecommerce');
             $postprocess->totals = $this->get_totals();
+            $postprocess->postageData = $this->get_postage_data();
+            $postprocess->taxLevels = $this->get_tax_levels();
+            $postprocess->reload = true;
+        }
+        else {
+            $postprocess->message = $cartData;
+        }
+
+        $this->response->postprocess = $postprocess;
+        
+        return $this->response;
+    }
+
+    public function voucher_code($voucher_code) {
+        $this->init_cart();
+
+        $type = 'cartAddVoucherCode';
+
+        $raw_params = [
+            "cartId" => $this->cart_id,
+            "voucherCode" => $voucher_code
+        ];
+
+        // params for cross/upsells
+        $crossupsells_rawParams = '{
+            types: [' . CrossupsellTypes::ACCESSORIES . ']
+        }';
+        
+        $gql = $this->model->voucher_code(
+            $raw_params, 
+            MediaImages::get_media_images_query([
+                'name' => MediaImagesType::LARGE
+            ])->__toString(),
+            ['input' => new RawObject($crossupsells_rawParams)],
+            PROPELLER_LANG
+        );
+
+        $cartData = $this->query($gql, $type);
+
+        $postprocess = new stdClass();
+
+        if (is_object($cartData)) {
+            $this->postprocess($cartData);
+
+            $postprocess->badge = $this->get_items_count();
+            $postprocess->message = __("Added voucher code to cart", 'propeller-ecommerce');
+            $postprocess->totals = $this->get_totals();
+            $postprocess->postageData = $this->get_postage_data();
+            $postprocess->taxLevels = $this->get_tax_levels();
+            $postprocess->reload = true;
+        }
+        else {
+            $postprocess->message = __("This voucher code is not found", 'propeller-ecommerce');
+        }
+
+        $this->response->postprocess = $postprocess;
+        
+        return $this->response;
+    }
+
+    public function remove_voucher_code($voucher_code) {
+        $this->init_cart();
+
+        $type = 'cartRemoveVoucherCode';
+
+        $raw_params = [
+            "cartId" => $this->cart_id,
+            "voucherCode" => $voucher_code
+        ];
+
+        // params for cross/upsells
+        $crossupsells_rawParams = '{
+            types: [' . CrossupsellTypes::ACCESSORIES . ']
+        }';
+        
+        $gql = $this->model->remove_voucher_code(
+            $raw_params, 
+            MediaImages::get_media_images_query([
+                'name' => MediaImagesType::LARGE
+            ])->__toString(),
+            ['input' => new RawObject($crossupsells_rawParams)],
+            PROPELLER_LANG
+        );
+
+        $cartData = $this->query($gql, $type);
+
+        $postprocess = new stdClass();
+
+        if (is_object($cartData)) {
+            $this->postprocess($cartData);
+
+            $postprocess->badge = $this->get_items_count();
+            $postprocess->message = __("Voucher code removed", 'propeller-ecommerce');
+            $postprocess->totals = $this->get_totals();
+            $postprocess->postageData = $this->get_postage_data();
+            $postprocess->taxLevels = $this->get_tax_levels();
             $postprocess->reload = true;
         }
         else {
@@ -1056,6 +1145,7 @@ class ShoppingCartController extends BaseController {
         $postprocess->badge         = $this->get_items_count();
         $postprocess->totals        = $this->get_totals();
         $postprocess->taxLevels     = $this->get_tax_levels();
+        $postprocess->postageData   = $this->get_postage_data();
         $postprocess->show_modal    = !$has_errors;
         $postprocess->error         = $has_errors;
 

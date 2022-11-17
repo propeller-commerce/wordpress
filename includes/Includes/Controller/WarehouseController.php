@@ -2,32 +2,23 @@
 
 namespace Propeller\Includes\Controller;
 
-use GraphQL\Query;
 use GraphQL\RawObject;
-use Propeller\Includes\Query\Warehouse;
-use Propeller\Includes\Query\Warehouses;
+use Propeller\Includes\Model\WarehouseModel;
 
 class WarehouseController extends BaseController {
     protected $type = 'warehouse';
+    protected $model;
 
     protected $booleans = ['isActive', 'isStore', 'isPickupLocation'];
     
     public function __construct() {
         parent::__construct();
+
+        $this->model = new WarehouseModel();
     }
 
     public function get_warehouses($args = []) {
         $type = 'warehouses';
-
-        Warehouses::setDefaultQueryData();
-        Warehouse::setDefaultQueryData();
-
-        $warehousesGql = Warehouses::$query;
-
-        $warehousesGql[] = (new Query('items'))
-            ->setSelectionSet(
-                Warehouse::$query
-            );
 
         $params = [];
         if (count($args)) {
@@ -42,11 +33,7 @@ class WarehouseController extends BaseController {
                 
         }
 
-        $gql = (new Query($type))
-            ->setArguments(['input' => new RawObject('{' . implode(', ', $params) . '}')])
-            ->setSelectionSet(
-                $warehousesGql
-            );
+        $gql = $this->model->get_warehouses(['input' => new RawObject('{' . implode(', ', $params) . '}')]);
 
         return $this->query($gql, $type);
     }

@@ -76,7 +76,7 @@ function run_propeller() {
 if ($propel_active) { 
 	require_once(plugin_dir_path(__FILE__) . '/rewrite-rules.php');
 	require_once(plugin_dir_path(__FILE__) . '/ajax.php');
-	// require_once(plugin_dir_path(__FILE__) . '/filters.php');
+	require_once(plugin_dir_path(__FILE__) . '/filters.php');
 }
 
 run_propeller();

@@ -1,6 +1,6 @@
 <form method="POST" class="propel-admin-form p-3 border rounded-lg" action="#" id="propel_settings_form">
     <input type="hidden" id="setting_id" name="setting_id" value="<?php echo isset($settings_result->id) ? $settings_result->id : 0; ?>">
-    <input type="hidden" name="action" value="save_settings">
+    <input type="hidden" name="action" value="save_propel_settings">
             
     <div class="form-group">
         <label class="text-secondary" for="api_url"><?= __('API URL', 'propeller-ecommerce'); ?></label>

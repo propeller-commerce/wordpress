@@ -39,7 +39,7 @@ class LanguageController extends BaseController {
             $this->languages[$name] = $item;
         }
 
-        require $this->load_template('partials', DIRECTORY_SEPARATOR . 'other' . DIRECTORY_SEPARATOR . 'propeller-language-switcher');
+        require $this->load_template('partials', DIRECTORY_SEPARATOR . 'other' . DIRECTORY_SEPARATOR . 'propeller-language-switcher.php');
         
         return ob_get_clean();
     }

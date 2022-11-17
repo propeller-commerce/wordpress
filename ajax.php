@@ -23,3 +23,6 @@
     require_once(PROPELLER_PLUGIN_DIR . 'includes/Ajax/Product.php');
     require_once(PROPELLER_PLUGIN_DIR . 'includes/Ajax/Address.php');
     require_once(PROPELLER_PLUGIN_DIR . 'includes/Ajax/Order.php');
+
+    if (file_exists(PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'custom-ajax.php'))
+        require_once(PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'custom-ajax.php');

@@ -278,39 +278,22 @@ class OrderController extends BaseController {
     }
 
     public function order_details() {
-        if (!UserController::is_propeller_logged_in()) {
-            wp_redirect(home_url('/403/'));
-            die;
-        }
-            
-        if (!isset($_REQUEST['order_id']) || empty($_REQUEST['order_id']) || !is_numeric($_REQUEST['order_id'])) {
-            wp_redirect(home_url('/404/'));
-            die;
-        }
+        global $propel;
+    
+        $this->order = isset($propel['order']) 
+            ? $propel['order'] 
+            : $this->get_order((int) $_REQUEST['order_id']);
+
+        $pdf_data = $this->get_pdf((int) $_REQUEST['order_id']);
+        
+        $this->order->pdf = $pdf_data;
 
         ob_start();
-        $this->order = $this->get_order((int) $_REQUEST['order_id']);
 
-        if (is_object($this->order)) {
-            if (SessionController::get(PROPELLER_USER_DATA)->userId == $this->order->userId) {
-                $pdf_data = $this->get_pdf((int) $_REQUEST['order_id']);
-
-                $this->order->pdf = $pdf_data;
-                if ($this->order->status == 'QUOTATION')
-                    require $this->load_template('partials', DIRECTORY_SEPARATOR . 'user' . DIRECTORY_SEPARATOR . 'propeller-account-quote-details.php');
-                else 
-                    require $this->load_template('partials', DIRECTORY_SEPARATOR . 'user' . DIRECTORY_SEPARATOR . 'propeller-account-order-details.php');
-            }
-            else {
-                wp_redirect(home_url('/404/'));
-                die;
-            }
-        }
-        else {
-            error_log(print_r($this->order), true);
-            wp_redirect(home_url('/404/'));
-            die;
-        }
+        if ($this->order->status == 'QUOTATION')
+            require $this->load_template('partials', DIRECTORY_SEPARATOR . 'user' . DIRECTORY_SEPARATOR . 'propeller-account-quote-details.php');
+        else 
+            require $this->load_template('partials', DIRECTORY_SEPARATOR . 'user' . DIRECTORY_SEPARATOR . 'propeller-account-order-details.php');
 
         return ob_get_clean();
     }

@@ -1,14 +1,14 @@
 <?php
-    $expanded = 'true';
+    $expanded = true;
 ?>
 
 <div class="filter">
-    <button class="btn-filter" type="button" href="#filterForm_prices" data-toggle="collapse" aria-expanded="<?= $expanded; ?>" aria-controls="filterForm_prices">
+    <button class="btn-filter" type="button" href="#filterForm_prices" data-toggle="collapse" aria-expanded="<?php echo $expanded ? 'true': 'false'; ?>" aria-controls="filterForm_prices">
         <span><?php echo __('Price', 'propeller-ecommerce'); ?></span>
     </button>  
 
-    <div class="numeric-filter collapse show" id="filterForm_prices">
-        <form method="get" action="" class="filterForm filterFormNumeric collapse show">
+    <div class="numeric-filter collapse <?php echo $expanded ? 'show': ''; ?>" id="filterForm_prices">
+        <form method="get" action="" class="filterForm filterFormNumeric collapse <?php echo $expanded ? 'show': ''; ?>">
             <input type="hidden" name="prop_value" value="<?= $this->slug; ?>" />
             <input type="hidden" name="prop_name" value="<?= $this->prop; ?>" />
             <input type="hidden" name="action" value="<?= $this->action; ?>" />

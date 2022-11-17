@@ -6,10 +6,9 @@ use GraphQL\RawObject;
 use Propeller\Includes\Enum\MediaImagesType;
 use Propeller\Includes\Enum\PageType;
 use Propeller\Includes\Model\CategoryModel;
-use Propeller\Includes\Object\Cluster as ObjectCluster;
+use Propeller\Includes\Object\Cluster;
 use Propeller\Includes\Object\FilterArray;
 use Propeller\Includes\Object\Product;
-use Propeller\Includes\Query\Category as CategoryQuery;
 use Propeller\Includes\Query\MediaImages;
 use stdClass;
 
@@ -175,7 +174,7 @@ class CategoryController extends BaseController {
             if ($product->class == 'product')
                 $this->products[] = new Product($product);
             if ($product->class == 'cluster')
-                $this->products[] = new ObjectCluster($product);
+                $this->products[] = new Cluster($product);
         }
             
         $this->attributes = [];
@@ -236,8 +235,6 @@ class CategoryController extends BaseController {
             ])->__toString(),
             PROPELLER_LANG
         );
-
-        // $this->dump($gql);
 
         return $this->query($gql, $this->type);
     }

@@ -6,7 +6,7 @@ use Propeller\Includes\Object\Product;
 use Propeller\PropellerHelper;
 
 ?>
-<?php if ($product->hasBundle == 'Y' && !empty($product->bundles)) { ?>   
+<?php if ($product->isBundleLeader == 'Y' && !empty($product->bundles)) { ?>   
     <div class="row product-bundles <?= apply_filters('propel_product_bundles_classes', ''); ?>">
         <div class="col-12">
             <h2 class="product-info-title mt-5 mb-4"><?php echo __('Recomended combo deals', 'propeller-ecommerce'); ?></h2>
@@ -24,7 +24,7 @@ use Propeller\PropellerHelper;
                                     $bundleClass = 'col-12 col-md-4 d-md-flex';
                                 ?>
                                 <?php foreach ($bundle->items as $key => $bundleItem) { ?> 
-                                    <?php $bundleItem = new Product($bundleItem); ?>
+                                    <?php $bundleItem->product = new Product($bundleItem->product); ?>
                                     <div class="<?php echo $bundleClass; if($bundleItem->isLeader != 'Y') echo ' bundle-item-col'; ?> px-4 pt-2 pb-4">
                                             
                                         <div class="card propeller-product-card">

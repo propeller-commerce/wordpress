@@ -42,7 +42,7 @@ $user_prices = SessionController::get(PROPELLER_SPECIFIC_PRICES);
                     <?php }
                         else { ?>
                         <img class="img-fluid no-image-card" loading="lazy" 
-                            src="<?php echo $this->assets_dir . '/img/no-image-card.webp';?>"
+                            src="<?php echo $this->assets_url . '/img/no-image-card.webp';?>"
                             alt="<?php echo __('No image found', 'propeller-ecommerce'); ?>"
                             width="300" height="300">
                     <?php } ?>

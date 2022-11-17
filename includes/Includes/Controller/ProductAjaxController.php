@@ -109,4 +109,17 @@ class ProductAjaxController {
 
         die(json_encode($response));
     }
+
+    public function load_crossupsells() {
+        $prop = new Propeller();
+        $prop->reinit_filters();
+        
+        $response = new stdClass();
+        $response->content = $this->product->load_crossupsells($_POST['slug'], $_POST['class']);
+
+        $response->status = true;
+        $response->error = null;
+
+        die(json_encode($response));
+    }
 }

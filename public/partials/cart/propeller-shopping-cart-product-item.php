@@ -14,7 +14,11 @@
 <div class="container-fluid px-0 basket-item-container" data-item-id="<?= $item->id; ?>">
     <div class="row product-item no-gutters align-items-start">
         <div class="col-2 col-md-1 product-image mb-3">
-            <a href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $item->product->slug[0]->value); ?>">  
+            <?php if(is_object($item->product->cluster)) { ?> 
+                <a href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $item->product->cluster->slug[0]->value); ?>">
+            <?php } else { ?>
+                <a href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $item->product->slug[0]->value); ?>">
+            <?php } ?> 	 
             <?php if($item->product->has_images()) { ?>          												 
                 <img class="img-fluid" src="<?= $item->product->images[0]->images[0]->url; ?>" alt="<?= $item->product->name[0]->value; ?>">
             <?php } else { ?> 
@@ -25,7 +29,11 @@
             </a>
         </div>
         <div class="col-10 col-md-4 col-lg-6 product-description">            
-            <a class="product-name" href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $item->product->slug[0]->value); ?>">
+            <?php if(is_object($item->product->cluster)) { ?> 
+                <a class="product-name" href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $item->product->cluster->slug[0]->value); ?>">
+            <?php } else { ?>
+                <a class="product-name" href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $item->product->slug[0]->value); ?>">
+            <?php } ?> 	 
                 <?= $item->product->name[0]->value; ?>
             </a>
             <?php if ($item->id) { ?> 

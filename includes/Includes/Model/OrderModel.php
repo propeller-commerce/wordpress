@@ -335,6 +335,14 @@ class OrderModel extends BaseModel {
                         from
                         to
                     }
+                    cluster {
+                        id
+                        clusterId
+                        slug(language: "$language") {
+                            value
+                            language
+                        }
+                    }
                     name(language: "$language") {
                         value
                         language

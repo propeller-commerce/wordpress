@@ -16,18 +16,23 @@ class BaseController extends PropellerApi {
     public $default_templates_dir;
     public $default_partials_dir;
     public $default_emails_dir;
+    public $default_errors_dir;
 
     public $assets_url;
     public $assets_dir;
     public $templates_dir;
     public $partials_dir;
     public $emails_dir;
+    public $errorss_dir;
 
     public $theme_assets_url;
     public $theme_assets_dir;
     public $theme_templates_dir;
     public $theme_partials_dir;
     public $theme_emails_dir;
+    public $theme_errors_dir;
+
+    public $pagename;
 
     const TEXT_FILTERS_KEY = 'textFilters';  
     const RANGE_FILTERS_KEY = 'rangeFilters';  
@@ -47,6 +52,7 @@ class BaseController extends PropellerApi {
         $this->templates_dir = PROPELLER_TEMPLATES_DIR;
         $this->partials_dir = PROPELLER_PARTIALS_DIR;
         $this->emails_dir = PROPELLER_EMAILS_DIR;
+        $this->errorss_dir = PROPELLER_ERROR_DIR;
 
         // default template/assets paths
         $this->default_assets_url = PROPELLER_ASSETS_URL;
@@ -54,6 +60,7 @@ class BaseController extends PropellerApi {
         $this->default_templates_dir = PROPELLER_TEMPLATES_DIR;
         $this->default_partials_dir = PROPELLER_PARTIALS_DIR;
         $this->default_emails_dir = PROPELLER_EMAILS_DIR;
+        $this->default_errors_dir = PROPELLER_ERROR_DIR;
 
         // theme template/assets paths
         $this->theme_assets_url = get_template_directory_uri() . '/propeller/assets';
@@ -61,6 +68,7 @@ class BaseController extends PropellerApi {
         $this->theme_templates_dir = get_template_directory() . DIRECTORY_SEPARATOR . 'propeller' . DIRECTORY_SEPARATOR . 'templates';
         $this->theme_partials_dir = get_template_directory() . DIRECTORY_SEPARATOR . 'propeller' . DIRECTORY_SEPARATOR . 'partials';
         $this->theme_emails_dir = get_template_directory() . DIRECTORY_SEPARATOR . 'propeller' . DIRECTORY_SEPARATOR . 'email';
+        $this->theme_errors_dir = get_template_directory() . DIRECTORY_SEPARATOR . 'propeller' . DIRECTORY_SEPARATOR . 'error';
 
         if (is_dir(PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'assets')) {
             $this->assets_url = PROPELLER_PLUGIN_EXTEND_URL . '/public/assets';
@@ -75,6 +83,9 @@ class BaseController extends PropellerApi {
 
         if (is_dir(PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'email'))
             $this->emails_dir = PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'email';
+
+        if (is_dir(PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'error'))
+            $this->emails_dir = PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'error';
     }
 
     public function load_template($path, $template) {
@@ -97,6 +108,11 @@ class BaseController extends PropellerApi {
                 $theme_dir = $this->theme_templates_dir;
                 $default_dir = $this->default_templates_dir;
                 $dir = $this->templates_dir;
+                break;
+            case 'error':
+                $theme_dir = $this->theme_errors_dir;
+                $default_dir = $this->default_errors_dir;
+                $dir = $this->errorss_dir;
                 break;
             case 'assets':
                 $theme_dir = $this->theme_assets_dir;

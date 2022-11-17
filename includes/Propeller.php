@@ -20,7 +20,9 @@ class Propeller {
 
     protected $fe_actions = [
         'init' => 'init_propeller', 
-        'wp_head' => ['wp_head_script', 1]
+        'wp_head' => ['wp_head_script', 1],
+        'wp' => ['handle_404', 1],
+        'wp' => ['propel_error_pages', 1]
     ];
 
     public static $fe_shortcodes = [
@@ -116,6 +118,9 @@ class Propeller {
         'propel_cluster_gecommerce' => ['ProductController', 'cluster_gecommerce', 3], 
         'propel_cluster_bundles' => ['ProductController', 'cluster_bundles', 2], 
         'propel_cluster_crossupsells' => ['ProductController', 'cluster_crossupsells', 2], 
+        'propel_cluster_crossupsells_ajax' => ['ProductController', 'cluster_crossupsells_ajax', 1], 
+        'propel_cluster_crossupsells_ajax_items' => ['ProductController', 'cluster_crossupsells_ajax_items', 2], 
+        'propel_cluster_crossupsell_card' => ['ProductController', 'cluster_crossupsell_card', 2], 
         'propel_cluster_options' => ['ProductController', 'cluster_options', 3], 
         'propel_cluster_add_favorite' => ['ProductController', 'cluster_add_favorite', 1], 
         
@@ -495,8 +500,14 @@ class Propeller {
     }
 
     function minify() {
-        $js_path = PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'Frontend' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js';
-		$css_path = PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'Frontend' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'css';
+        $js_path = PROPELLER_PLUGIN_DIR . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js';
+		$css_path = PROPELLER_PLUGIN_DIR . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'css';
+
+        if (is_dir(PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js'))
+            $js_path = PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js';
+		
+        if (is_dir(PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'css'))
+            $css_path = PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'css';
 
         $min_js = $js_path . DIRECTORY_SEPARATOR . 'propel.min.js';
         $min_css = $css_path . DIRECTORY_SEPARATOR . 'propel.min.css';
@@ -510,6 +521,7 @@ class Propeller {
             $js_path . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'nouislider.min.js',
             $js_path . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'slick.min.js',
             $js_path . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'calendar.min.js',
+            $js_path . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'photoswipe.min.js',
             $js_path . DIRECTORY_SEPARATOR . 'propeller-frontend.js'
         ];
     
@@ -520,6 +532,7 @@ class Propeller {
             $css_path . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'slick-theme.css',
             $css_path . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'slick.css',
             $css_path . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'calendartheme.css',
+            $css_path . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'photoswipe.css',
             $css_path . DIRECTORY_SEPARATOR . 'propeller-frontend.css',
             $css_path . DIRECTORY_SEPARATOR . 'propeller-responsive.css',
         ];

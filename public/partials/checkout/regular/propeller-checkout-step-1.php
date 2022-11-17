@@ -23,11 +23,9 @@
                 <?= apply_filters('propel_checkout_regular_step_1_other_steps', $this->cart, $this); ?>
 
             </div>
-            <div class="col-12 col-lg-4">
+          
+            <?= apply_filters('propel_shopping_cart_totals', $this->cart, $this); ?>
 
-                <?= apply_filters('propel_shopping_cart_totals', $this->cart, $this); ?>
-
-            </div>
         </div>
     </div>
 </div>

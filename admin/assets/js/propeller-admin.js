@@ -42,11 +42,11 @@ window.Propeller || (window.Propeller = {});
     };
 
     var Ajax = {
-        overlay: null,
         init: function () {
 
         },
         call: function(args) {
+            var overlay = null;
             var opts = {};
 
             opts.url = args.url;
@@ -57,18 +57,19 @@ window.Propeller || (window.Propeller = {});
             opts.error = args.error || null;
             opts.complete = function() {
                 // hide the loader and remove it's instance
-                if (typeof Propeller.Ajax.overlay != 'undefined' && Propeller.Ajax.overlay) {
-                    Propeller.Ajax.overlay.hide();
-                    delete Propeller.Ajax.overlay;
+                if (typeof overlay != 'undefined' && overlay) {
+                    overlay.hide();
+                    overlay = null;
                 }
             }
             
             var loading = args.loading || null;
             if (loading)
-                this.overlay = PlainOverlay.show($(loading)[0], {
+                overlay = PlainOverlay.show($(loading)[0], {
                     blur: 2,
                     style: {
-                        background: 'transparent', 
+                        fillColor: '#888'
+                        // background: 'transparent', 
                         // face: place loader here
                     }
                 });
@@ -90,7 +91,32 @@ window.Propeller || (window.Propeller = {});
             $('#closed_portal').off('change').on('change', this.display_exclusions);
             $('#add_page_btn').off('click').on('click', this.add_new_row);
             $('.delete-btn').off('click').on('click', this.delete_row);
+
+            $('#propel_settings_form').off('submit').on('submit', this.submit_form);
+            $('#propel_pages_form').off('submit').on('submit', this.submit_form);
+            $('#propel_behavior_form').off('submit').on('submit', this.submit_form);
+            $('#propeller_cache_form').off('submit').on('submit', this.submit_form);
 		},
+        submit_form: function(event) {
+            event.preventDefault();
+
+            Propeller.Ajax.call({
+                url: propeller_admin_ajax.ajaxurl,
+                method: 'POST',
+                data: $(this).serializeObject(),
+                loading: $(this),
+                success: function(data, msg, xhr) {
+                    if (data.success && typeof data.message != 'undefined')
+                        Propeller.Alert.show(data.message);
+                },
+                error: function() {
+                    // Propeller.Toast.show('Propeller', __('just now', 'propeller-ecommerce'), arguments[0].responseText, 'error', null, 3000);
+                    console.log('error', arguments);
+                }
+            });
+
+            return false;
+        },
         handle_exclusions: function(event) {
             event.preventDefault();
 
@@ -171,8 +197,6 @@ window.Propeller || (window.Propeller = {});
                 data: $(this).serializeObject(),
                 loading: $(this),
                 success: function(data, msg, xhr) {
-                    console.log(data);
-
                     if (data.success && typeof data.message != 'undefined')
                         Propeller.Alert.show(data.message);
                 },

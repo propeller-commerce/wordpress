@@ -75,12 +75,12 @@ window.Propeller || (window.Propeller = {});
     
     // Global AJAX handler
     var Ajax = {
-        overlay: null,
         init: function () {
 
         },
         call: function(args) {
             var opts = {};
+            var overlay = null;
 
             opts.url = args.url;
             opts.type = args.method || 'GET';
@@ -90,15 +90,15 @@ window.Propeller || (window.Propeller = {});
             opts.error = args.error || null;
             opts.complete = function() {
                 // hide the loader and remove it's instance
-                if (typeof Propeller.Ajax.overlay != 'undefined' && Propeller.Ajax.overlay) {
-                    Propeller.Ajax.overlay.hide();
-                    delete Propeller.Ajax.overlay;
+                if (typeof overlay != 'undefined' && overlay) {
+                    overlay.hide();
+                    overlay = null;
                 }
             }
             
             var loading = args.loading || null;
             if (loading)
-                this.overlay = PlainOverlay.show($(loading)[0], {
+                overlay = PlainOverlay.show($(loading)[0], {
                     blur: 2,
                     style: {
                         background: 'transparent', 
@@ -281,9 +281,6 @@ window.Propeller || (window.Propeller = {});
     };
     
     Propeller.Order = Order;
-
-
-    
 
     var Login = {
         postprocess: function(data) {
@@ -659,7 +656,7 @@ window.Propeller || (window.Propeller = {});
                 if (typeof data.postprocess.badge != 'undefined')
                     this.cart_update_badge(data.postprocess.badge);
                 if (typeof data.postprocess.totals != 'undefined')
-                    this.cart_update_totals(data.postprocess.totals, data.postprocess.badge);
+                    this.cart_update_totals(data.postprocess.totals, data.postprocess.badge, data.postprocess.postageData, data.postprocess.taxLevels);
                 if (typeof data.postprocess.items != 'undefined')
                     this.cart_update_items(data.postprocess.items);
                 if (typeof data.postprocess.postageData != 'undefined')
@@ -715,13 +712,23 @@ window.Propeller || (window.Propeller = {});
         cart_update_postage(postageData) {
             $('.propel-total-shipping').html(Propeller.Frontend.formatPrice(postageData.postage));
         },
-        cart_update_totals: function(totals, count) {
+        cart_update_totals: function(totals, count, postageData, taxLevels) {
             $('.propel-total-items').html(count);
             $('.propel-total-subtotal').html(Propeller.Frontend.formatPrice(totals.subTotal));
             $('.propel-total-voucher').html(Propeller.Frontend.formatPrice(totals.discountGross));
             $('.propel-total-excl-btw').html(Propeller.Frontend.formatPrice(totals.totalGross));
             $('.propel-total-btw').html(Propeller.Frontend.formatPrice(totals.totalNet - totals.totalGross));
             $('.propel-total-price').html(Propeller.Frontend.formatPrice(totals.totalNet));
+            $('.propel-mini-cart-total-price').html(Propeller.Frontend.formatPrice(totals.totalNet));
+            $('.propel-total-shipping').html(Propeller.Frontend.formatPrice(postageData.postage));
+            if (taxLevels.length) {
+                $(taxLevels).each(function(index, taxLevel){
+                    if (taxLevel.taxCode == 'H')
+                        $('.propel-postage-tax').html('21');
+                    else 
+                        $('.propel-postage-tax').html('9');
+                });
+            }
             if (count > 0)
                 $('.propel-mini-cart-total-price').html(Propeller.Frontend.formatPrice(totals.totalNet));
             else 
@@ -880,7 +887,8 @@ window.Propeller || (window.Propeller = {});
     
                                 var img = null;
                                 
-                                if (item.mediaImages.itemsFound > 0 && 
+                                if (item.mediaImages &&
+                                    item.mediaImages.itemsFound > 0 && 
                                     item.mediaImages.items.length &&
                                     typeof item.mediaImages.items[0].imageVariants != 'undefined' &&
                                     item.mediaImages.items[0].imageVariants.length) {
@@ -1500,6 +1508,8 @@ window.Propeller || (window.Propeller = {});
             
             $('.cluster-radio').off('change').on('change', this.radio_changed);
             $('.cluster-dropdown').off('change').on('change', this.dropdown_changed);
+
+            this.load_crossupsells();
         },
         handle_order_button: function() {
             var disable = this.order_form.find('input[name="product_id"').val() == '';
@@ -1534,6 +1544,9 @@ window.Propeller || (window.Propeller = {});
             
             request_data.action = 'update_cluster_content';
             request_data.slug = slug;
+
+            request_data.clicked_attr = $(obj).attr('name');
+            request_data.clicked_val = $(obj).val();
 
             Propeller.Ajax.call({
                 url: propeller_ajax.ajaxurl,
@@ -1611,13 +1624,67 @@ window.Propeller || (window.Propeller = {});
         },
         gallery_change: function() {
             Propeller.Gallery.init();
-
-            return;
         },
         cross_upsell_slider: function() {
-            Propeller.Slider.init();
-
-            return;
+            $('.cluster-crossupsells-slider').not('.slick-initialized').slick({
+                dots: false,
+                infinite: false,
+                arrows: true,
+                speed: 300,
+                slidesToShow: 4,
+                slidesToScroll: 4,
+                responsive: [
+                    {
+                    breakpoint: 1200,
+                        settings: {
+                            slidesToShow: 3,
+                            slidesToScroll: 3,
+                            infinite: false,
+                            arrows: true,
+                        }
+                    },
+                    {
+                    breakpoint: 991,
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 2,
+                            dots: true,
+                            arrows: false
+                        }
+                    },
+                    {
+                    breakpoint: 576,
+                        settings: "unslick"
+                    }
+                ]
+            });
+        },
+        bundles_slider: function() {
+            Propeller.ProductBundlesSlider.init();
+        },
+        load_crossupsells: function() {
+            if ($('.cluster-crossupsells-slider').length) {
+                Propeller.Ajax.call({
+                    url: propeller_ajax.ajaxurl,
+                    method: 'POST',
+                    data: {
+                        slug: $('.cluster-crossupsells-slider').data('slug'),
+                        action: 'load_crossupsells',
+                        class: 'cluster'
+                    },
+                    loading: $('.cluster-crossupsells-slider'), 
+                    success: function(data, msg, xhr) {
+                        $('.cluster-crossupsells-slider').html(data.content);
+                        
+                        Propeller.Frontend.init();
+                        Propeller.ProductPlusMinusButtons.init();
+                        Propeller.Cluster.cross_upsell_slider();
+                    },
+                    error: function() {
+                        console.log('error', arguments);
+                    }
+                });
+            }
         }
     };
 
@@ -1674,6 +1741,66 @@ window.Propeller || (window.Propeller = {});
     };
 
     Propeller.Gallery = Gallery;
+
+    var GalleryItem = {
+        init: function () {
+            var items = [];
+            $('.gallery-item-slick' , '#slick-gallery').each( function() {
+                var $figure = $(this),
+                    $a = $figure.find('a'),
+                    $src = $a.attr('href'),
+                    $title = $figure.find('figcaption').html(),
+                    $msrc = $figure.find('img').attr('src');
+                if ($a.data('size')) {
+                    var $size   = $a.data('size').split('x');
+                    var item = {
+                        src   : $src,
+                        w   : $size[0],
+                        h     : $size[1],
+                        title   : $title,
+                        msrc  : $msrc
+                    };
+                } else {
+                    var item = {
+                        src: $src,
+                        w: 800,
+                        h: 800,
+                        title: $title,
+                        msrc: $msrc
+                    };
+                    var img = new Image();
+                    img.src = $src;
+
+                    var wait = setInterval(function() {
+                        var w = img.naturalWidth,
+                        h = img.naturalHeight;
+                        if (w && h) {
+                            clearInterval(wait);
+                            item.w = w;
+                            item.h = h;
+                        }
+                    }, 30);
+                }
+                var index = items.length;
+                items.push(item);
+                $figure.unbind('click').click(function(event) {
+                    event.preventDefault(); // prevent the normal behaviour i.e. load the <a> hyperlink
+                    // Get the PSWP element and initialise it with the desired options
+                    var $pswp = $('#pswp')[0];
+                    console.log($pswp);
+                    var options = {
+                        index: index,
+                        bgOpacity: 0.8,
+                        showHideOpacity: true
+                    }
+                    new PhotoSwipe($pswp, PhotoSwipeUI_Default, items, options).init();
+                });
+            });
+        
+		},
+    };
+
+    Propeller.GalleryItem = GalleryItem;
 
 
     var Slider = {
@@ -2119,7 +2246,8 @@ window.Propeller || (window.Propeller = {});
                             response($.map(data.items, function (item) {
                                 var img = null;
                                 
-                                if (item.mediaImages.itemsFound > 0 && 
+                                if (item.mediaImages &&
+                                    item.mediaImages.itemsFound > 0 && 
                                     item.mediaImages.items.length &&
                                     typeof item.mediaImages.items[0].imageVariants != 'undefined' &&
                                     item.mediaImages.items[0].imageVariants.length) {

@@ -90,6 +90,7 @@ define('PROPELLER_PLUGIN_EXTEND_URL',	plugin_dir_url(__FILE__) . '/custom');
 define('PROPELLER_EMAILS_DIR',		    plugin_dir_path(__FILE__) . 'public' . DIRECTORY_SEPARATOR . 'email');
 define('PROPELLER_PARTIALS_DIR',	    plugin_dir_path(__FILE__) . 'public' . DIRECTORY_SEPARATOR . 'partials');
 define('PROPELLER_TEMPLATES_DIR',	    plugin_dir_path(__FILE__) . 'public' . DIRECTORY_SEPARATOR . 'templates');
+define('PROPELLER_ERROR_DIR',	        plugin_dir_path(__FILE__) . 'public' . DIRECTORY_SEPARATOR . 'error');
 define('PROPELLER_ASSETS_DIR',		    plugin_dir_path(__FILE__) . 'public' . DIRECTORY_SEPARATOR . 'assets');
 define('PROPELLER_ASSETS_URL',		    plugin_dir_url(__FILE__) . 'public/assets');
 
@@ -132,5 +133,7 @@ define('PROPELLER_USER_ATTR_VALUE',						'user_attribute_value');
 define('PROPELLER_SESSION_LANG', 						"session_locale");
 define('PROPELLER_DEFAULT_DELIVERY_ADDRESS_CHANGED',	"default_delivery_address_changed");
 define('PROPELLER_ORDER_STATUS_TYPE',					"order_status_type");
+
+define('PROPELLER_VIEWING_CLUSTER',					    "viewing_cluster");
 
 /**********************************************************************/
