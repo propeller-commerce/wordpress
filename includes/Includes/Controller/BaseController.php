@@ -251,7 +251,7 @@ class BaseController extends PropellerApi {
                             $type = $valueChunks[1];
         
                             $text_vals = [];
-                            foreach (explode(',', $values) as $vals) 
+                            foreach (explode('^', $values) as $vals) 
                                 $text_vals[] = $vals;
 
                             $processed[] = [
@@ -446,8 +446,8 @@ class BaseController extends PropellerApi {
                         $val = implode(',', $flt_vals);
                     }
                     else if (strpos($value, '~')) {
-                        if (strpos($value, ',')) {
-                            $tmp_array = explode(',', $value);
+                        if (strpos($value, '^')) {
+                            $tmp_array = explode('^', $value);
                             $tmp_val_arr = [];
 
                             foreach ($tmp_array as $tmp_filters) {
@@ -533,7 +533,7 @@ class BaseController extends PropellerApi {
             foreach ($type_filters as $filter) {
                 
                 if (isset($filter->searchId) && isset($_REQUEST[$filter->searchId])) {
-                    $filter_vals = explode(',', $_REQUEST[$filter->searchId]);
+                    $filter_vals = explode('^', $_REQUEST[$filter->searchId]);
 
                     $available_vals = [];
 

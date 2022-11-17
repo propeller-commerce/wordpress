@@ -76,6 +76,7 @@ class PropellerApi {
 
             if (PROPELLER_DEBUG) {
                 echo "<pre class=\"text-danger\">";
+                var_dump($exception->getErrorDetails());
                 echo "</pre>";
 
                 echo "<pre class=\"text-danger\">";

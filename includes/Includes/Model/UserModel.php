@@ -325,7 +325,7 @@ class UserModel extends BaseModel {
 
         $attr_str_args = '';
         if (count($attributes_args))
-            $attr_str_args = $this->parse_arguments($attributes_args);
+            $attr_str_args = '(' . $this->parse_arguments($attributes_args) . ')';
 
         $gql = <<<QUERY
             query {
@@ -368,7 +368,7 @@ class UserModel extends BaseModel {
                                 isDefault
                             }
                         }
-                        attributes($attr_str_args) {
+                        attributes $attr_str_args {
                             id
                             name
                             group
@@ -413,7 +413,7 @@ class UserModel extends BaseModel {
                             type
                             isDefault
                         }
-                        attributes($attr_str_args) {
+                        attributes $attr_str_args {
                             id
                             name
                             group
@@ -458,7 +458,7 @@ class UserModel extends BaseModel {
                             type
                             isDefault
                         }
-                        attributes($attr_str_args) {
+                        attributes $attr_str_args {
                             id
                             name
                             group

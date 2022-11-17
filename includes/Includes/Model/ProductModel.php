@@ -78,20 +78,6 @@ class ProductModel extends BaseModel {
                         purchaseUnit
                         purchaseMinimumQuantity
                         inventory {
-                            balance {
-                                id
-                                productId
-                                location
-                                warehouseId
-                                sku
-                                supplier
-                                supplierCode
-                                costPrice
-                                dateModified
-                                nextDeliveryDate
-                                notes
-                                quantity
-                            }
                             localQuantity
                             nextDeliveryDate
                             productId
@@ -201,20 +187,6 @@ class ProductModel extends BaseModel {
                                         purchaseUnit
                                         purchaseMinimumQuantity
                                         inventory {
-                                            balance {
-                                                id
-                                                productId
-                                                location
-                                                warehouseId
-                                                sku
-                                                supplier
-                                                supplierCode
-                                                costPrice
-                                                dateModified
-                                                nextDeliveryDate
-                                                notes
-                                                quantity
-                                            }
                                             localQuantity
                                             nextDeliveryDate
                                             productId
@@ -401,20 +373,6 @@ class ProductModel extends BaseModel {
                                 purchaseUnit
                                 purchaseMinimumQuantity
                                 inventory {
-                                    balance {
-                                        id
-                                        productId
-                                        location
-                                        warehouseId
-                                        sku
-                                        supplier
-                                        supplierCode
-                                        costPrice
-                                        dateModified
-                                        nextDeliveryDate
-                                        notes
-                                        quantity
-                                    }
                                     localQuantity
                                     nextDeliveryDate
                                     productId
@@ -544,20 +502,6 @@ class ProductModel extends BaseModel {
                                                 purchaseUnit
                                                 purchaseMinimumQuantity
                                                 inventory {
-                                                    balance {
-                                                        id
-                                                        productId
-                                                        location
-                                                        warehouseId
-                                                        sku
-                                                        supplier
-                                                        supplierCode
-                                                        costPrice
-                                                        dateModified
-                                                        nextDeliveryDate
-                                                        notes
-                                                        quantity
-                                                    }
                                                     localQuantity
                                                     nextDeliveryDate
                                                     productId
@@ -636,20 +580,6 @@ class ProductModel extends BaseModel {
                                     purchaseUnit
                                     purchaseMinimumQuantity
                                     inventory {
-                                        balance {
-                                            id
-                                            productId
-                                            location
-                                            warehouseId
-                                            sku
-                                            supplier
-                                            supplierCode
-                                            costPrice
-                                            dateModified
-                                            nextDeliveryDate
-                                            notes
-                                            quantity
-                                        }
                                         localQuantity
                                         nextDeliveryDate
                                         productId
@@ -764,20 +694,6 @@ class ProductModel extends BaseModel {
                                                 purchaseUnit
                                                 purchaseMinimumQuantity
                                                 inventory {
-                                                    balance {
-                                                        id
-                                                        productId
-                                                        location
-                                                        warehouseId
-                                                        sku
-                                                        supplier
-                                                        supplierCode
-                                                        costPrice
-                                                        dateModified
-                                                        nextDeliveryDate
-                                                        notes
-                                                        quantity
-                                                    }
                                                     localQuantity
                                                     nextDeliveryDate
                                                     productId
@@ -866,20 +782,6 @@ class ProductModel extends BaseModel {
                                                     purchaseUnit
                                                     purchaseMinimumQuantity
                                                     inventory {
-                                                        balance {
-                                                            id
-                                                            productId
-                                                            location
-                                                            warehouseId
-                                                            sku
-                                                            supplier
-                                                            supplierCode
-                                                            costPrice
-                                                            dateModified
-                                                            nextDeliveryDate
-                                                            notes
-                                                            quantity
-                                                        }
                                                         localQuantity
                                                         nextDeliveryDate
                                                         productId
@@ -1008,20 +910,6 @@ class ProductModel extends BaseModel {
                                 purchaseUnit
                                 purchaseMinimumQuantity
                                 inventory {
-                                    balance {
-                                        id
-                                        productId
-                                        location
-                                        warehouseId
-                                        sku
-                                        supplier
-                                        supplierCode
-                                        costPrice
-                                        dateModified
-                                        nextDeliveryDate
-                                        notes
-                                        quantity
-                                    }
                                     localQuantity
                                     nextDeliveryDate
                                     productId
@@ -1201,20 +1089,6 @@ class ProductModel extends BaseModel {
                                 purchaseUnit
                                 purchaseMinimumQuantity
                                 inventory {
-                                    balance {
-                                        id
-                                        productId
-                                        location
-                                        warehouseId
-                                        sku
-                                        supplier
-                                        supplierCode
-                                        costPrice
-                                        dateModified
-                                        nextDeliveryDate
-                                        notes
-                                        quantity
-                                    }
                                     localQuantity
                                     nextDeliveryDate
                                     productId
@@ -1393,20 +1267,6 @@ class ProductModel extends BaseModel {
                             purchaseUnit
                             purchaseMinimumQuantity
                             inventory {
-                                balance {
-                                    id
-                                    productId
-                                    location
-                                    warehouseId
-                                    sku
-                                    supplier
-                                    supplierCode
-                                    costPrice
-                                    dateModified
-                                    nextDeliveryDate
-                                    notes
-                                    quantity
-                                }
                                 localQuantity
                                 nextDeliveryDate
                                 productId
@@ -1503,20 +1363,6 @@ class ProductModel extends BaseModel {
                                     purchaseUnit
                                     purchaseMinimumQuantity
                                     inventory {
-                                        balance {
-                                            id
-                                            productId
-                                            location
-                                            warehouseId
-                                            sku
-                                            supplier
-                                            supplierCode
-                                            costPrice
-                                            dateModified
-                                            nextDeliveryDate
-                                            notes
-                                            quantity
-                                        }
                                         localQuantity
                                         nextDeliveryDate
                                         productId
@@ -1612,20 +1458,6 @@ class ProductModel extends BaseModel {
                                         purchaseUnit
                                         purchaseMinimumQuantity
                                         inventory {
-                                            balance {
-                                                id
-                                                productId
-                                                location
-                                                warehouseId
-                                                sku
-                                                supplier
-                                                supplierCode
-                                                costPrice
-                                                dateModified
-                                                nextDeliveryDate
-                                                notes
-                                                quantity
-                                            }
                                             localQuantity
                                             nextDeliveryDate
                                             productId
@@ -1793,20 +1625,6 @@ class ProductModel extends BaseModel {
                             purchaseUnit
                             purchaseMinimumQuantity
                             inventory {
-                                balance {
-                                    id
-                                    productId
-                                    location
-                                    warehouseId
-                                    sku
-                                    supplier
-                                    supplierCode
-                                    costPrice
-                                    dateModified
-                                    nextDeliveryDate
-                                    notes
-                                    quantity
-                                }
                                 localQuantity
                                 nextDeliveryDate
                                 productId
@@ -1927,20 +1745,6 @@ class ProductModel extends BaseModel {
                                     purchaseUnit
                                     purchaseMinimumQuantity
                                     inventory {
-                                        balance {
-                                            id
-                                            productId
-                                            location
-                                            warehouseId
-                                            sku
-                                            supplier
-                                            supplierCode
-                                            costPrice
-                                            dateModified
-                                            nextDeliveryDate
-                                            notes
-                                            quantity
-                                        }
                                         localQuantity
                                         nextDeliveryDate
                                         productId
@@ -2036,20 +1840,6 @@ class ProductModel extends BaseModel {
                                         purchaseUnit
                                         purchaseMinimumQuantity
                                         inventory {
-                                            balance {
-                                                id
-                                                productId
-                                                location
-                                                warehouseId
-                                                sku
-                                                supplier
-                                                supplierCode
-                                                costPrice
-                                                dateModified
-                                                nextDeliveryDate
-                                                notes
-                                                quantity
-                                            }
                                             localQuantity
                                             nextDeliveryDate
                                             productId

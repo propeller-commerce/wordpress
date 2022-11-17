@@ -21,7 +21,7 @@
                     $count = $vals->count;
 
                     if (isset($_REQUEST[$filter->searchId])) {
-                        $filter_vals = explode(',', $_REQUEST[$filter->searchId]);
+                        $filter_vals = explode('^', $_REQUEST[$filter->searchId]);
 
                         if (in_array($vals->value . '~' . $type, $filter_vals)) {
                             $checked = 'checked';
