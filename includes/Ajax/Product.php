@@ -32,6 +32,9 @@ add_action('wp_ajax_nopriv_update_cluster_content', array($AjaxProduct, 'update_
 add_action('wp_ajax_get_recently_viewed_products', array($AjaxProduct, 'get_recently_viewed_products'));
 add_action('wp_ajax_nopriv_get_recently_viewed_products', array($AjaxProduct, 'get_recently_viewed_products'));
 
+add_action('wp_ajax_load_crossupsells', array($AjaxProduct, 'load_crossupsells'));
+add_action('wp_ajax_nopriv_load_crossupsells', array($AjaxProduct, 'load_crossupsells'));
+
 function product_query_vars($qvars) {
     $qvars[] = 'action';
     $qvars[] = 'page';

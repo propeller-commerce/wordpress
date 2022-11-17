@@ -20,29 +20,6 @@ class PropellerAdmin {
         public function dashboard() {
             global $table_prefix, $wpdb;
 
-            if (isset($_POST)) {
-                if (isset($_POST['action'])) {
-                    switch ($_POST['action']) {
-                        case 'save_settings': 
-                            $this->save_settings($_POST);
-
-                            break;
-                        case 'save_pages': 
-                            $this->save_pages($_POST);
-
-                            break;
-                        case 'save_behavior': 
-                            $this->save_behavior($_POST);
-
-                            break;
-                        case 'propeller_cache': 
-                            $this->destroy_caches();
-                            break;
-                        default: break;
-                    }
-                }                    
-            }
-
             $settings_result = $wpdb->get_row("SELECT * FROM " . $table_prefix . PROPELLER_SETTINGS_TABLE);
             $pages_result = $wpdb->get_results("SELECT * FROM " . $table_prefix . PROPELLER_PAGES_TABLE);
             $behavior_result = $wpdb->get_row("SELECT * FROM " . $table_prefix . PROPELLER_BEHAVIOR_TABLE);
@@ -75,39 +52,59 @@ class PropellerAdmin {
             $this->plugin_screen_hook_suffix = add_menu_page('Propeller', 'Propeller', 'manage_options', 'propeller', array( $this, 'dashboard' ));
         }
 
-        public function save_settings($data) {
+        public function save_settings() {
             global $table_prefix, $wpdb;
+
+            $success = true;
+            $message = '';
+
+            try {
+                $data = $_POST;
             
-            $vals_arr = array(
-                'api_url' => $data['api_url'],
-                'api_key' => $data['api_key'],
-                'anonymous_user' => $data['anonymous_user'],
-                'catalog_root' => $data['catalog_root'],
-                'site_id' => $data['site_id'],
-                'contact_root' => $data['contact_root'],
-                'customer_root' => $data['customer_root'],
-            );
+                $vals_arr = array(
+                    'api_url' => $data['api_url'],
+                    'api_key' => $data['api_key'],
+                    'anonymous_user' => $data['anonymous_user'],
+                    'catalog_root' => $data['catalog_root'],
+                    'site_id' => $data['site_id'],
+                    'contact_root' => $data['contact_root'],
+                    'customer_root' => $data['customer_root'],
+                );
+    
+                if ($data['setting_id'] == '0')
+                    $wpdb->insert($table_prefix . PROPELLER_SETTINGS_TABLE, $vals_arr);
+                else
+                    $wpdb->update($table_prefix . PROPELLER_SETTINGS_TABLE, $vals_arr,
+                        array(
+                            'id' => $data['setting_id']
+                        ));
+    
+                // Destroy any caches in case the API key is changed
+                $this->destroy_caches();
+    
+                Propeller::register_pages();
+                Propeller::register_settings();
+                Propeller::register_behavior();
+                
+                PageController::create_pages();
 
-            if ($data['setting_id'] == '0')
-                $wpdb->insert($table_prefix . PROPELLER_SETTINGS_TABLE, $vals_arr);
-            else
-                $wpdb->update($table_prefix . PROPELLER_SETTINGS_TABLE, $vals_arr,
-                    array(
-                        'id' => $data['setting_id']
-                    ));
+                $message = __('Settings saved', 'propeller-ecommerce');
+            }
+            catch (Exception $ex) { 
+                $success = false;
+                $message = $ex->getMessage();
+            }
 
-            // Destroy any caches in case the API key is changed
-            $this->destroy_caches();
-
-            Propeller::register_pages();
-            Propeller::register_settings();
-            Propeller::register_behavior();
-            
-            PageController::create_pages();
+            die(json_encode(['success' => $success, 'message' => $message]));
         }
 
-        private function save_pages($data) {
+        public function save_pages() {
             global $table_prefix, $wpdb;
+
+            $data = $_POST;
+
+            $success = true;
+            $message = '';
             
             try {
                 // delete any pages for deletion
@@ -158,45 +155,80 @@ class PropellerAdmin {
                 Propeller::register_behavior();
 
                 PageController::create_pages();
+
+                $message = __('Pages saved', 'propeller-ecommerce');
             }
-            catch (Exception $ex) { }
+            catch (Exception $ex) { 
+                $success = false;
+                $message = $ex->getMessage();
+            }
+
+            die(json_encode(['success' => $success, 'message' => $message]));
         }
 
-        private function save_behavior($data) {
+        public function save_behavior() {
             global $table_prefix, $wpdb;
 
-            $vals_arr = array(
-                'wordpress_session' => isset($data['wordpress_session']) ? 1 : 0,
-                'closed_portal' => isset($data['closed_portal']) ? 1 : 0,
-                'excluded_pages' => $data['excluded_pages'],
-                'track_user_attr' => $data['track_user_attr'],
-                'track_product_attr' => $data['track_product_attr'],
-                'reload_filters' => 0
-            );
-            
-            if ($data['setting_id'] == '0')
-                $wpdb->insert($table_prefix . PROPELLER_BEHAVIOR_TABLE, $vals_arr);
-            else 
-                $wpdb->update($table_prefix . PROPELLER_BEHAVIOR_TABLE, $vals_arr,
-                    array(
-                        'id' => $data['setting_id']
-                    ));
+            $success = true;
+            $message = '';
 
-            Propeller::register_pages();
-            Propeller::register_settings();
-            Propeller::register_behavior();
-            
-            PageController::create_pages();
+            try {
+                $data = $_POST;
+
+                $vals_arr = array(
+                    'wordpress_session' => isset($data['wordpress_session']) ? 1 : 0,
+                    'closed_portal' => isset($data['closed_portal']) ? 1 : 0,
+                    'excluded_pages' => $data['excluded_pages'],
+                    'track_user_attr' => $data['track_user_attr'],
+                    'track_product_attr' => $data['track_product_attr'],
+                    'reload_filters' => 0
+                );
+                
+                if ($data['setting_id'] == '0')
+                    $wpdb->insert($table_prefix . PROPELLER_BEHAVIOR_TABLE, $vals_arr);
+                else 
+                    $wpdb->update($table_prefix . PROPELLER_BEHAVIOR_TABLE, $vals_arr,
+                        array(
+                            'id' => $data['setting_id']
+                        ));
+    
+                Propeller::register_pages();
+                Propeller::register_settings();
+                Propeller::register_behavior();
+                
+                PageController::create_pages();
+
+                $message = __('Behavior saved', 'propeller-ecommerce');
+            }
+            catch (Exception $ex) { 
+                $success = false;
+                $message = $ex->getMessage();
+            }
+
+            die(json_encode(['success' => $success, 'message' => $message]));
         }
 
-        private function destroy_caches() {
+        public function destroy_caches() {
             global $table_prefix, $wpdb;
 
-            $delSql = " DELETE FROM " . $table_prefix . "options 
-                        WHERE option_name LIKE '_transient_propeller%' 
-                            OR option_name LIKE '_transient_timeout_propeller%' ";
+            $success = true;
+            $message = '';
 
-            $wpdb->query($delSql);
+            try {
+                $delSql = " DELETE FROM " . $table_prefix . "options 
+                            WHERE option_name LIKE '_transient_propeller%' 
+                                OR option_name LIKE '_transient_timeout_propeller%' ";
+
+                $wpdb->query($delSql);
+
+                $message = __('Caches cleared', 'propeller-ecommerce');
+            }
+            catch (Exception $ex) { 
+                $success = false;
+                $message = $ex->getMessage();
+            }
+
+            die(json_encode(['success' => $success, 'message' => $message]));
         }
 
         public function register_actions() { 
@@ -213,5 +245,17 @@ class PropellerAdmin {
 
             add_action('wp_ajax_create_translations_file', array($translator, 'create_translations_file'));
             add_action('wp_ajax_nopriv_create_translations_file', array($translator, 'create_translations_file'));
+
+            add_action('wp_ajax_save_propel_settings', array($this, 'save_settings'));
+            add_action('wp_ajax_nopriv_save_propel_settings', array($this, 'save_settings'));
+
+            add_action('wp_ajax_save_propel_pages', array($this, 'save_pages'));
+            add_action('wp_ajax_nopriv_save_propel_pages', array($this, 'save_pages'));
+
+            add_action('wp_ajax_save_propel_behavior', array($this, 'save_behavior'));
+            add_action('wp_ajax_nopriv_save_propel_behavior', array($this, 'save_behavior'));
+
+            add_action('wp_ajax_propel_destroy_caches', array($this, 'destroy_caches'));
+            add_action('wp_ajax_nopriv_propel_destroy_caches', array($this, 'destroy_caches'));
         }
     }

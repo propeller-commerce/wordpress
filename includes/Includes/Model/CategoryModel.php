@@ -78,7 +78,7 @@ class CategoryModel extends BaseModel {
                         value
                         language
                     }
-                    products {
+                    products $str_args {
                         itemsFound
                         offset
                         page

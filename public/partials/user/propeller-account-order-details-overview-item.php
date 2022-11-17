@@ -9,7 +9,11 @@
 <div class="order-product-item">
     <div class="row no-gutters align-items-start">        
         <div class="col-2 col-md-2 col-lg-1 px-4 product-image order-1">
-            <a href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $item->product->slug[0]->value); ?>">            												 
+            <?php if(is_object($item->product->cluster)) { ?> 
+                <a href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $item->product->cluster->slug[0]->value); ?>">
+            <?php } else { ?>
+                <a href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $item->product->slug[0]->value); ?>">
+            <?php } ?> 	          												 
                 <img class="img-fluid"
                 loading="lazy"
                 src="<?php echo $item->product->has_images() ? $item->product->images[0]->images[0]->url : $obj->assets_url . '/img/no-image-card.webp'; ?>" 
@@ -17,7 +21,11 @@
             </a>
         </div>
         <div class="col-10 col-md-4 col-lg-5 pr-5 product-description order-2">            
-            <a class="product-name" href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $item->product->slug[0]->value); ?>">
+            <?php if(is_object($item->product->cluster)) { ?> 
+                <a class="product-name" href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $item->product->cluster->slug[0]->value); ?>">
+            <?php } else { ?>
+                <a class="product-name" href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $item->product->slug[0]->value); ?>">
+            <?php } ?> 	 
                 <?= $item->name; ?>
             </a>
             <div class="product-sku">

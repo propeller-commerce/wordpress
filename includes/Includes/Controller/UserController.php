@@ -259,28 +259,30 @@ class UserController extends BaseController {
 
         $type = 'startSession';
 
-        $gql = $this->model->start_session(PROPELLER_SITE_ID);
-        
-        // $this->dump($gql);
-
-        $sessionData = $this->query($gql, $type);
-
-        // var_dump($sessionData);
-
         $postprocess = new stdClass();
         $this->response = new stdClass();
-
-        if (is_object($sessionData)) {
-            $this->postprocess_sesion($sessionData);
-            
-            $postprocess->dummy = 1;
+        
+        if (defined('PROPELLER_SITE_ID')) {
+            $gql = $this->model->start_session(PROPELLER_SITE_ID);
+        
+            $sessionData = $this->query($gql, $type);
+    
+            if (is_object($sessionData)) {
+                $this->postprocess_sesion($sessionData);
+                
+                $postprocess->dummy = 1;
+            }
+            else {
+                $postprocess->message = $sessionData;
+            }
+    
+            $this->response->postprocess = $postprocess;
         }
         else {
-            $postprocess->message = $sessionData;
+            $postprocess->dummy = 1;
+            $this->response->postprocess = $postprocess;
         }
-
-        $this->response->postprocess = $postprocess;
-
+        
         return $this->response;
     }
 

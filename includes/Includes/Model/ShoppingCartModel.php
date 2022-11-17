@@ -201,6 +201,50 @@ class ShoppingCartModel extends BaseModel {
         return $gql;
     }
 
+    public function voucher_code($arguments, $images_args, $crossupsells_args, $language) {
+        $str_args = $this->parse_arguments($arguments);
+        
+        $cart_data = $this->cart_data($images_args, $crossupsells_args, $language);
+
+        $gql = <<<QUERY
+                    mutation {
+                        cartAddVoucherCode($str_args) {
+                            cart {
+                                $cart_data
+                            }
+                            response {
+                                data
+                                messages
+                            }
+                        }
+                    }
+                QUERY;
+
+        return $gql;
+    }
+
+    public function remove_voucher_code($arguments, $images_args, $crossupsells_args, $language) {
+        $str_args = $this->parse_arguments($arguments);
+        
+        $cart_data = $this->cart_data($images_args, $crossupsells_args, $language);
+
+        $gql = <<<QUERY
+                    mutation {
+                        cartRemoveVoucherCode($str_args) {
+                            cart {
+                                $cart_data
+                            }
+                            response {
+                                data
+                                messages
+                            }
+                        }
+                    }
+                QUERY;
+
+        return $gql;
+    }
+
     public function update($arguments, $images_args, $crossupsells_args, $language) {
         $str_args = $this->parse_arguments($arguments);
         
@@ -265,6 +309,18 @@ class ShoppingCartModel extends BaseModel {
             extra4
             orderStatus
             actionCode
+            couponCode
+            vouchers {
+                code
+                name
+                description
+                ruleId
+                redeemed
+                combinable
+                partialRedemption
+                available
+                remaining
+            }
             dateCreated
             dateChanged
             paymentData {
@@ -405,6 +461,69 @@ class ShoppingCartModel extends BaseModel {
                     }
                 }
                 productId
+                childItems {
+                    id
+                    notes
+                    price
+                    priceNet
+                    totalPrice
+                    totalPriceNet
+                    sum
+                    sumNet
+                    totalSum
+                    totalSumNet
+                    quantity
+                    taxCode
+                    expectedDeliveryDate
+                    deliveryDeadline
+                    discount
+                    discountPercentage
+                    product {
+                        class
+                        name(language: "$language") {
+                            value
+                            language
+                        }
+                        sku
+                        slug(language: "$language") {
+                            value
+                            language
+                        }
+                        ... on Product {
+                            id
+                            productId  
+                            status
+                            isOrderable
+                            originalPrice
+                            suggestedPrice
+                            minimumQuantity
+                            unit
+                            purchaseUnit
+                            purchaseMinimumQuantity
+                            price(taxZone: "$tax_zone") {
+                                net
+                                gross
+                                quantity
+                                discount {
+                                    value
+                                    formula
+                                    quantity
+                                    validFrom
+                                    validTo
+                                }
+                                taxCode
+                                type
+                            }
+                            bulkPrices {
+                                net
+                                gross
+                                from
+                                to
+                            }
+                            $media_images_gql
+                        }
+                    }
+                }
                 product {
                     class
                     name(language: "$language") {
@@ -572,6 +691,14 @@ class ShoppingCartModel extends BaseModel {
                             gross
                             from
                             to
+                        }
+                    }
+                    cluster {
+                        id
+                        clusterId
+                        slug(language: "$language") {
+                            value
+                            language
                         }
                     }
                 }

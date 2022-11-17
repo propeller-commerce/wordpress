@@ -54,6 +54,9 @@ class ProductModel extends BaseModel {
                           value
                       }
                     }
+                    crossupsells(input: { types: [ACCESSORIES] }) {
+                        type
+                    }
                     ... on Product {
                         id
                         productId
@@ -140,93 +143,6 @@ class ProductModel extends BaseModel {
                         }
                         $track_attributes
                         $media_images_gql
-                        crossupsells(input: { types: [ACCESSORIES] }) {
-                            type
-                            subtype
-                            product {
-                                class
-                                name(language: "$language") {
-                                    value
-                                    language
-                                }
-                                description(language: "$language") {
-                                    value
-                                    language
-                                }
-                                shortDescription(language: "$language") {
-                                    value
-                                    language
-                                }
-                                sku
-                                slug(language: "$language") {
-                                    value
-                                    language
-                                }
-                                ... on Product {
-                                    id
-                                    productId
-                                    shortName
-                                    manufacturerCode
-                                    eanCode
-                                    manufacturer
-                                    supplier
-                                    supplierCode
-                                    taxCode
-                                    status
-                                    isOrderable
-                                    hasBundle
-                                    isBundleLeader
-                                    originalPrice
-                                    suggestedPrice
-                                    minimumQuantity
-                                    unit
-                                    purchaseUnit
-                                    purchaseMinimumQuantity
-                                    inventory {
-                                        balance {
-                                            id
-                                            productId
-                                            location
-                                            warehouseId
-                                            sku
-                                            supplier
-                                            supplierCode
-                                            costPrice
-                                            dateModified
-                                            nextDeliveryDate
-                                            notes
-                                            quantity
-                                        }
-                                        localQuantity
-                                        nextDeliveryDate
-                                        productId
-                                        supplierQuantity
-                                        totalQuantity
-                                    }
-                                    price(taxZone: "$tax_zone") {
-                                        net
-                                        gross
-                                        quantity
-                                        discount {
-                                            value
-                                            formula
-                                            quantity
-                                            validFrom
-                                            validTo
-                                        }
-                                        taxCode
-                                        type
-                                    }
-                                    bulkPrices {
-                                        net
-                                        gross
-                                        from
-                                        to
-                                    }
-                                    $media_images_gql
-                                }
-                            }
-                        }
                         bundles {
                             comboId
                             name
@@ -425,6 +341,9 @@ class ProductModel extends BaseModel {
                         value
                         language
                     }
+                    crossupsells(input: { types: [ACCESSORIES] }) {
+                        type
+                    }
                     categoryPath {
                         name(language: "$language") {
                             language
@@ -567,93 +486,6 @@ class ProductModel extends BaseModel {
                                     }
                                 }
                                 $media_images_gql
-                                crossupsells(input: { types: [ACCESSORIES] }) {
-                                    type
-                                    subtype
-                                    product {
-                                        class
-                                        name(language: "$language") {
-                                            value
-                                            language
-                                        }
-                                        description(language: "$language") {
-                                            value
-                                            language
-                                        }
-                                        shortDescription(language: "$language") {
-                                            value
-                                            language
-                                        }
-                                        sku
-                                        slug(language: "$language") {
-                                            value
-                                            language
-                                        }
-                                        ... on Product {
-                                            id
-                                            productId
-                                            shortName
-                                            manufacturerCode
-                                            eanCode
-                                            manufacturer
-                                            supplier
-                                            supplierCode
-                                            taxCode
-                                            status
-                                            isOrderable
-                                            hasBundle
-                                            isBundleLeader
-                                            originalPrice
-                                            suggestedPrice
-                                            minimumQuantity
-                                            unit
-                                            purchaseUnit
-                                            purchaseMinimumQuantity
-                                            inventory {
-                                                balance {
-                                                    id
-                                                    productId
-                                                    location
-                                                    warehouseId
-                                                    sku
-                                                    supplier
-                                                    supplierCode
-                                                    costPrice
-                                                    dateModified
-                                                    nextDeliveryDate
-                                                    notes
-                                                    quantity
-                                                }
-                                                localQuantity
-                                                nextDeliveryDate
-                                                productId
-                                                supplierQuantity
-                                                totalQuantity
-                                            }
-                                            price(taxZone: "$tax_zone") {
-                                                net
-                                                gross
-                                                quantity
-                                                discount {
-                                                    value
-                                                    formula
-                                                    quantity
-                                                    validFrom
-                                                    validTo
-                                                }
-                                                taxCode
-                                                type
-                                            }
-                                            bulkPrices {
-                                                net
-                                                gross
-                                                from
-                                                to
-                                            }
-                                            $media_images_gql
-                                        }
-                                    }
-                                }
                                 bundles {
                                     comboId
                                     name
@@ -1109,6 +941,392 @@ class ProductModel extends BaseModel {
                             }
                             priority
                             displayType
+                        }
+                    }
+                }
+            }
+        QUERY;
+
+        return $gql;
+    }
+
+    public function cluster_crossupsells($arguments, $attributes_args, $images_args, $language) {
+        $str_args = $this->parse_arguments($arguments);
+        $attr_str_args = $this->parse_arguments($attributes_args);
+
+        $media_images_gql = $this->extract_query($images_args);
+
+        $tax_zone = PROPELLER_DEFAULT_TAXZONE;
+
+        $track_attributes = $this->product_track_attributes();
+
+        $gql = <<<QUERY
+            query {
+                cluster($str_args) {
+                    crossupsells(input: { types: [ACCESSORIES] }) {
+                        type
+                        subtype
+                        productId
+                        clusterId
+                        item {
+                            class
+                            name(language: "$language") {
+                                value
+                                language
+                            }
+                            description(language: "$language") {
+                                value
+                                language
+                            }
+                            shortDescription(language: "$language") {
+                                value
+                                language
+                            }
+                            sku
+                            slug(language: "$language") {
+                                value
+                                language
+                            }
+                            ... on Product {
+                                id
+                                productId
+                                shortName
+                                manufacturerCode
+                                eanCode
+                                manufacturer
+                                supplier
+                                supplierCode
+                                taxCode
+                                status
+                                isOrderable
+                                hasBundle
+                                isBundleLeader
+                                originalPrice
+                                suggestedPrice
+                                minimumQuantity
+                                unit
+                                purchaseUnit
+                                purchaseMinimumQuantity
+                                inventory {
+                                    balance {
+                                        id
+                                        productId
+                                        location
+                                        warehouseId
+                                        sku
+                                        supplier
+                                        supplierCode
+                                        costPrice
+                                        dateModified
+                                        nextDeliveryDate
+                                        notes
+                                        quantity
+                                    }
+                                    localQuantity
+                                    nextDeliveryDate
+                                    productId
+                                    supplierQuantity
+                                    totalQuantity
+                                }
+                                price(taxZone: "$tax_zone") {
+                                    net
+                                    gross
+                                    quantity
+                                    discount {
+                                        value
+                                        formula
+                                        quantity
+                                        validFrom
+                                        validTo
+                                    }
+                                    taxCode
+                                    type
+                                }
+                                bulkPrices {
+                                    net
+                                    gross
+                                    from
+                                    to
+                                }
+                                $media_images_gql
+                            }
+                            ... on Cluster {
+                                id
+                                class
+                                clusterId
+                                defaultProduct {
+                                    productId
+                                }
+                                products {
+                                    class
+                                    name(language: "$language") {
+                                        value
+                                        language
+                                    }
+                                    description(language: "$language") {
+                                        value
+                                        language
+                                    }
+                                    shortDescription(language: "$language") {
+                                        value
+                                        language
+                                    }
+                                    sku
+                                    slug(language: "$language") {
+                                        value
+                                        language
+                                    }
+                                    ... on Product {
+                                        id
+                                        productId
+                                        shortName
+                                        manufacturerCode
+                                        eanCode
+                                        manufacturer
+                                        supplier
+                                        supplierCode
+                                        taxCode
+                                        status
+                                        isOrderable
+                                        hasBundle
+                                        isBundleLeader
+                                        originalPrice
+                                        suggestedPrice
+                                        minimumQuantity
+                                        unit
+                                        purchaseUnit
+                                        purchaseMinimumQuantity
+                                        price(taxZone: "$language") {
+                                            net
+                                            gross
+                                            quantity
+                                            discount {
+                                                value
+                                                formula
+                                                quantity
+                                                validFrom
+                                                validTo
+                                            }
+                                            taxCode
+                                            type
+                                        }
+                                        category {
+                                            id
+                                            categoryId
+                                            name(language: "$language") {
+                                                value
+                                                language
+                                            }
+                                            description(language: "$language") {
+                                                value
+                                                language
+                                            }
+                                            shortDescription(language: "$language") {
+                                                value
+                                                language
+                                            }
+                                            slug(language: "$language") {
+                                                value
+                                                language
+                                            }
+                                        }
+                                        $media_images_gql                                   
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            QUERY;
+
+            return $gql;
+    }
+
+    public function product_crossupsells($arguments, $attributes_args, $images_args, $language) {
+        $str_args = $this->parse_arguments($arguments);
+        $attr_str_args = $this->parse_arguments($attributes_args);
+
+        $media_images_gql = $this->extract_query($images_args);
+
+        $tax_zone = PROPELLER_DEFAULT_TAXZONE;
+
+        $track_attributes = $this->product_track_attributes();
+
+        $gql = <<<QUERY
+            query {
+                product($str_args) {
+                    crossupsells(input: { types: [ACCESSORIES] }) {
+                        type
+                        subtype
+                        productId
+                        clusterId
+                        item {
+                            class
+                            name(language: "$language") {
+                                value
+                                language
+                            }
+                            description(language: "$language") {
+                                value
+                                language
+                            }
+                            shortDescription(language: "$language") {
+                                value
+                                language
+                            }
+                            sku
+                            slug(language: "$language") {
+                                value
+                                language
+                            }
+                            ... on Product {
+                                id
+                                productId
+                                shortName
+                                manufacturerCode
+                                eanCode
+                                manufacturer
+                                supplier
+                                supplierCode
+                                taxCode
+                                status
+                                isOrderable
+                                hasBundle
+                                isBundleLeader
+                                originalPrice
+                                suggestedPrice
+                                minimumQuantity
+                                unit
+                                purchaseUnit
+                                purchaseMinimumQuantity
+                                inventory {
+                                    balance {
+                                        id
+                                        productId
+                                        location
+                                        warehouseId
+                                        sku
+                                        supplier
+                                        supplierCode
+                                        costPrice
+                                        dateModified
+                                        nextDeliveryDate
+                                        notes
+                                        quantity
+                                    }
+                                    localQuantity
+                                    nextDeliveryDate
+                                    productId
+                                    supplierQuantity
+                                    totalQuantity
+                                }
+                                price(taxZone: "$tax_zone") {
+                                    net
+                                    gross
+                                    quantity
+                                    discount {
+                                        value
+                                        formula
+                                        quantity
+                                        validFrom
+                                        validTo
+                                    }
+                                    taxCode
+                                    type
+                                }
+                                bulkPrices {
+                                    net
+                                    gross
+                                    from
+                                    to
+                                }
+                                $media_images_gql
+                            }
+                            ... on Cluster {
+                                id
+                                class
+                                clusterId
+                                defaultProduct {
+                                    productId
+                                }
+                                products {
+                                    class
+                                    name(language: "$language") {
+                                        value
+                                        language
+                                    }
+                                    description(language: "$language") {
+                                        value
+                                        language
+                                    }
+                                    shortDescription(language: "$language") {
+                                        value
+                                        language
+                                    }
+                                    sku
+                                    slug(language: "$language") {
+                                        value
+                                        language
+                                    }
+                                    ... on Product {
+                                        id
+                                        productId
+                                        shortName
+                                        manufacturerCode
+                                        eanCode
+                                        manufacturer
+                                        supplier
+                                        supplierCode
+                                        taxCode
+                                        status
+                                        isOrderable
+                                        hasBundle
+                                        isBundleLeader
+                                        originalPrice
+                                        suggestedPrice
+                                        minimumQuantity
+                                        unit
+                                        purchaseUnit
+                                        purchaseMinimumQuantity
+                                        price(taxZone: "$language") {
+                                            net
+                                            gross
+                                            quantity
+                                            discount {
+                                                value
+                                                formula
+                                                quantity
+                                                validFrom
+                                                validTo
+                                            }
+                                            taxCode
+                                            type
+                                        }
+                                        category {
+                                            id
+                                            categoryId
+                                            name(language: "$language") {
+                                                value
+                                                language
+                                            }
+                                            description(language: "$language") {
+                                                value
+                                                language
+                                            }
+                                            shortDescription(language: "$language") {
+                                                value
+                                                language
+                                            }
+                                            slug(language: "$language") {
+                                                value
+                                                language
+                                            }
+                                        }
+                                        $media_images_gql                                   
+                                    }
+                                }
+                            }
                         }
                     }
                 }

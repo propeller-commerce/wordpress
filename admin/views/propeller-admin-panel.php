@@ -45,7 +45,7 @@
 <div class="row p-0 m-0">
     <div class="col pt-4">
     <form method="POST" class="propel-admin-form p-3 border rounded-lg" action="#" id="propeller_cache_form">
-        <input type="hidden" name="action" value="propeller_cache">
+        <input type="hidden" name="action" value="propel_destroy_caches">
         <button type="submit" id="submit-key" class="integration-form-btn btn btn-success"><?= __('Clear caches', 'propeller-ecommerce'); ?></button>
     </form>
         

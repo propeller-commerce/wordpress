@@ -114,8 +114,9 @@ class PropellerApi {
     public function dump($gql, $execution_time = 0) {
         // if (gettype($gql) != 'string')
         //     echo 'BUILDER: ' . $gql->__toString();
-
+        echo '<pre>';
         echo gettype($gql) == 'string' ? 'RAW: ' . $gql : 'BUILDER: ' . $gql->__toString();
+        echo '</pre>';
     }
 
     protected function process_errors($err_array)

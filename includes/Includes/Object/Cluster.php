@@ -12,10 +12,10 @@ class Cluster extends BaseObject {
     public $selected_options = [];
     public $drilldowns = [];
 
-    public function __construct($cluster) {
+    public function __construct($cluster, $initialize = true) {
         parent::__construct($cluster);
 
-        if ($this->options && count($this->options)) {
+        if (isset($this->options) && $this->options && count($this->options)) {
             $option_arr = [];
 
             foreach ($this->options as $option) {
@@ -37,7 +37,7 @@ class Cluster extends BaseObject {
             $this->options = $option_arr;
         }
 
-        if ($this->products && count($this->products)) {
+        if (isset($this->products) && $this->products && count($this->products)) {
             $product_arr = [];
 
             foreach ($this->products as $product) {
@@ -55,21 +55,26 @@ class Cluster extends BaseObject {
         if (!$this->defaultProduct)
             $this->defaultProduct = $this->products[0];
 
-        if (!$this->options && !$this->drillDown)
-            $this->cluster_type = 'normal';
-        else if (!$this->options && $this->drillDown)
-            $this->cluster_type = 'linear';
-        else if ($this->options && $this->drillDown)
-            $this->cluster_type = 'configurable';
+        if ($initialize) {
+            if (!$this->options && !$this->drillDown)
+                $this->cluster_type = 'normal';
+            else if (!$this->options && $this->drillDown)
+                $this->cluster_type = 'linear';
+            else if ($this->options && $this->drillDown)
+                $this->cluster_type = 'configurable';
 
-        if ($this->cluster_type != 'normal')
-            $this->init_cluster();
+            if ($this->cluster_type != 'normal')
+                $this->init_cluster();
+        }
     }
 
     public function init_cluster() {
         $this->collect_options_values();
         $this->get_formatted_options();
         $this->get_selected_options();
+        
+        $this->reformat_options();
+
         $this->get_configured_product();
     }
 
@@ -85,8 +90,12 @@ class Cluster extends BaseObject {
         return $this->options && count($this->_options) > 0;
     }
 
+    public function has_crossupsells() {
+        return isset($this->crossupsells) && is_array($this->crossupsells) && count($this->crossupsells) > 0;
+    }
+
     public function collect_options_values() {
-        if ($this->drillDown) {
+        if (isset($this->drillDown) && $this->drillDown) {
             usort($this->drillDown, function($obj1, $obj2) {
                 return $obj1->priority > $obj2->priority;
             });
@@ -149,8 +158,10 @@ class Cluster extends BaseObject {
                 $sel_option->value = $_REQUEST[$this->drilldowns[$i]];
             }
             else {
-                $sel_option->name = $this->formatted_options[$this->drilldowns[$i]]->name;
-                $sel_option->value = $this->formatted_options[$this->drilldowns[$i]]->values[0];
+                if (isset($this->formatted_options[$this->drilldowns[$i]])) {
+                    $sel_option->name = $this->formatted_options[$this->drilldowns[$i]]->name;
+                    $sel_option->value = $this->formatted_options[$this->drilldowns[$i]]->values[0];
+                }
             }
     
             $this->selected_options[] = $sel_option;
@@ -165,28 +176,78 @@ class Cluster extends BaseObject {
         foreach ($this->get_products() as $product) {
             $fount_attrs = [];
             
-            foreach ($this->selected_options as $option) {
-                $attr_name = $option->name;
-                $attr_value = $option->value;
-    
-                $attr_found = array_filter($product->attributes, function($obj) use ($attr_name, $attr_value) { 
-                    return $obj->name == $attr_name && $obj->get_value() == $attr_value; 
-                });
-    
-                if (count($attr_found))
-                    $found_attrs[] = current($attr_found); 
+            if (count($this->selected_options) && isset($this->selected_options[0]->name)) {
+                foreach ($this->selected_options as $option) {
+                    $attr_name = $option->name;
+                    $attr_value = $option->value;
+        
+                    $attr_found = array_filter($product->attributes, function($obj) use ($attr_name, $attr_value) { 
+                        return $obj->name == $attr_name && $obj->get_value() == $attr_value; 
+                    });
+        
+                    if (count($attr_found))
+                        $found_attrs[] = current($attr_found); 
+                }
+                
+                if (isset($found_attrs) && count($found_attrs) == count($this->selected_options)) {
+                    $found_product = $product;
+                    break;
+                }
+        
+                unset($found_attrs);
             }
-            
-            if (isset($found_attrs) && count($found_attrs) == count($this->selected_options)) {
-                $found_product = $product;
-                break;
-            }
-    
-            unset($found_attrs);
         }
 
         $this->defaultProduct = $found_product;
 
         return $found_product;
+    }
+
+    public function reformat_options() {
+        if (count($this->selected_options) && isset($this->selected_options[0]->name)) {
+            $first_option = $this->selected_options[0];
+
+            if (isset($_REQUEST['clicked_attr'])) {
+                $first_option = new stdClass();
+    
+                $first_option->name = $_REQUEST['clicked_attr'];
+                $first_option->value = $_REQUEST['clicked_val'];
+            }
+                
+            $new_options = [];
+            
+            for ($i = 0; $i < count($this->drillDown); $i++) {
+                if ($this->drillDown[$i]->attributeId == $first_option->name)
+                    continue;
+    
+                $attr_name = $this->drillDown[$i]->attributeId;
+                $this->drilldowns[] = $attr_name;
+    
+                foreach ($this->get_products() as $product) {
+                    $first_attr_found = array_filter($product->attributes, function($obj) use ($first_option) { 
+                        return $obj->name == $first_option->name && $obj->get_value() == $first_option->value; 
+                    });
+    
+                    if (count($first_attr_found)) {
+                        $attr_found = array_filter($product->attributes, function($obj) use ($attr_name) { 
+                            return $obj->name == $attr_name; 
+                        });
+                
+                        if (count($attr_found)) {
+                            $attr = current($attr_found);
+            
+                            $new_options[$attr_name][] = $attr->get_value(); 
+                        }
+                    }
+                }
+            }
+    
+            foreach ($new_options as $key => $vals) {
+                for ($i = 0; $i < count($this->formatted_options[$key]->values); $i++) {
+                    if (!in_array($this->formatted_options[$key]->values[$i], $vals))
+                        unset($this->formatted_options[$key]->values[$i]);
+                }
+            }
+        }
     }
 }

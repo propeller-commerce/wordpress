@@ -4,6 +4,7 @@ namespace Propeller\Includes\Controller;
 
 use Propeller\Includes\Enum\AddressType;
 use Propeller\Includes\Enum\PageType;
+use Propeller\Propeller;
 use stdClass;
 
 class ShoppingCartAjaxController {
@@ -38,6 +39,9 @@ class ShoppingCartAjaxController {
     }
 
     public function cart_update_item() {
+        $prop = new Propeller();
+        $prop->reinit_filters();
+
         $response = $this->shoppingCart->update_item(
             $_POST['quantity'],
             (isset($_POST['notes']) ? $_POST['notes'] : ''),
@@ -48,6 +52,9 @@ class ShoppingCartAjaxController {
     }
 
     public function cart_delete_item() {
+        $prop = new Propeller();
+        $prop->reinit_filters();
+
         $response = $this->shoppingCart->delete_item(
             $_POST['item_id']
         );
@@ -56,22 +63,35 @@ class ShoppingCartAjaxController {
     }
 
     public function cart_add_action_code() {
-        $response = $this->shoppingCart->action_code(
-            $_POST['actionCode']
-        );
+        $prop = new Propeller();
+        $prop->reinit_filters();
+
+        preg_match('/[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}/', $_POST['actionCode'], $result);
+
+        $response = sizeof($result) > 0 
+            ? $this->shoppingCart->voucher_code($_POST['actionCode'])
+            : $this->shoppingCart->action_code($_POST['actionCode']);
 
         die(json_encode($response));
     }
 
     public function cart_remove_action_code() {
-        $response = $this->shoppingCart->remove_action_code(
-            $_POST['actionCode']
-        );
+        $prop = new Propeller();
+        $prop->reinit_filters();
+
+        preg_match('/[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}/', $_POST['actionCode'], $result);
+
+        $response = sizeof($result) > 0 
+            ? $this->shoppingCart->remove_voucher_code($_POST['actionCode'])
+            : $this->shoppingCart->remove_action_code($_POST['actionCode']);
 
         die(json_encode($response));
     }
 
     public function cart_update() {
+        $prop = new Propeller();
+        $prop->reinit_filters();
+
         $response = $this->shoppingCart->update(
             $this->shoppingCart->get_payment_data(), 
             $this->shoppingCart->get_postage_data(), 

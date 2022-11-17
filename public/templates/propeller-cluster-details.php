@@ -76,7 +76,9 @@
 
         <?= apply_filters('propel_cluster_bundles', $cluster_product, $this); ?>
 
-        <?= apply_filters('propel_cluster_crossupsells', $cluster_product, $this); ?>
+        <?php if ($this->product->has_crossupsells()) { ?>
+            <?= apply_filters('propel_cluster_crossupsells_ajax', $this); ?>
+        <?php } ?>
         
         <div id="fixed-wrapper" class="d-md-none fixed-wrapper <?php if (sizeof($cluster_product->bulkPrices) > 1) { ?>has-bulk-prices<?php } ?>">
             <?= apply_filters('propel_product_bulk_prices', $cluster_product); ?>

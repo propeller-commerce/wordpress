@@ -1,6 +1,6 @@
 <form method="POST" class="propel-admin-form p-3 border rounded-lg" action="#" id="propel_behavior_form">
     <input type="hidden" id="setting_id" name="setting_id" value="<?php echo isset($behavior_result->id) ? $behavior_result->id : 0; ?>">
-    <input type="hidden" name="action" value="save_behavior">
+    <input type="hidden" name="action" value="save_propel_behavior">
     
     <div class="form-row">
         <div class="form-group col-md-6">

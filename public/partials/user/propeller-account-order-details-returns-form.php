@@ -123,7 +123,7 @@ use Propeller\PropellerHelper;
                                             <option value="1"><?php echo __('Select','propeller-ecommerce'); ?></option>
                                             <option value="2"><?php echo __('Wrongly delivered','propeller-ecommerce'); ?></option>
                                             <option value="3"><?php echo __('Defective','propeller-ecommerce'); ?></option>
-                                            <option value="4"><?php echo __('The arctile does not comply','propeller-ecommerce'); ?></option>
+                                            <option value="4"><?php echo __('The article does not comply','propeller-ecommerce'); ?></option>
                                             <option value="5"><?php echo __('Other','propeller-ecommerce'); ?></option>
                                         </select>
 

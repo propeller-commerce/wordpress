@@ -1,13 +1,13 @@
 <?php
-    $expanded = 'true';
+    $expanded = true;
 ?>
 <div class="filter">
-    <button class="btn-filter" type="button" href="#filterForm_<?= $filter->id; ?>" data-toggle="collapse" aria-expanded="<?= $expanded; ?>" aria-controls="filterForm_<?= $filter->id; ?>">
+    <button class="btn-filter" type="button" href="#filterForm_<?= $filter->id; ?>" data-toggle="collapse" aria-expanded="<?php echo $expanded ? 'true': 'false'; ?>" aria-controls="filterForm_<?= $filter->id; ?>">
         <span><?= $filter->description; ?></span>
     </button>  
         
-    <div class="text-filter collapse show" id="filterForm_<?= $filter->id; ?>">
-        <form method="get" action="" class="filterForm collapse show" id="filterForm_<?= $filter->id; ?>">
+    <div class="text-filter collapse <?php echo $expanded ? 'show': ''; ?>" id="filterForm_<?= $filter->id; ?>">
+        <form method="get" action="" class="filterForm collapse <?php echo $expanded ? 'show': ''; ?>" id="filterForm_<?= $filter->id; ?>">
             <input type="hidden" name="prop_value" value="<?= $this->slug; ?>" />
             <input type="hidden" name="prop_name" value="<?= $this->prop; ?>" />
             <input type="hidden" name="action" value="<?= $this->action; ?>" />

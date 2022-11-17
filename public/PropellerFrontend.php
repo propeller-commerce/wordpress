@@ -79,6 +79,7 @@ class PropellerFrontend {
         wp_enqueue_script('overlay', $this->assets_url . '/js/lib/plain-overlay.min.js', array(), $this->version, true);
         wp_enqueue_script('nouislider', $this->assets_url . '/js/lib/nouislider.min.js', array(), $this->version, true);
         wp_enqueue_script('slick', $this->assets_url . '/js/lib/slick.min.js', array(), $this->version, true);
+        wp_enqueue_script('photoswipe', $this->assets_url . '/js/lib/photoswipe.min.js', array(), $this->version, true);
         
         $helper_js_path = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'propel-helper.js';
 
@@ -149,6 +150,98 @@ class PropellerFrontend {
         require $bc->load_template('partials', DIRECTORY_SEPARATOR . 'other' . DIRECTORY_SEPARATOR . 'propeller-toast.php');
     }
 
+    public function handle_404() {
+        global $wp_query, $propel;
+
+        $bc = new BaseController();
+
+        // echo '<pre>';
+        // var_dump($wp_query);
+        // var_dump(get_query_template( '404' ));
+        // var_dump(get_query_template( '403' ));
+        // var_dump($bc->load_template('error', DIRECTORY_SEPARATOR . '403.php'));
+        // echo '</pre>';
+
+        // require $bc->load_template('partials', DIRECTORY_SEPARATOR . 'cart' . DIRECTORY_SEPARATOR . 'propeller-shopping-cart-popup.php');
+
+        if (isset($propel['error_404'])) {
+            status_header(404);
+            nocache_headers();
+            include('' !== get_query_template( '404' ) ? get_query_template('404') : $bc->load_template('error', DIRECTORY_SEPARATOR . '404.php'));
+            die();
+        }
+
+        // if (isset($propel['error_403'])) {
+        //     // $wp_query->set_404();
+        //     status_header(403);
+        //     nocache_headers();
+        //     include('' !== get_query_template( '403' ) ? get_query_template('403') : $bc->load_template('error', DIRECTORY_SEPARATOR . '403.php'));
+        //     die();
+        // }
+    }
+
+    function propel_error_pages() {
+        global $wp_query, $propel;
+
+        $bc = new BaseController();
+    
+        if (isset($propel['error_403'])) {
+            $wp_query->is_404 = FALSE;
+            $wp_query->is_page = TRUE;
+            $wp_query->is_singular = TRUE;
+            $wp_query->is_single = FALSE;
+            $wp_query->is_home = FALSE;
+            $wp_query->is_archive = FALSE;
+            $wp_query->is_category = FALSE;
+            add_filter('wp_title', [$this, 'propel_error_title'], 65000, 2);
+            add_filter('body_class', [$this, 'propel_error_class']);
+            status_header(403);
+            nocache_headers();
+
+            include('' !== get_query_template( '403' ) ? get_query_template('403') : $bc->load_template('error', DIRECTORY_SEPARATOR . '403.php'));
+
+            exit;
+        }
+    
+        if (isset($propel['error_401'])) {
+            $wp_query->is_404 = FALSE;
+            $wp_query->is_page = TRUE;
+            $wp_query->is_singular = TRUE;
+            $wp_query->is_single = FALSE;
+            $wp_query->is_home = FALSE;
+            $wp_query->is_archive = FALSE;
+            $wp_query->is_category = FALSE;
+            add_filter('wp_title', [$this, 'propel_error_title'], 65000, 2);
+            add_filter('body_class', [$this, 'propel_error_class']);
+            status_header(401);
+            nocache_headers();
+
+            include('' !== get_query_template( '401' ) ? get_query_template('401') : $bc->load_template('error', DIRECTORY_SEPARATOR . '401.php'));
+
+            exit;
+        }
+    }
+    
+    function propel_error_title($title='', $sep='') {
+        if (isset($propel['error_403']))
+            return "Forbidden " . $sep . " " . get_bloginfo('name');
+    
+        if (isset($propel['error_401']))
+            return "Unauthorized " . $sep . " " . get_bloginfo('name');
+    }
+    
+    function propel_error_class($classes) {
+        if (isset($propel['error_403'])) {
+            $classes[]="propel-error403";
+            return $classes;
+        }
+    
+        if (isset($propel['error_401'])) {
+            $classes[]="propel-error401";
+            return $classes;
+        }
+    }
+    
     public function get_slugs() {
         $page_slugs = [];
 

@@ -20,8 +20,7 @@ class ProductController extends BaseController {
     static $product_slug;
     public $product;
     public $attributes = [];
-    protected $pagename;
-
+    
     public $offset_arr = [12, 24, 48];
     public $sort_arr = [];
     
@@ -201,8 +200,20 @@ class ProductController extends BaseController {
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-cluster-bundles.php');
     }
 
-    public function cluster_crossupsells($cluster_product, $obj) {
+    public function cluster_crossupsells($cluster, $obj) {
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-cluster-crossupsells.php');
+    }
+
+    public function cluster_crossupsell_card($crossupsell, $obj) {
+        require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-cluster-card-crossupsell.php');
+    }
+
+    public function cluster_crossupsells_ajax($obj) {
+        require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-cluster-crossupsells-ajax.php');
+    }
+
+    public function cluster_crossupsells_ajax_items($cluster, $obj) {
+        require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-cluster-crossupsells-ajax-items.php');
     }
 
     public function cluster_options($cluster, $cluster_product, $obj) {
@@ -237,35 +248,11 @@ class ProductController extends BaseController {
                 'attribute' => '{ isPublic: true }'
             ]);
 
-        if (!is_object($data)) {
-            error_log(print_r($data, true));
-            wp_redirect(home_url('/404/'));
-            die;
-        }
-
         if ($data->class == 'product')
             $this->product = new Product($data);
+            
         if ($data->class == 'cluster')
             $this->product = new Cluster($data);
-
-        if ($this->product->class == 'product' && $this->product->status == 'N') {
-            wp_redirect(home_url('/404/'));
-            exit();
-        }
-
-        if (isset($this->product->crossupsells)) {
-            $crossupsells = [];
-
-            foreach($this->product->crossupsells as $crossupsell) {
-                $crossupsell->product = $crossupsell->product->class == 'product' 
-                                            ? new Product($crossupsell->product) 
-                                            : new Cluster($crossupsell->product);
-    
-                $crossupsells[] = $crossupsell;
-            }
-
-            $this->product->crossupsells = $crossupsells;
-        }
         
         $this->attributes = [];
 
@@ -274,7 +261,7 @@ class ProductController extends BaseController {
             $this->attributes = $attrs->get_non_empty_attrs();
         }   
 
-        $this->title = $this->product->name[0]->value;
+        $this->slug = get_query_var('slug');
 
         ob_start();
         
@@ -299,7 +286,55 @@ class ProductController extends BaseController {
         $content = ob_get_contents();
         ob_end_clean();
 
+        $this->slug = $slug;
+
         return $content;
+    }
+
+    public function load_crossupsells($slug, $class) {
+        $data = $class == 'product' 
+            ? $this->load_product_crossupsells($slug)
+            : $this->load_cluster_crossupsells($slug);
+
+        ob_start();
+
+        apply_filters('propel_' . $class . '_crossupsells_ajax_items', $data, $this);
+        
+        $content = ob_get_clean();
+        
+        ob_end_clean();
+        
+        return $content;
+    }
+
+    private function load_product_crossupsells($slug) {
+        $type = 'product';
+
+        $gql = $this->model->product_crossupsells(
+            ['slug' => $slug, 'language' => PROPELLER_LANG],
+            ['filter' => new RawObject('{ isPublic: true }')],
+            MediaImages::get_media_images_query([
+                'name' => MediaImagesType::LARGE
+            ])->__toString(),
+            PROPELLER_LANG
+        );
+
+        return $this->query($gql, $type);
+    }
+
+    private function load_cluster_crossupsells($slug) {
+        $type = 'cluster';
+
+        $gql = $this->model->cluster_crossupsells(
+            ['slug' => $slug, 'language' => PROPELLER_LANG],
+            ['filter' => new RawObject('{ isPublic: true }')],
+            MediaImages::get_media_images_query([
+                'name' => MediaImagesType::LARGE
+            ])->__toString(),
+            PROPELLER_LANG
+        );
+
+        return $this->query($gql, $type);
     }
     
     public function search_products() {
@@ -677,20 +712,25 @@ class ProductController extends BaseController {
     }
 
     public function get_cluster($slug, $clusterId = null, $args = []) {
-        $type = 'cluster';
+        if (SessionController::has(PROPELLER_VIEWING_CLUSTER)) {
+            return SessionController::get(PROPELLER_VIEWING_CLUSTER);
+        }
+        else {
+            $type = 'cluster';
 
-        $gql = $this->model->get_cluster(
-            $clusterId 
-                ? ['clusterId' => (int) $clusterId] 
-                : ['slug' => $slug, 'language' => PROPELLER_LANG],
-            ['filter' => new RawObject('{ isPublic: true }')],
-            MediaImages::get_media_images_query([
-                'name' => MediaImagesType::LARGE
-            ])->__toString(),
-            PROPELLER_LANG
-        );
-
-        return $this->query($gql, $type);
+            $gql = $this->model->get_cluster(
+                $clusterId 
+                    ? ['clusterId' => (int) $clusterId] 
+                    : ['slug' => $slug, 'language' => PROPELLER_LANG],
+                ['filter' => new RawObject('{ isPublic: true }')],
+                MediaImages::get_media_images_query([
+                    'name' => MediaImagesType::LARGE
+                ])->__toString(),
+                PROPELLER_LANG
+            );
+    
+            return $this->query($gql, $type);
+        }
     }
 
     public function get_products($qry_params, $is_ajax = false) {
