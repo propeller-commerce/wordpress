@@ -3,15 +3,10 @@
 namespace Propeller\Includes\Controller;
 
 use DateInterval;
-use GraphQL\Mutation;
-use GraphQL\Query;
 use GraphQL\RawObject;
-use Propeller\Includes\Mutation\Session;
-use Propeller\Includes\Query\User;
 use stdClass;
 use DateTime;
 use Exception;
-use GraphQL\InlineFragment;
 use Propeller\Includes\Enum\AddressType;
 use Propeller\Includes\Enum\EmailEventTypes;
 use Propeller\Includes\Enum\OrderStatus;
@@ -20,10 +15,6 @@ use Propeller\Includes\Enum\PageType;
 use Propeller\Includes\Enum\UserTypes;
 use Propeller\Includes\Model\UserModel;
 use Propeller\Includes\Object\Attribute as ObjectAttribute;
-use Propeller\Includes\Query\Attribute;
-use Propeller\Includes\Query\Contact;
-use Propeller\Includes\Query\Customer;
-use Propeller\Includes\Query\IBaseUser;
 
 
 class UserController extends BaseController {
@@ -497,18 +488,18 @@ class UserController extends BaseController {
         if (is_object($registration_response)) {
             $postprocess->message .= __('Registration successful! You can log in now.');
             
-            $auth_data = $this->AuthController->create([
-                'email' => $args['email'],
-                'password' => $args['password']
-            ]);
+            // $auth_data = $this->AuthController->create([
+            //     'email' => $args['email'],
+            //     'password' => $args['password']
+            // ]);
 
-            if (!is_object($auth_data))
-                $postprocess->message .= '<br />' . __('Failed to create authentication.');
+            // if (!is_object($auth_data))
+            //     $postprocess->message .= '<br />' . __('Failed to create authentication.');
             
             // Preserve addresses
             $addressController = new AddressController();
-            $addressController->set_user_data($registration_response);
-            $addressController->set_user_type($registration_response->__typename);
+            $addressController->set_user_data($registration_response->contact);
+            $addressController->set_user_type($registration_response->contact->__typename);
             $addressController->set_is_registration(true);
 
             // Check what can be filled in from the user data
@@ -524,8 +515,8 @@ class UserController extends BaseController {
                 $args['invoice_address']['middleName'] = $args['middleName'];
             $args['invoice_address']['isDefault'] = 'Y';
 
-            $address_user_id = $registration_response->userId;
-            switch ($registration_response->__typename) {
+            $address_user_id = $registration_response->contact->userId;
+            switch ($registration_response->contact->__typename) {
                 case UserTypes::USER:
                     $address_user_id = $registration_response->userId;
                     break;
@@ -533,7 +524,7 @@ class UserController extends BaseController {
                     $address_user_id = $registration_response->userId;
                     break;
                 case UserTypes::CONTACT:
-                    $address_user_id = $registration_response->company->companyId;
+                    $address_user_id = $registration_response->contact->company->companyId;
                     break;
             }
 
@@ -579,7 +570,7 @@ class UserController extends BaseController {
     }
 
     private function register_contact($args) {
-        $type = 'contactCreate';
+        $type = 'contactRegister';
 
         $companyController = new CompanyController();
 
@@ -610,6 +601,7 @@ class UserController extends BaseController {
         if (isset($args['phone']) && !empty($args['phone'])) $raw_params_array[] = 'phone: "'. $args['phone'] .'"';
         if (isset($args['mobile']) && !empty($args['mobile'])) $raw_params_array[] = 'mobile: "'. $args['mobile'] .'"';
         if (isset($args['dateOfBirth']) && !empty($args['dateOfBirth'])) $raw_params_array[] = 'dateOfBirth: "'. $args['dateOfBirth'] .'"';
+        if (isset($args['password']) && !empty($args['password'])) $raw_params_array[] = 'password: "'. $args['password'] .'"';
         
         // $raw_params_array[] = 'mailingList: '. (isset($args['mailingList']) ? new RawObject('"' . $args['mailingList'] . '"') : new RawObject('"N"'));
         $raw_params_array[] = 'parentId: '. (isset($args['parentId']) ? $args['parentId'] : 0);
@@ -618,7 +610,7 @@ class UserController extends BaseController {
 
         $gql = $this->model->contact_create(['input' => new RawObject($rawParams)]);
 
-        $userData = $this->query($gql, $type, true);
+        $userData = $this->query($gql, $type);
 
         if (is_object($userData))
             $userData->company = $company_response;
@@ -627,7 +619,7 @@ class UserController extends BaseController {
     }
 
     private function register_customer($args) {
-        $type = 'customerCreate';
+        $type = 'customerRegister';
 
         $raw_params_array = [];
 
@@ -644,6 +636,7 @@ class UserController extends BaseController {
         if (isset($args['mobile']) && !empty($args['mobile'])) $raw_params_array[] = 'mobile: "'. $args['mobile'] .'"';
         if (isset($args['dateOfBirth']) && !empty($args['dateOfBirth'])) $raw_params_array[] = 'dateOfBirth: "'. $args['dateOfBirth'] .'"';
         if (isset($args['dateOfBirth']) && !empty($args['dateOfBirth'])) $raw_params_array[] = 'dateOfBirth: "'. $args['dateOfBirth'] .'"';
+        if (isset($args['password']) && !empty($args['password'])) $raw_params_array[] = 'password: "'. $args['password'] .'"';
         
         // $raw_params_array[] = 'mailingList: '. (isset($args['mailingList']) ? new RawObject('"' . $args['mailingList'] . '"') : new RawObject('"N"'));
         $raw_params_array[] = 'parentId: '. (isset($args['parentId']) ? $args['parentId'] : 0);
@@ -652,7 +645,7 @@ class UserController extends BaseController {
 
         $gql = $this->model->customer_create(['input' => new RawObject($rawParams)]);
 
-        return $this->query($gql, $type, true);
+        return $this->query($gql, $type);
     }
 
     public function forgot_password($args) {

@@ -119,6 +119,8 @@ class PropellerTranslations {
     }
 
     public function scan_translations() {
+        ini_set('memory_limit', '1024M');
+        
         $phpScanner = new PhpScanner(
             Translations::create(PROPELLER_PLUGIN_NAME)
         );

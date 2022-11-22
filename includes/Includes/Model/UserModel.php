@@ -211,27 +211,82 @@ class UserModel extends BaseModel {
     public function contact_create($arguments) {
         $str_args = $this->parse_arguments($arguments);
 
+        // TODO: contactRegister
+
         $gql = <<<QUERY
             mutation {
-                contactCreate($str_args) {
-                    __typename
-                    firstName
-                    middleName
-                    lastName
-                    email
-                    gender
-                    phone
-                    mobile
-                    primaryLanguage
-                    dateOfBirth
-                    isLoggedIn
-                    mailingList
-                    ... on Contact {
-                        userId: contactId
-                        company {
-                            id
-                            companyId
-                            name
+                contactRegister($str_args) {
+                    contact {
+                        __typename
+                        firstName
+                        middleName
+                        lastName
+                        email
+                        gender
+                        phone
+                        mobile
+                        primaryLanguage
+                        dateOfBirth
+                        isLoggedIn
+                        mailingList
+                        ... on Contact {
+                            userId: contactId
+                            company {
+                                id
+                                companyId
+                                name
+                                addresses {
+                                    id
+                                    code
+                                    firstName
+                                    middleName
+                                    lastName
+                                    email
+                                    country
+                                    city
+                                    street
+                                    number
+                                    numberExtension
+                                    postalCode
+                                    company
+                                    phone
+                                    notes
+                                    type
+                                    isDefault
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        QUERY;
+
+        return $gql;
+    }
+
+    public function customer_create($arguments) {
+        $str_args = $this->parse_arguments($arguments);
+
+        // TODO: use customerRegister instead of create
+
+        $gql = <<<QUERY
+            mutation {
+                customerRegister($str_args) {
+                    customer {
+                        __typename
+                        firstName
+                        middleName
+                        lastName
+                        email
+                        gender
+                        phone
+                        mobile
+                        primaryLanguage
+                        dateOfBirth
+                        isLoggedIn
+                        mailingList
+                        ... on Customer {
+                            userId: customerId
                             addresses {
                                 id
                                 code
@@ -251,53 +306,6 @@ class UserModel extends BaseModel {
                                 type
                                 isDefault
                             }
-                        }
-                    }
-                }
-            }
-        QUERY;
-
-        return $gql;
-    }
-
-    public function customer_create($arguments) {
-        $str_args = $this->parse_arguments($arguments);
-
-        $gql = <<<QUERY
-            mutation {
-                customerCreate($str_args) {
-                    __typename
-                    firstName
-                    middleName
-                    lastName
-                    email
-                    gender
-                    phone
-                    mobile
-                    primaryLanguage
-                    dateOfBirth
-                    isLoggedIn
-                    mailingList
-                    ... on Customer {
-                        userId: customerId
-                        addresses {
-                            id
-                            code
-                            firstName
-                            middleName
-                            lastName
-                            email
-                            country
-                            city
-                            street
-                            number
-                            numberExtension
-                            postalCode
-                            company
-                            phone
-                            notes
-                            type
-                            isDefault
                         }
                     }
                 }

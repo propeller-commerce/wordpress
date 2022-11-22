@@ -129,6 +129,95 @@ class ProductModel extends BaseModel {
                         }
                         $track_attributes
                         $media_images_gql
+                        crossupsells(input: { types: [ACCESSORIES] }) {
+                            type
+                            subtype
+                            clusterId
+                            productId
+                            item {
+                                class
+                                name(language: "$language") {
+                                    value
+                                    language
+                                }
+                                description(language: "$language") {
+                                    value
+                                    language
+                                }
+                                shortDescription(language: "$language") {
+                                    value
+                                    language
+                                }
+                                sku
+                                slug(language: "$language") {
+                                    value
+                                    language
+                                }
+                                ... on Product {
+                                    id
+                                    productId
+                                    shortName
+                                    manufacturerCode
+                                    eanCode
+                                    manufacturer
+                                    supplier
+                                    supplierCode
+                                    taxCode
+                                    status
+                                    isOrderable
+                                    hasBundle
+                                    isBundleLeader
+                                    originalPrice
+                                    suggestedPrice
+                                    minimumQuantity
+                                    unit
+                                    purchaseUnit
+                                    purchaseMinimumQuantity
+                                    inventory {
+                                        balance {
+                                            id
+                                            productId
+                                            location
+                                            warehouseId
+                                            sku
+                                            supplier
+                                            supplierCode
+                                            costPrice
+                                            dateModified
+                                            nextDeliveryDate
+                                            notes
+                                            quantity
+                                        }
+                                        localQuantity
+                                        nextDeliveryDate
+                                        productId
+                                        supplierQuantity
+                                        totalQuantity
+                                    }
+                                    price(taxZone: "$tax_zone") {
+                                        net
+                                        gross
+                                        quantity
+                                        discount {
+                                            value
+                                            formula
+                                            quantity
+                                            validFrom
+                                            validTo
+                                        }
+                                        taxCode
+                                        type
+                                    }
+                                    bulkPrices {
+                                        net
+                                        gross
+                                        from
+                                        to
+                                    }
+                                    $media_images_gql
+                                }
+                            }
+                        }
                         bundles {
                             comboId
                             name
