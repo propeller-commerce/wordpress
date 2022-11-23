@@ -1215,18 +1215,18 @@ window.Propeller || (window.Propeller = {});
                         if (typeof current[filters[i].name] == 'undefined')
                             current[filters[i].name] = filters[i].value;
                         else {
-                            current[filters[i].name] = current[filters[i].name] + ',' + filters[i].value;
+                            current[filters[i].name] = current[filters[i].name] + '^' + filters[i].value;
                         }
                     }
                 }
                 else {
-                    if (current[filters[i].name].indexOf(',') > -1) {
-                        var filterVals = current[filters[i].name].split(',');
+                    if (current[filters[i].name].indexOf('^') > -1) {
+                        var filterVals = current[filters[i].name].split('^');
 
                         var filterIndex = filterVals.indexOf(filters[i].value);
                         filterVals.splice(filterIndex, 1);
 
-                        current[filters[i].name] = filterVals.join(',');
+                        current[filters[i].name] = filterVals.join('^');
                     }
                     else {
                         delete current[filters[i].name];

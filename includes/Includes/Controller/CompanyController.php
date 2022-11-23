@@ -27,7 +27,7 @@ class CompanyController extends BaseController {
 
         $gql = $this->model->create(['input' => new RawObject($raw_params)]);
 
-        return $this->query($gql, $type, true);
+        return $this->query($gql, $type);
     }
 
     public function get($id) {

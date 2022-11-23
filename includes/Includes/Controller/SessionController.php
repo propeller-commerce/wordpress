@@ -17,7 +17,9 @@ class SessionController {
             } else {
                 $_SESSION['timeout'] = time();
 
+                // TODO: see if we should really start a session for anonymous users?!?!
                 $UserController->start_session();
+                
                 $UserController->refresh_access_token();
 
                 if (!self::get(PROPELLER_CART)) {
