@@ -669,42 +669,32 @@ class UserController extends BaseController {
         $response->postprocess = new stdClass();
 
         if (!is_array($reset_link_response)) {
-            $user_data = $this->get_user_data($args['user_mail']);
+            $to = sprintf('to: { email: "%s" }', $args['user_mail']);
+            $from = sprintf('from: { name: "%s", email: "%s" }', get_bloginfo('name'), get_bloginfo('admin_email'));
+            $subject = __('Reset password?', 'propeller-ecommerce');
 
-            if (!is_object($user_data)) {
-                $response->postprocess->error = true;
-                $response->postprocess->reset_error = true;
-                $response->postprocess->message = __("This email address is not found", "propeller-ecommerce");
-            }
+            ob_start();
+            require $this->emails_dir .'/propeller-reset-password-template.php';
+            $body = ob_get_clean();
+
+            $body = str_replace('"', '\"', $body);
+            $body = trim(preg_replace('/\s+/', ' ', $body));
+            
+            $vars = '
+                site: { name: "' . get_bloginfo('name') . '" }, 
+                resetLink: "' . $reset_link_response . '"
+            ';
+
+            $email_controller = new EmailController();
+
+            $reset_email_response = $email_controller->send_propeller_email($to, $from, $subject, $body, EmailEventTypes::TRANSACTIONAL, [], [], $vars);
+            
+            if (isset($reset_email_response->messageId))
+                $response->postprocess->message = __("Your reset password email sent", "propeller-ecommerce");
             else {
-                $to = sprintf('to: { name: "%s", email: "%s" }', implode(' ', [$user_data->firstName, $user_data->middleName, $user_data->lastName]), $user_data->email);
-                $from = sprintf('from: { name: "%s", email: "%s" }', get_bloginfo('name'), get_bloginfo('admin_email'));
-                $subject = __('Reset password?', 'propeller-ecommerce');
-
-                ob_start();
-                require $this->emails_dir .'/propeller-reset-password-template.php';
-                $body = ob_get_clean();
-
-                $body = str_replace('"', '\"', $body);
-                $body = trim(preg_replace('/\s+/', ' ', $body));
-                
-                $vars = '
-                    user: { firstName: "' . $user_data->firstName . '", lastName: "' . $user_data->lastName . '"}, 
-                    site: { name: "' . get_bloginfo('name') . '" }, 
-                    resetLink: "' . $reset_link_response . '"
-                ';
-
-                $email_controller = new EmailController();
-
-                $reset_email_response = $email_controller->send_propeller_email($to, $from, $subject, $body, EmailEventTypes::TRANSACTIONAL, [], [], $vars);
-                
-                if (isset($reset_email_response->messageId))
-                    $response->postprocess->message = __("Your reset password email sent", "propeller-ecommerce");
-                else {
-                    $response->postprocess->error = true;
-                    $response->postprocess->message = $reset_email_response;
-                }                    
-            }
+                $response->postprocess->error = true;
+                $response->postprocess->message = $reset_email_response;
+            }    
         }
         else {
             $response->postprocess->error = true;
