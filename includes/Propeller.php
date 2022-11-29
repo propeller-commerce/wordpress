@@ -18,11 +18,16 @@ class Propeller {
     
     protected $version;
 
-    protected $fe_actions = [
+    protected $global_actions = [
         'init' => 'init_propeller', 
         'wp_head' => ['wp_head_script', 1],
         'wp' => ['handle_404', 1],
         'wp' => ['propel_error_pages', 1]
+    ];
+
+    protected $fe_actions = [
+        'propel_product_price' => ['ProductController', 'product_price', 2],
+        'propel_cluster_price' => ['ProductController', 'cluster_price', 2]
     ];
 
     public static $fe_shortcodes = [
@@ -284,7 +289,7 @@ class Propeller {
 
 
         // register actions
-        foreach ($this->fe_actions as $action_key => $action_val) {
+        foreach ($this->global_actions as $action_key => $action_val) {
             if (!is_array($action_val)) {
                 $fe_class = (int) method_exists($frontend_extend, $action_val) == 1 ? $frontend_extend : $frontend;
 
@@ -297,6 +302,8 @@ class Propeller {
             }
         }
 
+        $this->add_actions();
+        
         // register shortcodes
         foreach (self::$fe_shortcodes as $shortcode_key => $shortcode_val) {
             $fe_class = (int) method_exists($frontend_extend, $shortcode_val) == 1 ? $frontend_extend : $frontend;
@@ -322,8 +329,24 @@ class Propeller {
         }
     }
 
+    public function add_actions() {
+        foreach ($this->fe_actions as $action_key => $action_val) {
+            $default_ref = "Propeller\Includes\Controller\\$action_val[0]";
+            $custom_ref = "Propeller\Custom\Includes\Controller\\$action_val[0]";
+            
+            $default_controller_obj = new $default_ref();
+            $custom_controller_obj = class_exists($custom_ref, true) ? new $custom_ref() : null;  
+
+            $ref_class = $custom_controller_obj && (int) method_exists($custom_controller_obj, $action_val[1]) == 1 ? $custom_controller_obj : $default_controller_obj;
+
+            $this->loader->add_action($action_key, $ref_class, $action_val[1], 10, $action_val[2]);
+        }
+    }
+
     public function reinit_filters() {
         $this->add_filters();
+
+        $this->add_actions();
 
         $this->loader->run();
     }

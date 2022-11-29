@@ -797,6 +797,7 @@ class ShoppingCartModel extends BaseModel {
                 phone
                 mobile
                 notes
+                icp
                 gender
                 url
             }
@@ -817,6 +818,7 @@ class ShoppingCartModel extends BaseModel {
                 phone
                 mobile
                 notes
+                icp
                 gender
                 url
             }

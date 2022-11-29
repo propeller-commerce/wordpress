@@ -82,6 +82,7 @@ class UserModel extends BaseModel {
                                 postalCode
                                 company
                                 phone
+                                icp
                                 notes
                                 type
                                 isDefault
@@ -129,6 +130,7 @@ class UserModel extends BaseModel {
                             company
                             phone
                             notes
+                            icp
                             type
                             isDefault
                         }
@@ -173,6 +175,7 @@ class UserModel extends BaseModel {
                             postalCode
                             company
                             phone
+                            icp
                             notes
                             type
                             isDefault

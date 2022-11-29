@@ -144,6 +144,8 @@ class OrderModel extends BaseModel {
     public function order_data($images_args, $language) {
         $media_images_gql = $this->extract_query($images_args);
 
+        $track_attributes = $this->product_track_attributes();
+
         $gql = <<<QUERY
             cartId
             currency
@@ -337,6 +339,7 @@ class OrderModel extends BaseModel {
                         value
                         language
                     }
+                    $track_attributes
                     $media_images_gql
                 }
             }

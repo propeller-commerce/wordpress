@@ -46,13 +46,7 @@ window.Propeller || (window.Propeller = {});
         N: 0
     };
 
-    // '#propeller-product-list' doesn't reload filters
-    // '.propeller-product-listing' reloads filters
     Propeller.product_container = '#propeller-product-list';
-        // PropellerHelper.behavior.reload_filters == 0 
-        //     ? '#propeller-product-list' 
-        //     : '.propeller-product-listing';
-
 
     // Helper functions and extensions
     $.fn.serializeObject = function() {
@@ -1196,14 +1190,12 @@ window.Propeller || (window.Propeller = {});
                 $(this).is(':checked')
             );
         },
-        apply_filter: function(filters, slug, do_add, callback = null) {
+        apply_filter: function(filters, slug, do_add, callback = null, current = {}) {
             Propeller.Filters.disable_filters();
 
             var pageUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
 
-            var current = {};
-
-            if (window.location.href.indexOf('?') > -1) 
+            if (window.location.href.indexOf('?') > -1 && typeof current.action == 'undefined') 
                 current = Propeller.Filters.parseQuery(window.location.search);
             
             for (var i = 0; i < filters.length; i++) {
@@ -1253,8 +1245,8 @@ window.Propeller || (window.Propeller = {});
                     slug = url_chunks[2];
             }
 
-            current.action = $('form.filterForm:first').find('input[name="action"]').val();
-            current[$('form.filterForm:first').find('input[name="prop_name"]').val()] = $('form.filterForm:first').find('input[name="prop_value"]').val()
+            current.action = $(Propeller.product_container).parent().data('action');
+            current[$(Propeller.product_container).parent().data('prop_name')] = $(Propeller.product_container).parent().data('prop_value');
             
             if (do_add)
                 current.active_filter = filters[0].name;
@@ -1913,6 +1905,15 @@ window.Propeller || (window.Propeller = {});
                     Propeller.Filters.enable_filters();
                     
                     Propeller.Frontend.init();
+
+                    if (typeof Propeller.Frontend.callback != 'undefined') {
+                        for (var i = 0; i < Propeller.Frontend.callback.length; i++) {
+                            if (typeof Propeller.Frontend.callback[i] == 'function') {
+                                Propeller.Frontend.callback[i]();
+                                delete Propeller.Frontend.callback[i];
+                            }
+                        }
+                    }
                 },
                 error: function() {
                     console.log('error', arguments);
@@ -1953,6 +1954,15 @@ window.Propeller || (window.Propeller = {});
                     Propeller.Filters.enable_filters();
                     
                     Propeller.Frontend.init();
+
+                    if (typeof Propeller.Frontend.callback != 'undefined') {
+                        for (var i = 0; i < Propeller.Frontend.callback.length; i++) {
+                            if (typeof Propeller.Frontend.callback[i] == 'function') {
+                                Propeller.Frontend.callback[i]();
+                                delete Propeller.Frontend.callback[i];
+                            }
+                        }
+                    }
                 },
                 error: function() {
                     console.log('error', arguments);

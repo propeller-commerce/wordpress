@@ -307,6 +307,7 @@ class AddressController extends BaseController {
         $address->region = '';
         $address->street = '';
         $address->phone = '';
+        $address->icp = '';
         $address->type = $type;
 
         return $address;
@@ -351,7 +352,9 @@ class AddressController extends BaseController {
         if (isset($args['region']) && !empty($args['region'])) $params[] = 'region: "' . $args['region'] . '"';
         if (isset($args['street']) && !empty($args['street'])) $params[] = 'street: "' . $args['street'] . '"';
         if (isset($args['phone']) && !empty($args['phone'])) $params[] = 'phone: "' . $args['phone'] . '"';
-
+        if (isset($args['icp']) && !empty($args['icp'])) $params[] = 'icp: ' . new RawObject($args['icp']);
+        else $params[] = 'icp: ' . new RawObject("N");
+        
         if (!isset($args['id']) || !is_numeric($args['id']) || (int) $args['id'] == 0)
             $params[] = 'type: ' . new RawObject(isset($args['type']) ? $args['type'] : AddressType::DELIVERY);
         else 

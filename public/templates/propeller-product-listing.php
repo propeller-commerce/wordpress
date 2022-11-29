@@ -28,7 +28,7 @@
     
     <?php apply_filters('propel_category_title', $this->data); ?>
 
-    <div class="row">
+    <div class="row" data-action="<?= $this->filters->get_action() ?>" data-prop_value="<?= $this->filters->get_slug() ?>" data-prop_name="<?= $this->filters->get_prop() ?>">
         <div class="col-12 col-md-4 col-xl-3 propeller-catalog-filters <?= apply_filters('propel_catalog_filters_classes', ''); ?>" id="propeller-catalog-filters">
             <div class="row no-gutters fixed-filter-header d-flex d-md-none">
                 <div class="col">

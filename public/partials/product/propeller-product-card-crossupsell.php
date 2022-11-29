@@ -8,7 +8,7 @@ use Propeller\Includes\Object\Product;
 
 $user_prices = SessionController::get(PROPELLER_SPECIFIC_PRICES);
 
-$crossupsell->product = new Product($crossupsell->product);
+$crossupsell->item = new Product($crossupsell->item);
 
 ?>
 
@@ -18,8 +18,8 @@ $crossupsell->product = new Product($crossupsell->product);
 <div class="card propeller-product-card">
     <figure class="card-img-top">
         <div class="product-labels">
-            <?php if ($crossupsell->product->has_attributes()) {
-                foreach ($crossupsell->product->get_attributes() as $attribute) {
+            <?php if ($crossupsell->item->has_attributes()) {
+                foreach ($crossupsell->item->get_attributes() as $attribute) {
                     if($attribute->searchId == 'attr_product_label_1' && !empty($attribute->get_value())) { ?>
                         <div class="product-label label-1 order-1">
                             <span><?= $attribute->get_value(); ?></span>
@@ -35,11 +35,11 @@ $crossupsell->product = new Product($crossupsell->product);
             ?>		            
         </div>
         <div class="product-card-image">            
-            <a href="<?php echo $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $crossupsell->product->slug[0]->value); ?>">
-                <?php if($crossupsell->product->has_images()) {?>
+            <a href="<?php echo $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $crossupsell->item->slug[0]->value); ?>">
+                <?php if($crossupsell->item->has_images()) {?>
                     <img class="img-fluid" loading="lazy" 
-                        src="<?= $crossupsell->product->images[0]->images[0]->url;?>"
-                        alt="<?= count($crossupsell->product->images[0]->alt) ? $crossupsell->product->images[0]->alt[0]->value : ""; ?>" 
+                        src="<?= $crossupsell->item->images[0]->images[0]->url;?>"
+                        alt="<?= count($crossupsell->item->images[0]->alt) ? $crossupsell->item->images[0]->alt[0]->value : ""; ?>" 
                         width="<?= PROPELLER_PRODUCT_IMG_CATALOG_WIDTH; ?>" height="<?= PROPELLER_PRODUCT_IMG_CATALOG_HEIGHT; ?>">
                 <?php }
                     else { ?>
@@ -52,51 +52,51 @@ $crossupsell->product = new Product($crossupsell->product);
         </div>
     </figure>
     <div class="card-body product-card-description">
-        <div class="product-code"><?php echo __('SKU', 'propeller-ecommerce'); ?>: <?= $crossupsell->product->sku; ?></div>
+        <div class="product-code"><?php echo __('SKU', 'propeller-ecommerce'); ?>: <?= $crossupsell->item->sku; ?></div>
         <div class="product-name">
 
             <!-- build the product urls with the classId of the product (temporary) -->
-            <a href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $crossupsell->product->slug[0]->value); ?>">
-                <?= $crossupsell->product->name[0]->value; ?>   
+            <a href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $crossupsell->item->slug[0]->value); ?>">
+                <?= $crossupsell->item->name[0]->value; ?>   
             </a>
         </div>
     </div>
     <div class="card-footer product-card-footer">
         <!-- Include the price display template -->
         <div class="product-price">
-            <?php if(!empty($crossupsell->product->suggestedPrice)) { ?>
+            <?php if(!empty($crossupsell->item->suggestedPrice)) { ?>
                 <?php if ($user_prices == false) { ?>
-                    <div class="product-current-price has-discount d-md-inline-flex"><span class="price"><?= PropellerHelper::formatPrice($crossupsell->product->price->gross); ?></span></div>
+                    <div class="product-current-price has-discount d-md-inline-flex"><span class="price"><?= PropellerHelper::formatPrice($crossupsell->item->price->gross); ?></span></div>
                 <?php } else { ?> 
-                    <div class="product-current-price has-discount d-md-inline-flex"><span class="price"><?= PropellerHelper::formatPrice($crossupsell->product->price->net); ?></span></div>    
+                    <div class="product-current-price has-discount d-md-inline-flex"><span class="price"><?= PropellerHelper::formatPrice($crossupsell->item->price->net); ?></span></div>    
                 <?php } ?>
                 
-                <div class="product-old-price d-md-inline-flex"><span class="price"><?= PropellerHelper::formatPrice($crossupsell->product->suggestedPrice); ?></span></div>
+                <div class="product-old-price d-md-inline-flex"><span class="price"><?= PropellerHelper::formatPrice($crossupsell->item->suggestedPrice); ?></span></div>
              <?php } else if ($user_prices == false) { ?>
-                <div class="product-current-price"><span class="price"><?= PropellerHelper::formatPrice($crossupsell->product->price->gross); ?></span></div>
+                <div class="product-current-price"><span class="price"><?= PropellerHelper::formatPrice($crossupsell->item->price->gross); ?></span></div>
             <?php } else { ?>
-                <div class="product-current-price"><span class="price"><?= PropellerHelper::formatPrice($crossupsell->product->price->net); ?></span></div>
+                <div class="product-current-price"><span class="price"><?= PropellerHelper::formatPrice($crossupsell->item->price->net); ?></span></div>
             <?php } ?>	
         </div>
         <?php if ($user_prices == false) { ?>
             <small class="product-customer-price"> 
-                <span class="product-price-tax"> <?= PropellerHelper::formatPrice($crossupsell->product->price->net); ?> <?php echo __('incl. VAT', 'propeller-ecommerce'); ?></span>
+                <span class="product-price-tax"> <?= PropellerHelper::formatPrice($crossupsell->item->price->net); ?> <?php echo __('incl. VAT', 'propeller-ecommerce'); ?></span>
             </small>
         <?php } else { ?>
             <small class="product-customer-price"> 
-                <span class="product-price-tax"> <?= PropellerHelper::formatPrice($crossupsell->product->price->gross); ?> <?php echo __('excl. VAT', 'propeller-ecommerce'); ?></span>
+                <span class="product-price-tax"> <?= PropellerHelper::formatPrice($crossupsell->item->price->gross); ?> <?php echo __('excl. VAT', 'propeller-ecommerce'); ?></span>
             </small>
         <?php } ?>
       
         <!-- Include the order button template -->	
         <div class="add-to-basket-wrapper">  
-             <?php /*if( $crossupsell->product->isOrderable === 'Y') { */?>
+             <?php /*if( $crossupsell->item->isOrderable === 'Y') { */?>
                 <div class="add-to-basket"> 
                     <form class="add-to-basket-form d-flex" name="add-product" method="post">
-                        <input type="hidden" name="product_id" value="<?= $crossupsell->product->productId; ?>">
+                        <input type="hidden" name="product_id" value="<?= $crossupsell->item->productId; ?>">
                         <input type="hidden" name="action" value="cart_add_item">
                             <div class="input-group product-quantity">
-                                <label class="sr-only" for="quantity-item-<?= $crossupsell->product->productId; ?>"><?php echo __('Quantity', 'propeller-ecommerce'); ?></label>
+                                <label class="sr-only" for="quantity-item-<?= $crossupsell->item->productId; ?>"><?php echo __('Quantity', 'propeller-ecommerce'); ?></label>
                                 <span class="input-group-prepend incr-decr">
                                     <button type="button" class="btn-quantity" 
                                     data-type="minus">-</button>
@@ -106,14 +106,14 @@ $crossupsell->product = new Product($crossupsell->product);
                                     ondrop="return false;" 
                                     onpaste="return false;"
                                     onkeypress="return event.charCode>=48 && event.charCode<=57"
-                                    id="quantity-item-<?= $crossupsell->product->productId; ?>"
+                                    id="quantity-item-<?= $crossupsell->item->productId; ?>"
                                     class="quantity large form-control input-number"
                                     name="quantity"
-                                    value="<?= $crossupsell->product->minimumQuantity; ?>"
+                                    value="<?= $crossupsell->item->minimumQuantity; ?>"
                                     autocomplete="off"
-                                    min="<?= $crossupsell->product->minimumQuantity; ?>"
-                                    data-min="<?= $crossupsell->product->minimumQuantity; ?>"
-                                    data-unit="<?= $crossupsell->product->unit; ?>"
+                                    min="<?= $crossupsell->item->minimumQuantity; ?>"
+                                    data-min="<?= $crossupsell->item->minimumQuantity; ?>"
+                                    data-unit="<?= $crossupsell->item->unit; ?>"
                                     >  
                                 <span class="input-group-append incr-decr">
                                     <button type="button" class="btn-quantity" data-type="plus">+</button>
@@ -133,8 +133,8 @@ $crossupsell->product = new Product($crossupsell->product);
         </div>
        
         <!-- Stock status -->
-        <?php if(!empty($crossupsell->product->inventory)) { ?>
-            <div class="product-status in-stock"><?php echo __('Available', 'propeller-ecommerce'); ?>: <?php echo $crossupsell->product->inventory->totalQuantity; ?></div>
+        <?php if(!empty($crossupsell->item->inventory) && $crossupsell->item->inventory->totalQuantity > 0) { ?>
+            <div class="product-status in-stock"><?php echo __('Available', 'propeller-ecommerce'); ?>: <?php echo $crossupsell->item->inventory->totalQuantity; ?></div>
         <?php } else { ?>
             <div class="product-status out-of-stock"><?php echo __('Out of stock', 'propeller-ecommerce'); ?></div>
         <?php } ?>

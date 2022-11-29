@@ -1,32 +1,33 @@
 <?php
     $expanded = true;
 ?>
-<div class="filter">
-    <button class="btn-filter" type="button" href="#filterForm_<?= $filter->id; ?>" data-toggle="collapse" aria-expanded="<?php echo $expanded ? 'true': 'false'; ?>" aria-controls="filterForm_<?= $filter->id; ?>">
+<div class="filter" id="<?= $filter->searchId; ?>">
+    <button class="btn-filter" type="button" href="#filtersForm_<?= $filter->id; ?>" data-toggle="collapse" aria-expanded="<?php echo $expanded ? 'true': 'false'; ?>" aria-controls="filterForm_<?= $filter->id; ?>">
         <span><?= $filter->description; ?></span>
     </button>  
         
-    <div class="text-filter collapse <?php echo $expanded ? 'show': ''; ?>" id="filterForm_<?= $filter->id; ?>">
-        <form method="get" action="" class="filterForm collapse <?php echo $expanded ? 'show': ''; ?>" id="filterForm_<?= $filter->id; ?>">
+    <div class="text-filter collapse <?php echo $expanded ? 'show': ''; ?>" id="filtersForm_<?= $filter->id; ?>">
+        <form method="get" class="filterForm collapse <?php echo $expanded ? 'show': ''; ?>" id="filterForm_<?= $filter->id; ?>">
             <input type="hidden" name="prop_value" value="<?= $this->slug; ?>" />
             <input type="hidden" name="prop_name" value="<?= $this->prop; ?>" />
             <input type="hidden" name="action" value="<?= $this->action; ?>" />
             
-            <?php foreach ($filter->textFilter as $vals) { if ($vals->value != '') { ?>
+            <?php foreach ($filter->textFilter as $vals) { if ($vals->value != '') { 
+             
+                $checked = '';
+                if (isset($_REQUEST[$filter->searchId])) {
+                    $filter_vals = explode('^', $_REQUEST[$filter->searchId]);
+
+                    if (in_array($vals->value . '~' . $type, $filter_vals))
+                        $checked = 'checked';
+                }
+            ?>
+
                 <div class="form-check">
-                    <?php 
-                        $checked = '';
-                        if (isset($_REQUEST[$filter->searchId])) {
-                            $filter_vals = explode('^', $_REQUEST[$filter->searchId]);
-
-                            if (in_array($vals->value . '~' . $type, $filter_vals))
-                                $checked = 'checked';
-                        }
-                    ?>
-
                     <input 
                         type="checkbox" 
-                        name="filterForm_<?= $filter->id; ?>" 
+                        data-id="<?= $filter->id; ?>"
+                        name="<?= $filter->searchId; ?>" 
                         class="form-check-input styled-checkbox" 
                         id="filterForm_<?= $filter->id; ?>_<?= $vals->value; ?>" 
                         value="<?= $vals->value . '~' . $type; ?>"
@@ -36,7 +37,6 @@
                     </label>
                 </div> 
             <?php } } ?>
-            <!-- <button class=" d-none d-md-flex btn-apply-filters" type="submit"><?php echo __('Filter', 'propeller-ecommerce'); ?></button> -->
         </form>
     </div>
 </div>

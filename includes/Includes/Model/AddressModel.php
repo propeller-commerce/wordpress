@@ -28,6 +28,7 @@ class AddressModel extends BaseModel {
                     company
                     phone
                     notes
+                    icp
                     type
                     isDefault
                 }

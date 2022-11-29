@@ -73,4 +73,16 @@ class FilterController extends BaseController {
     public function set_prop($name) {
         $this->prop = $name;
     }
+
+    public function get_slug() {
+        return $this->slug;
+    }
+
+    public function get_action() {
+        return $this->action;
+    }
+
+    public function get_prop() {
+        return $this->prop;
+    }
 }

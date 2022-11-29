@@ -51,6 +51,20 @@ class ProductController extends BaseController {
         self::$product_slug = PageController::get_slug(PageType::PRODUCT_PAGE);
     }
 
+    /*
+
+        Product actions
+
+    */
+    public function product_price($product, $obj) {
+        require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-product-price.php');
+    }
+
+    public function cluster_price($product, $obj) {
+        require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-cluster-price.php');
+    }
+    
+
     /* 
     
         Product filters 
