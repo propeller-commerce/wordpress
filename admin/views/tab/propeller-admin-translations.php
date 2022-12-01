@@ -103,7 +103,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $index = 0; ?>
+                    <?php $index = 1; ?>
                     <?php foreach ($translations as $translation) { ?>
                         <tr>
                             <td class="text-center align-middle">

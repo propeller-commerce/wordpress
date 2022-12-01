@@ -13,7 +13,6 @@ use Propeller\Includes\Enum\OrderStatus;
 use Propeller\Includes\Enum\OrderType;
 use Propeller\Includes\Enum\PageType;
 use Propeller\Includes\Enum\UserTypes;
-use Propeller\Includes\Model\UserModel;
 use Propeller\Includes\Object\Attribute as ObjectAttribute;
 
 
@@ -26,7 +25,7 @@ class UserController extends BaseController {
     public function __construct() {
         parent::__construct();
 
-        $this->model = new UserModel();
+        $this->model = $this->load_model('user');
 
         $this->AuthController = new AuthController();
         $this->ShoppingCart = new ShoppingCartController();
@@ -431,7 +430,7 @@ class UserController extends BaseController {
                 // && isset($_COOKIE[PROPELLER_USER_SESSION]);
     }
 
-    public function logout() {
+    public function logout($redirect = true) {
         $this->remove_cookie(PROPELLER_USER_SESSION);
         
         SessionController::end();
@@ -450,16 +449,19 @@ class UserController extends BaseController {
         // SessionController::set(PROPELLER_USER_ATTR_VALUE, 'guest');
         // CacheController::delete(CacheController::PROPELLER_MENU_TRANSIENT);
 
-        $this->AuthController->logout();
+        if (SessionController::has(PROPELLER_ACCESS_TOKEN))
+            $this->AuthController->logout();
 
-        $redirect_url = home_url();
+        if ($redirect) {
+            $redirect_url = home_url();
 
-        if (PROPELLER_WP_CLOSED_PORTAL)
-            $redirect_url = '/' . PageController::get_slug(PageType::LOGIN_PAGE);
-        
-        wp_safe_redirect($redirect_url);
-
-        die;
+            if (PROPELLER_WP_CLOSED_PORTAL)
+                $redirect_url = '/' . PageController::get_slug(PageType::LOGIN_PAGE);
+            
+            wp_safe_redirect($redirect_url);
+    
+            die;
+        }
     }
 
     public function register_user($args) {
@@ -488,18 +490,14 @@ class UserController extends BaseController {
         if (is_object($registration_response)) {
             $postprocess->message .= __('Registration successful! You can log in now.');
             
-            // $auth_data = $this->AuthController->create([
-            //     'email' => $args['email'],
-            //     'password' => $args['password']
-            // ]);
-
-            // if (!is_object($auth_data))
-            //     $postprocess->message .= '<br />' . __('Failed to create authentication.');
+            $user_data = $args['user_type'] == UserTypes::CONTACT 
+                         ? $registration_response->contact 
+                         : $registration_response->customer;
             
             // Preserve addresses
             $addressController = new AddressController();
-            $addressController->set_user_data($registration_response->contact);
-            $addressController->set_user_type($registration_response->contact->__typename);
+            $addressController->set_user_data($user_data);
+            $addressController->set_user_type($user_data->__typename);
             $addressController->set_is_registration(true);
 
             // Check what can be filled in from the user data
@@ -515,19 +513,10 @@ class UserController extends BaseController {
                 $args['invoice_address']['middleName'] = $args['middleName'];
             $args['invoice_address']['isDefault'] = 'Y';
 
-            $address_user_id = $registration_response->contact->userId;
-            switch ($registration_response->contact->__typename) {
-                case UserTypes::USER:
-                    $address_user_id = $registration_response->userId;
-                    break;
-                case UserTypes::CUSTOMER:
-                    $address_user_id = $registration_response->userId;
-                    break;
-                case UserTypes::CONTACT:
-                    $address_user_id = $registration_response->contact->company->companyId;
-                    break;
-            }
-
+            $address_user_id = $user_data->__typename == UserTypes::CUSTOMER 
+                               ? $user_data->userId 
+                               : $user_data->company->companyId;
+            
             $addressResult = $addressController->add_address($args['invoice_address'], $address_user_id);
             if (!is_object($addressResult))
                 $postprocess->message .= '<br />' . __('Failed to create invoice address.');
@@ -694,7 +683,7 @@ class UserController extends BaseController {
             else {
                 $response->postprocess->error = true;
                 $response->postprocess->message = $reset_email_response;
-            }    
+            }      
         }
         else {
             $response->postprocess->error = true;

@@ -2,7 +2,6 @@
 
 namespace Propeller\Includes\Controller;
 
-use Directory;
 use stdClass;
 use Exception;
 use GraphQL\RawObject;
@@ -127,6 +126,13 @@ class BaseController extends PropellerApi {
             return $dir . $template;
         else 
             return $default_dir . $template;
+    }
+
+    public function load_model($model) {
+        $default_ref = "Propeller\Includes\Model\\" . ucfirst($model) . 'Model';
+        $custom_ref = "Propeller\Custom\Includes\Model\\" . ucfirst($model) . 'Model';
+
+        return class_exists($custom_ref, true) ? new $custom_ref() : new $default_ref();  
     }
 
     public function buildUrl($realm_slug, $slug) {

@@ -7,7 +7,6 @@ use Propeller\Includes\Enum\MediaImagesType;
 use Propeller\Includes\Enum\OrderStatus;
 use Propeller\Includes\Enum\OrderType;
 use Propeller\Includes\Enum\PageType;
-use Propeller\Includes\Model\OrderModel;
 use Propeller\Includes\Object\Product;
 use Propeller\Includes\Query\MediaImages;
 use stdClass;
@@ -19,7 +18,7 @@ class OrderController extends BaseController {
     public function __construct() {
         parent::__construct();
 
-        $this->model = new OrderModel();
+        $this->model = $this->load_model('order');
     }
 
     public function orders_table($orders, $data, $obj) {

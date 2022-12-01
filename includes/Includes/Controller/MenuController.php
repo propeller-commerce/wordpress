@@ -1,10 +1,7 @@
 <?php
 namespace Propeller\Includes\Controller;
 
-use GraphQL\Query;
 use Propeller\Includes\Enum\PageType;
-use Propeller\Includes\Model\MenuModel;
-use Propeller\Includes\Query\Category as CategoryQuery;
 
 class MenuController extends BaseController {
     protected $type = 'category';
@@ -14,7 +11,7 @@ class MenuController extends BaseController {
     public function __construct() {
         parent::__construct();
 
-        $this->model = new MenuModel();
+        $this->model = $this->load_model('menu');
 
         $this->category_slug = PageController::get_slug(PageType::CATEGORY_PAGE);
     }

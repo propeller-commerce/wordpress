@@ -131,6 +131,9 @@ class ShoppingCartAjaxController {
         if (isset($addr_response->id))
             SessionController::set(PROPELLER_DEFAULT_DELIVERY_ADDRESS_CHANGED, $addr_response->id);
 
+        if (isset($_POST['subaction']) && $_POST['subaction'] == 'cart_update_delivery_address')
+            SessionController::set(PROPELLER_DEFAULT_DELIVERY_ADDRESS_CHANGED, true);
+
         die(json_encode($response));
     }
 

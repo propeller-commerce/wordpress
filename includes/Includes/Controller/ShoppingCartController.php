@@ -13,7 +13,6 @@ use Propeller\Includes\Enum\MediaImagesType;
 use Propeller\Includes\Enum\OrderStatus;
 use Propeller\Includes\Enum\PageType;
 use Propeller\Includes\Enum\PaymentStatuses;
-use Propeller\Includes\Model\ShoppingCartModel;
 use Propeller\Includes\Object\Product;
 use Propeller\Includes\Query\MediaImages;
 use Propeller\Propeller;
@@ -30,7 +29,7 @@ class ShoppingCartController extends BaseController {
     public function __construct() {
         parent::__construct();
 
-        $this->model = new ShoppingCartModel();
+        $this->model = $this->load_model('shoppingCart');
     }
 
     public function init_cart() {
@@ -86,6 +85,10 @@ class ShoppingCartController extends BaseController {
 
     public function shopping_cart_voucher($cart, $obj) {
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'cart' . DIRECTORY_SEPARATOR . 'propeller-shopping-cart-voucher.php');
+    }
+    
+    public function shopping_cart_order_type($cart, $obj) {
+        require $this->load_template('partials', DIRECTORY_SEPARATOR . 'cart' . DIRECTORY_SEPARATOR . 'propeller-shopping-cart-order-type.php');
     }
 
     public function shopping_cart_totals($cart, $obj) {

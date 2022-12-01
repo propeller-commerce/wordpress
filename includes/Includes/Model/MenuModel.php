@@ -17,14 +17,6 @@ class MenuModel {
                         value
                         language
                     }
-                    description(language: "$language") {
-                        value
-                        language
-                    }
-                    shortDescription(language: "$language") {
-                        value
-                        language
-                    }
                     slug(language: "$language") {
                         value
                         language
@@ -33,14 +25,6 @@ class MenuModel {
                         id
                         categoryId
                         name(language: "$language") {
-                            value
-                            language
-                        }
-                        description(language: "$language") {
-                            value
-                            language
-                        }
-                        shortDescription(language: "$language") {
                             value
                             language
                         }
@@ -55,14 +39,6 @@ class MenuModel {
                                 value
                                 language
                             }
-                            description(language: "$language") {
-                                value
-                                language
-                            }
-                            shortDescription(language: "$language") {
-                                value
-                                language
-                            }
                             slug(language: "$language") {
                                 value
                                 language
@@ -71,14 +47,6 @@ class MenuModel {
                                 id
                                 categoryId
                                 name(language: "$language") {
-                                    value
-                                    language
-                                }
-                                description(language: "$language") {
-                                    value
-                                    language
-                                }
-                                shortDescription(language: "$language") {
                                     value
                                     language
                                 }

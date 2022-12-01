@@ -59,6 +59,8 @@ class PropellerApi {
             $this->buildClient($ommit_access_token);
         
         try {
+            // $this->dump($gql);
+
             $result = gettype($gql) == 'string' ? $this->client->runRawQuery($gql) : $this->client->runQuery($gql);
                         
             // Display original response from endpoint
@@ -74,7 +76,7 @@ class PropellerApi {
             debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
             $backtrace = ob_get_clean();
 
-            if (PROPELLER_DEBUG) {
+            if (PROPELLER_DEBUG && $display_error) {
                 echo "<pre class=\"text-danger\">";
                 var_dump($exception->getErrorDetails());
                 echo "</pre>";

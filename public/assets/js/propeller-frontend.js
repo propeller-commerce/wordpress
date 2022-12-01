@@ -1536,6 +1536,7 @@ window.Propeller || (window.Propeller = {});
             
             request_data.action = 'update_cluster_content';
             request_data.slug = slug;
+            request_data.cluster_id = $(obj).data('cluster_id');
 
             request_data.clicked_attr = $(obj).attr('name');
             request_data.clicked_val = $(obj).val();

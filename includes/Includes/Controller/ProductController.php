@@ -2,12 +2,9 @@
 
 namespace Propeller\Includes\Controller;
 
-use GraphQL\InlineFragment;
-use GraphQL\Query;
 use GraphQL\RawObject;
 use Propeller\Includes\Enum\MediaImagesType;
 use Propeller\Includes\Enum\PageType;
-use Propeller\Includes\Model\ProductModel;
 use Propeller\Includes\Object\AttributeArray;
 use Propeller\Includes\Object\Cluster;
 use Propeller\Includes\Object\FilterArray;
@@ -31,7 +28,7 @@ class ProductController extends BaseController {
     public function __construct() {
         parent::__construct();
 
-        $this->model = new ProductModel();
+        $this->model = $this->load_model('product');
 
         $this->sort_arr = [
             "dateChanged" => __('Date changed', 'propeller-ecommerce'),
@@ -287,22 +284,36 @@ class ProductController extends BaseController {
         return $content;
     }
 
-    public function cluster_details($slug) {
-        $data = $this->get_cluster($slug, null, [
-            'attribute' => '{ isPublic: true }'
-        ]);
+    public function cluster_details($slug, $cluster_id = 0) {
+        $data = null;
 
-        $this->product = new Cluster($data);
+        if ($cluster_id > 0) {
+            $cluster_transient = PROPELLER_VIEWING_CLUSTER . '_' . $cluster_id;
+
+            if (false === ($data = CacheController::get($cluster_transient))) {
+                $data = $this->get_cluster($slug, null, [
+                    'attribute' => '{ isPublic: true }'
+                ]);
+
+                CacheController::set($cluster_transient, $data, 30 * MINUTE_IN_SECONDS);
+            }
+        }
+
+        if ($data) {
+            $this->product = new Cluster($data);
         
-        ob_start();
-
-        require $this->load_template('templates', DIRECTORY_SEPARATOR . 'propeller-cluster-details.php');
-        $content = ob_get_contents();
-        ob_end_clean();
-
-        $this->slug = $slug;
-
-        return $content;
+            ob_start();
+    
+            require $this->load_template('templates', DIRECTORY_SEPARATOR . 'propeller-cluster-details.php');
+            $content = ob_get_contents();
+            ob_end_clean();
+    
+            $this->slug = $slug;
+    
+            return $content;
+        }
+        
+        return '';
     }
 
     public function load_crossupsells($slug, $class) {
@@ -817,5 +828,12 @@ class ProductController extends BaseController {
             array_pop($products);
 
         $this->set_cookie(PROPELLER_RECENT_PRODS_COOKIE, implode(',', $products));
+    }
+
+    public function preserve_cluster($data) {
+        $cluster_transient = PROPELLER_VIEWING_CLUSTER . '_' . $data->clusterId;
+
+        if (false === ($cluster_data = CacheController::get($cluster_transient)))
+            CacheController::set($cluster_transient, $data, 30 * MINUTE_IN_SECONDS);
     }
 }

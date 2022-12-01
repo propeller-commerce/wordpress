@@ -86,7 +86,7 @@ class RequestHandler {
                                 $productObj->preserve_recently_viewed($data->id);
 
                                 if ($data->class == 'cluster')
-                                    SessionController::set(PROPELLER_VIEWING_CLUSTER, $data);
+                                    $productObj->preserve_cluster($data);
                         
                                 $propel['url_slugs'] = $data->slugs;
                                 

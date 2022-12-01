@@ -93,8 +93,10 @@ class ProductAjaxController {
         $prop = new Propeller();
         $prop->reinit_filters();
 
+        $cluster_id = isset($_POST['cluster_id']) && !empty($_POST['cluster_id']) && is_numeric($_POST['cluster_id']) ? $_POST['cluster_id'] : 0;
+
         $response = new stdClass();
-        $response->content = $this->product->cluster_details($_POST['slug']);
+        $response->content = $this->product->cluster_details($_POST['slug'], $cluster_id);
         $response->status = true;
         $response->error = null;
 

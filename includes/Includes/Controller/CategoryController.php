@@ -1,11 +1,9 @@
 <?php
 namespace Propeller\Includes\Controller;
 
-use GraphQL\Query;
 use GraphQL\RawObject;
 use Propeller\Includes\Enum\MediaImagesType;
 use Propeller\Includes\Enum\PageType;
-use Propeller\Includes\Model\CategoryModel;
 use Propeller\Includes\Object\Cluster;
 use Propeller\Includes\Object\FilterArray;
 use Propeller\Includes\Object\Product;
@@ -34,7 +32,7 @@ class CategoryController extends BaseController {
     public function __construct() {
         parent::__construct();
 
-        $this->model = new CategoryModel();
+        $this->model = $this->load_model('category');
 
         $this->sort_arr = [
             "dateChanged" => __('Date changed', 'propeller-ecommerce'),

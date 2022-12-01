@@ -30,7 +30,7 @@ class Propeller {
         'propel_cluster_price' => ['ProductController', 'cluster_price', 2]
     ];
 
-    public static $fe_shortcodes = [
+    public $fe_shortcodes = [
         'menu'                              => 'draw_menu',
         'home-page'                         => 'home_page',
         'product-listing'                   => 'product_listing', 
@@ -69,7 +69,7 @@ class Propeller {
     ];
 
     // filter name => [controller, method, number of arguments]
-    public static $fe_filters = [
+    public $fe_filters = [
         'propel_breadcrumbs' => ['HomepageController', 'breadcrumbs', 1], 
         
         'propel_category_title' => ['CategoryController', 'category_title', 1], 
@@ -195,6 +195,7 @@ class Propeller {
         'propel_shopping_cart_bonus_item' => ['ShoppingCartController', 'shopping_cart_bonus_item', 3], 
         'propel_shopping_cart_action_code' => ['ShoppingCartController', 'shopping_cart_action_code', 2], 
         'propel_shopping_cart_voucher' => ['ShoppingCartController', 'shopping_cart_voucher', 2], 
+        'propel_shopping_cart_order_type' => ['ShoppingCartController', 'shopping_cart_order_type', 2], 
         'propel_shopping_cart_buttons' => ['ShoppingCartController', 'shopping_cart_buttons', 2], 
         'propel_shopping_cart_totals' => ['ShoppingCartController', 'shopping_cart_totals', 2], 
         'propel_shopping_cart_totals_with_items' => ['ShoppingCartController', 'shopping_cart_totals_with_items', 2], 
@@ -302,21 +303,32 @@ class Propeller {
             }
         }
 
+        // register actions
         $this->add_actions();
         
         // register shortcodes
-        foreach (self::$fe_shortcodes as $shortcode_key => $shortcode_val) {
-            $fe_class = (int) method_exists($frontend_extend, $shortcode_val) == 1 ? $frontend_extend : $frontend;
-
-            $this->loader->add_shortcode($shortcode_key, $fe_class, $shortcode_val , 1000, 2);
-        }
+        $this->add_shortcodes($frontend, $frontend_extend);
 
         // register filters
         $this->add_filters();
     }
 
+    public function add_shortcodes($frontend, $frontend_extend) {
+        if (!$this->loader)
+            $this->loader = new PropellerLoader();
+            
+        foreach ($this->fe_shortcodes as $shortcode_key => $shortcode_val) {
+            $fe_class = (int) method_exists($frontend_extend, $shortcode_val) == 1 ? $frontend_extend : $frontend;
+
+            $this->loader->add_shortcode($shortcode_key, $fe_class, $shortcode_val , 1000, 2);
+        }
+    }
+
     public function add_filters() {
-        foreach (self::$fe_filters as $filter_key => $filter_val) {
+        if (!$this->loader)
+            $this->loader = new PropellerLoader();
+
+        foreach ($this->fe_filters as $filter_key => $filter_val) {
             $default_ref = "Propeller\Includes\Controller\\$filter_val[0]";
             $custom_ref = "Propeller\Custom\Includes\Controller\\$filter_val[0]";
 
@@ -330,6 +342,9 @@ class Propeller {
     }
 
     public function add_actions() {
+        if (!$this->loader)
+            $this->loader = new PropellerLoader();
+
         foreach ($this->fe_actions as $action_key => $action_val) {
             $default_ref = "Propeller\Includes\Controller\\$action_val[0]";
             $custom_ref = "Propeller\Custom\Includes\Controller\\$action_val[0]";

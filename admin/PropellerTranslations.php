@@ -153,9 +153,13 @@ class PropellerTranslations {
     public function create_translations_file() {
         $translations = $this->loader->loadFile($this->templates[0]);
 
-        $old_translations = $this->load_translation($_REQUEST['merge']);
+        $new_translations = $translations;
 
-        $new_translations = $old_translations->mergeWith($translations);
+        if (isset($_REQUEST['merge']) && !empty($_REQUEST['merge'])) {
+            $old_translations = $this->load_translation($_REQUEST['merge']);
+
+            $new_translations = $old_translations->mergeWith($translations);
+        }   
 
         $this->apply_headers($new_translations);
 

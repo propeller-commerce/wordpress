@@ -39,10 +39,6 @@ $propel_active = !empty($active_plugins) && in_array(basename(__DIR__) . '/prope
 	
 require_once(plugin_dir_path(__FILE__) . '/constants.php');
 
-ini_set('display_errors', E_ALL);
-ini_set('display_startup_errors', E_ALL);
-error_reporting(E_ALL);
-
 function activate_propeller() {
 	Propeller\PropellerActivate::activate();
 

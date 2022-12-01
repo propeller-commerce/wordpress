@@ -30,7 +30,7 @@ use Propeller\PropellerHelper;
                                                     <!-- build the product urls with the classId of the product (temporary) -->
                                                     
                                                     <a href="<?php echo $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $bundleItem->product->slug[0]->value); ?>">
-                                                        <?php if($bundleItem->has_images()) {?>
+                                                        <?php if($bundleItem->product->has_images()) {?>
                                                             <img class="img-fluid" 
                                                                 src="<?= $bundleItem->product->images[0]->images[0]->url;?>"
                                                                 alt="<?= $bundleItem->product->images[0]->images[0]->alt[0]->value; ?>"

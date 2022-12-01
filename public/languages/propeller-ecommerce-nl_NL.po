@@ -46,23 +46,23 @@ msgstr ""
 
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\admin\views\propeller-admin-panel.php:11
 msgid "Settings"
-msgstr ""
+msgstr "Settings NL"
 
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\admin\views\propeller-admin-panel.php:15
 msgid "General"
-msgstr ""
+msgstr "General NL"
 
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\admin\views\propeller-admin-panel.php:18
 msgid "Pages"
-msgstr ""
+msgstr "Pages NL"
 
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\admin\views\propeller-admin-panel.php:21
 msgid "Behavior"
-msgstr ""
+msgstr "Behavior NL"
 
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\admin\views\propeller-admin-panel.php:24
 msgid "Translations"
-msgstr ""
+msgstr "Translations NL"
 
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\admin\views\propeller-admin-panel.php:49
 msgid "Clear caches"
@@ -260,10 +260,6 @@ msgstr ""
 
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\constants.php:71
 msgid "Ms"
-msgstr ""
-
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\constants.php:74
-msgid ""
 msgstr ""
 
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Countries.php:8

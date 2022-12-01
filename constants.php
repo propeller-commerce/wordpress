@@ -134,6 +134,6 @@ define('PROPELLER_SESSION_LANG', 						"session_locale");
 define('PROPELLER_DEFAULT_DELIVERY_ADDRESS_CHANGED',	"default_delivery_address_changed");
 define('PROPELLER_ORDER_STATUS_TYPE',					"order_status_type");
 
-define('PROPELLER_VIEWING_CLUSTER',					    "viewing_cluster");
+define('PROPELLER_VIEWING_CLUSTER',					    "propeller_viewing_cluster");
 
 /**********************************************************************/

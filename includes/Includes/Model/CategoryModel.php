@@ -61,14 +61,6 @@ class CategoryModel extends BaseModel {
                             value
                             language
                         }
-                        description(language: "$language") {
-                            value
-                            language
-                        }
-                        shortDescription(language: "$language") {
-                            value
-                            language
-                        }
                         slug(language: "$language") {
                             value
                             language
@@ -90,14 +82,6 @@ class CategoryModel extends BaseModel {
                         items {
                             class
                             name(language: "$language") {
-                                value
-                                language
-                            }
-                            description(language: "$language") {
-                                value
-                                language
-                            }
-                            shortDescription(language: "$language") {
                                 value
                                 language
                             }
@@ -127,31 +111,7 @@ class CategoryModel extends BaseModel {
                                 purchaseUnit
                                 purchaseMinimumQuantity
                                 inventory {
-                                    localQuantity
-                                    nextDeliveryDate
-                                    productId
-                                    supplierQuantity
                                     totalQuantity
-                                }
-                                category {
-                                    id
-                                    categoryId
-                                    name(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    description(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    shortDescription(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    slug(language: "$language") {
-                                        value
-                                        language
-                                    }
                                 }
                                 price {
                                     net
@@ -168,37 +128,6 @@ class CategoryModel extends BaseModel {
                                     taxCode
                                     type
                                 }
-                                bulkPrices {
-                                    net
-                                    gross
-                                    from
-                                    to
-                                }
-                                attributes(
-                                    $attr_str_args
-                                ) {
-                                    id
-                                    name
-                                    group
-                                    searchId
-                                    description {
-                                        value
-                                        language
-                                    }
-                                    type
-                                    typeParam
-                                    isSearchable
-                                    isPublic
-                                    isHidden
-                                    enumValue
-                                    intValue
-                                    decimalValue
-                                    dateValue
-                                    textValue {
-                                        values
-                                        language
-                                    }
-                                }
                                 $track_attributes
                                 $media_images_gql
                             }
@@ -212,14 +141,6 @@ class CategoryModel extends BaseModel {
                                 products {
                                     class
                                     name(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    description(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    shortDescription(language: "$language") {
                                         value
                                         language
                                     }
@@ -248,33 +169,6 @@ class CategoryModel extends BaseModel {
                                         unit
                                         purchaseUnit
                                         purchaseMinimumQuantity
-                                        inventory {
-                                            localQuantity
-                                            nextDeliveryDate
-                                            productId
-                                            supplierQuantity
-                                            totalQuantity
-                                        }
-                                        category {
-                                            id
-                                            categoryId
-                                            name(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            description(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            shortDescription(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            slug(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                        }
                                         price {
                                             net
                                             gross
@@ -290,12 +184,6 @@ class CategoryModel extends BaseModel {
                                             taxCode
                                             type
                                         }
-                                        bulkPrices {
-                                            net
-                                            gross
-                                            from
-                                            to
-                                        }
                                         $media_images_gql
                                     }
                                 }
@@ -307,14 +195,6 @@ class CategoryModel extends BaseModel {
                                     products {
                                         class
                                         name(language: "$language") {
-                                            value
-                                            language
-                                        }
-                                        description(language: "$language") {
-                                            value
-                                            language
-                                        }
-                                        shortDescription(language: "$language") {
                                             value
                                             language
                                         }
@@ -342,34 +222,7 @@ class CategoryModel extends BaseModel {
                                             minimumQuantity
                                             unit
                                             purchaseUnit
-                                            purchaseMinimumQuantity
-                                            inventory {
-                                                localQuantity
-                                                nextDeliveryDate
-                                                productId
-                                                supplierQuantity
-                                                totalQuantity
-                                            }
-                                            category {
-                                                id
-                                                categoryId
-                                                name(language: "$language") {
-                                                    value
-                                                    language
-                                                }
-                                                description(language: "$language") {
-                                                    value
-                                                    language
-                                                }
-                                                shortDescription(language: "$language") {
-                                                    value
-                                                    language
-                                                }
-                                                slug(language: "$language") {
-                                                    value
-                                                    language
-                                                }
-                                            }
+                                            purchaseMinimumQuantity                                            
                                             price {
                                                 net
                                                 gross
@@ -384,12 +237,6 @@ class CategoryModel extends BaseModel {
                                                 }
                                                 taxCode
                                                 type
-                                            }
-                                            bulkPrices {
-                                                net
-                                                gross
-                                                from
-                                                to
                                             }
                                             $media_images_gql
                                         }
@@ -492,14 +339,6 @@ class CategoryModel extends BaseModel {
                             id
                             categoryId
                             name(language: "$language") {
-                                value
-                                language
-                            }
-                            description(language: "$language") {
-                                value
-                                language
-                            }
-                            shortDescription(language: "$language") {
                                 value
                                 language
                             }

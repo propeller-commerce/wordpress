@@ -72,15 +72,17 @@ class PropellerFrontend {
 
         wp_enqueue_script('jquery-ui-autocomplete');
         
-        wp_enqueue_script('popper', $this->assets_url . '/js/lib/popper.min.js', array(), $this->version, true);
-        wp_enqueue_script('bootstrap', $this->assets_url . '/js/lib/bootstrap.min.js', array(), $this->version, true);
-        wp_enqueue_script('validate', $this->assets_url . '/js/lib/jquery-validator/jquery.validate.js', array(), $this->version, true);
-        wp_enqueue_script('additional-methods', $this->assets_url . '/js/lib/jquery-validator/additional-methods.js', array(), $this->version, true);
-        wp_enqueue_script('overlay', $this->assets_url . '/js/lib/plain-overlay.min.js', array(), $this->version, true);
-        wp_enqueue_script('nouislider', $this->assets_url . '/js/lib/nouislider.min.js', array(), $this->version, true);
-        wp_enqueue_script('slick', $this->assets_url . '/js/lib/slick.min.js', array(), $this->version, true);
-        wp_enqueue_script('photoswipe', $this->assets_url . '/js/lib/photoswipe.min.js', array(), $this->version, true);
-        
+        if (defined('PROPELLER_DEBUG') && PROPELLER_DEBUG) {
+            wp_enqueue_script('popper', $this->assets_url . '/js/lib/popper.min.js', array(), $this->version, true);
+            wp_enqueue_script('bootstrap', $this->assets_url . '/js/lib/bootstrap.min.js', array(), $this->version, true);
+            wp_enqueue_script('validate', $this->assets_url . '/js/lib/jquery-validator/jquery.validate.js', array(), $this->version, true);
+            wp_enqueue_script('additional-methods', $this->assets_url . '/js/lib/jquery-validator/additional-methods.js', array(), $this->version, true);
+            wp_enqueue_script('overlay', $this->assets_url . '/js/lib/plain-overlay.min.js', array(), $this->version, true);
+            wp_enqueue_script('nouislider', $this->assets_url . '/js/lib/nouislider.min.js', array(), $this->version, true);
+            wp_enqueue_script('slick', $this->assets_url . '/js/lib/slick.min.js', array(), $this->version, true);
+            wp_enqueue_script('photoswipe', $this->assets_url . '/js/lib/photoswipe.min.js', array(), $this->version, true);
+        }
+                
         $helper_js_path = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'propel-helper.js';
 
         $this->build_js_helper();
@@ -90,9 +92,12 @@ class PropellerFrontend {
             wp_enqueue_script('propeller_helper_js');
         }
 
-        // The minified js file
-        // wp_register_script('propeller_js', $this->assets_url . '/js/propel.min.js', array('jquery', 'wp-i18n'), $this->version, true);
-        wp_register_script('propeller_js', $this->assets_url . '/js/propeller-frontend.js', array('jquery', 'wp-i18n'), $this->version, true);
+        if (defined('PROPELLER_DEBUG') && PROPELLER_DEBUG)
+            wp_register_script('propeller_js', $this->assets_url . '/js/propeller-frontend.js', array('jquery', 'wp-i18n'), $this->version, true);
+        else 
+            // The minified js file
+            wp_register_script('propeller_js', $this->assets_url . '/js/propel.min.js', array('jquery', 'wp-i18n'), $this->version, true);
+        
         wp_enqueue_script('propeller_js');
 
         wp_set_script_translations('propeller_js', 'propeller-ecommerce', PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR);

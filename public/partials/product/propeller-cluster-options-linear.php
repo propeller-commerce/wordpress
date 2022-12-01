@@ -5,7 +5,7 @@
         <h5><?= $option->label; ?></h5>
 
         <?php if ( $option->display === 'dropdown') { ?>
-            <select class="cluster-dropdown" name="<?= $attr_name; ?>">
+            <select class="cluster-dropdown" name="<?= $attr_name; ?>" data-cluster_id="<?= $cluster->clusterId ?>">
             <?php foreach ($option->values as $val) { ?>
                 <?php 
                     $selected = '';

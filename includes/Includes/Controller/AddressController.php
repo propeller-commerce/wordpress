@@ -3,14 +3,10 @@
 namespace Propeller\Includes\Controller;
 
 use Exception;
-use GraphQL\Mutation;
-use GraphQL\Query;
 use GraphQL\RawObject;
 use Propeller\Includes\Enum\AddressType;
 use Propeller\Includes\Enum\PageType;
 use Propeller\Includes\Enum\UserTypes;
-use Propeller\Includes\Model\AddressModel;
-use Propeller\Includes\Query\Address;
 use stdClass;
 
 class AddressController extends BaseController {
@@ -24,7 +20,7 @@ class AddressController extends BaseController {
     public function __construct() {
         parent::__construct();
 
-        $this->model = new AddressModel();
+        $this->model = $this->load_model('address');
 
         $this->is_registration = false;
 
@@ -113,12 +109,6 @@ class AddressController extends BaseController {
         $param_value = 0;
 
         switch ($this->user_type) {
-            case UserTypes::USER:
-                $type = 'addressesByUserId';
-                $param_name = 'userId';
-                $param_value = $this->user->userId;
-
-                break;
             case UserTypes::CUSTOMER:
                 $type = 'addressesByCustomerId';
                 $param_name = 'customerId';
@@ -139,7 +129,7 @@ class AddressController extends BaseController {
         if (isset($args['type'])) 
             $params['type'] = new RawObject(isset($args['type']) ? $args['type'] : AddressType::DELIVERY);
 
-        $gql = $this->model->get_addresses($params);
+        $gql = $this->model->get_addresses($type, $params);
             
         $addressesData = $this->query($gql, $type);
 
@@ -352,8 +342,11 @@ class AddressController extends BaseController {
         if (isset($args['region']) && !empty($args['region'])) $params[] = 'region: "' . $args['region'] . '"';
         if (isset($args['street']) && !empty($args['street'])) $params[] = 'street: "' . $args['street'] . '"';
         if (isset($args['phone']) && !empty($args['phone'])) $params[] = 'phone: "' . $args['phone'] . '"';
-        if (isset($args['icp']) && !empty($args['icp'])) $params[] = 'icp: ' . new RawObject($args['icp']);
-        else $params[] = 'icp: ' . new RawObject("N");
+
+        // if ($this->user_type != UserTypes::CUSTOMER) {
+        //     if (isset($args['icp']) && !empty($args['icp'])) $params[] = 'icp: ' . new RawObject($args['icp']);
+        //     else $params[] = 'icp: ' . new RawObject("N");
+        // }
         
         if (!isset($args['id']) || !is_numeric($args['id']) || (int) $args['id'] == 0)
             $params[] = 'type: ' . new RawObject(isset($args['type']) ? $args['type'] : AddressType::DELIVERY);

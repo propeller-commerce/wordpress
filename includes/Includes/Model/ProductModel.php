@@ -78,10 +78,6 @@ class ProductModel extends BaseModel {
                         purchaseUnit
                         purchaseMinimumQuantity
                         inventory {
-                            localQuantity
-                            nextDeliveryDate
-                            productId
-                            supplierQuantity
                             totalQuantity
                         }
                         price(taxZone: "$tax_zone") {
@@ -140,14 +136,6 @@ class ProductModel extends BaseModel {
                                     value
                                     language
                                 }
-                                description(language: "$language") {
-                                    value
-                                    language
-                                }
-                                shortDescription(language: "$language") {
-                                    value
-                                    language
-                                }
                                 sku
                                 slug(language: "$language") {
                                     value
@@ -174,24 +162,6 @@ class ProductModel extends BaseModel {
                                     purchaseUnit
                                     purchaseMinimumQuantity
                                     inventory {
-                                        balance {
-                                            id
-                                            productId
-                                            location
-                                            warehouseId
-                                            sku
-                                            supplier
-                                            supplierCode
-                                            costPrice
-                                            dateModified
-                                            nextDeliveryDate
-                                            notes
-                                            quantity
-                                        }
-                                        localQuantity
-                                        nextDeliveryDate
-                                        productId
-                                        supplierQuantity
                                         totalQuantity
                                     }
                                     price(taxZone: "$tax_zone") {
@@ -207,12 +177,6 @@ class ProductModel extends BaseModel {
                                         }
                                         taxCode
                                         type
-                                    }
-                                    bulkPrices {
-                                        net
-                                        gross
-                                        from
-                                        to
                                     }
                                     $media_images_gql
                                 }
@@ -242,14 +206,6 @@ class ProductModel extends BaseModel {
                                         value
                                         language
                                     }
-                                    description(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    shortDescription(language: "$language") {
-                                        value
-                                        language
-                                    }
                                     sku
                                     slug(language: "$language") {
                                         value
@@ -276,10 +232,6 @@ class ProductModel extends BaseModel {
                                         purchaseUnit
                                         purchaseMinimumQuantity
                                         inventory {
-                                            localQuantity
-                                            nextDeliveryDate
-                                            productId
-                                            supplierQuantity
                                             totalQuantity
                                         }
                                         price(taxZone: "$tax_zone") {
@@ -296,12 +248,6 @@ class ProductModel extends BaseModel {
                                             taxCode
                                             type
                                         }
-                                        bulkPrices {
-                                            net
-                                            gross
-                                            from
-                                            to
-                                        }
                                         $media_images_gql
                                     }
                                 }
@@ -311,14 +257,6 @@ class ProductModel extends BaseModel {
                             id
                             categoryId
                             name(language: "$language") {
-                                value
-                                language
-                            }
-                            description(language: "$language") {
-                                value
-                                language
-                            }
-                            shortDescription(language: "$language") {
                                 value
                                 language
                             }
@@ -462,10 +400,6 @@ class ProductModel extends BaseModel {
                                 purchaseUnit
                                 purchaseMinimumQuantity
                                 inventory {
-                                    localQuantity
-                                    nextDeliveryDate
-                                    productId
-                                    supplierQuantity
                                     totalQuantity
                                 }
                                 price(taxZone: "$tax_zone") {
@@ -519,14 +453,6 @@ class ProductModel extends BaseModel {
                                         value
                                         language
                                     }
-                                    description(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    shortDescription(language: "$language") {
-                                        value
-                                        language
-                                    }
                                     slug(language: "$language") {
                                         value
                                         language
@@ -557,14 +483,6 @@ class ProductModel extends BaseModel {
                                                 value
                                                 language
                                             }
-                                            description(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            shortDescription(language: "$language") {
-                                                value
-                                                language
-                                            }
                                             sku
                                             slug(language: "$language") {
                                                 value
@@ -591,10 +509,6 @@ class ProductModel extends BaseModel {
                                                 purchaseUnit
                                                 purchaseMinimumQuantity
                                                 inventory {
-                                                    localQuantity
-                                                    nextDeliveryDate
-                                                    productId
-                                                    supplierQuantity
                                                     totalQuantity
                                                 }
                                                 price(taxZone: "$tax_zone") {
@@ -610,12 +524,6 @@ class ProductModel extends BaseModel {
                                                     }
                                                     taxCode
                                                     type
-                                                }
-                                                bulkPrices {
-                                                    net
-                                                    gross
-                                                    from
-                                                    to
                                                 }
                                                 $media_images_gql
                                             }
@@ -669,10 +577,6 @@ class ProductModel extends BaseModel {
                                     purchaseUnit
                                     purchaseMinimumQuantity
                                     inventory {
-                                        localQuantity
-                                        nextDeliveryDate
-                                        productId
-                                        supplierQuantity
                                         totalQuantity
                                     }
                                     price(taxZone: "$tax_zone") {
@@ -726,14 +630,6 @@ class ProductModel extends BaseModel {
                                             value
                                             language
                                         }
-                                        description(language: "$language") {
-                                            value
-                                            language
-                                        }
-                                        shortDescription(language: "$language") {
-                                            value
-                                            language
-                                        }
                                         slug(language: "$language") {
                                             value
                                             language
@@ -746,14 +642,6 @@ class ProductModel extends BaseModel {
                                         product {
                                             class
                                             name(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            description(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            shortDescription(language: "$language") {
                                                 value
                                                 language
                                             }
@@ -783,10 +671,6 @@ class ProductModel extends BaseModel {
                                                 purchaseUnit
                                                 purchaseMinimumQuantity
                                                 inventory {
-                                                    localQuantity
-                                                    nextDeliveryDate
-                                                    productId
-                                                    supplierQuantity
                                                     totalQuantity
                                                 }
                                                 price(taxZone: "$tax_zone") {
@@ -802,12 +686,6 @@ class ProductModel extends BaseModel {
                                                     }
                                                     taxCode
                                                     type
-                                                }
-                                                bulkPrices {
-                                                    net
-                                                    gross
-                                                    from
-                                                    to
                                                 }
                                                 $media_images_gql
                                             }
@@ -837,14 +715,6 @@ class ProductModel extends BaseModel {
                                                     value
                                                     language
                                                 }
-                                                description(language: "$language") {
-                                                    value
-                                                    language
-                                                }
-                                                shortDescription(language: "$language") {
-                                                    value
-                                                    language
-                                                }
                                                 sku
                                                 slug(language: "$language") {
                                                     value
@@ -871,10 +741,6 @@ class ProductModel extends BaseModel {
                                                     purchaseUnit
                                                     purchaseMinimumQuantity
                                                     inventory {
-                                                        localQuantity
-                                                        nextDeliveryDate
-                                                        productId
-                                                        supplierQuantity
                                                         totalQuantity
                                                     }
                                                     price(taxZone: "$tax_zone") {
@@ -890,12 +756,6 @@ class ProductModel extends BaseModel {
                                                         }
                                                         taxCode
                                                         type
-                                                    }
-                                                    bulkPrices {
-                                                        net
-                                                        gross
-                                                        from
-                                                        to
                                                     }
                                                     $media_images_gql
                                                 }
@@ -965,14 +825,6 @@ class ProductModel extends BaseModel {
                                 value
                                 language
                             }
-                            description(language: "$language") {
-                                value
-                                language
-                            }
-                            shortDescription(language: "$language") {
-                                value
-                                language
-                            }
                             sku
                             slug(language: "$language") {
                                 value
@@ -999,10 +851,6 @@ class ProductModel extends BaseModel {
                                 purchaseUnit
                                 purchaseMinimumQuantity
                                 inventory {
-                                    localQuantity
-                                    nextDeliveryDate
-                                    productId
-                                    supplierQuantity
                                     totalQuantity
                                 }
                                 price(taxZone: "$tax_zone") {
@@ -1019,12 +867,6 @@ class ProductModel extends BaseModel {
                                     taxCode
                                     type
                                 }
-                                bulkPrices {
-                                    net
-                                    gross
-                                    from
-                                    to
-                                }
                                 $media_images_gql
                             }
                             ... on Cluster {
@@ -1037,14 +879,6 @@ class ProductModel extends BaseModel {
                                 products {
                                     class
                                     name(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    description(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    shortDescription(language: "$language") {
                                         value
                                         language
                                     }
@@ -1091,14 +925,6 @@ class ProductModel extends BaseModel {
                                             id
                                             categoryId
                                             name(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            description(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            shortDescription(language: "$language") {
                                                 value
                                                 language
                                             }
@@ -1144,14 +970,6 @@ class ProductModel extends BaseModel {
                                 value
                                 language
                             }
-                            description(language: "$language") {
-                                value
-                                language
-                            }
-                            shortDescription(language: "$language") {
-                                value
-                                language
-                            }
                             sku
                             slug(language: "$language") {
                                 value
@@ -1178,10 +996,6 @@ class ProductModel extends BaseModel {
                                 purchaseUnit
                                 purchaseMinimumQuantity
                                 inventory {
-                                    localQuantity
-                                    nextDeliveryDate
-                                    productId
-                                    supplierQuantity
                                     totalQuantity
                                 }
                                 price(taxZone: "$tax_zone") {
@@ -1198,12 +1012,6 @@ class ProductModel extends BaseModel {
                                     taxCode
                                     type
                                 }
-                                bulkPrices {
-                                    net
-                                    gross
-                                    from
-                                    to
-                                }
                                 $media_images_gql
                             }
                             ... on Cluster {
@@ -1216,14 +1024,6 @@ class ProductModel extends BaseModel {
                                 products {
                                     class
                                     name(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    description(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    shortDescription(language: "$language") {
                                         value
                                         language
                                     }
@@ -1273,14 +1073,6 @@ class ProductModel extends BaseModel {
                                                 value
                                                 language
                                             }
-                                            description(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            shortDescription(language: "$language") {
-                                                value
-                                                language
-                                            }
                                             slug(language: "$language") {
                                                 value
                                                 language
@@ -1322,14 +1114,6 @@ class ProductModel extends BaseModel {
                             value
                             language
                         }
-                        description(language: "$language") {
-                            value
-                            language
-                        }
-                        shortDescription(language: "$language") {
-                            value
-                            language
-                        }
                         sku
                         slug(language: "$language") {
                             value
@@ -1356,31 +1140,7 @@ class ProductModel extends BaseModel {
                             purchaseUnit
                             purchaseMinimumQuantity
                             inventory {
-                                localQuantity
-                                nextDeliveryDate
-                                productId
-                                supplierQuantity
                                 totalQuantity
-                            }
-                            category {
-                                id
-                                categoryId
-                                name(language: "$language") {
-                                    value
-                                    language
-                                }
-                                description(language: "$language") {
-                                    value
-                                    language
-                                }
-                                shortDescription(language: "$language") {
-                                    value
-                                    language
-                                }
-                                slug(language: "$language") {
-                                    value
-                                    language
-                                }
                             }
                             price {
                                 net
@@ -1397,12 +1157,6 @@ class ProductModel extends BaseModel {
                                 taxCode
                                 type
                             }
-                            bulkPrices {
-                                net
-                                gross
-                                from
-                                to
-                            }
                             $media_images_gql
                         }
                         ... on Cluster {
@@ -1415,14 +1169,6 @@ class ProductModel extends BaseModel {
                             products {
                                 class
                                 name(language: "$language") {
-                                    value
-                                    language
-                                }
-                                description(language: "$language") {
-                                    value
-                                    language
-                                }
-                                shortDescription(language: "$language") {
                                     value
                                     language
                                 }
@@ -1452,32 +1198,8 @@ class ProductModel extends BaseModel {
                                     purchaseUnit
                                     purchaseMinimumQuantity
                                     inventory {
-                                        localQuantity
-                                        nextDeliveryDate
-                                        productId
-                                        supplierQuantity
                                         totalQuantity
-                                    }
-                                    category {
-                                        id
-                                        categoryId
-                                        name(language: "$language") {
-                                            value
-                                            language
-                                        }
-                                        description(language: "$language") {
-                                            value
-                                            language
-                                        }
-                                        shortDescription(language: "$language") {
-                                            value
-                                            language
-                                        }
-                                        slug(language: "$language") {
-                                            value
-                                            language
-                                        }
-                                    }
+                                    }  
                                     price {
                                         net
                                         gross
@@ -1492,12 +1214,6 @@ class ProductModel extends BaseModel {
                                         }
                                         taxCode
                                         type
-                                    }
-                                    bulkPrices {
-                                        net
-                                        gross
-                                        from
-                                        to
                                     }
                                     $media_images_gql
                                 }
@@ -1547,24 +1263,12 @@ class ProductModel extends BaseModel {
                                         purchaseUnit
                                         purchaseMinimumQuantity
                                         inventory {
-                                            localQuantity
-                                            nextDeliveryDate
-                                            productId
-                                            supplierQuantity
                                             totalQuantity
                                         }
                                         category {
                                             id
                                             categoryId
                                             name(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            description(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            shortDescription(language: "$language") {
                                                 value
                                                 language
                                             }
@@ -1587,12 +1291,6 @@ class ProductModel extends BaseModel {
                                             }
                                             taxCode
                                             type
-                                        }
-                                        bulkPrices {
-                                            net
-                                            gross
-                                            from
-                                            to
                                         }
                                         $media_images_gql
                                     }
@@ -1680,14 +1378,6 @@ class ProductModel extends BaseModel {
                             value
                             language
                         }
-                        description(language: "$language") {
-                            value
-                            language
-                        }
-                        shortDescription(language: "$language") {
-                            value
-                            language
-                        }
                         sku
                         slug(language: "$language") {
                             value
@@ -1714,31 +1404,7 @@ class ProductModel extends BaseModel {
                             purchaseUnit
                             purchaseMinimumQuantity
                             inventory {
-                                localQuantity
-                                nextDeliveryDate
-                                productId
-                                supplierQuantity
                                 totalQuantity
-                            }
-                            category {
-                                id
-                                categoryId
-                                name(language: "$language") {
-                                    value
-                                    language
-                                }
-                                description(language: "$language") {
-                                    value
-                                    language
-                                }
-                                shortDescription(language: "$language") {
-                                    value
-                                    language
-                                }
-                                slug(language: "$language") {
-                                    value
-                                    language
-                                }
                             }
                             price {
                                 net
@@ -1755,35 +1421,6 @@ class ProductModel extends BaseModel {
                                 taxCode
                                 type
                             }
-                            bulkPrices {
-                                net
-                                gross
-                                from
-                                to
-                            }
-                            attributes($attr_str_args) {
-                                id
-                                name
-                                group
-                                searchId
-                                description {
-                                    value
-                                    language
-                                }
-                                type
-                                typeParam
-                                isSearchable
-                                isPublic
-                                isHidden
-                                enumValue
-                                intValue
-                                decimalValue
-                                dateValue
-                                textValue {
-                                    values
-                                    language
-                                }
-                            }
                             $track_attributes
                             $media_images_gql
                         }
@@ -1797,14 +1434,6 @@ class ProductModel extends BaseModel {
                             products {
                                 class
                                 name(language: "$language") {
-                                    value
-                                    language
-                                }
-                                description(language: "$language") {
-                                    value
-                                    language
-                                }
-                                shortDescription(language: "$language") {
                                     value
                                     language
                                 }
@@ -1834,31 +1463,7 @@ class ProductModel extends BaseModel {
                                     purchaseUnit
                                     purchaseMinimumQuantity
                                     inventory {
-                                        localQuantity
-                                        nextDeliveryDate
-                                        productId
-                                        supplierQuantity
                                         totalQuantity
-                                    }
-                                    category {
-                                        id
-                                        categoryId
-                                        name(language: "$language") {
-                                            value
-                                            language
-                                        }
-                                        description(language: "$language") {
-                                            value
-                                            language
-                                        }
-                                        shortDescription(language: "$language") {
-                                            value
-                                            language
-                                        }
-                                        slug(language: "$language") {
-                                            value
-                                            language
-                                        }
                                     }
                                     price {
                                         net
@@ -1874,12 +1479,6 @@ class ProductModel extends BaseModel {
                                         }
                                         taxCode
                                         type
-                                    }
-                                    bulkPrices {
-                                        net
-                                        gross
-                                        from
-                                        to
                                     }
                                     $media_images_gql
                                 }
@@ -1929,31 +1528,7 @@ class ProductModel extends BaseModel {
                                         purchaseUnit
                                         purchaseMinimumQuantity
                                         inventory {
-                                            localQuantity
-                                            nextDeliveryDate
-                                            productId
-                                            supplierQuantity
                                             totalQuantity
-                                        }
-                                        category {
-                                            id
-                                            categoryId
-                                            name(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            description(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            shortDescription(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            slug(language: "$language") {
-                                                value
-                                                language
-                                            }
                                         }
                                         price {
                                             net
@@ -1969,12 +1544,6 @@ class ProductModel extends BaseModel {
                                             }
                                             taxCode
                                             type
-                                        }
-                                        bulkPrices {
-                                            net
-                                            gross
-                                            from
-                                            to
                                         }
                                         $media_images_gql
                                     }
