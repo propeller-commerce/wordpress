@@ -2,8 +2,6 @@
 
 use Propeller\Includes\Enum\PageType;
 
-    add_action('init', 'propeller_rewrites_init');
-
     function propeller_rewrites_init() {
         global $propellerSluggablePages;
 
@@ -29,16 +27,21 @@ use Propeller\Includes\Enum\PageType;
                     'top');
             }
         }
+	}
+	add_action('init', 'propeller_rewrites_init');
 
-        flush_rewrite_rules();
-    }    
+	function propel_purge_caches() {
+		flush_rewrite_rules();
+	}
+	add_action('propel_after_activation', 'propel_purge_caches');
+	add_action('propel_cache_destroyed', 'propel_purge_caches');
 
     function propeller_query_vars($query_vars) {
         $query_vars[] = 'slug';
         $query_vars[] = 'term';
         $query_vars[] = 'manufacturer';
         $query_vars[] = 'pagename';
-        
+
         return $query_vars;
     }
 
@@ -51,22 +54,22 @@ use Propeller\Includes\Enum\PageType;
     }
 
     add_filter('wp_mail_content_type', 'set_email_content_type');
-    
+
 
     if ( ! function_exists('debug_wpmail') ) :
         function debug_wpmail( $result = false ) {
-    
+
             if ( $result )
                 return;
-    
+
             global $ts_mail_errors, $phpmailer;
-    
+
             if ( ! isset($ts_mail_errors) )
                 $ts_mail_errors = array();
-    
+
             if ( isset($phpmailer) )
                 $ts_mail_errors[] = $phpmailer->ErrorInfo;
-    
+
             return $ts_mail_errors;
         }
     endif;

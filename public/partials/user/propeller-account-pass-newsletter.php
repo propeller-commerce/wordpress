@@ -18,7 +18,7 @@
         <div class="row address-links">
             <div class="col-12">
                 <a class="address-edit open-modal-form" 
-                    data-form-id="edit_address<?= $user->userId; ?>" 
+                    data-form-id="edit_address<?php echo $user->userId; ?>" 
                     data-title="<?php echo __('Password and newsletter', 'propeller-ecommerce'); ?>"
                     data-target="#change_pwd_modal"
                     data-toggle="modal"

@@ -24,12 +24,12 @@ $cluster_product = $product->defaultProduct ? $product->defaultProduct : $produc
                     
                     if($attribute->searchId == 'attr_product_label_1' && !empty($attribute->get_value())) { ?>
                         <div class="product-label label-1 order-1">
-                            <span><?= $attribute->get_value(); ?></span>
+                            <span><?php echo $attribute->get_value(); ?></span>
                         </div>
                     <?php }
                     if($attribute->searchId == 'attr_product_label_2' && !empty($attribute->get_value())) { ?>
                         <div class="product-label label-2  order-2">
-                            <span><?= $attribute->get_value(); ?></span>
+                            <span><?php echo $attribute->get_value(); ?></span>
                         </div>
                     <?php }
                 }
@@ -43,9 +43,9 @@ $cluster_product = $product->defaultProduct ? $product->defaultProduct : $produc
                     if ($cluster_product->has_images()) 
                 { ?>
                     <img class="img-fluid"
-                        src="<?= $cluster_product->images[0]->images[0]->url;?>"
-                        alt="<?= (count($cluster_product->images[0]->alt) ? $cluster_product->images[0]->alt[0]->value : ""); ?>" 
-                        width="<?= PROPELLER_PRODUCT_IMG_CATALOG_WIDTH; ?>" height="<?= PROPELLER_PRODUCT_IMG_CATALOG_HEIGHT; ?>">
+                        src="<?php echo $cluster_product->images[0]->images[0]->url;?>"
+                        alt="<?php echo (count($cluster_product->images[0]->alt) ? $cluster_product->images[0]->alt[0]->value : ""); ?>" 
+                        width="<?php echo PROPELLER_PRODUCT_IMG_CATALOG_WIDTH; ?>" height="<?php echo PROPELLER_PRODUCT_IMG_CATALOG_HEIGHT; ?>">
                 <?php }
                     else { ?>
                     <img class="img-fluid"
@@ -57,11 +57,11 @@ $cluster_product = $product->defaultProduct ? $product->defaultProduct : $produc
         </div>
     </figure>
     <div class="card-body product-card-description">
-        <div class="product-code"><?php echo __('SKU', 'propeller-ecommerce'); ?>: <?= $product->sku; ?></div>
+        <div class="product-code"><?php echo __('SKU', 'propeller-ecommerce'); ?>: <?php echo $product->sku; ?></div>
         <div class="product-name">
 
-            <a href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value); ?>">
-                <?= $product->name[0]->value; ?>   
+            <a href="<?php echo $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value); ?>">
+                <?php echo $product->name[0]->value; ?>   
             </a>
         </div>
     </div>
@@ -70,65 +70,37 @@ $cluster_product = $product->defaultProduct ? $product->defaultProduct : $produc
         <div class="product-price">
             <?php if(!empty($cluster_product->suggestedPrice)) { ?>
                 <?php if ($user_prices == false) { ?>
-                    <div class="product-current-price has-discount d-md-inline-flex"><span class="price"><?= PropellerHelper::formatPrice($cluster_product->price->gross); ?></span></div>
+                    <div class="product-current-price has-discount d-md-inline-flex"><span class="price"><?php echo PropellerHelper::formatPrice($cluster_product->price->gross); ?></span></div>
                 <?php } else { ?> 
-                    <div class="product-current-price has-discount d-md-inline-flex"><span class="price"><?= PropellerHelper::formatPrice($cluster_product->price->net); ?></span></div>    
+                    <div class="product-current-price has-discount d-md-inline-flex"><span class="price"><?php echo PropellerHelper::formatPrice($cluster_product->price->net); ?></span></div>    
                 <?php } ?>
                 
-                <div class="product-old-price d-md-inline-flex"><span class="price"><?= PropellerHelper::formatPrice($cluster_product->suggestedPrice); ?></span></div>
+                <div class="product-old-price d-md-inline-flex"><span class="price"><?php echo PropellerHelper::formatPrice($cluster_product->suggestedPrice); ?></span></div>
              <?php } else if ($user_prices == false) { ?>
-                <div class="product-current-price"><span class="price"><?= PropellerHelper::formatPrice($cluster_product->price->gross); ?></span></div>
+                <div class="product-current-price"><span class="price"><?php echo PropellerHelper::formatPrice($cluster_product->price->gross); ?></span></div>
             <?php } else { ?>
-                <div class="product-current-price"><span class="price"><?= PropellerHelper::formatPrice($cluster_product->price->net); ?></span></div>
+                <div class="product-current-price"><span class="price"><?php echo PropellerHelper::formatPrice($cluster_product->price->net); ?></span></div>
             <?php } ?>	
         </div>
         <?php if ($user_prices == false) { ?>
             <small class="product-customer-price"> 
-                <span class="product-price-tax"> <?= PropellerHelper::formatPrice($cluster_product->price->net); ?> <?php echo __('incl. VAT', 'propeller-ecommerce'); ?></span>
+                <span class="product-price-tax"> <?php echo PropellerHelper::formatPrice($cluster_product->price->net); ?> <?php echo __('incl. VAT', 'propeller-ecommerce'); ?></span>
             </small>
         <?php } else { ?>
             <small class="product-customer-price"> 
-                <span class="product-price-tax"> <?= PropellerHelper::formatPrice($cluster_product->price->gross); ?> <?php echo __('excl. VAT', 'propeller-ecommerce'); ?></span>
+                <span class="product-price-tax"> <?php echo PropellerHelper::formatPrice($cluster_product->price->gross); ?> <?php echo __('excl. VAT', 'propeller-ecommerce'); ?></span>
             </small>
         <?php } ?>
       
         <!-- Include the order button template -->	
         <div class="add-to-basket-wrapper">  
                 <div class="add-to-basket"> 
-                    <form class="add-to-basket-form d-flex" name="add-product" method="post">
-                        <input type="hidden" name="product_id" value="<?= $cluster_product->productId; ?>">
-                        <input type="hidden" name="action" value="cart_add_item">
-                            <div class="input-group product-quantity">
-                                <label class="sr-only" for="quantity-item-<?= $cluster_product->productId; ?>"><?php echo __('Quantity', 'propeller-ecommerce'); ?></label>
-                                <span class="input-group-prepend incr-decr">
-                                    <button type="button" class="btn-quantity" 
-                                    data-type="minus">-</button>
-                                </span>
-                                <input
-                                    type="number"
-                                    ondrop="return false;" 
-                                    onpaste="return false;"
-                                    onkeypress="return event.charCode>=48 && event.charCode<=57" 
-                                    id="quantity-item-<?= $cluster_product->productId; ?>"
-                                    class="quantity large form-control input-number"
-                                    name="quantity"
-                                    value="1"
-                                    autocomplete="off"
-                                    min="<?= $cluster_product->minimumQuantity; ?>"
-                                    data-min="<?= $cluster_product->minimumQuantity; ?>"
-                                    data-unit="<?= $cluster_product->unit; ?>"
-                                    >  
-                                <span class="input-group-append incr-decr">
-                                    <button type="button" class="btn-quantity" data-type="plus">+</button>
-                                </span>
-                            </div>
-                        <button class="btn btn-addtobasket d-flex align-items-center justify-content-center" type="submit">
-                            <svg class="d-flex d-md-none icon icon-cart" aria-hidden="true">
-                                <use xlink:href="#shape-shopping-cart"></use>
-                            </svg>    
-                            <span class="d-none d-md-flex text"><?php echo __('In cart', 'propeller-ecommerce'); ?></span>
-                        </button>
-                    </form>
+                    <a class="btn btn-addtobasket d-flex align-items-center justify-content-center" href="<?php echo $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value); ?>">
+                        <svg class="d-flex d-md-none icon icon-cart" aria-hidden="true">
+                            <use xlink:href="#shape-shopping-cart"></use>
+                        </svg>    
+                        <span class="d-none d-md-flex text"><?php _e( 'Bekijken', 'propeller-ecommerce' ); ?></span>
+                    </a>
                 </div>
         </div>
        

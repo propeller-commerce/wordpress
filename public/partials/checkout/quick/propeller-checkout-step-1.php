@@ -42,15 +42,15 @@ use Propeller\PropellerHelper;
                                         }
                                             
                                     ?>
-                                    <?= $this->cart->invoiceAddress->firstName; ?> <?= $this->cart->invoiceAddress->lastName; ?>
+                                    <?php echo $this->cart->invoiceAddress->firstName; ?> <?php echo $this->cart->invoiceAddress->lastName; ?>
                                 </div>
                                 <div class="user-addr-details">
-                                    <?= $this->cart->invoiceAddress->company; ?><br>
-                                    <?= $this->cart->invoiceAddress->street; ?> <?= $this->cart->invoiceAddress->number; ?> <?= $this->cart->invoiceAddress->numberExtension; ?><br>
-                                    <?= $this->cart->invoiceAddress->postalCode; ?> <?= $this->cart->invoiceAddress->city; ?><br>
+                                    <?php echo $this->cart->invoiceAddress->company; ?><br>
+                                    <?php echo $this->cart->invoiceAddress->street; ?> <?php echo $this->cart->invoiceAddress->number; ?> <?php echo $this->cart->invoiceAddress->numberExtension; ?><br>
+                                    <?php echo $this->cart->invoiceAddress->postalCode; ?> <?php echo $this->cart->invoiceAddress->city; ?><br>
                                     <?php 
                                         $code = $this->cart->invoiceAddress->country;
-                                        $countries = include PROPELLER_PLUGIN_DIR . '/src/Countries.php'; 
+                                        $countries = include PROPELLER_PLUGIN_DIR . '/includes/Countries.php'; 
 
                                         if( !$countries[$code] ) 
                                             echo $code;
@@ -74,7 +74,7 @@ use Propeller\PropellerHelper;
                                         <div class="addr-title"><?php echo __('Delivery address', 'propeller-ecommerce'); ?></div>
                                         <div class="user-addr-details">
                                             
-                                            <?= $this->cart->deliveryAddress->company; ?><br>
+                                            <?php echo $this->cart->deliveryAddress->company; ?><br>
                                             <?php if ($this->cart->deliveryAddress->gender === 'M') {
                                                     echo SALUTATION_M;
                                                 }
@@ -85,12 +85,12 @@ use Propeller\PropellerHelper;
                                                     echo SALUTATION_U;
                                                 } 
                                             ?>  
-                                            <?= $this->cart->deliveryAddress->firstName; ?>  <?= $this->cart->deliveryAddress->lastName; ?><br>
-                                            <?= $this->cart->deliveryAddress->street; ?> <?= $this->cart->deliveryAddress->number; ?> <?= $this->cart->deliveryAddress->numberExtension; ?><br>
-                                            <?= $this->cart->deliveryAddress->postalCode; ?> <?= $this->cart->deliveryAddress->city; ?><br>
+                                            <?php echo $this->cart->deliveryAddress->firstName; ?>  <?php echo $this->cart->deliveryAddress->lastName; ?><br>
+                                            <?php echo $this->cart->deliveryAddress->street; ?> <?php echo $this->cart->deliveryAddress->number; ?> <?php echo $this->cart->deliveryAddress->numberExtension; ?><br>
+                                            <?php echo $this->cart->deliveryAddress->postalCode; ?> <?php echo $this->cart->deliveryAddress->city; ?><br>
                                             <?php 
                                                 $code = $this->cart->deliveryAddress->country;
-                                                $countries = include PROPELLER_PLUGIN_DIR . '/src/Countries.php'; 
+                                                $countries = include PROPELLER_PLUGIN_DIR . '/includes/Countries.php'; 
 
                                                 if( !$countries[$code] ) 
                                                     echo $code;
@@ -138,7 +138,7 @@ use Propeller\PropellerHelper;
                             <div class="col-12">
                                 <form name="checkout-notes" class="form-handler checkout-form validate" method="post">
                                     <input type="hidden" name="action" value="cart_process" />
-                                    <input type="hidden" name="status" value="<?= SessionController::get(PROPELLER_ORDER_STATUS_TYPE); ?>" />
+                                    <input type="hidden" name="status" value="<?php echo SessionController::get(PROPELLER_ORDER_STATUS_TYPE); ?>" />
                                     
                                     <fieldset>
                                         <div class="row form-group">

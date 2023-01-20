@@ -36,11 +36,11 @@ msgstr ""
 msgid "New translations template file created"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\admin\PropellerTranslations.php:170
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\admin\PropellerTranslations.php:174
 msgid "New translations file created"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\admin\PropellerTranslations.php:186
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\admin\PropellerTranslations.php:190
 msgid "New translations are generated"
 msgstr ""
 
@@ -1267,8 +1267,8 @@ msgid "Address created"
 msgstr ""
 
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\AddressAjaxController.php:51
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartAjaxController.php:222
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:830
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartAjaxController.php:225
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:833
 msgid "Address updated"
 msgstr ""
 
@@ -1280,26 +1280,26 @@ msgstr ""
 msgid "Address set as default"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\CategoryController.php:40
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ProductController.php:37
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\CategoryController.php:38
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ProductController.php:34
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\other\propeller-offset-sort.php:3
 msgid "Date changed"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\CategoryController.php:41
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ProductController.php:38
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\CategoryController.php:39
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ProductController.php:35
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\other\propeller-offset-sort.php:4
 msgid "Date created"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\CategoryController.php:42
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ProductController.php:39
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\CategoryController.php:40
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ProductController.php:36
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\other\propeller-offset-sort.php:5
 msgid "Name"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\CategoryController.php:43
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ProductController.php:40
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\CategoryController.php:41
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ProductController.php:37
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\cart\propeller-shopping-cart-table-header.php:16
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\category\filter\propeller-filter-price.php:7
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\checkout\propeller-order-thank-you-items.php:42
@@ -1321,14 +1321,14 @@ msgstr ""
 msgid "Price"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\CategoryController.php:44
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ProductController.php:41
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\CategoryController.php:42
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ProductController.php:38
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\other\propeller-offset-sort.php:7
 msgid "Relevance"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\CategoryController.php:45
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ProductController.php:42
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\CategoryController.php:43
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ProductController.php:39
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\cart\propeller-pre-basket-popup.php:36
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\cart\propeller-shopping-cart-bonus-item.php:26
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\cart\propeller-shopping-cart-popup-item.php:17
@@ -1373,91 +1373,91 @@ msgstr ""
 msgid "SKU"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\CategoryController.php:46
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ProductController.php:43
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\CategoryController.php:44
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ProductController.php:40
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\other\propeller-offset-sort.php:9
 msgid "Supplier code"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\CategoryController.php:50
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ProductController.php:47
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\CategoryController.php:48
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ProductController.php:44
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\other\propeller-offset-sort.php:13
 msgid "Asc"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\CategoryController.php:51
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ProductController.php:48
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\CategoryController.php:49
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ProductController.php:45
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\other\propeller-offset-sort.php:14
 msgid "Desc"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\OrderController.php:454
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\OrderController.php:451
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\user\propeller-account-order-details-returns.php:3
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\user\propeller-account-order-details-returns.php:7
 msgid "Return request"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\OrderController.php:456
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\OrderController.php:454
 msgid "Return request sent. We will contact you."
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartAjaxController.php:157
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartAjaxController.php:160
 msgid "Proceeding to next step"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartAjaxController.php:255
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartAjaxController.php:258
 msgid "Completed"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:351
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:354
 msgid "Error uploading Excel file"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:642
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:645
 msgid "Bundle added to cart"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:691
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:694
 msgid "Item updated"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:743
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:746
 msgid "Item remove from cart"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:881
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:884
 msgid "Added action code to cart"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:888
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:891
 msgid "This action code is not found"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:928
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:931
 msgid "Action code removed"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:975
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:978
 msgid "Added voucher code to cart"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:982
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:985
 msgid "This voucher code is not found"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:1022
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:1025
 msgid "Voucher code removed"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:1092
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:1095
 msgid "Order type changed"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:1262
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\ShoppingCartController.php:1265
 msgid "Cart processed"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\UserController.php:313
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\UserController.php:312
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\user\propeller-account-mobile.php:14
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\user\propeller-account-page.php:23
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\user\propeller-account-sidemenu.php:14
@@ -1465,36 +1465,32 @@ msgstr ""
 msgid "Welcome"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\UserController.php:316
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\UserController.php:315
 msgid "Wrong credentials"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\UserController.php:325
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\UserController.php:324
 msgid "Wrong credentials."
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\UserController.php:489
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\UserController.php:491
 msgid "Registration successful! You can log in now."
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\UserController.php:533
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\UserController.php:522
 msgid "Failed to create invoice address."
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\UserController.php:540
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\UserController.php:558
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\UserController.php:529
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\UserController.php:547
 msgid "Failed to create delivery address."
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\UserController.php:677
-msgid "This email address is not found"
-msgstr ""
-
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\UserController.php:682
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\UserController.php:663
 msgid "Reset password?"
 msgstr ""
 
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\UserController.php:702
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\includes\Includes\Controller\UserController.php:684
 msgid "Your reset password email sent"
 msgstr ""
 
@@ -1528,7 +1524,7 @@ msgid "Your password reset link"
 msgstr ""
 
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\email\propeller-reset-password-template.php:2
-msgid "Dear {{var:user.firstName}}, <br> We received a request to reset your {{var:site.name}} password.<br> Please use the following <a href=\"{{var:resetLink}}\">link</a> to reset your password<br><br>If you haven't request a new password from us, no action is needed."
+msgid "We received a request to reset your {{var:site.name}} password.<br> Please use the following <a href=\"{{var:resetLink}}\">link</a> to reset your password<br><br>If you haven't request a new password from us, no action is needed."
 msgstr ""
 
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\email\propeller-return-request-template.php:1
@@ -1834,7 +1830,7 @@ msgstr ""
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\checkout\propeller-order-thank-you-items.php:83
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\checkout\propeller-order-thank-you-items.php:119
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\product\propeller-cluster-card.php:102
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\product\propeller-cluster-options-configurable.php:58
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\product\propeller-cluster-options-configurable.php:55
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\product\propeller-cluster-options-normal.php:51
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\product\propeller-product-add-to-basket.php:6
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\product\propeller-product-card-crossupsell.php:99
@@ -2611,7 +2607,7 @@ msgid "Show as blocks"
 msgstr ""
 
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\other\propeller-catalog-pre-grid.php:59
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\other\propeller-product-slider.php:10
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\other\propeller-product-slider.php:3
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\other\propeller-search-pre-grid.php:64
 msgid "No results"
 msgstr ""
@@ -2697,7 +2693,7 @@ msgstr ""
 
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\product\propeller-cluster-bundles.php:128
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\product\propeller-cluster-card.php:129
-#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\product\propeller-cluster-options-configurable.php:81
+#: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\product\propeller-cluster-options-configurable.php:78
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\product\propeller-cluster-options-normal.php:75
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\product\propeller-product-add-to-basket.php:30
 #: E:\wamp64\www\playground\wp-content\plugins\propeller-ecommerce-2/\public\partials\product\propeller-product-bundles.php:135

@@ -12,10 +12,10 @@
                     ?>
                     
                     <?php if (!empty($user->cocNumber)) { ?>
-                        <span><?php echo __('Company Reg No.:', 'propeller-ecommerce'); ?>&nbsp;</span><?= $user->cocNumber; ?><br>
+                        <span><?php echo __('Company Reg No.:', 'propeller-ecommerce'); ?>&nbsp;</span><?php echo $user->cocNumber; ?><br>
                     <?php } ?>
                     <?php if (!empty($user->taxNumber)) { ?>
-                        <span><?php echo __('VAT number:', 'propeller-ecommerce'); ?>&nbsp;</span><?= $user->taxNumber; ?>
+                        <span><?php echo __('VAT number:', 'propeller-ecommerce'); ?>&nbsp;</span><?php echo $user->taxNumber; ?>
                     <?php } ?>
                 </div>
             </div>

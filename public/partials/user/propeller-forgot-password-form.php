@@ -28,7 +28,7 @@
                                 <input type="submit" class="btn-blue btn-proceed" value="<?php echo __('Send', 'propeller-ecommerce'); ?>">
                             </div>
                             <div class="col">
-                                <a href="<?= $this->buildUrl('', PageController::get_slug(PageType::LOGIN_PAGE)); ?>" class="btn-forgot-password"><?php echo __('Cancel', 'propeller-ecommerce'); ?></a>
+                                <a href="<?php echo $this->buildUrl('', PageController::get_slug(PageType::LOGIN_PAGE)); ?>" class="btn-forgot-password"><?php echo __('Cancel', 'propeller-ecommerce'); ?></a>
                             </div>
                         </div>
                     </div>

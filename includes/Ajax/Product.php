@@ -35,6 +35,15 @@ add_action('wp_ajax_nopriv_get_recently_viewed_products', array($AjaxProduct, 'g
 add_action('wp_ajax_load_crossupsells', array($AjaxProduct, 'load_crossupsells'));
 add_action('wp_ajax_nopriv_load_crossupsells', array($AjaxProduct, 'load_crossupsells'));
 
+add_action('wp_ajax_load_product_specifications', array($AjaxProduct, 'load_product_specifications'));
+add_action('wp_ajax_nopriv_load_product_specifications', array($AjaxProduct, 'load_product_specifications'));
+
+add_action('wp_ajax_load_product_downloads', array($AjaxProduct, 'load_product_downloads'));
+add_action('wp_ajax_nopriv_load_product_downloads', array($AjaxProduct, 'load_product_downloads'));
+
+add_action('wp_ajax_load_product_videos', array($AjaxProduct, 'load_product_videos'));
+add_action('wp_ajax_nopriv_load_product_videos', array($AjaxProduct, 'load_product_videos'));
+
 function product_query_vars($qvars) {
     $qvars[] = 'action';
     $qvars[] = 'page';

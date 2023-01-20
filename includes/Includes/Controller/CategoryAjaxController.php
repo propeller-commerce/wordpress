@@ -4,7 +4,7 @@ namespace Propeller\Includes\Controller;
 use Propeller\Includes\Controller\CategoryController;
 use Propeller\Propeller;
 
-class CategoryAjaxController {
+class CategoryAjaxController extends BaseAjaxController {
     protected $category;
 
     public function __construct() { 
@@ -12,6 +12,8 @@ class CategoryAjaxController {
     }
 
     public function do_filter() {
+        $_POST = $this->sanitize($_POST);
+
         unset($_POST['action']);
 
         $prop = new Propeller();

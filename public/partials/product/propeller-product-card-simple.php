@@ -17,12 +17,12 @@ $user_prices = SessionController::get(PROPELLER_SPECIFIC_PRICES);
                     foreach ($product->get_attributes() as $attribute) {
                         if($attribute->searchId == 'attr_product_label_1' && !empty($attribute->get_value())) { ?>
                             <div class="product-label label-1 order-1">
-                                <span><?= $attribute->get_value(); ?></span>
+                                <span><?php echo $attribute->get_value(); ?></span>
                             </div>
                         <?php }
                         if($attribute->searchId == 'attr_product_label_2' && !empty($attribute->get_value())) { ?>
                             <div class="product-label label-2  order-2">
-                                <span><?= $attribute->get_value(); ?></span>
+                                <span><?php echo $attribute->get_value(); ?></span>
                             </div>
                         <?php }
                     }
@@ -35,10 +35,10 @@ $user_prices = SessionController::get(PROPELLER_SPECIFIC_PRICES);
                 <a href="<?php echo $this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value); ?>">
                     <?php if($product->has_images()) {?>
                                 <img class="img-fluid" loading="lazy" 
-                                    src="<?= $product->images[0]->images[0]->url;?>"
-                                    alt="<?= (count($product->images[0]->alt) ? $product->images[0]->alt[0]->value : ""); ?>" 
-                                    width="<?= PROPELLER_PRODUCT_IMG_CATALOG_WIDTH; ?>" 
-                                    height="<?= PROPELLER_PRODUCT_IMG_CATALOG_HEIGHT; ?>">
+                                    src="<?php echo $product->images[0]->images[0]->url;?>"
+                                    alt="<?php echo (count($product->images[0]->alt) ? $product->images[0]->alt[0]->value : ""); ?>" 
+                                    width="<?php echo PROPELLER_PRODUCT_IMG_CATALOG_WIDTH; ?>" 
+                                    height="<?php echo PROPELLER_PRODUCT_IMG_CATALOG_HEIGHT; ?>">
                     <?php }
                         else { ?>
                         <img class="img-fluid no-image-card" loading="lazy" 
@@ -52,8 +52,8 @@ $user_prices = SessionController::get(PROPELLER_SPECIFIC_PRICES);
         <div class="card-body product-card-description">
             <div class="product-name">
                 <!-- build the product urls with the classId of the product (temporary) -->
-                <a href="<?= $this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value); ?>">
-                    <?= $product->name[0]->value; ?>
+                <a href="<?php echo $this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value); ?>">
+                    <?php echo $product->name[0]->value; ?>
                 </a>
             </div>
         </div>
@@ -62,16 +62,16 @@ $user_prices = SessionController::get(PROPELLER_SPECIFIC_PRICES);
             <div class="product-price">
                 <?php if(!empty($product->storePrice)) { ?>
                     <?php if ($user_prices == false) { ?>
-                        <div class="product-current-price has-discount d-md-inline-flex"><span class="price"><?= PropellerHelper::formatPrice($product->price->gross); ?><small><?php echo __('excl VAT', 'propeller-ecommerce'); ?></small></span></div>
+                        <div class="product-current-price has-discount d-md-inline-flex"><span class="price"><?php echo PropellerHelper::formatPrice($product->price->gross); ?><small><?php echo __('excl VAT', 'propeller-ecommerce'); ?></small></span></div>
                     <?php } else { ?> 
-                        <div class="product-current-price has-discount d-md-inline-flex"><span class="price"><?= PropellerHelper::formatPrice($product->price->net); ?><small><?php echo __('incl VAT', 'propeller-ecommerce'); ?></small></span></div>    
+                        <div class="product-current-price has-discount d-md-inline-flex"><span class="price"><?php echo PropellerHelper::formatPrice($product->price->net); ?><small><?php echo __('incl VAT', 'propeller-ecommerce'); ?></small></span></div>    
                     <?php } ?>
                     
-                    <div class="product-old-price d-md-inline-flex"><span class="price"><?= PropellerHelper::formatPrice($product->suggestedPrice); ?></span></div>
+                    <div class="product-old-price d-md-inline-flex"><span class="price"><?php echo PropellerHelper::formatPrice($product->suggestedPrice); ?></span></div>
                 <?php } else if ($user_prices == false) { ?>
-                    <div class="product-current-price"><span class="price"><?= PropellerHelper::formatPrice($product->price->gross); ?></span></div>
+                    <div class="product-current-price"><span class="price"><?php echo PropellerHelper::formatPrice($product->price->gross); ?></span></div>
                 <?php } else { ?>
-                    <div class="product-current-price"><span class="price"><?= PropellerHelper::formatPrice($product->price->net); ?></span></div>
+                    <div class="product-current-price"><span class="price"><?php echo PropellerHelper::formatPrice($product->price->net); ?></span></div>
                 <?php } ?>	
             </div>
             
@@ -80,10 +80,10 @@ $user_prices = SessionController::get(PROPELLER_SPECIFIC_PRICES);
             <?php /*if( $product->isOrderable === 'Y') { */?>
                 <div class="add-to-basket"> 
                     <form class="add-to-basket-form d-flex" name="add-product" method="post">
-                        <input type="hidden" name="product_id" value="<?= $product->productId; ?>">
+                        <input type="hidden" name="product_id" value="<?php echo $product->productId; ?>">
                         <input type="hidden" name="action" value="cart_add_item">
                     
-                        <a href="<?= $this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value); ?>" class="btn btn-addtobasket d-flex align-items-center justify-content-center">
+                        <a href="<?php echo $this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value); ?>" class="btn btn-addtobasket d-flex align-items-center justify-content-center">
                             <!-- <svg class="d-flex icon icon-cart" aria-hidden="true">
                                 <use xlink:href="#shape-shopping-cart"></use>
                             </svg>     -->
@@ -97,7 +97,7 @@ $user_prices = SessionController::get(PROPELLER_SPECIFIC_PRICES);
             <?php /* } */ ?>
         </div>
 
-        <div class="product-code"><?= $product->sku; ?></div>     
+        <div class="product-code"><?php echo $product->sku; ?></div>     
             
         </div>
 

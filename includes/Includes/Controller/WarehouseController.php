@@ -29,6 +29,7 @@ class WarehouseController extends BaseController {
 
                 $params[] = "$key: $temp_val";
             }
+                
         }
 
         $gql = $this->model->get_warehouses(['input' => new RawObject('{' . implode(', ', $params) . '}')]);

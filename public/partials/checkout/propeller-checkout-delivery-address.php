@@ -1,20 +1,20 @@
 <div class="col-12 col-md-6 form-group form-check delivery-address-block ">
-    <label class="delivery-label form-check-label <?= $checked_label; ?>">
-        <input type="radio" class="form-check-input delivery-addresses" name="delivery_address" value="<?= $delivery_address->id; ?>" <?= $checked; ?>> 
+    <label class="delivery-label form-check-label <?php echo $checked_label; ?>">
+        <input type="radio" class="form-check-input delivery-addresses" name="delivery_address" value="<?php echo $delivery_address->id; ?>" <?php echo $checked; ?>> 
         
         <div class="label-delivery-address">
-            <?= $delivery_address->company; ?><br>
-            <?= $delivery_address->firstName; ?> <?= $delivery_address->middleName; ?> <?= $delivery_address->lastName; ?><br>
-            <?= $delivery_address->street; ?> <?= $delivery_address->number; ?> <?= $delivery_address->numberExtension; ?><br> 
-            <?= $delivery_address->postalCode; ?> <?= $delivery_address->city; ?><br>
+            <?php echo $delivery_address->company; ?><br>
+            <?php echo $delivery_address->firstName; ?> <?php echo $delivery_address->middleName; ?> <?php echo $delivery_address->lastName; ?><br>
+            <?php echo $delivery_address->street; ?> <?php echo $delivery_address->number; ?> <?php echo $delivery_address->numberExtension; ?><br> 
+            <?php echo $delivery_address->postalCode; ?> <?php echo $delivery_address->city; ?><br>
             <?php echo $countries[$delivery_address->country]; ?><br>
-            <?= $delivery_address->email; ?>
+            <?php echo $delivery_address->email; ?>
         </div>
 
         <a class="btn-address-edit address-edit open-edit-modal-form" 
-            data-form-id="edit_address<?= $delivery_address->id; ?>" 
+            data-form-id="edit_address<?php echo $delivery_address->id; ?>" 
             data-title="<?php echo __('Edit delivery address', 'propeller-ecommerce'); ?>"
-            data-target="#edit_address_modal_<?= $delivery_address->id; ?>"
+            data-target="#edit_address_modal_<?php echo $delivery_address->id; ?>"
             data-toggle="modal"
             role="button">
             <?php echo __('Edit', 'propeller-ecommerce'); ?>

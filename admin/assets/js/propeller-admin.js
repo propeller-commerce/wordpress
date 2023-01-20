@@ -62,6 +62,8 @@ window.Propeller || (window.Propeller = {});
                     overlay = null;
                 }
             }
+
+            opts.data.nonce = propeller_admin_ajax.nonce;
             
             var loading = args.loading || null;
             if (loading)
@@ -89,6 +91,7 @@ window.Propeller || (window.Propeller = {});
 		init: function () {
             $('#exclusions').off('change').on('change', this.handle_exclusions);
             $('#closed_portal').off('change').on('change', this.display_exclusions);
+            $('#use_recaptcha').off('change').on('change', this.display_recaptcha);
             $('#add_page_btn').off('click').on('click', this.add_new_row);
             $('.delete-btn').off('click').on('click', this.delete_row);
 
@@ -106,8 +109,7 @@ window.Propeller || (window.Propeller = {});
                 data: $(this).serializeObject(),
                 loading: $(this),
                 success: function(data, msg, xhr) {
-                    if (data.success && typeof data.message != 'undefined')
-                        Propeller.Alert.show(data.message);
+                    Propeller.Alert.show(data.message, data.success);
                 },
                 error: function() {
                     // Propeller.Toast.show('Propeller', __('just now', 'propeller-ecommerce'), arguments[0].responseText, 'error', null, 3000);
@@ -127,6 +129,12 @@ window.Propeller || (window.Propeller = {});
                 $('#exclusions_container').show();
             else 
                 $('#exclusions_container').hide();
+        },
+        display_recaptcha: function(event) {
+            if ($(this).is(':checked'))
+                $('#recaptcha_settings').show();
+            else 
+                $('#recaptcha_settings').hide();
         },
         add_new_row: function(event) {
             event.preventDefault();
@@ -167,6 +175,7 @@ window.Propeller || (window.Propeller = {});
             $('#propel_translations_form').off('submit').on('submit', this.submit_form);
             $('#create_translations_form').off('submit').on('submit', this.create_translations_file);
             $('#generate_translations_form').off('submit').on('submit', this.generate_translations);
+            $('#restore_translations_form').off('submit').on('submit', this.restore_translations);
         },
         create_translations_file: function(e) {
             e.preventDefault();
@@ -179,6 +188,8 @@ window.Propeller || (window.Propeller = {});
                 success: function(data, msg, xhr) {
                     if (data.success)
                         window.location.href = `?page=${data.page}&${data.action}=true&tab=${data.tab}&file=${data.file}`;
+
+                    Propeller.Translations.load_backups();
                 },
                 error: function() {
                     // Propeller.Toast.show('Propeller', __('just now', 'propeller-ecommerce'), arguments[0].responseText, 'error', null, 3000);
@@ -197,8 +208,8 @@ window.Propeller || (window.Propeller = {});
                 data: $(this).serializeObject(),
                 loading: $(this),
                 success: function(data, msg, xhr) {
-                    if (data.success && typeof data.message != 'undefined')
-                        Propeller.Alert.show(data.message);
+                    Propeller.Alert.show(data.message, data.success);
+                    Propeller.Translations.load_backups();
                 },
                 error: function() {
                     // Propeller.Toast.show('Propeller', __('just now', 'propeller-ecommerce'), arguments[0].responseText, 'error', null, 3000);
@@ -219,10 +230,8 @@ window.Propeller || (window.Propeller = {});
                 },
                 loading: $(this),
                 success: function(data, msg, xhr) {
-                    console.log(data);
-
-                    if (data.success && typeof data.message != 'undefined')
-                        Propeller.Alert.show(data.message);
+                    Propeller.Alert.show(data.message, data.success);
+                    Propeller.Translations.load_backups();
                 },
                 error: function() {
                     // Propeller.Toast.show('Propeller', __('just now', 'propeller-ecommerce'), arguments[0].responseText, 'error', null, 3000);
@@ -247,10 +256,8 @@ window.Propeller || (window.Propeller = {});
                 data: data,
                 loading: $(this),
                 success: function(data, msg, xhr) {
-                    console.log(data);
-
-                    if (data.success && typeof data.message != 'undefined')
-                        Propeller.Alert.show(data.message);
+                    Propeller.Alert.show(data.message, data.success);
+                    Propeller.Translations.load_backups();
                 },
                 error: function() {
                     // Propeller.Toast.show('Propeller', __('just now', 'propeller-ecommerce'), arguments[0].responseText, 'error', null, 3000);
@@ -259,6 +266,51 @@ window.Propeller || (window.Propeller = {});
             });
 
             return false;
+        },
+        restore_translations: function(event) {
+            event.preventDefault();
+
+            var form_data = $(this).serializeObject();
+            form_data.action = 'restore_translations';
+
+            Propeller.Ajax.call({
+                url: propeller_admin_ajax.ajaxurl,
+                method: 'POST',
+                data: form_data,
+                loading: $(this),
+                success: function(data, msg, xhr) {
+                    if (data.success)
+                        window.location.reload();
+                    else 
+                        Propeller.Alert.show(data.message, data.success);
+                },
+                error: function() {
+                    // Propeller.Toast.show('Propeller', __('just now', 'propeller-ecommerce'), arguments[0].responseText, 'error', null, 3000);
+                    console.log('error', arguments);
+                }
+            });
+
+            return false;
+        },
+        load_backups: function() {
+            Propeller.Ajax.call({
+                url: propeller_admin_ajax.ajaxurl,
+                method: 'POST',
+                data: {
+                    action: 'load_translations_backups'
+                },
+                loading: $('#backup_date'),
+                success: function(data, msg, xhr) {
+                    if (data.success)
+                        $('#backup_date').html(data.options);
+                    else 
+                        Propeller.Alert.show(data.message, data.success);
+                },
+                error: function() {
+                    // Propeller.Toast.show('Propeller', __('just now', 'propeller-ecommerce'), arguments[0].responseText, 'error', null, 3000);
+                    console.log('error', arguments);
+                }
+            });
         },
         scroll_to_top: function(e) {
             $("html, body").animate({ scrollTop: 0 }, "fast");
@@ -272,7 +324,12 @@ window.Propeller || (window.Propeller = {});
     var Alert = {
         alert: '.propel-alert',
         init: function() {},
-        show: function(message) {
+        show: function(message, success) {
+            $(this.alert).removeClass('alert-success');
+            $(this.alert).removeClass('alert-danger');
+
+            $(this.alert).addClass(success ? 'alert-success' : 'alert-danger');
+
             $(this.alert).find('.propel-alert-body').html(message);
 
             $(this.alert).fadeTo(2000, 500).slideUp(500, function() {

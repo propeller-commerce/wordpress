@@ -4,7 +4,6 @@ namespace Propeller\Includes\Object;
 use stdClass;
 
 class Cluster extends BaseObject {
-    public $formated_options = [];
     public $cluster_type = 'normal';
 
     public $_options = [];

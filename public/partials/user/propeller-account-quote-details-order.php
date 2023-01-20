@@ -3,7 +3,7 @@
         <form name="checkout-notes" class="form-handler checkout-form validate" method="post">
             <input type="hidden" name="action" value="change_order_status" />
             <input type="hidden" name="status" value="NEW" />
-            <input type="hidden" name="order_id" value="<?= $order->id; ?>" />
+            <input type="hidden" name="order_id" value="<?php echo $order->id; ?>" />
             
             <fieldset>
                 <legend class="checkout-header"><?php echo __('Notes', 'propeller-ecommerce'); ?></legend>

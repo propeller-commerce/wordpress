@@ -16,34 +16,34 @@
 <?php if (isset($order) && is_object($order)) { ?>
 <div class="propeller-checkout-wrapper propeller-order-summary">
 
-    <?= apply_filters('propel_order_thank_you_headers', $order, $this); ?>
+    <?php echo apply_filters('propel_order_thank_you_headers', $order, $this); ?>
    
     <div class="container-fluid px-0">
         <div class="row">
 
-            <?= apply_filters('propel_order_thank_you_billing_info', $order, $this); ?>
+            <?php echo apply_filters('propel_order_thank_you_billing_info', $order, $this); ?>
 
             <?php if ($order->status != 'REQUEST') { ?>
 
-                <?= apply_filters('propel_order_thank_you_delivery_info', $order, $this); ?>
+                <?php echo apply_filters('propel_order_thank_you_delivery_info', $order, $this); ?>
 
-                <?= apply_filters('propel_order_thank_you_payment_info', $order, $this); ?>
+                <?php echo apply_filters('propel_order_thank_you_payment_info', $order, $this); ?>
 
             <?php } ?>
         </div>
         <div class="row">
 
-            <?= apply_filters('propel_order_thank_you_items_title', $order, $this); ?>
+            <?php echo apply_filters('propel_order_thank_you_items_title', $order, $this); ?>
 
             
             <div class="col-12 col-lg-8">
                 
-                <?= apply_filters('propel_order_thank_you_items', $order, $this); ?>
+                <?php echo apply_filters('propel_order_thank_you_items', $order, $this); ?>
 
             </div>
             <div class="col-12 col-lg-4">
                 
-                <?= apply_filters('propel_order_thank_you_summary_totals', $order, $this); ?>
+                <?php echo apply_filters('propel_order_thank_you_summary_totals', $order, $this); ?>
                 
             </div>
         </div>

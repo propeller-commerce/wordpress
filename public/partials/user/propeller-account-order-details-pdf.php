@@ -1,1 +1,1 @@
-<a href="data:<?= $order->pdf->contentType; ?>;base64,<?= $order->pdf->base64 ?>" download="<?= $order->pdf->fileName?>"><?php echo __('Order Confirmation (PDF)', ''); ?></a>
+<a href="data:<?php echo $order->pdf->contentType; ?>;base64,<?php echo $order->pdf->base64 ?>" download="<?php echo $order->pdf->fileName?>"><?php echo __('Order Confirmation (PDF)', ''); ?></a>

@@ -11,7 +11,7 @@
     <div class="row propeller-account-header">
         <div class="col-12">
             <div class="salutation">
-            <?php echo __('Welcome', 'propeller-ecommerce'); ?> <span class="fullname"><?= SessionController::get(PROPELLER_USER_DATA)->firstName; ?> <?= SessionController::get(PROPELLER_USER_DATA)->lastName; ?></span>
+            <?php echo __('Welcome', 'propeller-ecommerce'); ?> <span class="fullname"><?php echo SessionController::get(PROPELLER_USER_DATA)->firstName; ?> <?php echo SessionController::get(PROPELLER_USER_DATA)->lastName; ?></span>
             </div>
         </div>
     </div>
@@ -20,7 +20,7 @@
             <div class="collapse navbar-collapse " id="propeller-account-menu">
                 <ul class="navbar-nav d-block w-100">
                     <li>
-                        <a href="<?= $obj->buildUrl('', PageController::get_slug(PageType::MY_ACCOUNT_PAGE)); ?>" class="<?php if ($wp->request == PageController::get_slug(PageType::MY_ACCOUNT_PAGE)) echo 'active';?>">
+                        <a href="<?php echo $obj->buildUrl('', PageController::get_slug(PageType::MY_ACCOUNT_PAGE)); ?>" class="<?php if ($wp->request == PageController::get_slug(PageType::MY_ACCOUNT_PAGE)) echo 'active';?>">
                             <span><?php echo __('My account details', 'propeller-ecommerce'); ?></span>
                             <svg class="icon icon-svg" aria-hidden="true">
                                 <use xlink:href="#shape-arrow-right"></use>
@@ -28,7 +28,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?= $obj->buildUrl(PageController::get_slug(PageType::MY_ACCOUNT_MOBILE_PAGE), PageController::get_slug(PageType::ADDRESSES_PAGE)); ?>" class="<?php if ($wp->request == PageController::get_slug(PageType::ADDRESSES_PAGE)) echo 'active';?>">
+                        <a href="<?php echo $obj->buildUrl(PageController::get_slug(PageType::MY_ACCOUNT_MOBILE_PAGE), PageController::get_slug(PageType::ADDRESSES_PAGE)); ?>" class="<?php if ($wp->request == PageController::get_slug(PageType::ADDRESSES_PAGE)) echo 'active';?>">
                             <span><?php echo __('My addresses', 'propeller-ecommerce'); ?></span>
                             <svg class="icon icon-svg" aria-hidden="true">
                                 <use xlink:href="#shape-arrow-right"></use>
@@ -36,7 +36,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?= $obj->buildUrl(PageController::get_slug(PageType::MY_ACCOUNT_MOBILE_PAGE), PageController::get_slug(PageType::ORDERS_PAGE)); ?>" class="<?php if ($wp->request == PageController::get_slug(PageType::ORDERS_PAGE)) echo 'active';?>">
+                        <a href="<?php echo $obj->buildUrl(PageController::get_slug(PageType::MY_ACCOUNT_MOBILE_PAGE), PageController::get_slug(PageType::ORDERS_PAGE)); ?>" class="<?php if ($wp->request == PageController::get_slug(PageType::ORDERS_PAGE)) echo 'active';?>">
                             <span><?php echo __('My orders', 'propeller-ecommerce'); ?></span>
                             <svg class="icon icon-svg" aria-hidden="true">
                                 <use xlink:href="#shape-arrow-right"></use>
@@ -44,7 +44,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?= $obj->buildUrl(PageController::get_slug(PageType::MY_ACCOUNT_MOBILE_PAGE), PageController::get_slug(PageType::QUOTATIONS_PAGE)); ?>" class="<?php if ($wp->request == PageController::get_slug(PageType::QUOTATIONS_PAGE)) echo 'active';?>">
+                        <a href="<?php echo $obj->buildUrl(PageController::get_slug(PageType::MY_ACCOUNT_MOBILE_PAGE), PageController::get_slug(PageType::QUOTATIONS_PAGE)); ?>" class="<?php if ($wp->request == PageController::get_slug(PageType::QUOTATIONS_PAGE)) echo 'active';?>">
                             <span><?php echo __('My quotes', 'propeller-ecommerce'); ?></span>
                             <svg class="icon icon-svg" aria-hidden="true">
                                 <use xlink:href="#shape-arrow-right"></use>
@@ -54,7 +54,7 @@
                     </li>
                     <?php /*
                     <li>
-                        <a href="<?= $obj->buildUrl(PageController::get_slug(PageType::MY_ACCOUNT_MOBILE_PAGE), PageController::get_slug(PageType::FAVORITES_PAGE)); ?>" class="<?php if ($wp->request == PageController::get_slug(PageType::FAVORITES_PAGE)) echo 'active';?>">
+                        <a href="<?php echo $obj->buildUrl(PageController::get_slug(PageType::MY_ACCOUNT_MOBILE_PAGE), PageController::get_slug(PageType::FAVORITES_PAGE)); ?>" class="<?php if ($wp->request == PageController::get_slug(PageType::FAVORITES_PAGE)) echo 'active';?>">
                             <span><?php echo __('My favorites', 'propeller-ecommerce'); ?></span>
                             <svg class="icon icon-svg" aria-hidden="true">
                                 <use xlink:href="#shape-arrow-right"></use>
@@ -63,7 +63,7 @@
                         
                     </li>
                     <li>
-                        <a href="<?= $obj->buildUrl(PageController::get_slug(PageType::MY_ACCOUNT_MOBILE_PAGE), PageController::get_slug(PageType::ORDERLIST_PAGE)); ?>" class="<?php if ($wp->request == PageController::get_slug(PageType::ORDERLIST_PAGE)) echo 'active';?>">
+                        <a href="<?php echo $obj->buildUrl(PageController::get_slug(PageType::MY_ACCOUNT_MOBILE_PAGE), PageController::get_slug(PageType::ORDERLIST_PAGE)); ?>" class="<?php if ($wp->request == PageController::get_slug(PageType::ORDERLIST_PAGE)) echo 'active';?>">
                             <span><?php echo __('My orderlist', 'propeller-ecommerce'); ?></span>
                             <svg class="icon icon-svg" aria-hidden="true">
                                 <use xlink:href="#shape-arrow-right"></use>
@@ -72,7 +72,7 @@
                         
                     </li>
                     <li>
-                        <a href="<?= $obj->buildUrl(PageController::get_slug(PageType::MY_ACCOUNT_MOBILE_PAGE), PageController::get_slug(PageType::INVOICES_PAGE)); ?>" class="<?php if ($wp->request == PageController::get_slug(PageType::INVOICES_PAGE)) echo 'active';?>">
+                        <a href="<?php echo $obj->buildUrl(PageController::get_slug(PageType::MY_ACCOUNT_MOBILE_PAGE), PageController::get_slug(PageType::INVOICES_PAGE)); ?>" class="<?php if ($wp->request == PageController::get_slug(PageType::INVOICES_PAGE)) echo 'active';?>">
                             <span><?php echo __('My invoices', 'propeller-ecommerce'); ?></span>
                             <svg class="icon icon-svg" aria-hidden="true">
                                 <use xlink:href="#shape-arrow-right"></use>

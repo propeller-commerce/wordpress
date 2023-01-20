@@ -3,11 +3,12 @@ namespace Propeller\Includes\Controller;
 
 use GraphQL\RawObject;
 use Propeller\Includes\Enum\MediaImagesType;
+use Propeller\Includes\Enum\MediaType;
 use Propeller\Includes\Enum\PageType;
 use Propeller\Includes\Object\Cluster;
 use Propeller\Includes\Object\FilterArray;
 use Propeller\Includes\Object\Product;
-use Propeller\Includes\Query\MediaImages;
+use Propeller\Includes\Query\Media;
 use stdClass;
 
 class CategoryController extends BaseController {
@@ -104,6 +105,8 @@ class CategoryController extends BaseController {
     }
 
     public function category_listing_grid($obj, $products, $paging_data, $sort, $prop_name, $prop_value, $do_action) {
+        $display_class = isset($_REQUEST['view']) && !empty($_REQUEST['view']) ? $_REQUEST['view'] : 'blocks';
+
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-product-grid.php');
     }
 
@@ -228,9 +231,9 @@ class CategoryController extends BaseController {
             [$queryArgument => $idOrSlug], 
             $args,
             ['filter' => new RawObject('{ name: ["PRODUCT_LABEL_1", "PRODUCT_LABEL_2"]}')],
-            MediaImages::get_media_images_query([
+            Media::get([
                 'name' => MediaImagesType::MEDIUM
-            ])->__toString(),
+            ], MediaType::IMAGES)->__toString(),
             PROPELLER_LANG
         );
 

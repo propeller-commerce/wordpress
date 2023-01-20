@@ -121,6 +121,11 @@ input[type="checkbox"]:checked {
     font-size: 1.3rem;
     font-weight: 400;
 }
+select.cluster-dropdown {
+    border-color: #ccc;
+    height: 5rem;
+    font-size: 1.5rem;
+}
 .px-22 {
     padding-left: 2rem !important;
     padding-right: 2rem !important;
@@ -296,6 +301,7 @@ a:empty {
     visibility: visible;
     opacity: 1;
     transform: none;
+    top: 0 !important
 }
 .main-propeller-submenu .main-subitem:hover .main-propeller-subsubmenu {
     display: block;
@@ -420,8 +426,11 @@ a:empty {
     height: 1.8rem;
     fill: var(--base-theme-color);
 }
-.propeller-mini-header-buttons .propeller-login-wrapper  form {
+.propeller-mini-header-buttons .propeller-login-wrapper form {
     margin-top: 1rem;
+}
+.propeller-mini-header-buttons .propeller-login-wrapper form fieldset {
+    padding: 0;
 }
 .propeller-mini-header-buttons .propeller-login-wrapper .btn-proceed {
     font-size: 1.4rem;
@@ -459,6 +468,8 @@ a:empty {
     font-size: 1.5rem;
     border-top-left-radius: 0.4rem !important;
     border-bottom-left-radius: 0.4rem !important;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     line-height: 5rem !important;
@@ -492,6 +503,9 @@ a:empty {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     transition: 0.2s all ease;
+}
+.propeller-search-wrapper .btn-search:hover {
+    background-color: transparent;
 }
 .propeller-search-wrapper .btn-search svg {
     width: 2.85rem;
@@ -575,13 +589,17 @@ a:empty {
 .page-breadcrumb ol {
     list-style: none;
     margin: 0 0 2rem 0;
+    padding-left: 0;
 }
 .page-breadcrumb ol li {
     display: inline-flex;
     margin-right: 1rem;
+    color: var(--grey);
 }
 .page-breadcrumb ol li:last-child {
     margin-right: 0;
+    color: var(--text-color);
+    font-size: 1.4rem;
 }
 .page-breadcrumb ol li a {
     color: var(--grey);
@@ -696,6 +714,7 @@ a:empty {
     color: var(--text-color);
     padding: 1.2rem;
     border-radius: 0;
+    border: 0;
 }
 
 .propeller-product-details .btn-addtobasket {
@@ -736,9 +755,10 @@ a:empty {
 .propeller-product-details .bulk-prices-wrapper {
     background: var(--lighter-grey);
     padding: 2rem 3rem 3rem;
+    margin-bottom: 2.5rem;
 }
 .propeller-product-details .bulk-prices {
-    margin-bottom: 2.5rem;
+   font-size: 1.4rem; 
 }
 .propeller-product-details .bulk-prices .row {
     padding-top: 0.5rem;
@@ -764,6 +784,23 @@ a:empty {
     color: var(--second-theme-color);
     text-align: center;
 }
+.pswp__bg {
+    background-color: #fff !important;
+    opacity: 1 !important;
+}
+.pswp__button:focus, .pswp__button:hover {
+    background-color: transparent !important;
+    border-color: transparent !important;
+}
+.pswp img {
+    max-height: 60rem !important;
+    width: auto !important;
+    transform: translate(15%,50%);
+    height: auto !important;
+}
+.pswp--zoom-allowed .pswp-img {
+    height: auto !important;
+}
 .alert-not-available {
     background: var(--lighter-grey);
     border: none;
@@ -784,6 +821,8 @@ a:empty {
 .propeller-product-details .product-pane, .propeller-product-details .product-bundles {
     margin-bottom: 3rem;
     margin-top: 3rem;
+    font-size: 1.5rem;
+    line-height: 1.73;
 }
 .propeller-product-details .product-specs {
     border-bottom: 1px solid var(--light-grey);
@@ -1001,9 +1040,11 @@ a:empty {
     align-items: center;
     justify-content: center;
 }
-/* .propeller-product-card .card-img-top img {
-    max-width: auto;
-} */
+.propeller-product-card .product-card-image img {
+    max-height: 20rem;
+    width: auto;
+}
+
 .propeller-product-card .card-body {
     padding: 0;
 }
@@ -1133,6 +1174,7 @@ a:empty {
     border-radius: 0;
     padding: 1.2rem;
     color: var(--text-color);
+    border: 0;
 }
 .propeller-product-card .card-footer .btn-addtobasket {
     font-size: 1.6rem;
@@ -1290,6 +1332,7 @@ a:empty {
     justify-content: center;
     max-width: 99%;
     padding: 2rem;
+    height: 45rem;
 }
 .propeller-product-details #product-thumb-slick .slick-current img {
     border-color: var(--darker-grey);
@@ -1298,15 +1341,22 @@ a:empty {
     margin: 0.4rem 0.5rem;
     max-width: 12rem;
 }
-.propeller-product-details #product-thumb-slick .slick-slide img {
-    margin: auto;
+.propeller-product-details #product-thumb-slick .slick-slide .image {
     border: 1px solid var(--lighter-grey);
+    height: 10rem;
+    display: flex;
     border-radius: 0.4rem;
-    width: 100%;
-    max-width: 100%;
-    padding: 1rem;
+    align-items: center;
+    padding: 0 1rem;
+    cursor: pointer;
 }
-.propeller-product-details #product-thumb-slick .slick-slide.slick-current img {
+.propeller-product-details #product-thumb-slick .slick-slide img {
+    margin: auto;    
+    width: auto;
+    max-width: 100%;
+    max-height: 9rem;
+}
+.propeller-product-details #product-thumb-slick .slick-slide.slick-current .image {
     border-color: var(--darker-grey);
 }
 .propeller-product-details .product-usp-wrapper {
@@ -1347,6 +1397,7 @@ a:empty {
     border: 1px solid #fff;
     z-index: 2;
     text-indent: -9999px;
+    color: transparent;
 }
 .product-thumbnail-slider-slick .slick-prev {
     left: -0.5rem;
@@ -1356,6 +1407,7 @@ a:empty {
     border: 1px solid #fff;
     z-index: 2;
     text-indent: -9999px;
+    color: transparent;
 }
 .product-thumbnail-slider-slick .slick-prev:hover, .product-thumbnail-slider-slick .slick-prev:focus, .product-thumbnail-slider-slick .slick-next:hover, .product-thumbnail-slider-slick .slick-next:focus {
     background-color: #fff;
@@ -1409,6 +1461,10 @@ a:empty {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+    position: absolute;
+    z-index: 4;
+    top: auto;
+    left: auto;
 }
 .propeller-slider-wrapper .slick-next:before, .propeller-recently-viewed-slider .slick-next:before {
     background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNyIgaGVpZ2h0PSIxMiIgdmlld0JveD0iMCAwIDcgMTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8cGF0aCBkPSJNNi43MjUgMTEuNzc2YS45MjcuOTI3IDAgMCAxLTEuMjQzLS4wM0wuMjQgNi41NjJBLjc4Ny43ODcgMCAwIDEgMCA2YzAtLjIwMi4wOC0uNDA0LjI0LS41NjJMNS40ODIuMjU2QS45MjcuOTI3IDAgMCAxIDYuNzI1LjIyNGMuMzU0LjMxMy4zNjcuODMuMDM0IDEuMTU1TDIuMDU2IDZsNC43MDMgNC42MmEuNzc4Ljc3OCAwIDAgMS0uMDM0IDEuMTU3eiIgZmlsbD0iI0ZGRiIgZmlsbC1ydWxlPSJub256ZXJvIi8+Cjwvc3ZnPgo=');
@@ -1420,6 +1476,10 @@ a:empty {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+    position: absolute;
+    z-index: 4;
+    top: auto;
+    left: auto;
 }
 .propeller-product-details .product-stock {
     color: var(--base-theme-color);
@@ -1664,6 +1724,7 @@ a:empty {
 .propeller-product-listing .btn-filter {
     width: 100%;
     background-color: #fff;
+    border: 0;
     border-bottom: 1px solid var(--light-grey);
     border-radius: 0.4rem;
     color: var(--text-color);
@@ -1678,6 +1739,10 @@ a:empty {
     justify-content: space-between;
     position: relative;
     text-transform: uppercase;
+}
+.propeller-product-listing .btn-filter:hover, .propeller-product-listing .btn-filter:focus {
+    background-color: transparent;
+    color: var(--text-color);
 }
 .propeller-product-listing .btn-filter[aria-expanded="true"] {
     border-bottom-left-radius: 0;
@@ -1970,8 +2035,8 @@ a:empty {
     font-weight: 600;
 }
 .btn-filter-menu {
-    background-color: #fff;
-    border: 1px solid var(--base-theme-color);
+    background-color: #fff !important;
+    border: 1px solid var(--base-theme-color) !important;
     border-radius: 0.4rem;
     padding: 1rem;
     text-align: center;
@@ -1980,14 +2045,21 @@ a:empty {
     justify-content: center;
     font-size: 1.3rem;
     font-weight: bold;
-    color: var(--base-theme-color);
-    width: 100%;
+    color: var(--base-theme-color) !important;
+    width: 100% !important;
 }
 .btn-filter-menu svg {
     fill: var(--base-theme-color);
     width: 1.7rem;
     height: 1.7rem;
     margin-left: 1rem;
+}
+.btn-filter-menu:hover, .btn-filter-menu:focus {
+    background-color: var(--base-theme-color) !important;
+    color: #fff !important;
+}
+.btn-filter-menu:hover svg, .btn-filter-menu:focus svg {
+    fill: #fff;
 }
 .fixed-filter-header header {
     padding: 1.5rem 1.5rem;
@@ -2360,6 +2432,10 @@ a:empty {
 .propeller-shopping-cart-wrapper .btn-basket-product-alternatives[aria-expanded="true"] svg {
     transform: rotate(0deg);
 }
+.propeller-shopping-cart-wrapper .btn-basket-product-alternatives:focus, .propeller-shopping-cart-wrapper .btn-basket-product-alternatives:hover {
+    background-color: transparent;
+    color: var(--text-color);
+}
 .propeller-shopping-cart-wrapper .sc-suggestions-wrapper {
     box-shadow: 0 0 1rem 0 rgba(51, 51, 51, 0.14);
     background-color: #fff;
@@ -2497,6 +2573,7 @@ a:empty {
     border-radius: 0.8rem;
     padding: 3rem 3.5rem;
     margin-bottom: 3rem;
+    font-size: 1.5rem;
     position: relative;
     overflow: hidden;
 }
@@ -2539,7 +2616,7 @@ form .form-control {
     font-size: 1.5rem !important;
     padding-top: 3rem!important;
     height: 6rem !important;
-    line-height: 6rem!important;
+    line-height: 1 !important;
     color: var(--text-color) !important;
     max-width: initial;
     background-color: #fff;
@@ -2547,6 +2624,7 @@ form .form-control {
 }
 form textarea.form-control {
     height: auto !important;
+    min-height: 15rem;
 }
 form .has-error .form-control,
 form label.form-check-label.has-error {
@@ -2620,6 +2698,7 @@ form .btn-radio-checkbox {
     padding: 1rem 1rem 1rem 2.5rem;
     font-size: 1.5rem;
     color: var(--text-color);
+    font-weight: 400;
 }
 form input[type="radio"], form input[type="checkbox"]  {
     border: 1px solid var(--lighter-grey);
@@ -2645,6 +2724,10 @@ form input[type="checkbox"] ~ span {
 .propeller-address-modal input[type="checkbox"] ~ span {
     padding-left: 0;
 }
+.propeller-checkout-wrapper fieldset {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
 .propeller-checkout-wrapper.propeller-checkout-summary input[type="checkbox"] ~ span {
     padding-left: 0;
     font-size: 1.5rem;
@@ -2657,8 +2740,11 @@ form input[type="checkbox"] ~ span {
 .propeller-account-wrapper form .has-success:not(.form-check-label):after {
     right: 3rem;
 }
-.propeller-checkout-wrapper.propeller-checkout-summary form .form-label, .propeller-account-wrapper form .form-label {
+.propeller-checkout-wrapper.propeller-checkout-summary form .form-label {
     left: 3rem;
+}
+.propeller-account-wrapper form .form-label {
+    left: 1.5rem;
 }
 .propeller-checkout-wrapper.propeller-checkout-summary form .has-success:not(.form-check-label):after {
     right: 3rem;
@@ -2707,6 +2793,7 @@ form input[type="radio"]:checked:before {
     background-color: var(--base-theme-color);
     border-radius: 0.4rem;
     color: #fff;
+    border: none;
     text-align: center;
     height: 6rem;
     width: 100%;
@@ -2743,7 +2830,7 @@ form input[type="radio"]:checked:before {
 }
 .propeller-checkout-wrapper .btn-proceed:hover, .propeller-checkout-wrapper .btn-proceed:focus,
 .propeller-login-wrapper .btn-proceed:hover, .propeller-login-wrapper .btn-proceed:focus {
-    background-color: var(--dark-grey);
+    background-color: var(--second-theme-color);
     color: #fff;
 }
 .propeller-checkout-wrapper .btn-proceed.btn-green, .propeller-login-wrapper .btn-proceed.btn-green,
@@ -2883,6 +2970,9 @@ form input[type="radio"]:checked:before {
 
 .propeller-checkout-wrapper .deliveries .delivery-date {
     color: var(--text-color);
+}
+.propeller-checkout-wrapper .delivery-addresses-wrapper {
+    margin-bottom: 1.5rem;
 }
 .propeller-checkout-wrapper .delivery-addresses-wrapper label.delivery-label>input {
     display: none;
@@ -3144,6 +3234,9 @@ form input[type="radio"]:checked:before {
     opacity: 1;
     background-color: transparent;
 }
+.propeller-add-to-basket-modal .close:hover {
+    background-color: transparent ;    
+}
 .propeller-add-to-basket-modal .modal-body {
     padding: 0;
     overflow: hidden;
@@ -3308,9 +3401,15 @@ form input[type="radio"]:checked:before {
 }
 
 /* ************** RETURN FORM ***************** */
+.return-form {
+    text-align: left;
+}
 .return-form .form-control:disabled, .return-form .return-quantity:disabled {
     background-color: #f5f5f5;
     opacity: 0.7;
+}
+.return-form fieldset {
+    padding: 0;
 }
 .propeller-return-modal .order-modal-title {
     font-weight: 700;
@@ -3350,7 +3449,10 @@ form input[type="radio"]:checked:before {
 }
 .return-form input.form-control {
     height: 4.4rem !important;
-    line-height: 4.4rem !important;
+    line-height: 1 !important;
+    padding: 0 !important;
+    border: 1px solid #ccc;
+    border-radius: 0.3rem;
 }
 .return-form .return-reason-other {
     display: none;
@@ -4011,7 +4113,7 @@ form input[type="radio"]:checked:before {
     font-size: 1.6rem;
     font-weight: bold;
     padding: 1rem 2rem;
-    color: #fff;
+    color: #fff !important;
     transition: all 0.2s ease;
     margin-bottom: 1rem;
     margin-top: 2rem;
@@ -4031,10 +4133,27 @@ form input[type="radio"]:checked:before {
 }
 .propeller-checkout-wrapper .btn-address-edit {
     margin-top: 1rem;
+    background-color: transparent;
+    color: var(--base-theme-color) !important;
+    padding: 0;
+    font-weight: 400;
+}
+.propeller-checkout-wrapper .btn-address-add {
+    margin-top: 1rem;
+    padding: 1rem 2.5rem;
+    background-color: transparent;
+    border: 1px solid var(--base-theme-color);
+    border-radius: 0.4rem;
+    color: var(--base-theme-color) !important;
 }
 .propeller-account-wrapper .btn-address-edit:hover, .propeller-account-wrapper .btn-address-edit:focus, .btn-address-edit:hover, .btn-address-edit:focus {
-    background-color: var(--second-theme-color);
-    color: #fff;
+    background-color: transparent;
+    color: var(--second-theme-color) !important;
+}
+.btn-address-add:hover, .btn-address-add:focus {
+    background-color: transparent;
+    border-color: var(--second-theme-color);
+    color: var(--second-theme-color) !important;
 }
 .propeller-address-modal .modal-content, .propeller-order-modal .modal-content, .propeller-modal .modal-content {
     border: none;
@@ -4085,7 +4204,8 @@ form input[type="radio"]:checked:before {
 }
 .propeller-address-modal .btn-modal:hover, .propeller-address-modal .btn-modal:focus {
     border-color: var(--second-theme-color);
-    color: var(--second-theme-color)
+    color: var(--second-theme-color);
+    background-color: var(--second-theme-color);
 }
 .propeller-address-modal .btn-modal.btn-proceed {
     background: var(--base-theme-color);
@@ -4190,6 +4310,7 @@ a.order-type-modal {
     border-bottom-left-radius: 0;
     transition: all 0.2s ease;
     background-color: var(--base-theme-color);
+    color: #fff;
 }
 .upload-excel-file .btn-upload:hover, .upload-excel-file .btn-upload:focus {
     background-color: var(--second-theme-color);
@@ -4223,6 +4344,11 @@ a.order-type-modal {
     background-color: transparent;
     padding: 0;
     text-transform: none;
+    font-size: 1.4rem;
+}
+.propeller-quick-order .add-order-row:hover, .propeller-quick-order .add-order-row:focus {
+    background-color: transparent;
+    color: var(--text-color);
 }
 .propeller-quick-order .remove-row {
     background-color: transparent;
@@ -4245,7 +4371,7 @@ a.order-type-modal {
 }
 .propeller-quick-order button.btn-quick-order:hover, .propeller-quick-order button.btn-quick-order:focus {
     color: #fff;
-    background-color: rgba(84,160,35,.8);
+    background-color: var(--text-color);
 }
 .upload-excel-file input[type="file"] {
     opacity: 0;
@@ -4372,6 +4498,7 @@ a.order-type-modal {
     line-height: 1;
     background-color: var(--base-theme-color) !important;
     border: 1px solid var(--base-theme-color);
+    color: #fff;
     border-radius: 0.4rem;
 }
 .newsletter-subscribe-form button:hover, .newsletter-subscribe-form button:focus {

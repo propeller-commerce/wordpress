@@ -1,1 +1,1 @@
-<div class="order-number"><strong><?php echo __('Quote number', 'propeller-ecommerce'); ?>:</strong> <?= $order->id; ?></div>
+<div class="order-number"><strong><?php echo __('Quote number', 'propeller-ecommerce'); ?>:</strong> <?php echo $order->id; ?></div>

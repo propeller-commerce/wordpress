@@ -25,6 +25,7 @@ class PropellerActivate {
                     site_id VARCHAR(200) NOT NULL,
                     contact_root VARCHAR(200) NOT NULL,
                     customer_root VARCHAR(200) NOT NULL,
+                    default_locale VARCHAR(10) NOT NULL,
                     UNIQUE KEY id (id)
             ) $charset_collate;";
 
@@ -59,12 +60,18 @@ class PropellerActivate {
                     wordpress_session TINYINT(1) DEFAULT 0,
                     closed_portal TINYINT(1) DEFAULT 0,
                     excluded_pages TEXT DEFAULT NULL,
-                    track_user_attr VARCHAR(200) DEFAULT NULL,
+                    track_user_attr TEXT DEFAULT NULL,
                     track_product_attr TEXT DEFAULT NULL,
                     reload_filters TINYINT(1) DEFAULT 0,
+                    use_recaptcha TINYINT(1) DEFAULT 0,
+                    recaptcha_site_key VARCHAR(200) DEFAULT NULL,
+                    recaptcha_secret_key VARCHAR(200) DEFAULT NULL,
+                    recaptcha_min_score FLOAT DEFAULT NULL,
+                    register_auto_login TINYINT(1) DEFAULT 0,
+                    assets_type TINYINT(1) DEFAULT 1,
+                    stock_check TINYINT(1) DEFAULT 1,
                     UNIQUE KEY id (id)
             ) $charset_collate;";
-
 
             require_once(ABSPATH . '/wp-admin/includes/upgrade.php');
             dbDelta($sql);
@@ -75,7 +82,8 @@ class PropellerActivate {
                 'excluded_pages' => '',
                 'track_user_attr' => '',
                 'track_product_attr' => '',
-                'reload_filters' => 0
+                'reload_filters' => 0,
+	            'assets_type' => 1,
             ));
         }
     }

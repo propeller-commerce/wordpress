@@ -1,7 +1,7 @@
 <?php apply_filters('propel_product_listing_pre_grid', $paging_data, $obj, $sort, $prop_name, $prop_value, $do_action); ?>
 
 <section class="propeller-products-wrapper">
-    <div class="row propeller-product-list">
+    <div class="row propeller-product-list <?php echo $display_class ?>">
 
         <?php apply_filters('propel_category_gecommerce_listing', $products, $obj); ?>
         

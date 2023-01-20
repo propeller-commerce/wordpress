@@ -21,7 +21,11 @@ class Attribute extends BaseObject {
         switch ($this->get_type()) {
             case self::ATTR_TEXT: 
                 return $this->hasTextValue();
+            case self::ATTR_LIST: 
+                return $this->hasTextValue();
             case self::ATTR_ENUM: 
+                return $this->hasEnumValue();
+            case self::ATTR_ENUMLIST: 
                 return $this->hasEnumValue();
             case self::ATTR_INTEGER:
                 return $this->hasIntValue();
@@ -66,7 +70,11 @@ class Attribute extends BaseObject {
         switch ($this->get_type()) {
             case self::ATTR_TEXT: 
                 return $this->getTextValue();
+            case self::ATTR_LIST: 
+                return $this->getTextValue();
             case self::ATTR_ENUM: 
+                return $this->getEnumValue();
+            case self::ATTR_ENUMLIST: 
                 return $this->getEnumValue();
             case self::ATTR_INTEGER:
                 return $this->getIntValue();
@@ -144,7 +152,7 @@ class Attribute extends BaseObject {
 
     // enum attr
     private function hasEnumValue() {
-        return is_array($this->enumValue) && sizeof($this->enumValue);
+        return is_array($this->enumValue) && sizeof($this->enumValue) && $this->has_array_values($this->enumValue);
     }
 
     private function getEnumValue() {

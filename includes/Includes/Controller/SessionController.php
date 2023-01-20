@@ -74,7 +74,8 @@ class SessionController {
 
     public static function end() {
         self::unset();
-        
-        session_destroy();
+		if(self::session_id()) {
+			session_destroy();
+		}
     }
 }

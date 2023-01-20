@@ -71,20 +71,20 @@ use Propeller\Includes\Enum\AddressType;
     </div>
     <div class="row">
 
-        <?= apply_filters('propel_my_account_title', __('My account', 'propeller-ecommerce')); ?>
+        <?php echo apply_filters('propel_my_account_title', __('My account', 'propeller-ecommerce')); ?>
 
     </div>
     <div class="row">
         <div class="col-12 col-lg-3">
 
-            <?= apply_filters('propel_my_account_menu', $this); ?>
+            <?php echo apply_filters('propel_my_account_menu', $this); ?>
 
         </div>
         <div class="col-12 col-lg-9">
             <div class="propeller-account-table">
-                <div class="address-title">
+                <div class="row address-title">
 
-                    <?= apply_filters('propel_my_account_addresses_title', __('My addresses', 'propeller-ecommerce')); ?>    
+                    <?php echo apply_filters('propel_my_account_addresses_title', __('My addresses', 'propeller-ecommerce')); ?>    
 
                 </div>
                 <div class="default-addresses">
@@ -95,9 +95,9 @@ use Propeller\Includes\Enum\AddressType;
                     </div>
                     <div class="row">
 
-                        <?= apply_filters('propel_address_box', $this->get_default_address(AddressType::INVOICE), $this, __('Default billing address', 'propeller-ecommerce'), true, true); ?>
+                        <?php echo apply_filters('propel_address_box', $this->get_default_address(AddressType::INVOICE), $this, __('Default billing address', 'propeller-ecommerce'), true, true); ?>
 
-                        <?= apply_filters('propel_address_box', $this->get_default_address(AddressType::DELIVERY), $this, __('Default delivery address', 'propeller-ecommerce'), true, true); ?>
+                        <?php echo apply_filters('propel_address_box', $this->get_default_address(AddressType::DELIVERY), $this, __('Default delivery address', 'propeller-ecommerce'), true, true); ?>
 
                     </div>
                 </div>
@@ -120,7 +120,7 @@ use Propeller\Includes\Enum\AddressType;
                     </div>
                 <?php } ?>
 
-                <?= apply_filters('propel_address_add', AddressType::INVOICE, __('Add billing address', 'propeller-ecommerce'), $this); ?>
+                <?php echo apply_filters('propel_address_add', AddressType::INVOICE, __('Add billing address', 'propeller-ecommerce'), $this); ?>
                 
                 <?php if ($this->get_default_address(AddressType::DELIVERY)) { ?>
                     <div class="delivery-addresses">
@@ -140,7 +140,7 @@ use Propeller\Includes\Enum\AddressType;
                     </div>
                 <?php } ?>
 
-                <?= apply_filters('propel_address_add', AddressType::DELIVERY, __('Add delivery address', 'propeller-ecommerce'), $this); ?>
+                <?php echo apply_filters('propel_address_add', AddressType::DELIVERY, __('Add delivery address', 'propeller-ecommerce'), $this); ?>
 
             </div>           
         </div>        

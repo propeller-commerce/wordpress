@@ -46,7 +46,8 @@ class MenuController extends BaseController {
 
         $ul_class = isset($classes[$index]) && isset($classes[$index]['ul_classes']) ? $classes[$index]['ul_classes'] : '';
         $li_class = isset($classes[$index]) && isset($classes[$index]['li_classes']) ? $classes[$index]['li_classes'] : '';
-        
+		$a_classes = isset($classes[$index]) && isset($classes[$index]['a_classes']) ? $classes[$index]['a_classes'] : '';
+
         $str = '<ul class="menu-list ' . $ul_class . '">';
 
         foreach ($categories as $cat) {
@@ -57,7 +58,9 @@ class MenuController extends BaseController {
           
             $li_childClass = (isset($cat->categories) && sizeof($cat->categories)) ? 'menu-item-has-children' : '';
             $str .= '<li class="' . $li_class .' '. $li_childClass . '">';
-            $aClass = (isset($cat->categories) && sizeof($cat->categories)) ? 'has-submenu' : '';
+
+			$aClass = $a_classes;
+            $aClass .= (isset($cat->categories) && sizeof($cat->categories)) ? ' has-submenu' : '';
 
             if (!empty($slug) && $slug == $cat->slug[0]->value)
                 $aClass .= ' active';
@@ -80,7 +83,8 @@ class MenuController extends BaseController {
     }
 
     public function getMenu($elementor_call = false) {
-        $gql = $this->model->get_menu(PROPELLER_BASE_CATALOG, PROPELLER_LANG);
+		$lang = defined('PROPELLER_LANG') ? PROPELLER_LANG : 'en';
+        $gql = $this->model->get_menu(PROPELLER_BASE_CATALOG, $lang);
         
         if ($elementor_call) {
             $menu_structure = $this->query($gql, $this->type);    

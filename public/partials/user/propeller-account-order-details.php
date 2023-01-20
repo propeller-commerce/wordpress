@@ -74,45 +74,45 @@ $countries = include PROPELLER_PLUGIN_DIR . '/includes/Countries.php';
     </div>
     <div class="row">
         
-        <?= apply_filters('propel_my_account_title', __('My account', 'propeller-ecommerce')); ?>
+        <?php echo apply_filters('propel_my_account_title', __('My account', 'propeller-ecommerce')); ?>
 
     </div>
     <div class="row">
         <div class="col-12 col-lg-3">
             
-            <?= apply_filters('propel_my_account_menu', $this); ?>
+            <?php echo apply_filters('propel_my_account_menu', $this); ?>
         
         </div>
         <div class="col-12 col-lg-9">
             <div class="propeller-account-table">
                 
-                <?= apply_filters('propel_order_details_back_button', $this); ?>
+                <?php echo apply_filters('propel_order_details_back_button', $this); ?>
 
-                <?= apply_filters('propel_order_details_title', $this->order); ?>
+                <?php echo apply_filters('propel_order_details_title', $this->order); ?>
 
-                <?= apply_filters('propel_order_details_data', $this->order); ?>
+                <?php echo apply_filters('propel_order_details_data', $this->order); ?>
 
                 <div class="row">
 
-                    <?= apply_filters('propel_address_box', $this->order->invoiceAddress[0], $this, __('Billing address', 'propeller-ecommerce'), true); ?>
+                    <?php echo apply_filters('propel_address_box', $this->order->invoiceAddress[0], $this, __('Billing address', 'propeller-ecommerce'), true); ?>
 
-                    <?= apply_filters('propel_address_box', $this->order->deliveryAddress[0], $this, __('Delivery address', 'propeller-ecommerce'), true); ?>
+                    <?php echo apply_filters('propel_address_box', $this->order->deliveryAddress[0], $this, __('Delivery address', 'propeller-ecommerce'), true); ?>
 
                 </div>
 
                 <div class="row order-products">
                     <div class="col-12">
-                        <h5><?php echo __('Order overview', 'propeller-ecommerce'); ?> (<?= count($this->order->items); ?> <?php echo __('items', 'propeller-ecommerce'); ?>)</h5>
+                        <h5><?php echo __('Order overview', 'propeller-ecommerce'); ?> (<?php echo count($this->order->items); ?> <?php echo __('items', 'propeller-ecommerce'); ?>)</h5>
                     </div>
                 </div>
 
-                <?= apply_filters('propel_order_details_overview_headers', $this->order); ?>
+                <?php echo apply_filters('propel_order_details_overview_headers', $this->order); ?>
 
-                <?= apply_filters('propel_order_details_overview_items', $this->order->items, $this); ?>
+                <?php echo apply_filters('propel_order_details_overview_items', $this->order->items, $this); ?>
 
-                <?= apply_filters('propel_order_details_overview_bonus_items', $this->order->items, $this); ?>
+                <?php echo apply_filters('propel_order_details_overview_bonus_items', $this->order->items, $this); ?>
 
-                <?= apply_filters('propel_order_details_totals', $this->order, $this); ?>
+                <?php echo apply_filters('propel_order_details_totals', $this->order, $this); ?>
 
             </div>           
         </div>        

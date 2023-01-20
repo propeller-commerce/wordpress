@@ -3,8 +3,9 @@
 namespace Propeller\Includes\Controller;
 
 use Propeller\Propeller;
+use stdClass;
 
-class OrderAjaxController {
+class OrderAjaxController extends BaseAjaxController {
     protected $order;
     protected $object_name = 'Order';
 
@@ -13,6 +14,8 @@ class OrderAjaxController {
     }
 
     public function change_order_status() {
+        $_REQUEST = $this->sanitize($_REQUEST);
+
         $response = $this->order->change_status($_REQUEST);
 
         $response->object = $this->object_name;
@@ -39,7 +42,24 @@ class OrderAjaxController {
     }
 
     public function return_request() {
-        $response = $this->order->return_request($_REQUEST);
+        $postprocess = new stdClass();
+        $response = new stdClass();
+        
+        if ($this->validate_form_request('nonce')) {
+            $_REQUEST = $this->sanitize($_REQUEST);
+        
+            $response = $this->order->return_request($_REQUEST);
+        }
+        else {
+            $postprocess->status = false;
+            $postprocess->reload = false;
+            $postprocess->error = true;
+            $postprocess->message = __("Security check failed", "propeller-ecommerce");
+
+            $response->postprocess = $postprocess;
+        }
+        
+        $response->object = $this->object_name;
 
         die(json_encode($response));
     }

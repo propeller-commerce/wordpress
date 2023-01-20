@@ -28,12 +28,12 @@
     
 ?>
 
-<div class="propeller-menu <?= apply_filters('propel_menu_classes', ''); ?>">
+<div class="propeller-menu <?php echo apply_filters('propel_menu_classes', ''); ?>">
     <a href="#" class="dropdown propeller-toggle-menu">
         <span><?php echo __('Categories', 'propeller-ecommerce'); ?></span>
     </a>
    
-    <?= $this->build_menu($this->getMenu()->categories, $classes, 0); ?>
+    <?php echo $this->build_menu($this->getMenu()->categories, $classes, 0); ?>
           
     
 </div>

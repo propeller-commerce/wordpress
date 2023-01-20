@@ -44,6 +44,16 @@ class ProductModel extends BaseModel {
                         value
                         language
                     }
+                    category {
+                        name(language: "$language") {
+                            language
+                          value
+                        }
+                        slug(language: "$language") {
+                                language
+                            value
+                        }
+                    }
                     categoryPath {
                         name(language: "$language") {
                             language
@@ -54,7 +64,13 @@ class ProductModel extends BaseModel {
                           value
                       }
                     }
-                    crossupsells(input: { types: [ACCESSORIES] }) {
+                    accessories: crossupsells(input: { types: [ACCESSORIES] }) {
+                        type
+                    }
+                    alternatives: crossupsells(input: { types: [ALTERNATIVES] }) {
+                        type
+                    }
+                    related: crossupsells(input: { types: [RELATED] }) {
                         type
                     }
                     ... on Product {
@@ -100,88 +116,8 @@ class ProductModel extends BaseModel {
                             from
                             to
                         }
-                        attributes($attr_str_args) {
-                            id
-                            name
-                            group
-                            searchId
-                            description {
-                                value
-                                language
-                            }
-                            type
-                            typeParam
-                            isSearchable
-                            isPublic
-                            isHidden
-                            enumValue
-                            intValue
-                            decimalValue
-                            dateValue
-                            textValue {
-                                values
-                                language
-                            }
-                        }
                         $track_attributes
-                        $media_images_gql
-                        crossupsells(input: { types: [ACCESSORIES] }) {
-                            type
-                            subtype
-                            clusterId
-                            productId
-                            item {
-                                class
-                                name(language: "$language") {
-                                    value
-                                    language
-                                }
-                                sku
-                                slug(language: "$language") {
-                                    value
-                                    language
-                                }
-                                ... on Product {
-                                    id
-                                    productId
-                                    shortName
-                                    manufacturerCode
-                                    eanCode
-                                    manufacturer
-                                    supplier
-                                    supplierCode
-                                    taxCode
-                                    status
-                                    isOrderable
-                                    hasBundle
-                                    isBundleLeader
-                                    originalPrice
-                                    suggestedPrice
-                                    minimumQuantity
-                                    unit
-                                    purchaseUnit
-                                    purchaseMinimumQuantity
-                                    inventory {
-                                        totalQuantity
-                                    }
-                                    price(taxZone: "$tax_zone") {
-                                        net
-                                        gross
-                                        quantity
-                                        discount {
-                                            value
-                                            formula
-                                            quantity
-                                            validFrom
-                                            validTo
-                                        }
-                                        taxCode
-                                        type
-                                    }
-                                    $media_images_gql
-                                }
-                            }
-                        }
+                        $media_images_gql                        
                         bundles {
                             comboId
                             name
@@ -305,15 +241,83 @@ class ProductModel extends BaseModel {
         return $gql;
     }
 
+    public function get_cluster_attributes($arguments, $language) {
+        $str_args = $this->parse_arguments($arguments);
+
+        $gql = <<<QUERY
+            query {
+                cluster($str_args) {
+                    ... on Cluster {
+                        drillDown {
+                            attributeId
+                            attribute {
+                                id
+                                name
+                                searchId
+                                group
+                                typeParam
+                                description(language: "$language") {
+                                    value
+                                    language
+                                }
+                            }
+                            priority
+                            displayType
+                        }
+                    }
+                }
+            }
+            QUERY;
+
+        return $gql;
+    }
+
+    private function cluster_attributes($attributes_args) {
+        if (!$attributes_args)
+            return "";
+
+        $attr_str_args = $this->parse_arguments($attributes_args);
+
+        $gql = "
+            attributes($attr_str_args) {
+                id
+                name
+                group
+                searchId
+                description {
+                    value
+                    language
+                }
+                type
+                typeParam
+                isSearchable
+                isPublic
+                isHidden
+                enumValue
+                intValue
+                decimalValue
+                dateValue
+                textValue {
+                    values
+                    language
+                }
+            }
+        ";
+
+        return $gql;
+    }
+
     public function get_cluster($arguments, $attributes_args, $images_args, $language) {
         $str_args = $this->parse_arguments($arguments);
-        $attr_str_args = $this->parse_arguments($attributes_args);
+        
 
         $media_images_gql = $this->extract_query($images_args);
 
         $tax_zone = PROPELLER_DEFAULT_TAXZONE;
 
         $track_attributes = $this->product_track_attributes();
+
+        $cluster_attributes = $this->cluster_attributes($attributes_args);
 
         $gql = <<<QUERY
             query {
@@ -340,8 +344,24 @@ class ProductModel extends BaseModel {
                         value
                         language
                     }
-                    crossupsells(input: { types: [ACCESSORIES] }) {
+                    accessories: crossupsells(input: { types: [ACCESSORIES] }) {
                         type
+                    }
+                    alternatives: crossupsells(input: { types: [ALTERNATIVES] }) {
+                        type
+                    }
+                    related: crossupsells(input: { types: [RELATED] }) {
+                        type
+                    }
+                    category {
+                        name(language: "$language") {
+                            language
+                          value
+                        }
+                        slug(language: "$language") {
+                                language
+                            value
+                        }
                     }
                     categoryPath {
                         name(language: "$language") {
@@ -422,29 +442,7 @@ class ProductModel extends BaseModel {
                                     from
                                     to
                                 }
-                                attributes($attr_str_args) {
-                                    id
-                                    name
-                                    group
-                                    searchId
-                                    description {
-                                        value
-                                        language
-                                    }
-                                    type
-                                    typeParam
-                                    isSearchable
-                                    isPublic
-                                    isHidden
-                                    enumValue
-                                    intValue
-                                    decimalValue
-                                    dateValue
-                                    textValue {
-                                        values
-                                        language
-                                    }
-                                }
+                                $cluster_attributes                           
                                 $track_attributes
                                 category {
                                     id
@@ -599,29 +597,7 @@ class ProductModel extends BaseModel {
                                         from
                                         to
                                     }
-                                    attributes($attr_str_args) {
-                                        id
-                                        name
-                                        group
-                                        searchId
-                                        description {
-                                            value
-                                            language
-                                        }
-                                        type
-                                        typeParam
-                                        isSearchable
-                                        isPublic
-                                        isHidden
-                                        enumValue
-                                        intValue
-                                        decimalValue
-                                        dateValue
-                                        textValue {
-                                            values
-                                            language
-                                        }
-                                    }
+                                    $cluster_attributes
                                     $track_attributes
                                     category {
                                         id
@@ -635,62 +611,7 @@ class ProductModel extends BaseModel {
                                             language
                                         }
                                     }
-                                    $media_images_gql
-                                    crossupsells(input: { types: [ACCESSORIES] }) {
-                                        type
-                                        subtype
-                                        product {
-                                            class
-                                            name(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            sku
-                                            slug(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            ... on Product {
-                                                id
-                                                productId
-                                                shortName
-                                                manufacturerCode
-                                                eanCode
-                                                manufacturer
-                                                supplier
-                                                supplierCode
-                                                taxCode
-                                                status
-                                                isOrderable
-                                                hasBundle
-                                                isBundleLeader
-                                                originalPrice
-                                                suggestedPrice
-                                                minimumQuantity
-                                                unit
-                                                purchaseUnit
-                                                purchaseMinimumQuantity
-                                                inventory {
-                                                    totalQuantity
-                                                }
-                                                price(taxZone: "$tax_zone") {
-                                                    net
-                                                    gross
-                                                    quantity
-                                                    discount {
-                                                        value
-                                                        formula
-                                                        quantity
-                                                        validFrom
-                                                        validTo
-                                                    }
-                                                    taxCode
-                                                    type
-                                                }
-                                                $media_images_gql
-                                            }
-                                        }
-                                    }
+                                    $media_images_gql                                    
                                     bundles {
                                         comboId
                                         name
@@ -801,9 +722,8 @@ class ProductModel extends BaseModel {
         return $gql;
     }
 
-    public function cluster_crossupsells($arguments, $attributes_args, $images_args, $language) {
+    public function crossupsells($arguments, $attributes_args, $images_args, $language, $type, $class) {
         $str_args = $this->parse_arguments($arguments);
-        $attr_str_args = $this->parse_arguments($attributes_args);
 
         $media_images_gql = $this->extract_query($images_args);
 
@@ -811,10 +731,12 @@ class ProductModel extends BaseModel {
 
         $track_attributes = $this->product_track_attributes();
 
+        $crossupsell_type = strtoupper($type);
+
         $gql = <<<QUERY
             query {
-                cluster($str_args) {
-                    crossupsells(input: { types: [ACCESSORIES] }) {
+                $class($str_args) {
+                    $type: crossupsells(input: { types: [$crossupsell_type] }) {
                         type
                         subtype
                         productId
@@ -827,6 +749,10 @@ class ProductModel extends BaseModel {
                             }
                             sku
                             slug(language: "$language") {
+                                value
+                                language
+                            }
+                            shortDescription(language: "$language") {
                                 value
                                 language
                             }
@@ -868,6 +794,7 @@ class ProductModel extends BaseModel {
                                     type
                                 }
                                 $media_images_gql
+                                $track_attributes
                             }
                             ... on Cluster {
                                 id
@@ -879,6 +806,10 @@ class ProductModel extends BaseModel {
                                 products {
                                     class
                                     name(language: "$language") {
+                                        value
+                                        language
+                                    }
+                                    shortDescription(language: "$language") {
                                         value
                                         language
                                     }
@@ -933,12 +864,14 @@ class ProductModel extends BaseModel {
                                                 language
                                             }
                                         }
-                                        $media_images_gql                                   
+                                        $media_images_gql       
+                                        $track_attributes                            
                                     }
                                 }
                             }
                         }
                     }
+                    
                 }
             }
             QUERY;
@@ -946,142 +879,33 @@ class ProductModel extends BaseModel {
             return $gql;
     }
 
-    public function product_crossupsells($arguments, $attributes_args, $images_args, $language) {
-        $str_args = $this->parse_arguments($arguments);
+    public function specifications($product_id, $attributes_args) {
         $attr_str_args = $this->parse_arguments($attributes_args);
-
-        $media_images_gql = $this->extract_query($images_args);
-
-        $tax_zone = PROPELLER_DEFAULT_TAXZONE;
-
-        $track_attributes = $this->product_track_attributes();
 
         $gql = <<<QUERY
             query {
-                product($str_args) {
-                    crossupsells(input: { types: [ACCESSORIES] }) {
+                product(productId: $product_id) {
+                    attributes($attr_str_args) {
+                        id
+                        name
+                        group
+                        searchId
+                        description {
+                            value
+                            language
+                        }
                         type
-                        subtype
-                        productId
-                        clusterId
-                        item {
-                            class
-                            name(language: "$language") {
-                                value
-                                language
-                            }
-                            sku
-                            slug(language: "$language") {
-                                value
-                                language
-                            }
-                            ... on Product {
-                                id
-                                productId
-                                shortName
-                                manufacturerCode
-                                eanCode
-                                manufacturer
-                                supplier
-                                supplierCode
-                                taxCode
-                                status
-                                isOrderable
-                                hasBundle
-                                isBundleLeader
-                                originalPrice
-                                suggestedPrice
-                                minimumQuantity
-                                unit
-                                purchaseUnit
-                                purchaseMinimumQuantity
-                                inventory {
-                                    totalQuantity
-                                }
-                                price(taxZone: "$tax_zone") {
-                                    net
-                                    gross
-                                    quantity
-                                    discount {
-                                        value
-                                        formula
-                                        quantity
-                                        validFrom
-                                        validTo
-                                    }
-                                    taxCode
-                                    type
-                                }
-                                $media_images_gql
-                            }
-                            ... on Cluster {
-                                id
-                                class
-                                clusterId
-                                defaultProduct {
-                                    productId
-                                }
-                                products {
-                                    class
-                                    name(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    sku
-                                    slug(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    ... on Product {
-                                        id
-                                        productId
-                                        shortName
-                                        manufacturerCode
-                                        eanCode
-                                        manufacturer
-                                        supplier
-                                        supplierCode
-                                        taxCode
-                                        status
-                                        isOrderable
-                                        hasBundle
-                                        isBundleLeader
-                                        originalPrice
-                                        suggestedPrice
-                                        minimumQuantity
-                                        unit
-                                        purchaseUnit
-                                        purchaseMinimumQuantity
-                                        price(taxZone: "$language") {
-                                            net
-                                            gross
-                                            quantity
-                                            discount {
-                                                value
-                                                formula
-                                                quantity
-                                                validFrom
-                                                validTo
-                                            }
-                                            taxCode
-                                            type
-                                        }
-                                        category {
-                                            id
-                                            categoryId
-                                            name(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            slug(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                        }
-                                        $media_images_gql                                   
-                                    }
-                                }
-                            }
+                        typeParam
+                        isSearchable
+                        isPublic
+                        isHidden
+                        enumValue
+                        intValue
+                        decimalValue
+                        dateValue
+                        textValue {
+                            values
+                            language
                         }
                     }
                 }
@@ -1217,107 +1041,6 @@ class ProductModel extends BaseModel {
                                     }
                                     $media_images_gql
                                 }
-                            }
-                            options {
-                                id
-                                defaultProduct {
-                                    productId
-                                }
-                                products {
-                                    class
-                                    name(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    description(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    shortDescription(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    sku
-                                    slug(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    ... on Product {
-                                        id
-                                        productId
-                                        manufacturerCode
-                                        eanCode
-                                        manufacturer
-                                        supplierCode
-                                        taxCode
-                                        status
-                                        isOrderable
-                                        packageUnit
-                                        packageUnitQuantity
-                                        originalPrice
-                                        costPrice
-                                        suggestedPrice
-                                        storePrice
-                                        minimumQuantity
-                                        unit
-                                        purchaseUnit
-                                        purchaseMinimumQuantity
-                                        inventory {
-                                            totalQuantity
-                                        }
-                                        category {
-                                            id
-                                            categoryId
-                                            name(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            slug(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                        }
-                                        price {
-                                            net
-                                            gross
-                                            quantity
-                                            discount {
-                                                formula
-                                                type
-                                                quantity
-                                                value
-                                                validFrom
-                                                validTo
-                                            }
-                                            taxCode
-                                            type
-                                        }
-                                        $media_images_gql
-                                    }
-                                }
-                                name(language: "$language") {
-                                    value
-                                    language
-                                }
-                                description(language: "$language") {
-                                    value
-                                    language
-                                }
-                                shortDescription(language: "$language") {
-                                    value
-                                    language
-                                }
-                            }
-                            drillDown {
-                                attributeId
-                                attribute {
-                                    description(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                }
-                                priority
-                                displayType
                             }
                         }
                     }
@@ -1482,96 +1205,7 @@ class ProductModel extends BaseModel {
                                     }
                                     $media_images_gql
                                 }
-                            }
-                            options {
-                                id
-                                defaultProduct {
-                                    productId
-                                }
-                                products {
-                                    class
-                                    name(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    description(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    shortDescription(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    sku
-                                    slug(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    ... on Product {
-                                        id
-                                        productId
-                                        manufacturerCode
-                                        eanCode
-                                        manufacturer
-                                        supplierCode
-                                        taxCode
-                                        status
-                                        isOrderable
-                                        packageUnit
-                                        packageUnitQuantity
-                                        originalPrice
-                                        costPrice
-                                        suggestedPrice
-                                        storePrice
-                                        minimumQuantity
-                                        unit
-                                        purchaseUnit
-                                        purchaseMinimumQuantity
-                                        inventory {
-                                            totalQuantity
-                                        }
-                                        price {
-                                            net
-                                            gross
-                                            quantity
-                                            discount {
-                                                formula
-                                                type
-                                                quantity
-                                                value
-                                                validFrom
-                                                validTo
-                                            }
-                                            taxCode
-                                            type
-                                        }
-                                        $media_images_gql
-                                    }
-                                }
-                                name(language: "$language") {
-                                    value
-                                    language
-                                }
-                                description(language: "$language") {
-                                    value
-                                    language
-                                }
-                                shortDescription(language: "$language") {
-                                    value
-                                    language
-                                }
-                            }
-                            drillDown {
-                                attributeId
-                                attribute {
-                                    description(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                }
-                                priority
-                                displayType
-                            }
+                            }                            
                         }
                     }
                 }
@@ -1591,6 +1225,7 @@ class ProductModel extends BaseModel {
                 products($str_args) {
                     itemsFound
                     items {
+                        class
                         name(language: "$language") {
                             value
                             language
@@ -1602,6 +1237,14 @@ class ProductModel extends BaseModel {
                         ... on Product {
                             $media_images_gql
                         }
+                        ... on Cluster {
+                            defaultProduct {
+                                $media_images_gql
+                            }
+                            products {
+                                $media_images_gql
+                            }
+                        }
                     }
                 }
             }
@@ -1610,6 +1253,31 @@ class ProductModel extends BaseModel {
         return $gql;
     }
 
-    
-    
+    public function downloads($product_id, $downloads_args) {
+        $media_downloads_gql = $this->extract_query($downloads_args);
+
+        $gql = <<<QUERY
+            query {
+                product(productId: $product_id) {
+                    $media_downloads_gql
+                }
+            }
+        QUERY;
+
+        return $gql;
+    }
+
+    public function videos($product_id, $videos_args) {
+        $media_videos_gql = $this->extract_query($videos_args);
+
+        $gql = <<<QUERY
+            query {
+                product(productId: $product_id) {
+                    $media_videos_gql
+                }
+            }
+        QUERY;
+
+        return $gql;
+    }
 }

@@ -18,36 +18,36 @@ $countries = include PROPELLER_PLUGIN_DIR . '/includes/Countries.php';
 </svg>
 <div class="propeller-checkout-wrapper">
     
-    <?= apply_filters('propel_checkout_regular_page_title', $this->cart, $this); ?>
+    <?php echo apply_filters('propel_checkout_regular_page_title', $this->cart, $this); ?>
 
     <div class="container-fluid px-0">
         <div class="row">
             <div class="col-12 col-lg-8">
                 <div class="checkout-wrapper-steps">
 
-                    <?= apply_filters('propel_checkout_step_1_info', $this->cart, $this); ?>
+                    <?php echo apply_filters('propel_checkout_step_1_info', $this->cart, $this); ?>
 
                 </div>
                 <div class="checkout-wrapper-steps">
                 
-                    <?= apply_filters('propel_checkout_step_2_info', $this->cart, $this); ?>
+                    <?php echo apply_filters('propel_checkout_step_2_info', $this->cart, $this); ?>
                     
                 </div>
                 <div class="checkout-wrapper-steps">
                     
-                    <?= apply_filters('propel_checkout_regular_step_3_titles', $this->cart, $this); ?>
+                    <?php echo apply_filters('propel_checkout_regular_step_3_titles', $this->cart, $this); ?>
 
                     <div class="row">
                         <div class="col-10">
                         
-                            <?= apply_filters('propel_checkout_regular_step_3_form', $this->cart, $this, $slug); ?>
+                            <?php echo apply_filters('propel_checkout_regular_step_3_form', $this->cart, $this, $slug); ?>
                         
                         </div>
                     </div>
                 </div>
             </div>
                 
-            <?= apply_filters('propel_shopping_cart_totals', $this->cart, $this); ?>   
+            <?php echo apply_filters('propel_shopping_cart_totals', $this->cart, $this); ?>   
  
         </div>
     </div>

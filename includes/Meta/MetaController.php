@@ -2,6 +2,8 @@
 
 namespace Propeller\Meta;
 
+use Propeller\Propeller;
+
 // <meta name="twitter:card" content="product" />
 // <meta name="twitter:site" content="" />
 // <meta name="twitter:title" content="" />
@@ -16,10 +18,13 @@ namespace Propeller\Meta;
 
 class MetaController {
     protected $yoast_available;
+    protected $trp_available;
+
     protected $add_custom = false;
 
     public function __construct() {
         $this->yoast_available = (in_array('wordpress-seo/wp-seo.php', apply_filters('active_plugins', get_option('active_plugins'))) && class_exists('WPSEO_Options'));
+        $this->trp_available = (in_array('translatepress-multilingual/index.php', apply_filters('active_plugins', get_option('active_plugins'))) && class_exists('TRP_Translate_Press'));
         
         if ($this->yoast_available) {
             if ($this->add_custom) {
@@ -34,18 +39,83 @@ class MetaController {
         }
 
         add_filter('get_canonical_url', [$this, 'get_canonical_url'], 10, 2);
+        add_action('wp_head', [$this, 'generate_alternate_metas'], 10, 2);
     }
 
     public function get_canonical_url($canonical_url, $post) {
-        global $propel;
-        
+        global $propel, $wp_query, $locale;
 
         if (isset($propel['meta']) && count($propel['meta']) > 0 && isset($propel['meta']['url']))
             $canonical_url = $propel['meta']['url'];
 
         return $canonical_url;
     }
+
+    private function get_x_default() {
+        global $propel, $wp_query;
+
+        if (isset($wp_query->query_vars['pagename']) && !empty($propel['url_slugs'])) {
+            $realm = $wp_query->query_vars['pagename'];
+
+            $old_locale = get_locale();
+            $new_locale = PROPELLER_DEFAULT_LOCALE;
+
+            if ($old_locale != $new_locale) {
+                $new_locale_chunk = strpos($new_locale, '_') ? explode('_', $new_locale)[0] : $new_locale;
+
+                $found = array_filter($propel['url_slugs'], function($obj) use ($new_locale_chunk) { 
+                    return strtolower($obj->language) == strtolower($new_locale_chunk); 
+                });
+
+                if (count($found)) {
+                    $slug = current($found)->value;
+                    
+                    return site_url($new_locale_chunk . '/' . $realm . '/' . $slug . '/');
+                }
+            }
+        }
+
+        return '';
+    }
+
+    public function generate_alternate_metas() {
+        global $propel, $wp_query;
+
+        $default_locale = get_locale();
+
+        $langs = get_propel_languages();
+
+        $tags = [];
+        
+        if (isset($wp_query->query_vars['pagename']) && isset($propel['url_slugs']) && count($propel['url_slugs'])) {
+            $realm = $wp_query->query_vars['pagename'];
+
+            foreach ($langs as $lang) {
+                $lang_code = strpos($lang, '_') ? explode('_', $lang)[0] : $lang;
+
+                $found = array_filter($propel['url_slugs'], function($obj) use ($lang_code) { 
+                    return strtolower($obj->language) == strtolower($lang_code); 
+                });
     
+                if (count($found)) {
+                    $slug = current($found)->value;
+                    
+                    if ($default_locale != $lang)
+                        $tags[str_replace('_', '-', $lang)] = site_url($lang_code . '/' . $realm . '/' . $slug . '/');
+                    else 
+                        $tags[str_replace('_', '-', $lang)] = site_url($realm . '/' . $slug . '/');
+                }                    
+            }
+        }
+
+        $tags['x-default'] = $this->get_x_default();
+
+        foreach ($tags as $lang => $url) {
+            if (!empty($url))
+                echo '<link rel="alternate" hreflang="' . $lang . '" href="' . $url . '" />' . "\r\n";
+        }            
+    }
+
     public function meta_presenters($presenters) {
         $presenters[] = new MetaYoastPresenter();
         

@@ -9,7 +9,7 @@
             </div>  
             <div class="row">
         
-                <?= apply_filters('propel_checkout_delivery_address_new', $cart, $obj); ?>
+                <?php echo apply_filters('propel_checkout_delivery_address_new', $cart, $obj); ?>
         
             </div>
         </div>

@@ -429,63 +429,6 @@ class ShoppingCartModel extends BaseModel {
                     }
                 }
                 productId
-                childItems {
-                    id
-                    notes
-                    price
-                    priceNet
-                    totalPrice
-                    totalPriceNet
-                    sum
-                    sumNet
-                    totalSum
-                    totalSumNet
-                    quantity
-                    taxCode
-                    expectedDeliveryDate
-                    deliveryDeadline
-                    discount
-                    discountPercentage
-                    product {
-                        class
-                        name(language: "$language") {
-                            value
-                            language
-                        }
-                        sku
-                        slug(language: "$language") {
-                            value
-                            language
-                        }
-                        ... on Product {
-                            id
-                            productId  
-                            status
-                            isOrderable
-                            originalPrice
-                            suggestedPrice
-                            minimumQuantity
-                            unit
-                            purchaseUnit
-                            purchaseMinimumQuantity
-                            price(taxZone: "$tax_zone") {
-                                net
-                                gross
-                                quantity
-                                discount {
-                                    value
-                                    formula
-                                    quantity
-                                    validFrom
-                                    validTo
-                                }
-                                taxCode
-                                type
-                            }
-                            $media_images_gql
-                        }
-                    }
-                }
                 product {
                     class
                     name(language: "$language") {

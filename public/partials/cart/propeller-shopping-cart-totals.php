@@ -5,7 +5,7 @@
     <div class="shopping-cart-totals">
         <div class="row align-items-baseline">
             <div class="col-12">
-                <div class="sc-items"><?php echo __('Order overview', 'propeller-ecommerce'); ?> (<span class="propel-total-items"><?= $this->get_items_count();?></span> <?php echo __('items', 'propeller-ecommerce'); ?>)</div>
+                <div class="sc-items"><?php echo __('Order overview', 'propeller-ecommerce'); ?> (<span class="propel-total-items"><?php echo $this->get_items_count();?></span> <?php echo __('items', 'propeller-ecommerce'); ?>)</div>
                 <hr>
             </div>
         </div>
@@ -13,7 +13,7 @@
             <div class="col-6 col-lg-6 col-xl-5"><?php echo __('Subtotal', 'propeller-ecommerce'); ?></div>
             <div class="col-6 ml-auto sc-price text-right">
                 <div class="sc-total">
-                    <span class="symbol">&euro;&nbsp;</span><span class="propel-total-subtotal"><?= PropellerHelper::formatPrice($cart->total->subTotal); ?></span>
+                    <span class="symbol">&euro;&nbsp;</span><span class="propel-total-subtotal"><?php echo PropellerHelper::formatPrice($cart->total->subTotal); ?></span>
                 </div>
             </div>
         </div>
@@ -22,7 +22,7 @@
                 <div class="col-6 col-lg-5"><?php echo __('Discount', 'propeller-ecommerce'); ?></div>
                 <div class="col-6 ml-auto sc-price text-right">
                     <div class="sc-total">
-                        <span class="symbol">&euro;&nbsp;</span><span class="propel-total-voucher"><?= PropellerHelper::formatPrice($cart->total->discountGross); ?></span>
+                        <span class="symbol">&euro;&nbsp;</span><span class="propel-total-voucher"><?php echo PropellerHelper::formatPrice($cart->total->discountGross); ?></span>
                     </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@
             <div class="col-6 col-xl-5"><?php echo __('Shipping costs', 'propeller-ecommerce'); ?></div>
             <div class="col-6 ml-auto sc-price text-right">
                 <div class="sc-total">
-                    <span class="symbol">&euro;&nbsp;</span><span class="propel-total-shipping"><?= PropellerHelper::formatPrice($cart->postageData->postage) ?></span>
+                    <span class="symbol">&euro;&nbsp;</span><span class="propel-total-shipping"><?php echo PropellerHelper::formatPrice($cart->postageData->postage) ?></span>
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@
             <div class="col-6 col-lg-6 col-xl-5"><?php echo __('Total excl. VAT', 'propeller-ecommerce'); ?></div>
             <div class="col-6 ml-auto sc-price text-right">
                 <div class="sc-total">
-                    <span class="symbol">&euro;&nbsp;</span><span class="propel-total-excl-btw"><?= PropellerHelper::formatPrice($cart->total->totalGross); ?></span>
+                    <span class="symbol">&euro;&nbsp;</span><span class="propel-total-excl-btw"><?php echo PropellerHelper::formatPrice($cart->total->totalGross); ?></span>
                 </div>
             </div>
         </div>
@@ -57,7 +57,7 @@
                     }
                 }
             ?>
-            <div class="col-6 col-xl-5"><?= $taxPercentage; ?>% <?php echo __('VAT', 'propeller-ecommerce'); ?></div>
+            <div class="col-6 col-xl-5"><?php echo $taxPercentage; ?>% <?php echo __('VAT', 'propeller-ecommerce'); ?></div>
             <div class="col-6 ml-auto sc-price text-right">
                 <div class="sc-total-btw">
                     <?php 
@@ -65,7 +65,7 @@
                         $totalGross = $cart->total->totalGross;
                         $totalBTW = $totalNet-$totalGross;
                     ?>
-                    <span class="symbol">&euro;&nbsp;</span><span class="propel-total-btw"><?= PropellerHelper::formatPrice($totalBTW); ?></span>
+                    <span class="symbol">&euro;&nbsp;</span><span class="propel-total-btw"><?php echo PropellerHelper::formatPrice($totalBTW); ?></span>
                 </div>
             </div>
         </div>
@@ -74,7 +74,7 @@
                 <div class="col-6 col-xl-5"><?php echo __('Total', 'propeller-ecommerce'); ?></div>
                 <div class="col-6 ml-auto sc-price text-right">
                     <div class="sc-total">
-                        <span class="symbol">&euro;&nbsp;</span><span class="propel-total-price"><?= PropellerHelper::formatPrice($cart->total->totalNet); ?></span>
+                        <span class="symbol">&euro;&nbsp;</span><span class="propel-total-price"><?php echo PropellerHelper::formatPrice($cart->total->totalNet); ?></span>
                     </div>
                 </div> 
             </div>

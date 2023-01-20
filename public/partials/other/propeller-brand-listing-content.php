@@ -9,7 +9,7 @@
                         if ($brand->post_name == strtolower($term)) {
                             $brandImage = wp_get_attachment_image_src( get_post_thumbnail_id( $brand->ID ), 'single-post-thumbnail');
                         ?>
-                            <h1 class="title <?= apply_filters('propel_listing_title_classes', ''); ?>"><?php echo $brand->post_title; ?></h1>
+                            <h1 class="title <?php echo apply_filters('propel_listing_title_classes', ''); ?>"><?php echo $brand->post_title; ?></h1>
                             <div class="row">
                                 <div class="col-12 col-md-8 order-2 orer-md-1">
                                     <?php 
@@ -35,7 +35,7 @@
                                 <div class="col-12 col-md-4 order-1 order-md-2">
                                     <?php if(isset($brandImage) && !empty($brandImage)) { ?>
                                         <div class="brand-logo d-flex align-items-center justify-content-center">
-                                            <img data-src="<?= $brandImage[0]; ?>" class="img-fluid lazy" alt="<?= $brand->post_title; ?>">
+                                            <img data-src="<?php echo $brandImage[0]; ?>" class="img-fluid lazy" alt="<?php echo $brand->post_title; ?>">
                                         </div>
                                     <?php } ?>
                                 </div>

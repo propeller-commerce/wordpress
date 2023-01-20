@@ -74,14 +74,11 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12 d-none d-md-flex">
-            <h1><?php echo __('My account', 'propeller-ecommerce'); ?></h1>
-        </div>
-       
+        <?php echo apply_filters('propel_my_account_title', __('My account', 'propeller-ecommerce')); ?>
     </div>
     <div class="row">
         <div class="col-12 col-lg-3">
-            <?php require $this->load_template('partials', DIRECTORY_SEPARATOR . 'user' . DIRECTORY_SEPARATOR . 'propeller-account-sidemenu.php'); ?>
+            <?php echo apply_filters('propel_my_account_menu', $this); ?>
         </div>
         <div class="col-12 col-lg-9">
             <div class="propeller-account-table propeller-favorites-table">

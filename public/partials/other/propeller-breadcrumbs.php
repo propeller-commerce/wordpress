@@ -1,7 +1,7 @@
-<nav aria-label="Breadcrumb" class="page-breadcrumb <?= apply_filters('propel_breadcrumb_classes', ''); ?>">
+<nav aria-label="Breadcrumb" class="page-breadcrumb <?php echo apply_filters('propel_breadcrumb_classes', ''); ?>">
     <ol>
         <li>
-            <a href="<?=  get_site_url(); ?>"><?php echo __("Home",'propeller-ecommerce'); ?></a>
+            <a href="<?php echo  get_site_url(); ?>"><?php echo __("Home",'propeller-ecommerce'); ?></a>
         </li>
         
         <?php if ($paths && count($paths)) {
@@ -10,9 +10,9 @@
         ?>
             <li>
                 <?php if ($index == count($paths) - 1) { ?>
-                    <?= $path[1]; ?>
+                    <a href="<?php echo $path[0]; ?>" aria-current="page"><?php echo $path[1]; ?></a>
                 <?php } else { ?>
-                    <a href="<?= $path[0]; ?>" aria-current="page"><?= $path[1]; ?></a>
+                    <a href="<?php echo $path[0]; ?>"><?php echo $path[1]; ?></a>
                 <?php } ?>
             </li>
         <?php 

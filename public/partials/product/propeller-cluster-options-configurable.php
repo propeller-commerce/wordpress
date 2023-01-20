@@ -1,42 +1,39 @@
-<?php
-    // var_dump($this->product->get_options());
-?>  
 <div class="row no-gutters align-items-end product-price-details">
     <?php foreach ($this->product->get_options() as $attrName => $option) { 
         if (!$option->label || !count($option->values)) continue;   
     ?>
-        <h1><?= $option->label ?></h1>
+        <h1><?php echo $option->label ?></h1>
 
         <?php if ( $option->display === 'radio') { ?>
         <table>
             <tr>
             <?php foreach ($option->values as $val) { ?>
                 <td>
-                    <label for="option_<?= $attrName; ?>_<?= $val->product->productId; ?>"><?= $val->value; ?>: </label>
+                    <label for="option_<?php echo $attrName; ?>_<?php echo $val->product->productId; ?>"><?php echo $val->value; ?>: </label>
                     <input type="radio" 
                             class="cluster-radio" 
-                            id="option_<?= $attrName; ?>_<?= $val->product->productId; ?>" 
-                            name="<?= $val->id; ?>" 
-                            value="<?= $val->value; ?>" 
-                            data-product_id="<?= $val->product->productId; ?>" 
-                            data-price="<?= $val->product->price->net; ?>" 
-                            data-attr_id="<?= $val->id; ?>"
-                            data-min_quantity="<?= $val->product->minimumQuantity; ?>"
-                            data-unit="<?= $val->product->unit; ?>">
+                            id="option_<?php echo $attrName; ?>_<?php echo $val->product->productId; ?>" 
+                            name="<?php echo $val->id; ?>" 
+                            value="<?php echo $val->value; ?>" 
+                            data-product_id="<?php echo $val->product->productId; ?>" 
+                            data-price="<?php echo $val->product->price->net; ?>" 
+                            data-attr_id="<?php echo $val->id; ?>"
+                            data-min_quantity="<?php echo $val->product->minimumQuantity; ?>"
+                            data-unit="<?php echo $val->product->unit; ?>">
                 </td>
             <?php } ?>
             </tr>
         </table>
         <?php } else if ( $option->display === 'dropdown') { ?>
-            <select class="cluster-dropdown" name="<?= $val->id; ?>">
+            <select class="cluster-dropdown" name="<?php echo $val->id; ?>">
                 <?php foreach ($option->values as $val) { ?>
-                    <option value="<?= $val->value; ?>" 
-                            data-product_id="<?= $val->product->productId; ?>" 
-                            data-price="<?= $val->product->price; ?>" 
-                            data-attr_id="<?= $val->id; ?>"
-                            data-min_quantity="<?= $val->product->minimumQuantity; ?>"
-                            data-unit="<?= $val->product->unit; ?>">
-                        <?= $val->value; ?>
+                    <option value="<?php echo $val->value; ?>" 
+                            data-product_id="<?php echo $val->product->productId; ?>" 
+                            data-price="<?php echo $val->product->price; ?>" 
+                            data-attr_id="<?php echo $val->id; ?>"
+                            data-min_quantity="<?php echo $val->product->minimumQuantity; ?>"
+                            data-unit="<?php echo $val->product->unit; ?>">
+                        <?php echo $val->value; ?>
                     </option>
                     </td>
                 <?php } ?>
@@ -89,7 +86,7 @@
             <div class="favorite-add-form">
                 <form name="add_favorite" class="validate form-handler favorite" method="post" novalidate="novalidate">
                     <input type="hidden" name="action" value="favorites_add_item">
-                    <input type="hidden" name="product_id" value="<?= $this->product->clusterId; ?>">
+                    <input type="hidden" name="product_id" value="<?php echo $this->product->clusterId; ?>">
                 
                     <button type="submit" class="btn-favorite" rel="nofollow">
                         <svg class="icon icon-product-favorite icon-heart">

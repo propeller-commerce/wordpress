@@ -35,7 +35,7 @@ class RequestHandler {
                     $data = $categoryObj->get_catalog($slug, $qry_params);
     
                     if (!is_object($data)) {
-                        error_log(print_r($data, true));
+                        propel_log(print_r($data, true));
                         $propel['error_404'] = 'Category not found';
                     }
                     else {
@@ -76,7 +76,7 @@ class RequestHandler {
                         ]);
 
                         if (!is_object($data)) {
-                            error_log(print_r($data, true));
+                            propel_log(print_r($data, true));
                             $propel['error_404'] = 'Product not found';
                         }
                         else {
@@ -134,7 +134,7 @@ class RequestHandler {
                     $data = $productObj->get_products($qry_params);
 
                     if (!is_object($data)) {
-                        error_log(print_r($data, true));
+                        propel_log(print_r($data, true));
                         $propel['error_404'] = 'Page not found';
                     }
                     else {
@@ -169,7 +169,7 @@ class RequestHandler {
                     $data = $productObj->get_products($qry_params);
     
                     if (!is_object($data)) {
-                        error_log(print_r($data, true));
+                        propel_log(print_r($data, true));
                         $propel['error_404'] = 'Page not found';
                     }
                     else {
@@ -188,7 +188,7 @@ class RequestHandler {
                         $propel['error_404'] = 'Page not found';
                     }
                     else if (!UserController::is_propeller_logged_in()) {
-                        $propel['error_403'] = 'Access forbidden';
+                        $propel['error_403'] = 'Accesss denied';
                     }
                     else {
                         $ref = 'Propeller\Custom\Includes\Controller\ShoppingCartController';
@@ -201,13 +201,12 @@ class RequestHandler {
                         $order = $orderController->get_order((int) $_GET['order_id']);
 
                         if (!is_object($order)) {
-                            error_log(print_r($order, true));
+                            propel_log(print_r($order, true));
                             $propel['error_404'] = 'Page not found';
                         }
                         else {
                             if (SessionController::get(PROPELLER_USER_DATA)->userId != $order->userId) {
-                                wp_redirect(home_url('/403/'));
-                                exit();
+                                $propel['error_403'] = 'Accesss denied';
                             }
                             else {
                                 if ($order->paymentData->status != PaymentStatuses::FAILED && 
@@ -232,8 +231,7 @@ class RequestHandler {
                     }
                     else {
                         if (!UserController::is_propeller_logged_in()) {
-                            wp_redirect(home_url('/403/'));
-                            die;
+                            $propel['error_403'] = 'Accesss denied';
                         }
                         else {
                             $ref = 'Propeller\Custom\Includes\Controller\OrderController';
@@ -245,7 +243,7 @@ class RequestHandler {
                             $data = $orderController->get_order((int) $_REQUEST['order_id']);
                     
                             if (!is_object($data)) {
-                                @error_log(print_r($data), true);
+                                propel_log(print_r($data, true));
                                 $propel['error_404'] = 'Page not found';
                             }
                             else {

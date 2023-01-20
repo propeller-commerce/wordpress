@@ -5,8 +5,8 @@ namespace Propeller\Includes\Query;
 use GraphQL\Query;
 use Propeller\Includes\Enum\ImageFit;
 use Propeller\Includes\Enum\ImageFormat;
-use Propeller\Includes\Enum\ImageSort;
 use Propeller\Includes\Enum\MediaImagesType;
+use Propeller\Includes\Enum\MediaSort;
 
 class MediaImages {
     static function setDefaultQueryData($params) {
@@ -29,7 +29,7 @@ class MediaImages {
 
     static function get_media_images_query($args) {
         $search_params = [
-            'sort' => (isset($args['sort']) ? $args['sort'] : ImageSort::ASC), 
+            'sort' => (isset($args['sort']) ? $args['sort'] : MediaSort::ASC), 
             'page' => (isset($args['page']) ? $args['page'] : 1),
             'offset' => (isset($args['offset']) ? $args['offset'] : 12) 
         ];
@@ -79,7 +79,7 @@ class MediaImages {
         $search_args = MediaImage::setSearchOptions($search_params);
         $transform_args = ImageVariant::setTransformations([ImageVariant::setTransformationOptions($transformation_params)]);
 
-        return (new Query('mediaImages'))
+        return (new Query('images'))
             ->setArguments([
                 "search" => $search_args
             ])   

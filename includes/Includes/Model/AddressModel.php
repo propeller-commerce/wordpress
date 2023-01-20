@@ -7,17 +7,18 @@ class AddressModel extends BaseModel {
         
     }
 
-    public function get_addresses($arguments) {
+    public function get_addresses($addr_type, $arguments) {
         $str_args = $this->parse_arguments($arguments);
 
         $gql = <<<QUERY
             query {
-                addressesByCompanyId($str_args) {
+                $addr_type($str_args) {
                     id
                     code
                     firstName
                     middleName
                     lastName
+                    gender
                     email
                     country
                     city

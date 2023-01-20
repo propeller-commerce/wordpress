@@ -10,7 +10,7 @@
                     <?php echo __('EAN code', 'propeller-ecommerce'); ?>
                     </div>
                     <div class="col-auto">
-                        <?= $cluster_product->eanCode; ?>
+                        <?php echo $cluster_product->eanCode; ?>
                     </div>
                 </div>
             <?php } ?>
@@ -20,7 +20,7 @@
                     <?php echo __('Brand', 'propeller-ecommerce'); ?>
                     </div>
                     <div class="col-auto">
-                        <?= $cluster_product->manufacturer; ?>
+                        <?php echo $cluster_product->manufacturer; ?>
                     </div>
                 </div>
             <?php } ?>
@@ -35,10 +35,10 @@
                          $attribute->get_type() == 'decimal') && $attribute->has_value()){ ?>
                             <div class="row no-gutters product-specs">
                                 <div class="col col-sm-6">
-                                    <?= $attribute->get_description(); ?>
+                                    <?php echo $attribute->get_description(); ?>
                                 </div>
                                 <div class="col-6">
-                                    <?= $attribute->get_value(); ?>
+                                    <?php echo $attribute->get_value(); ?>
                                 </div>
                             </div>
                         <?php 

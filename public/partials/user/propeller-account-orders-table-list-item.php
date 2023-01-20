@@ -6,10 +6,10 @@ use Propeller\PropellerHelper;
 
 ?>
 <div class="row order-item no-gutters">
-    <div class="col-md-2 col-xl-2"><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Order number', 'propeller-ecommerce'); ?></span><span class="px-0 col-auto"><?= $order->id; ?></span></div>
-    <div class="col-md-2"><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Date', 'propeller-ecommerce'); ?></span><span class="px-0 col-auto"><?= date("d-m-Y", strtotime($order->date)); ?></span></div>
-    <div class="col-md-2 col-xl-2"><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Quantity', 'propeller-ecommerce'); ?></span><span class="px-0 col-auto"><?= sizeof($order->items); ?></div>
-    <div class="col-md-2"><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Order total', 'propeller-ecommerce'); ?></span><span class="px-0 col-auto"><span class="symbol">&euro;&nbsp;</span> <?= PropellerHelper::formatPrice($order->total->net); ?></span></span></div>
+    <div class="col-md-2 col-xl-2"><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Order number', 'propeller-ecommerce'); ?></span><span class="px-0 col-auto"><?php echo $order->id; ?></span></div>
+    <div class="col-md-2"><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Date', 'propeller-ecommerce'); ?></span><span class="px-0 col-auto"><?php echo date("d-m-Y", strtotime($order->date)); ?></span></div>
+    <div class="col-md-2 col-xl-2"><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Quantity', 'propeller-ecommerce'); ?></span><span class="px-0 col-auto"><?php echo sizeof($order->items); ?></div>
+    <div class="col-md-2"><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Order total', 'propeller-ecommerce'); ?></span><span class="px-0 col-auto"><span class="symbol">&euro;&nbsp;</span> <?php echo PropellerHelper::formatPrice($order->total->net); ?></span></span></div>
     <div class="col-md-2"> 
             <span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Status', 'propeller-ecommerce'); ?></span>
             <span class="px-0 col-auto">
@@ -19,5 +19,5 @@ use Propeller\PropellerHelper;
                 ?>
             </span>
     </div>
-    <div class="col-md-2 text-md-right"><a href="<?= $obj->buildUrl('', PageController::get_slug(PageType::ORDER_DETAILS_PAGE)); ?>?order_id=<?= $order->id; ?>" class="order-details-link"><?php echo __('View order', 'propeller-ecommerce'); ?></a></div>
+    <div class="col-md-2 text-md-right"><a href="<?php echo $obj->buildUrl('', PageController::get_slug(PageType::ORDER_DETAILS_PAGE)); ?>?order_id=<?php echo $order->id; ?>" class="order-details-link"><?php echo __('View order', 'propeller-ecommerce'); ?></a></div>
 </div>

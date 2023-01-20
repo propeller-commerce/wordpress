@@ -6,7 +6,7 @@
             </div>
             <div class="col-12">                         
                 <div class="paymethod-details">
-                <?= $order->paymentData->method; ?>
+                <?php echo $order->paymentData->method; ?>
                 </div>
             </div>
         </div>

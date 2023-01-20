@@ -3,14 +3,14 @@
         <div class="row">
             <div class="col-12">
                 <?php if ($show_title) { ?> 
-                    <div class="addr-title"><?= $title ?></div>
+                    <div class="addr-title"><?php echo $title ?></div>
                 <?php } ?>
                 <div class="user-addr-details">
-                    <?= $address->company; ?><br>
-                    <?= $obj->get_salutation($address) ?>
-                    <?= $address->firstName; ?> <?= $address->lastName; ?><br>
-                    <?= $address->street; ?> <?= $address->number; ?> <?= $address->numberExtension; ?><br>
-                    <?= $address->postalCode; ?> <?= $address->city; ?><br>
+                    <?php echo $address->company; ?><br>
+                    <?php echo $obj->get_salutation($address) ?>
+                    <?php echo $address->firstName; ?> <?php echo $address->lastName; ?><br>
+                    <?php echo $address->street; ?> <?php echo $address->number; ?> <?php echo $address->numberExtension; ?><br>
+                    <?php echo $address->postalCode; ?> <?php echo $address->city; ?><br>
                     <?php 
                         $code = $address->country;
                         

@@ -158,52 +158,6 @@ class UserModel extends BaseModel {
                             }
                         }
                     }
-                    ... on User {
-                        userId
-                        addresses {
-                            id
-                            code
-                            firstName
-                            middleName
-                            lastName
-                            email
-                            country
-                            city
-                            street
-                            number
-                            numberExtension
-                            postalCode
-                            company
-                            phone
-                            icp
-                            notes
-                            type
-                            isDefault
-                        }
-                        attributes($attr_str_args) {
-                            id
-                            name
-                            group
-                            searchId
-                            description {
-                                value
-                                language
-                            }
-                            type
-                            typeParam
-                            isSearchable
-                            isPublic
-                            isHidden
-                            enumValue
-                            intValue
-                            decimalValue
-                            dateValue
-                            textValue {
-                                values
-                                language
-                            }
-                        }
-                    }
                 }
             }             
         QUERY;
@@ -213,8 +167,6 @@ class UserModel extends BaseModel {
 
     public function contact_create($arguments) {
         $str_args = $this->parse_arguments($arguments);
-
-        // TODO: contactRegister
 
         $gql = <<<QUERY
             mutation {
@@ -269,8 +221,6 @@ class UserModel extends BaseModel {
 
     public function customer_create($arguments) {
         $str_args = $this->parse_arguments($arguments);
-
-        // TODO: use customerRegister instead of create
 
         $gql = <<<QUERY
             mutation {

@@ -12,12 +12,19 @@ class BaseModel {
 
         if (is_array($arguments)) {
             foreach ($arguments as $key => $vals) {
-                if (gettype($vals) == 'object')
-                    $args[] = "$key: " . $vals->__toString();
-                else if (gettype($vals) == 'string')
+                if (gettype($vals) == 'object') {
+                    $val = str_replace("\'", "'", $vals->__toString());
+                    
+                    $args[] = "$key: " . $val;
+                }                    
+                else if (gettype($vals) == 'string') {
+                    $val = str_replace("\'", "'", $vals);
+
                     $args[] = "$key: \"$vals\"";
-                else 
+                }                    
+                else {
                     $args[] = "$key: $vals";
+                }
             }
             
             return implode(', ', $args);

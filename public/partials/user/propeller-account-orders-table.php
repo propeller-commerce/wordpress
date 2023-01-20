@@ -3,11 +3,11 @@
 
     <?php if (isset($orders) && sizeof($orders)) { ?>
         <div class="order-sorter">
-            <?= apply_filters('propel_account_orders_table_header', $orders); ?>
+            <?php echo apply_filters('propel_account_orders_table_header', $orders); ?>
 
             <div class="orders-list propeller-account-list">
 
-                <?= apply_filters('propel_account_orders_table_list', $orders, $data, $obj); ?>
+                <?php echo apply_filters('propel_account_orders_table_list', $orders, $data, $obj); ?>
                 
             </div>
         </div>

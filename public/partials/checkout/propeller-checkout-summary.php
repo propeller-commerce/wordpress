@@ -20,35 +20,35 @@
 </svg>
 <div class="propeller-checkout-wrapper propeller-checkout-summary">
     
-    <?= apply_filters('propel_checkout_regular_page_title', $this->cart, $this); ?>
+    <?php echo apply_filters('propel_checkout_regular_page_title', $this->cart, $this); ?>
 
     <div class="container-fluid px-0">
         <div class="row">
             <div class="col-12 col-lg-8">
                 <div class="checkout-wrapper-steps">
 
-                    <?= apply_filters('propel_checkout_step_1_info', $this->cart, $this); ?>
+                    <?php echo apply_filters('propel_checkout_step_1_info', $this->cart, $this); ?>
 
                 </div>
                 <div class="checkout-wrapper-steps">
                     
-                    <?= apply_filters('propel_checkout_step_2_info', $this->cart, $this); ?>
+                    <?php echo apply_filters('propel_checkout_step_2_info', $this->cart, $this); ?>
                     
                 </div>
                 <div class="checkout-wrapper-steps">
                     
-                    <?= apply_filters('propel_checkout_step_3_info', $this->cart, $this); ?>
+                    <?php echo apply_filters('propel_checkout_step_3_info', $this->cart, $this); ?>
 
                 </div>
                 <div class="checkout-wrapper-steps">
 
-                    <?= apply_filters('propel_checkout_summary_form', $this->cart, $this); ?>
+                    <?php echo apply_filters('propel_checkout_summary_form', $this->cart, $this); ?>
 
                 </div>
             </div>
             <div class="col-12 col-lg-4">
 
-                <?= apply_filters('propel_shopping_cart_totals_with_items', $this->cart, $this); ?>  
+                <?php echo apply_filters('propel_shopping_cart_totals_with_items', $this->cart, $this); ?>  
 
             </div>
         </div>

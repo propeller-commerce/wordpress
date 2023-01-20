@@ -19,27 +19,27 @@ use Propeller\PropellerHelper;
                 
                 {
                     "@type": "ListItem",
-                    "position": "<?= $key+1; ?>",
+                    "position": "<?php echo $key+1; ?>",
                     "item": {
                         "@type": "Product",
-                        "name": " <?= $product->name[0]->value ?> ",
-                        "url":" <?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value) ?>",
+                        "name": " <?php echo $product->name[0]->value ?> ",
+                        "url":" <?php echo $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value) ?>",
                         <?php if($product->has_images()) echo'"image":" ' . $product->images[0]->images[0]->url .'",'?>
-                        "description":" <?= strip_tags($product->description[0]->value) ?>",
-                        "mpn":"<?= $product->manufacturerCode ?>",
-                        "sku":"<?= $product->sku ?>'",
-                        "productId":"<?= $product->productId ?>",
-                        "category":"<?= $product->category->name[0]->value ?>",
+                        "description":" <?php echo isset($product->description[0]->value) ? strip_tags($product->description[0]->value) : '' ?>",
+                        "mpn":"<?php echo $product->manufacturerCode ?>",
+                        "sku":"<?php echo $product->sku ?>'",
+                        "productId":"<?php echo $product->productId ?>",
+                        "category":"<?php echo isset($product->category->name[0]->value) ? $product->category->name[0]->value : ''; ?>",
                         "brand": {
                             "@type": "Brand",
-                            "name":"<?= $product->manufacturer ?>"
+                            "name":"<?php echo $product->manufacturer ?>"
                         }
                     <?php if ( UserController::is_logged_in() ) { ?>   ,
                         "offers": {
                             "@type": "Offer",
-                            "url": "<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value) ?>",
+                            "url": "<?php echo $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value) ?>",
                             "priceCurrency": "EUR",
-                            "price": "<?= PropellerHelper::formatPriceGTM($product->price->net) ?>",
+                            "price": "<?php echo PropellerHelper::formatPriceGTM($product->price->net) ?>",
                             "itemCondition": "http://schema.org/NewCondition",
                             "availability": "http://schema.org/<?php if ($product->inventory && $product->inventory->totalQuantity > 0) echo "InStock"; else echo "OutOfStock"; ?>"
                             

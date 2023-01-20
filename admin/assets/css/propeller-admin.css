@@ -11,4 +11,4 @@
 .table th.propel-col-50 { width: 48%; }
 table .form-control:disabled, .form-control[readonly] { background-color: #fff; }
 
-.alert-fixed { position:fixed; top: 5%; right: 1%; width: auto; z-index:9999; }
+.alert.alert-fixed { position:fixed; top: 5%; right: 1%; width: auto; z-index:9999; }

@@ -11,6 +11,15 @@ if (!defined('PROPELLER_COOKIE_EXPIRATION'))
 if (!defined('PROPELLER_DEFAULT_TAXZONE'))
     define('PROPELLER_DEFAULT_TAXZONE',						'NL');
 
+if (!defined('PROPELLER_ERROR_LOG'))
+    define('PROPELLER_ERROR_LOG',                           plugin_dir_path(__FILE__) . 'propel-errors.log');
+
+if (!is_file(PROPELLER_ERROR_LOG)) {
+    file_put_contents(PROPELLER_ERROR_LOG, "Error log\r\n");
+    @chmod(PROPELLER_ERROR_LOG, 0777);
+}
+    
+
 // Flash messages
 if (!defined('PROPELLER_FLASH_PREFIX'))
     define('PROPELLER_FLASH_PREFIX',						'flash_');
@@ -76,16 +85,19 @@ if (!defined('SALUTATION_U'))
 /**********************************************************************/
 
 
-
 /* The following constants must not be overwritten at all costs */
 
-define('PROPELLER_VERSION', 			'0.0.1' );
-define('PROPELLER_PLUGIN_NAME',			'propeller-ecommerce' );
+define('PROPELLER_VERSION', 			'0.0.1');
+define('PROPELLER_PLUGIN_NAME',			'propeller-ecommerce');
+define('PROPELLER_DB_VERSION', 			0.6);
+define('PROPELLER_DB_VERSION_OPTION', 	'propel_db_version');
+
 define('PROPELLER_PLUGIN_DIR', 			plugin_dir_path(__FILE__));
 define('PROPELLER_PLUGIN_DIR_URL', 		plugin_dir_url(__FILE__));
 
 define('PROPELLER_PLUGIN_EXTEND_DIR',	plugin_dir_path(__FILE__) . 'custom');
-define('PROPELLER_PLUGIN_EXTEND_URL',	plugin_dir_url(__FILE__) . '/custom');
+define('PROPELLER_PLUGIN_EXTEND_URL',	plugin_dir_url(__FILE__) . '
+custom');
 
 define('PROPELLER_EMAILS_DIR',		    plugin_dir_path(__FILE__) . 'public' . DIRECTORY_SEPARATOR . 'email');
 define('PROPELLER_PARTIALS_DIR',	    plugin_dir_path(__FILE__) . 'public' . DIRECTORY_SEPARATOR . 'partials');
@@ -135,5 +147,10 @@ define('PROPELLER_DEFAULT_DELIVERY_ADDRESS_CHANGED',	"default_delivery_address_c
 define('PROPELLER_ORDER_STATUS_TYPE',					"order_status_type");
 
 define('PROPELLER_VIEWING_CLUSTER',					    "propeller_viewing_cluster");
+
+// Security
+define('PROPELLER_NONCE_KEY_FRONTEND',                  'propeller_frontend');
+
+define('PROPELLER_GRECAPTCHA_VERIFY_URL',               'https://www.google.com/recaptcha/api/siteverify');
 
 /**********************************************************************/

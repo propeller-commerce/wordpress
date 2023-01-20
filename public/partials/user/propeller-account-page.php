@@ -20,7 +20,7 @@
         <div class="row propeller-account-header">
             <div class="col-12">
                 <div class="salutation">
-                    <?php echo __('Welcome', 'propeller-ecommerce'); ?> <span class="fullname"><?= SessionController::get(PROPELLER_USER_DATA)->firstName; ?> <?= SessionController::get(PROPELLER_USER_DATA)->lastName; ?></span>
+                    <?php echo __('Welcome', 'propeller-ecommerce'); ?> <span class="fullname"><?php echo SessionController::get(PROPELLER_USER_DATA)->firstName; ?> <?php echo SessionController::get(PROPELLER_USER_DATA)->lastName; ?></span>
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
                 
                 <ul class="navbar-nav d-block w-100">
                     <li>
-                        <a href="<?= $this->buildUrl('',PageController::get_slug(PageType::MY_ACCOUNT_PAGE)); ?>">
+                        <a href="<?php echo $this->buildUrl('',PageController::get_slug(PageType::MY_ACCOUNT_PAGE)); ?>">
                             <span><?php echo __('My account details', 'propeller-ecommerce'); ?></span>
                             <svg class="icon icon-svg" aria-hidden="true">
                                 <use xlink:href="#shape-arrow-right"></use>
@@ -37,7 +37,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?= $this->buildUrl('',PageController::get_slug(PageType::ADDRESSES_PAGE)); ?>">
+                        <a href="<?php echo $this->buildUrl('',PageController::get_slug(PageType::ADDRESSES_PAGE)); ?>">
                             <span><?php echo __('My addresses', 'propeller-ecommerce'); ?></span>
                             <svg class="icon icon-svg" aria-hidden="true">
                                 <use xlink:href="#shape-arrow-right"></use>
@@ -45,7 +45,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?= $this->buildUrl('',PageController::get_slug(PageType::ORDERS_PAGE)); ?>">
+                        <a href="<?php echo $this->buildUrl('',PageController::get_slug(PageType::ORDERS_PAGE)); ?>">
                             <span><?php echo __('My orders', 'propeller-ecommerce'); ?></span>
                             <svg class="icon icon-svg" aria-hidden="true">
                                 <use xlink:href="#shape-arrow-right"></use>
@@ -53,7 +53,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?= $this->buildUrl('',PageController::get_slug(PageType::QUOTATIONS_PAGE)); ?>">
+                        <a href="<?php echo $this->buildUrl('',PageController::get_slug(PageType::QUOTATIONS_PAGE)); ?>">
                             <span><?php echo __('My quotes', 'propeller-ecommerce'); ?></span>
                             <svg class="icon icon-svg" aria-hidden="true">
                                 <use xlink:href="#shape-arrow-right"></use>

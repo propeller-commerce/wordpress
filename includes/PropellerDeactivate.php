@@ -4,6 +4,10 @@ namespace Propeller;
 
 class PropellerDeactivate {
     public static function deactivate() {
+        
+    }
+
+    public static function uninstall() {
         global $table_prefix, $wpdb;
 
         $wpdb->query('DROP TABLE IF EXISTS ' . $table_prefix . PROPELLER_SETTINGS_TABLE);

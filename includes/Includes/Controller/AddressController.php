@@ -35,6 +35,9 @@ class AddressController extends BaseController {
         Addresses filters
     */
     public function address_box($address, $obj, $title, $show_title = false, $show_modify = false, $show_delete = false, $show_set_default = false) {
+
+		$this->assets()->std_requires_asset('propeller-address-default');
+
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'user' . DIRECTORY_SEPARATOR . 'propeller-account-address-box.php');
     }
 
@@ -59,6 +62,9 @@ class AddressController extends BaseController {
     }
 
     public function address_set_default($address) {
+
+		$this->assets()->std_requires_asset('propeller-address-default');
+
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'user' . DIRECTORY_SEPARATOR . 'propeller-account-address-set-default.php');
     }
 

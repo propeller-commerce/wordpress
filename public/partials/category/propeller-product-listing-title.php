@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-12">
-        <h1 class="title <?= apply_filters('propel_listing_title_classes', ''); ?>"><?php echo $data->name[0]->value; ?></h1>
+        <h1 class="title <?php echo apply_filters('propel_listing_title_classes', ''); ?>"><?php echo $data->name[0]->value; ?></h1>
     </div>
 </div>
 <div class="row">

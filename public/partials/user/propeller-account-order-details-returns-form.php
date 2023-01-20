@@ -9,12 +9,12 @@ use Propeller\PropellerHelper;
     <symbol viewBox="0 0 16 12" id="shape-valid"><title>Valid</title><path d="m6.566 11.764 9.2-9.253a.808.808 0 0 0 0-1.137L14.634.236a.797.797 0 0 0-1.131 0L6 7.782 2.497 4.259a.797.797 0 0 0-1.131 0L.234 5.397a.808.808 0 0 0 0 1.137l5.2 5.23a.797.797 0 0 0 1.132 0z" fill="#54A023"/> </symbol>
 
 </svg>
-<div id="return_modal_<?= $order->id; ?>" class="propeller-address-modal propeller-return-modal modal modal-fullscreen-sm-down fade" tabindex="-1" role="dialog" aria-labelledby="propel_modal_edit_title_return">
+<div id="return_modal_<?php echo $order->id; ?>" class="propeller-address-modal propeller-return-modal modal modal-fullscreen-sm-down fade" tabindex="-1" role="dialog" aria-labelledby="propel_modal_edit_title_return">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header propel-modal-header">
-                <div id="propel_modal_edit_title_<?= $order->id; ?>" class="modal-title">
-                    <span class="order-modal-title"><?php echo __('Return request for order number', 'propeller-ecommerce'); ?>:</span> <span class="order-number"><?= $order->id; ?></span>
+                <div id="propel_modal_edit_title_<?php echo $order->id; ?>" class="modal-title">
+                    <span class="order-modal-title"><?php echo __('Return request for order number', 'propeller-ecommerce'); ?>:</span> <span class="order-number"><?php echo $order->id; ?></span>
                 </div>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">
@@ -24,12 +24,12 @@ use Propeller\PropellerHelper;
                     </span>
                 </button>
             </div>
-            <div class="modal-body propel-modal-body" id="propel_modal_edit_body_<?= $order->id; ?>">
-                <form name="return-form" id="return_order<?= $order->id; ?>" class="form-horizontal validate form-handler modal-edit-form return-form" method="post">
+            <div class="modal-body propel-modal-body" id="propel_modal_edit_body_<?php echo $order->id; ?>">
+                <form name="return-form" id="return_order<?php echo $order->id; ?>" class="form-horizontal validate form-handler modal-edit-form return-form" method="post">
                     <input type="hidden" name="action" value="return_request" />
                     <input type="hidden" name="returned_products" id="returned_products" value="" />
-                    <input type="hidden" name="return_order" id="return_order" value="<?= $order->id; ?>" />
-                    <input type="hidden" name="return_email" id="return_email" value="<?= $order->email; ?>" />
+                    <input type="hidden" name="return_order" id="return_order" value="<?php echo $order->id; ?>" />
+                    <input type="hidden" name="return_email" id="return_email" value="<?php echo $order->email; ?>" />
                     
                     <div class="row order-products">
                         <div class="col-12">
@@ -69,36 +69,40 @@ use Propeller\PropellerHelper;
                                     <div class="col-4 col-lg-1 d-flex align-items-center product-image">
                                         <input 
                                             type="checkbox" 
-                                            name="return-product[<?= $item->id; ?>]" 
-                                            id="return-product-<?= $item->id; ?>" 
+                                            name="return-product[<?php echo $item->id; ?>]" 
+                                            id="return-product-<?php echo $item->id; ?>" 
                                             class="return-product" 
-                                            value="<?= $item->id; ?>" 
-                                            data-name="<?= $item->name; ?>"
-                                            data-id="<?= $item->id; ?>">
-                                            <label for="return-product-<?= $item->id; ?>" class="sr-only"><?php echo __('Select at least 1 product'); ?></label>
+                                            value="<?php echo $item->id; ?>" 
+                                            data-name="<?php echo $item->name; ?>"
+                                            data-id="<?php echo $item->id; ?>">
+                                            <label for="return-product-<?php echo $item->id; ?>" class="sr-only"><?php echo __('Select at least 1 product'); ?></label>
                                                												 
-                                        <img class="img-fluid pr-1" src="<?php echo $item->product->has_images() ? $item->product->images[0]->images[0]->url : $this->assets_url . '/img/no-image-card.webp'; ?>" alt="<?= $item->name; ?>">
+                                        <img class="img-fluid pr-1" src="<?php echo $item->product->has_images() ? $item->product->images[0]->images[0]->url : $this->assets_url . '/img/no-image-card.webp'; ?>" alt="<?php echo $item->name; ?>">
                                         
                                     </div>
                                     <div class="col-8 col-lg-2 product-description">            
                                         <span class="product-name">
-                                            <?= $item->name; ?>
+                                            <?php echo $item->name; ?>
                                         </span>
-                                        <input type="hidden" data-id="<?= $item->id; ?>" name="product_name[<?= $item->id; ?>]" value="<?= $item->name; ?>" disabled />
+                                        <input type="hidden" data-id="<?php echo $item->id; ?>" name="product_name[<?php echo $item->id; ?>]" value="<?php echo $item->name; ?>" disabled />
                                     </div>
                                 
                                     <div class="col-4 col-lg-1">
                                         <div class="d-block d-lg-none label-title"><?php echo __('Ordered', 'propeller-ecommerce'); ?></div>
-                                        <span class="product-quantity"><?= $item->quantity; ?></span>
+                                        <span class="product-quantity"><?php echo $item->quantity; ?></span>
                                     </div>
                                     <div class="col-4 col-lg-1">
                                         <div class="d-block d-lg-none label-title"><?php echo __('Return', 'propeller-ecommerce'); ?></div>
-                                        <input type="number" class="return-quantity" id="return_quantity_<?= $item->id; ?>" name="return_quantity[<?= $item->id; ?>]" data-id="<?= $item->id; ?>" value="1" max="<?= $item->quantity; ?>" data-max="<?= $item->quantity; ?>" disabled/>        
+                                        <input type="number" 
+                                            class="return-quantity form-control"  
+                                            ondrop="return false;" 
+                                            onpaste="return false;"
+                                            onkeypress="return event.charCode>=48 && event.charCode<=57"  id="return_quantity_<?php echo $item->id; ?>" name="return_quantity[<?php echo $item->id; ?>]" data-id="<?php echo $item->id; ?>" value="1" max="<?php echo $item->quantity; ?>" data-max="<?php echo $item->quantity; ?>" disabled/>        
                                     </div>
                                     <div class="col-4 col-lg-1 price-per-item">
                                         <div class="d-block d-lg-none label-title"><?php echo __('Price', 'propeller-ecommerce'); ?></div>
                                         <span class="price"><span class="symbol">&euro;&nbsp;</span>
-                                        <?= PropellerHelper::formatPrice($item->priceTotal); ?>
+                                        <?php echo PropellerHelper::formatPrice($item->priceTotal); ?>
                                         </span>                    
                                     </div>
                                     <div class="col-4 col-lg-2 order-status">
@@ -106,12 +110,12 @@ use Propeller\PropellerHelper;
                                         <div class="form-row">
                                             <div class="col-auto form-group form-check">
                                                 <label class="btn-radio-checkbox form-check-label">
-                                                    <input type="radio" class="form-check-input return-package" data-id="<?= $item->id; ?>" name="return_package[<?= $item->id; ?>]" value="Y" disabled > <span><?php echo __('Yes', 'propeller-ecommerce'); ?></span>
+                                                    <input type="radio" class="form-check-input return-package" data-id="<?php echo $item->id; ?>" name="return_package[<?php echo $item->id; ?>]" value="Y" disabled > <span><?php echo __('Yes', 'propeller-ecommerce'); ?></span>
                                                 </label>
                                             </div>
                                             <div class="col-auto form-group form-check">
                                                 <label class="btn-radio-checkbox form-check-label">
-                                                    <input type="radio" class="form-check-input return-package" data-id="<?= $item->id; ?>" name="return_package[<?= $item->id; ?>]" value="N" disabled > <span><?php echo __('No', 'propeller-ecommerce'); ?></span>
+                                                    <input type="radio" class="form-check-input return-package" data-id="<?php echo $item->id; ?>" name="return_package[<?php echo $item->id; ?>]" value="N" disabled > <span><?php echo __('No', 'propeller-ecommerce'); ?></span>
                                                 </label>
                                             </div>
                                         </div>  
@@ -119,7 +123,7 @@ use Propeller\PropellerHelper;
                                     </div>
                                     <div class="col-8 col-lg-4 order-status d-lg-flex">
                                         <div class="d-block d-lg-none label-title"><?php echo __('Return reason', 'propeller-ecommerce'); ?></div>
-                                        <select name="return_reason[<?= $item->id; ?>]" data-id="<?= $item->id; ?>" id="return_reason[<?= $item->id; ?>]" class="form-control return-reason" disabled>
+                                        <select name="return_reason[<?php echo $item->id; ?>]" data-id="<?php echo $item->id; ?>" id="return_reason[<?php echo $item->id; ?>]" class="form-control return-reason" disabled>
                                             <option value="1"><?php echo __('Select','propeller-ecommerce'); ?></option>
                                             <option value="2"><?php echo __('Wrongly delivered','propeller-ecommerce'); ?></option>
                                             <option value="3"><?php echo __('Defective','propeller-ecommerce'); ?></option>
@@ -127,10 +131,10 @@ use Propeller\PropellerHelper;
                                             <option value="5"><?php echo __('Other','propeller-ecommerce'); ?></option>
                                         </select>
 
-                                        <input type="hidden" name="return_reason_text[<?= $item->id; ?>]" id="return_reason_text_<?= $item->id; ?>" data-id="<?= $item->id; ?>" value="" disabled />
+                                        <input type="hidden" name="return_reason_text[<?php echo $item->id; ?>]" id="return_reason_text_<?php echo $item->id; ?>" data-id="<?php echo $item->id; ?>" value="" disabled />
 
-                                        <div class="return-reason-other" id="return_reason_other_<?= $item->id; ?>">
-                                            <input type="text" name="return_other[<?= $item->id; ?>]" data-id="<?= $item->id; ?>" value="" class="form-control return-other" id="return_other_<?= $item->id; ?>" placeholder="<?php echo __('Your reason for return','propeller-ecommerce'); ?>" disabled />
+                                        <div class="return-reason-other" id="return_reason_other_<?php echo $item->id; ?>">
+                                            <input type="text" name="return_other[<?php echo $item->id; ?>]" data-id="<?php echo $item->id; ?>" value="" class="form-control return-other" id="return_other_<?php echo $item->id; ?>" placeholder="<?php echo __('Your reason for return','propeller-ecommerce'); ?>" disabled />
                                         </div>
                                     </div>
                                 </div>

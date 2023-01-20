@@ -8,12 +8,12 @@
                 foreach ($product->get_attributes() as $attribute) {
                     if($attribute->searchId == 'attr_product_label_1' && !empty($attribute->get_value())) { ?>
                          <div class="product-label label-1">
-                            <span><?= $attribute->get_value(); ?></span>
+                            <span><?php echo $attribute->get_value(); ?></span>
                         </div>
                     <?php }
                     else if($attribute->searchId == 'attr_product_label_2' && !empty($attribute->get_value())) { ?>
                         <div class="product-label label-2">
-                            <span><?= $attribute->get_value(); ?></span>
+                            <span><?php echo $attribute->get_value(); ?></span>
                         </div>
                     <?php }
                  }
@@ -30,8 +30,8 @@
                     foreach ($product->images as $images) {
                         foreach ($images->images as $image) { ?>
                         <div class="gallery-item-slick">                                      
-                           <a href='<?= $image->url; ?>' data-size="800x800">                        
-                                <img src='<?= $image->url; ?>' class="d-block mx-auto img-fluid" alt='<?= (count($images->alt) ? $images->alt[0]->value : ""); ?>' width="450" height="450">
+                           <a href='<?php echo $image->url; ?>' data-size="800x800">                        
+                                <img src='<?php echo $image->url; ?>' class="d-block mx-auto img-fluid" alt='<?php echo (count($images->alt) ? $images->alt[0]->value : ""); ?>' width="450" height="450">
                                     <span class="zoom-link">
                                        <svg class="icon icon-zoom" aria-hidden="true"><use xlink:href="#shape-zoom"></use></svg>
                                     </span>
@@ -101,7 +101,7 @@
                 ?>
                         <div class="item">
                             <div class="image">
-                                <img src="<?= $image->url; ?>" alt="<?= (count($images->alt) ? $images->alt[0]->value : ""); ?>" <?php if( $keyThumbImg > 4 ) { ?> loading="lazy" <?php } ?> width="120" height="120"/>
+                                <img src="<?php echo $image->url; ?>" alt="<?php echo (count($images->alt) ? $images->alt[0]->value : ""); ?>" <?php if( $keyThumbImg > 4 ) { ?> loading="lazy" <?php } ?> width="120" height="120"/>
                             </div>
                         </div>
                 <?php } 
