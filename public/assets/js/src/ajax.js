@@ -22,6 +22,7 @@
             }
 
             opts.data.nonce = $('meta[name=security]').attr('content');
+            opts.data.lang = PropellerHelper.language;
 
             var loading = args.loading || null;
             if (loading)

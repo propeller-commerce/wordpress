@@ -192,7 +192,7 @@ use Propeller\Includes\Enum\UserTypes;
 
                                     <select id="field_country" name="invoice_address[country]" class="form-control required">
                                         <?php foreach ($countries as $code => $name) { ?>
-                                            <option value="<?php echo $code; ?>" <?php echo ($code == $selected ? 'selected' : ''); ?>><?php echo $name; ?></option>
+                                            <option value="<?php echo esc_attr($code); ?>" <?php echo ($code == $selected ? 'selected' : ''); ?>><?php echo esc_html($name); ?></option>
                                         <?php } ?>
                                     </select>
 
@@ -297,7 +297,7 @@ use Propeller\Includes\Enum\UserTypes;
 
                                     <select id="field_delivery_country" name="delivery_address[country]" class="form-control required">
                                         <?php foreach ($countries as $code => $name) { ?>
-                                            <option value="<?php echo $code; ?>" <?php echo ($code == $selected ? 'selected' : ''); ?>><?php echo $name; ?></option>
+                                            <option value="<?php echo esc_attr($code); ?>" <?php echo ($code == $selected ? 'selected' : ''); ?>><?php echo esc_html($name); ?></option>
                                         <?php } ?>
                                     </select>
 

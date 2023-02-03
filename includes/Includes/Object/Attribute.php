@@ -39,31 +39,31 @@ class Attribute extends BaseObject {
     }
 
     public function get_type() {
-        return $this->type;
+        return $this->attributeDescription->type;
     }
 
     public function get_description() {
-        $found = array_filter($this->description, function($obj) { return strtolower($obj->language) == strtolower(PROPELLER_LANG); });
+        $found = array_filter($this->attributeDescription->description, function($obj) { return strtolower($obj->language) == strtolower(PROPELLER_LANG); });
 
         if (!count($found)) 
-            $found = array_filter($this->description, function($obj) { return strtolower($obj->language) == strtolower(PROPELLER_FALLBACK_LANG); });
+            $found = array_filter($this->attributeDescription->description, function($obj) { return strtolower($obj->language) == strtolower(PROPELLER_FALLBACK_LANG); });
             
         if (count($found))
-            return current($found)->value;            
+            return current($found)->value;
 
         return '';
     }
 
     public function is_searchable() {
-        return $this->isSearchable;
+        return $this->attributeDescription->isSearchable;
     }
 
     public function is_public() {
-        return $this->isPublic;
+        return $this->attributeDescription->isPublic;
     }
 
     public function is_hidden() {
-        return $this->isHidden;
+        return $this->attributeDescription->isHidden;
     }
 
     public function get_value() {

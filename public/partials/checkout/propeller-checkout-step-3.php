@@ -44,20 +44,20 @@ use Propeller\PropellerHelper;
                                         echo SALUTATION_U;
                                     }
                                         
-                                ?> <?php echo $invoice_address->firstName; ?> <?php echo $invoice_address->lastName; ?>
+                                ?> <?php echo esc_html($invoice_address->firstName); ?> <?php echo esc_html($invoice_address->lastName); ?>
                             </div>
                             <div class="user-addr-details">
-                                <?php echo $invoice_address->company; ?><br>
-                                <?php echo $invoice_address->street; ?> <?php echo $invoice_address->number; ?> <?php echo $invoice_address->numberExtension; ?><br>
-                                <?php echo $invoice_address->postalCode; ?> <?php echo $invoice_address->city; ?><br>
+                                <?php echo esc_html($invoice_address->company); ?><br>
+                                <?php echo esc_html($invoice_address->street); ?> <?php echo esc_html($invoice_address->number); ?> <?php echo esc_html($invoice_address->numberExtension); ?><br>
+                                <?php echo esc_html($invoice_address->postalCode); ?> <?php echo esc_html($invoice_address->city); ?><br>
                                 <?php 
                                     $code = $invoice_address->country;
                                     $countries = include PROPELLER_PLUGIN_DIR . '/includes/Countries.php'; 
 
                                     if( !$countries[$code] ) 
-                                        echo $code;
+                                        echo esc_html($code);
                                     else 
-                                        echo $countries[$code];
+                                        echo esc_html($countries[$code]);
                                 ?>
                                 
                             </div>                         
@@ -85,7 +85,7 @@ use Propeller\PropellerHelper;
                                 <div class="col-12 col-md-6">
                                     <div class="addr-title"><?php echo __('Delivery address', 'propeller-ecommerce'); ?></div>
                                     <div class="user-addr-details">
-                                        <?php echo $delivery_address->company; ?><br>
+                                        <?php echo esc_html($delivery_address->company); ?><br>
                                         <?php if ($delivery_address->gender === 'M') {
                                                 echo SALUTATION_M;
                                             }
@@ -96,17 +96,17 @@ use Propeller\PropellerHelper;
                                                 echo SALUTATION_U;
                                             }
                                                 
-                                        ?> <?php echo $delivery_address->firstName; ?> <?php echo $delivery_address->lastName; ?><br>
-                                        <?php echo $delivery_address->street; ?> <?php echo $delivery_address->number; ?> <?php echo $delivery_address->numberExtension; ?><br>
-                                        <?php echo $delivery_address->postalCode; ?> <?php echo $delivery_address->city; ?><br>
+                                        ?> <?php echo esc_html($delivery_address->firstName); ?> <?php echo esc_html($delivery_address->lastName); ?><br>
+                                        <?php echo esc_html($delivery_address->street); ?> <?php echo esc_html($delivery_address->number); ?> <?php echo esc_html($delivery_address->numberExtension); ?><br>
+                                        <?php echo esc_html($delivery_address->postalCode); ?> <?php echo esc_html($delivery_address->city); ?><br>
                                         <?php 
                                             $code = $delivery_address->country;
                                             $countries = include PROPELLER_PLUGIN_DIR . '/includes/Countries.php'; 
 
                                             if( !$countries[$code] ) 
-                                                echo $code;
+                                                echo esc_html($code);
                                             else 
-                                                echo $countries[$code];
+                                                echo esc_html($countries[$code]);
                                         ?>
                                         
                                     </div>
@@ -114,7 +114,7 @@ use Propeller\PropellerHelper;
                                 <div class="col-12 col-md-6">
                                     <div class="addr-title"><?php echo __('Shipping', 'propeller-ecommerce'); ?></div>
                                     <div class="user-addr-details">
-                                    <?php echo $this->cart->carrier;?> - <span class="price"><span class="symbol">&euro;&nbsp;</span>
+                                    <?php echo esc_html($this->cart->carrier); ?> - <span class="price"><span class="symbol">&euro;&nbsp;</span>
                                         <?php if(isset($this->cart->carriers) && !empty($this->cart->carriers)) {
                                             foreach ($this->cart->carriers as $carrier) {
                                                 if ($this->cart->carrier == $carrier->name)
@@ -132,7 +132,7 @@ use Propeller\PropellerHelper;
                         </div>
                         <div class="col-2 col-md-1 order-2 order-md-3 d-flex justify-content-end">
                             <div class="edit-checkout">
-                                <a href="<?php echo $this->buildUrl(PageController::get_slug(PageType::CHECKOUT_PAGE),  '2'); ?>">
+                                <a href="<?php echo esc_url($this->buildUrl(PageController::get_slug(PageType::CHECKOUT_PAGE),  '2')); ?>">
                                     <svg class="icon icon-edit" aria-hidden="true">
                                         <use xlink:href="#shape-checkout-edit"></use>
                                     </svg>    
@@ -156,7 +156,7 @@ use Propeller\PropellerHelper;
                         <div class="col-12">
                             <form name="checkout-paymethod" class="form-handler checkout-form validate" method="post">
                                 <input type="hidden" name="action" value="cart_step_3" />
-                                <input type="hidden" name="step" value="<?php echo $slug; ?>" />
+                                <input type="hidden" name="step" value="<?php echo esc_attr($slug); ?>" />
                                 <input type="hidden" name="next_step" value="summary" />
                                 <input type="hidden" name="icp" value="N" />
                                 <fieldset>
@@ -167,14 +167,14 @@ use Propeller\PropellerHelper;
                                                     <div class="col-6 col-md-3 mb-4">
                                                         <label class="form-check-label paymethod">
                                                             <span class="row d-flex align-items-center text-center">
-                                                                <input type="radio" name="payMethod" value="<?php echo $payMethod->code; ?>" title="Select paymethod" data-rule-required="true" required="required" aria-required="true" class="required" data-rule-required="true" required="required" aria-required="true" class="required" /> 
+                                                                <input type="radio" name="payMethod" value="<?php echo esc_attr($payMethod->code); ?>" title="Select paymethod" data-rule-required="true" required="required" aria-required="true" class="required" data-rule-required="true" required="required" aria-required="true" class="required" />
                                                                 <div class="paymethod-img col-12">
                                                                     <svg class="icon icon-paymethod-logo" aria-hidden="true">
-                                                                        <use xlink:href="#shape-<?php echo $payMethod->description; ?>"></use>
+                                                                        <use xlink:href="#shape-<?php echo esc_attr($payMethod->description); ?>"></use>
                                                                     </svg> 
                                                                 </div> 
-                                                                <div class="paymethod-name col-12"><?php echo $payMethod->description; ?></div>
-                                                                <div class="paymethod-cost col-12"><span class="currency">&euro;</span> <?php echo $payMethod->price; ?></div>
+                                                                <div class="paymethod-name col-12"><?php echo esc_html($payMethod->description); ?></div>
+                                                                <div class="paymethod-cost col-12"><span class="currency">&euro;</span> <?php echo esc_html($payMethod->price); ?></div>
                                                             </span>
                                                         </label>                                                
                                                     </div>

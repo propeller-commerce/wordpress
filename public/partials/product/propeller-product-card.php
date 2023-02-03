@@ -22,12 +22,12 @@ $user_prices = SessionController::get(PROPELLER_SPECIFIC_PRICES);
                 foreach ($product->get_attributes() as $attribute) {
                     if($attribute->searchId == 'attr_product_label_1' && !empty($attribute->get_value())) { ?>
                         <div class="product-label label-1 order-1">
-                            <span><?php echo $attribute->get_value(); ?></span>
+                            <span><?php echo esc_html($attribute->get_value()); ?></span>
                         </div>
                     <?php }
                     if($attribute->searchId == 'attr_product_label_2' && !empty($attribute->get_value())) { ?>
                         <div class="product-label label-2  order-2">
-                            <span><?php echo $attribute->get_value(); ?></span>
+                            <span><?php echo esc_html($attribute->get_value()); ?></span>
                         </div>
                     <?php }
                 }
@@ -36,18 +36,18 @@ $user_prices = SessionController::get(PROPELLER_SPECIFIC_PRICES);
         </div>
         <div class="product-card-image">					
             
-            <a href="<?php echo $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value); ?>">
+            <a href="<?php echo esc_url($obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value)); ?>">
                 <?php 
                     if ($product->has_images()) 
                 { ?>
                     <img class="img-fluid"
-                        src="<?php echo $product->images[0]->images[0]->url;?>"
+                        src="<?php echo esc_url($product->images[0]->images[0]->url); ?>"
                         alt="<?php echo (count($product->images[0]->alt) ? $product->images[0]->alt[0]->value : ""); ?>" 
                         width="<?php echo PROPELLER_PRODUCT_IMG_CATALOG_WIDTH; ?>" height="<?php echo PROPELLER_PRODUCT_IMG_CATALOG_HEIGHT; ?>">
                 <?php }
                     else { ?>
                     <img class="img-fluid"
-                        src="<?php echo $obj->assets_url . '/img/no-image-card.webp';?>"
+                        src="<?php echo esc_url($obj->assets_url . '/img/no-image-card.webp'); ?>"
                         alt="<?php echo __('No image found', 'propeller-ecommerce'); ?>"
                         width="300" height="300" >
                 <?php } ?>
@@ -55,11 +55,11 @@ $user_prices = SessionController::get(PROPELLER_SPECIFIC_PRICES);
         </div>
     </figure>
     <div class="card-body product-card-description">
-        <div class="product-code"><?php echo __('SKU', 'propeller-ecommerce'); ?>: <?php echo $product->sku; ?></div>
+        <div class="product-code"><?php echo __('SKU', 'propeller-ecommerce'); ?>: <?php echo esc_html($product->sku); ?></div>
         <div class="product-name">
 
-            <a href="<?php echo $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value); ?>">
-                <?php echo $product->name[0]->value; ?>   
+            <a href="<?php echo esc_url($obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value)); ?>">
+                <?php echo esc_html($product->name[0]->value); ?>
             </a>
         </div>
     </div>
@@ -89,16 +89,21 @@ $user_prices = SessionController::get(PROPELLER_SPECIFIC_PRICES);
                 <span class="product-price-tax"> <?php echo PropellerHelper::formatPrice($product->price->gross); ?> <?php echo __('excl. VAT', 'propeller-ecommerce'); ?></span>
             </small>
         <?php } ?>
-      
+        <?php 
+            $stock_show = false;
+            if(!empty($product->inventory) AND $product->inventory->totalQuantity > 0) 
+                $stock_show = true;
+            
+        ?>
         <!-- Include the order button template -->	
         <div class="add-to-basket-wrapper">  
              <?php /*if( $product->isOrderable === 'Y') { */?>
                 <div class="add-to-basket"> 
                     <form class="add-to-basket-form d-flex" name="add-product" method="post">
-                        <input type="hidden" name="product_id" value="<?php echo $product->productId; ?>">
+                        <input type="hidden" name="product_id" value="<?php echo esc_attr($product->productId); ?>">
                         <input type="hidden" name="action" value="cart_add_item">
                             <div class="input-group product-quantity">
-                                <label class="sr-only" for="quantity-item-<?php echo $product->productId; ?>"><?php echo __('Quantity', 'propeller-ecommerce'); ?></label>
+                                <label class="sr-only" for="quantity-item-<?php echo esc_html($product->productId); ?>"><?php echo __('Quantity', 'propeller-ecommerce'); ?></label>
                                 <span class="input-group-prepend incr-decr">
                                     <button type="button" class="btn-quantity" 
                                     data-type="minus">-</button>
@@ -108,14 +113,17 @@ $user_prices = SessionController::get(PROPELLER_SPECIFIC_PRICES);
                                     ondrop="return false;" 
                                     onpaste="return false;"
                                     onkeypress="return event.charCode>=48 && event.charCode<=57" 
-                                    id="quantity-item-<?php echo $product->productId; ?>"
+                                    id="quantity-item-<?php echo esc_attr($product->productId); ?>"
                                     class="quantity large form-control input-number"
                                     name="quantity"
-                                    value="<?php echo $product->minimumQuantity; ?>"
+                                    value="<?php echo esc_attr($product->minimumQuantity); ?>"
                                     autocomplete="off"
-                                    min="<?php echo $product->minimumQuantity; ?>"
-                                    data-min="<?php echo $product->minimumQuantity; ?>"
-                                    data-unit="<?php echo $product->unit; ?>"
+                                    min="<?php echo esc_attr($product->minimumQuantity); ?>"
+                                    data-min="<?php echo esc_attr($product->minimumQuantity); ?>"
+                                    data-unit="<?php echo esc_attr($product->unit); ?>"
+                                    <?php if($stock_show) { ?> 
+                                        data-stock="<?php echo esc_attr($product->inventory->totalQuantity); ?>"
+                                    <?php } ?>
                                     >  
                                 <span class="input-group-append incr-decr">
                                     <button type="button" class="btn-quantity" data-type="plus">+</button>
@@ -135,8 +143,8 @@ $user_prices = SessionController::get(PROPELLER_SPECIFIC_PRICES);
         </div>
        
         <!-- Stock status -->
-        <?php if(!empty($product->inventory) AND $product->inventory->totalQuantity > 0) { ?>
-            <div class="product-status in-stock"><?php echo __('Available', 'propeller-ecommerce'); ?>: <?php echo $product->inventory->totalQuantity; ?></div>
+        <?php if($stock_show) { ?>
+            <div class="product-status in-stock"><?php echo __('Available', 'propeller-ecommerce'); ?>: <?php echo esc_html($product->inventory->totalQuantity); ?></div>
         <?php } else { ?>
             <div class="product-status out-of-stock"><?php echo __('Out of stock', 'propeller-ecommerce'); ?>
         </div>

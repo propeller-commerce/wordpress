@@ -12,7 +12,7 @@ use Propeller\Includes\Enum\PageType;
 </svg>
 
 <div class="propeller-mini-header-buttons propeller-mini-account dropdown">
-    <a class="btn-header-account d-flex d-md-none" href="<?php echo $this->buildUrl('',PageController::get_slug(PageType::MY_ACCOUNT_MOBILE_PAGE)); ?>">
+    <a class="btn-header-account d-flex d-md-none" href="<?php echo esc_url($this->buildUrl('',PageController::get_slug(PageType::MY_ACCOUNT_MOBILE_PAGE))); ?>">
         <span class="account-icon">
             <svg class="icon icon-account">
                 <use class="header-shape-account" xlink:href="#shape-header-account"></use>
@@ -73,7 +73,7 @@ use Propeller\Includes\Enum\PageType;
                 </span>
             </a>
             <?php } else { ?>
-                <a href="<?php echo $this->buildUrl('',PageController::get_slug(PageType::REGISTER_PAGE)); ?>" class="btn-logout">
+                <a href="<?php echo esc_url($this->buildUrl('',PageController::get_slug(PageType::REGISTER_PAGE))); ?>" class="btn-logout">
                     <span><?php echo __('Register', 'propeller-ecommerce'); ?></span>
                     <span class="account-logout">
                         <svg class="icon icon-logout">

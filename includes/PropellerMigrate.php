@@ -77,7 +77,10 @@ class PropellerMigrate {
 		foreach ( $files as $filePath ) {
 			if ( preg_match( '/migration_(.*?)\.php/', $filePath, $match ) ) {
 				$fileVersion   = (float) $match[1];
-				$shouldMigrate = $fileVersion <= $fsVersion && $fileVersion > $dbVersion;
+				$shouldMigrate = $fileVersion <= $fsVersion && $fileVersion >= $dbVersion;
+
+				$wpdb->hide_errors();
+
 				if ( $shouldMigrate ) {
 					$result = include $filePath;
 					$this->update_version( $fileVersion );

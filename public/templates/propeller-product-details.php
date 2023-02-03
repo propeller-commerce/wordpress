@@ -24,11 +24,11 @@ use Propeller\Includes\Enum\PageType;
                 <?php
                     $breadcrumb_paths = [
                         [
-                            $this->buildUrl(PageController::get_slug(PageType::CATEGORY_PAGE), $this->product->category->slug[0]->value),
+	                        $this->buildUrl(PageController::get_slug(PageType::CATEGORY_PAGE), $this->product->category->slug[0]->value),
                             $this->product->category->name[0]->value
                         ],
                         [
-                            $this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $this->product->slug[0]->value),
+	                        $this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $this->product->slug[0]->value),
                             $this->product->name[0]->value
                         ]
                     ];

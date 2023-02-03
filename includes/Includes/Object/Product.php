@@ -6,14 +6,40 @@ use stdClass;
 class Product extends BaseObject {
 
     public $attributes = [];
+    public $trackAttributes = [];
+    public $attributeItems;
+    public $trackAttributeItems;
     public $images = [];
 
     public function __construct($product) {
         parent::__construct($product);
 
-        if (isset($product->attributes) && count($product->attributes)) {
-            $attrs = new AttributeArray($product->attributes);
+        if (isset($product->trackAttributes) && $product->trackAttributes->itemsFound > 0) {
+            $attrs = new AttributeArray($product->trackAttributes->items);
+            $this->trackAttributes = $attrs->get_non_empty_attrs();
+
+            $this->trackAttributeItems = new stdClass();
+
+            $this->trackAttributeItems->itemsFound = $product->trackAttributes->itemsFound;
+            $this->trackAttributeItems->offset = $product->trackAttributes->offset;
+            $this->trackAttributeItems->page = $product->trackAttributes->page;
+            $this->trackAttributeItems->pages = $product->trackAttributes->pages;
+            $this->trackAttributeItems->start = $product->trackAttributes->start;
+            $this->trackAttributeItems->end = $product->trackAttributes->end;
+        }
+
+        if (isset($product->attributes) && $product->attributes->itemsFound > 0) {
+            $attrs = new AttributeArray($product->attributes->items);
             $this->attributes = $attrs->get_non_empty_attrs();
+
+            $this->attributeItems = new stdClass();
+
+            $this->attributeItems->itemsFound = $product->attributes->itemsFound;
+            $this->attributeItems->offset = $product->attributes->offset;
+            $this->attributeItems->page = $product->attributes->page;
+            $this->attributeItems->pages = $product->attributes->pages;
+            $this->attributeItems->start = $product->attributes->start;
+            $this->attributeItems->end = $product->attributes->end;
         }
 
         if ($this->has_images())

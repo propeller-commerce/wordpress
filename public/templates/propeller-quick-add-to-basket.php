@@ -16,7 +16,7 @@ use Propeller\PropellerHelper;
                 <?php echo __('Upload Excel file','propeller-ecommerce') ?>
             </div>
             <div class="upload-excel-example">
-                <a href="<?php echo $this->assets_url . '/files/quickorder.xlsx';?>" class="d-flex align-items-center" target="_blank" rel="noopener nofollow">
+                <a href="<?php echo esc_url($this->assets_url . '/files/quickorder.xlsx'); ?>" class="d-flex align-items-center" target="_blank" rel="noopener nofollow">
                     <?php echo __('Download XLSX template','propeller-ecommerce') ?>
                     <svg class="icon icon-info">
                         <use class="shape-info" xlink:href="#shape-info"></use>
@@ -29,7 +29,7 @@ use Propeller\PropellerHelper;
                     <input type="hidden" name="action" value="upload_excel_file">
                     <div class="form-row">
                         <?php if ($error) { ?>
-                            <span class="text-danger"><?php echo $error ?></span>
+                            <span class="text-danger"><?php echo esc_html($error) ?></span>
                         <?php } ?>
                         <div class="col form-group input-group col-attachment">
                             <div class="file-group input-group-prepend col px-0">
@@ -59,23 +59,23 @@ use Propeller\PropellerHelper;
                     <?php 
                         $index = 0;
                         foreach ($products as $product) { ?>
-                        <div class="quick-order-row row" id="row-<?php echo $index; ?>">
+                        <div class="quick-order-row row" id="row-<?php echo (int) $index; ?>">
                             <div class="col-2 product-code">
-                                <input type="text" name="product-code-row-<?php echo $index; ?>" value="<?php echo $product->code; ?>" class="form-control product-code" id="product-code-row-<?php echo $index; ?>" data-row="<?php echo $index; ?>">
+                                <input type="text" name="product-code-row-<?php echo (int) $index; ?>" value="<?php echo esc_attr($product->code); ?>" class="form-control product-code" id="product-code-row-<?php echo (int) $index; ?>" data-row="<?php echo esc_attr($index); ?>">
                             </div>
                             <div class="col-4 product-name pl-0">
-                                <input type="text" name="product-name-row-<?php echo $index; ?>" value="<?php echo $product->name; ?>" disabled class="form-control product-name" id="product-name-row-<?php echo $index; ?>" data-row="<?php echo $index; ?>">
+                                <input type="text" name="product-name-row-<?php echo (int) $index; ?>" value="<?php echo esc_attr($product->name); ?>" disabled class="form-control product-name" id="product-name-row-<?php echo (int) $index; ?>" data-row="<?php echo esc_attr($index); ?>">
                             </div>
                             <div class="col-2 product-price pl-0">
-                                <input type="text" name="product-price-row-<?php echo $index; ?>" value="<?php echo PropellerHelper::formatPrice($product->net_price); ?>" disabled class="form-control product-price" id="product-price-row-<?php echo $index; ?>" data-row="<?php echo $index; ?>" data-price="<?php echo $product->net_price; ?>">
+                                <input type="text" name="product-price-row-<?php echo (int) $index; ?>" value="<?php echo PropellerHelper::formatPrice($product->net_price); ?>" disabled class="form-control product-price" id="product-price-row-<?php echo (int) $index; ?>" data-row="<?php echo esc_attr($index); ?>" data-price="<?php echo esc_attr($product->net_price); ?>">
                             </div>
                             <div class="col-1 product-quantity pl-0">
-                                <input type="number" ondrop="return false;" onpaste="return false;" onkeypress="return event.charCode>=48 && event.charCode<=57" name="product-quantity-row-<?php echo $index; ?>" value="<?php echo $product->quantity; ?>" class="form-control product-quantity" id="product-quantity-row-<?php echo $index; ?>" data-row="<?php echo $index; ?>" data-id="<?php echo $product->id; ?>">
+                                <input type="number" ondrop="return false;" onpaste="return false;" onkeypress="return event.charCode>=48 && event.charCode<=57" name="product-quantity-row-<?php echo (int) $index; ?>" value="<?php echo esc_attr($product->quantity); ?>" class="form-control product-quantity" id="product-quantity-row-<?php echo (int) $index; ?>" data-row="<?php echo esc_attr($index); ?>" data-id="<?php echo esc_attr($product->id); ?>">
                             </div>
                             <div class="col-2 product-total-price pl-0">
-                                <input type="text" name="product-total-row-<?php echo $index; ?>" value="<?php echo PropellerHelper::formatPrice($product->total); ?>" disabled class="form-control product-total" id="product-total-row-<?php echo $index; ?>" data-row="<?php echo $index; ?>" data-total="<?php echo $product->total; ?>">
+                                <input type="text" name="product-total-row-<?php echo (int) $index; ?>" value="<?php echo PropellerHelper::formatPrice($product->total); ?>" disabled class="form-control product-total" id="product-total-row-<?php echo (int) $index; ?>" data-row="<?php echo esc_attr($index); ?>" data-total="<?php echo esc_attr($product->total); ?>">
                             </div>
-                            <div class="remove-row col-1 d-flex align-items-center" data-row="<?php echo $index; ?>">
+                            <div class="remove-row col-1 d-flex align-items-center" data-row="<?php echo esc_attr($index); ?>">
                                 <button type="button" class="remove-row">
                                     <svg class="icon icon-remove">
                                         <use class="shape-remove" xlink:href="#shape-remove"></use>
@@ -86,24 +86,24 @@ use Propeller\PropellerHelper;
                     <?php 
                         $index++;
                     } ?>
-                        <div class="quick-order-row row" id="row-<?php echo $index; ?>">
+                        <div class="quick-order-row row" id="row-<?php echo (int) $index; ?>">
                             <div class="col-2 product-code">
-                                <input type="text" name="product-code-row-<?php echo $index; ?>" value="" class="form-control product-code" id="product-code-row-<?php echo $index; ?>" data-row="<?php echo $index; ?>">
-                                <input type="hidden" name="product-id-row-<?php echo $index; ?>" value=""  class="product-id" id="product-id-row-<?php echo $index; ?>">
+                                <input type="text" name="product-code-row-<?php echo (int) $index; ?>" value="" class="form-control product-code" id="product-code-row-<?php echo (int) $index; ?>" data-row="<?php echo esc_attr($index); ?>">
+                                <input type="hidden" name="product-id-row-<?php echo (int) $index; ?>" value=""  class="product-id" id="product-id-row-<?php echo (int) $index; ?>">
                             </div>
                             <div class="col-4 product-name pl-0">
-                                <input type="text" name="product-name-row-<?php echo $index; ?>" value="" disabled class="form-control product-name" id="product-name-row-<?php echo $index; ?>" data-row="<?php echo $index; ?>">
+                                <input type="text" name="product-name-row-<?php echo (int) $index; ?>" value="" disabled class="form-control product-name" id="product-name-row-<?php echo (int) $index; ?>" data-row="<?php echo esc_attr($index); ?>">
                             </div>
                             <div class="col-2 product-price pl-0">
-                                <input type="text" name="product-price-row-<?php echo $index; ?>" value="" disabled class="form-control product-price" id="product-price-row-<?php echo $index; ?>" data-row="<?php echo $index; ?>" data-price="">
+                                <input type="text" name="product-price-row-<?php echo (int) $index; ?>" value="" disabled class="form-control product-price" id="product-price-row-<?php echo (int) $index; ?>" data-row="<?php echo esc_attr($index); ?>" data-price="">
                             </div>
                             <div class="col-1 product-quantity pl-0">
-                                <input type="number" ondrop="return false;" onpaste="return false;" onkeypress="return event.charCode>=48 && event.charCode<=57"name="product-quantity-row-<?php echo $index; ?>" value="" class="form-control product-quantity" id="product-quantity-row-<?php echo $index; ?>" data-row="<?php echo $index; ?>" data-id="">
+                                <input type="number" ondrop="return false;" onpaste="return false;" onkeypress="return event.charCode>=48 && event.charCode<=57"name="product-quantity-row-<?php echo (int) $index; ?>" value="" class="form-control product-quantity" id="product-quantity-row-<?php echo (int) $index; ?>" data-row="<?php echo esc_attr($index); ?>" data-id="">
                             </div>
                             <div class="col-2 product-total-price pl-0">
-                                <input type="text" name="product-total-row-<?php echo $index; ?>" value="" disabled class="form-control product-total" id="product-total-row-<?php echo $index; ?>" data-row="<?php echo $index; ?>" data-total="">
+                                <input type="text" name="product-total-row-<?php echo (int) $index; ?>" value="" disabled class="form-control product-total" id="product-total-row-<?php echo (int) $index; ?>" data-row="<?php echo esc_attr($index); ?>" data-total="">
                             </div>
-                            <div class="remove-row col-1 d-flex align-items-center" data-row="<?php echo $index; ?>">
+                            <div class="remove-row col-1 d-flex align-items-center" data-row="<?php echo esc_attr($index); ?>">
                                 <button type="button" class="remove-row">
                                     <svg class="icon icon-remove">
                                         <use class="shape-remove" xlink:href="#shape-remove"></use>
@@ -113,24 +113,24 @@ use Propeller\PropellerHelper;
                         </div>
                 <?php } else { ?>
                     <?php for ($i = 0; $i < $default_rows_amount; $i++) { ?>
-                        <div class="quick-order-row row" id="row-<?php echo $i; ?>">
+                        <div class="quick-order-row row" id="row-<?php echo (int) $i; ?>">
                             <div class="col-2 product-code">
-                                <input type="text" name="product-code-row-<?php echo $i; ?>" value="" class="form-control product-code" id="product-code-row-<?php echo $i; ?>" data-row="<?php echo $i; ?>">
-                                <input type="hidden" name="product-id-row-<?php echo $i; ?>" value="" class="product-id" id="product-id-row-<?php echo $i; ?>">
+                                <input type="text" name="product-code-row-<?php echo (int) $i; ?>" value="" class="form-control product-code" id="product-code-row-<?php echo (int) $i; ?>" data-row="<?php echo esc_attr($i); ?>">
+                                <input type="hidden" name="product-id-row-<?php echo (int) $i; ?>" value="" class="product-id" id="product-id-row-<?php echo (int) $i; ?>">
                             </div>
                             <div class="col-4 product-name pl-0">
-                                <input type="text" name="product-name-row-<?php echo $i; ?>" value="" disabled class="form-control product-name" id="product-name-row-<?php echo $i; ?>" data-row="<?php echo $i; ?>">
+                                <input type="text" name="product-name-row-<?php echo (int) $i; ?>" value="" disabled class="form-control product-name" id="product-name-row-<?php echo (int) $i; ?>" data-row="<?php echo esc_attr($i); ?>">
                             </div>
                             <div class="col-2 product-price pl-0">
-                                <input type="text" name="product-price-row-<?php echo $i; ?>" value="" disabled class="form-control product-price" id="product-price-row-<?php echo $i; ?>" data-row="<?php echo $i; ?>" data-price="">
+                                <input type="text" name="product-price-row-<?php echo (int) $i; ?>" value="" disabled class="form-control product-price" id="product-price-row-<?php echo (int) $i; ?>" data-row="<?php echo esc_attr($i); ?>" data-price="">
                             </div>
                             <div class="col-1 product-quantity pl-0">
-                                <input type="number" ondrop="return false;" onpaste="return false;" onkeypress="return event.charCode>=48 && event.charCode<=57"name="product-quantity-row-<?php echo $i; ?>" value="" class="form-control product-quantity" id="product-quantity-row-<?php echo $i; ?>" data-row="<?php echo $i; ?>" data-id="">
+                                <input type="number" ondrop="return false;" onpaste="return false;" onkeypress="return event.charCode>=48 && event.charCode<=57"name="product-quantity-row-<?php echo (int) $i; ?>" value="" class="form-control product-quantity" id="product-quantity-row-<?php echo (int) $i; ?>" data-row="<?php echo esc_attr($i); ?>" data-id="">
                             </div>
                             <div class="col-2 product-total-price pl-0">
-                                <input type="text" name="product-total-row-<?php echo $i; ?>" value="" disabled class="form-control product-total" id="product-total-row-<?php echo $i; ?>" data-row="<?php echo $i; ?>" data-total="">
+                                <input type="text" name="product-total-row-<?php echo (int) $i; ?>" value="" disabled class="form-control product-total" id="product-total-row-<?php echo (int) $i; ?>" data-row="<?php echo esc_attr($i); ?>" data-total="">
                             </div>
-                            <div class="remove-row col-1 d-flex align-items-center" data-row="<?php echo $i; ?>">
+                            <div class="remove-row col-1 d-flex align-items-center" data-row="<?php echo esc_attr($i); ?>">
                                 <button type="button" class="remove-row">
                                     <svg class="icon icon-remove">
                                         <use class="shape-remove" xlink:href="#shape-remove"></use>
@@ -166,7 +166,7 @@ use Propeller\PropellerHelper;
                             <div class="col-8 col-lg-6 col-xl-5"><?php echo __('Subtotal excl. VAT', 'propeller-ecommerce'); ?></div>
                             <div class="col-4 col-lg-4 ml-auto sc-price text-right">
                                 <div class="sc-total">
-                                    <span class="symbol">&euro;&nbsp;</span><span class="propel-total-quick-subtotal" data-subtotal="<?php echo $subtotal; ?>"><?php echo PropellerHelper::formatPrice($subtotal); ?></span>
+                                    <span class="symbol">&euro;&nbsp;</span><span class="propel-total-quick-subtotal" data-subtotal="<?php echo esc_attr($subtotal); ?>"><?php echo PropellerHelper::formatPrice($subtotal); ?></span>
                                 </div>
                             </div>
                         </div>
@@ -175,7 +175,7 @@ use Propeller\PropellerHelper;
                             <div class="col-8 col-lg-6 col-xl-5"><?php echo __('21% VAT', 'propeller-ecommerce'); ?></div>
                             <div class="col-4 col-lg-4 ml-auto sc-price text-right">
                                 <div class="sc-total">
-                                    <span class="symbol">&euro;&nbsp;</span><span class="propel-total-quick-excl-btw" data-exclbtw="<?php echo $exclbtw; ?>"><?php echo PropellerHelper::formatPrice($exclbtw); ?></span>
+                                    <span class="symbol">&euro;&nbsp;</span><span class="propel-total-quick-excl-btw" data-exclbtw="<?php echo esc_attr($exclbtw); ?>"><?php echo PropellerHelper::formatPrice($exclbtw); ?></span>
                                 </div>
                             </div>
                         </div>
@@ -184,7 +184,7 @@ use Propeller\PropellerHelper;
                                 <div class="col-8 col-lg-6 col-xl-5"><?php echo __('Total', 'propeller-ecommerce'); ?></div>
                                 <div class="col-4 col-lg-4 ml-auto sc-price text-right">
                                     <div class="sc-total">
-                                        <span class="symbol">&euro;&nbsp;</span><span class="propel-total-quick-price" data-total="<?php echo $total; ?>"><?php echo PropellerHelper::formatPrice($total); ?></span>
+                                        <span class="symbol">&euro;&nbsp;</span><span class="propel-total-quick-price" data-total="<?php echo esc_attr($total); ?>"><?php echo PropellerHelper::formatPrice($total); ?></span>
                                     </div>
                                 </div> 
                             </div>

@@ -11,7 +11,7 @@
                 if ($_SERVER['REQUEST_URI'] != PageController::get_slug(PageType::LOGIN_PAGE)) { 
                     $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             ?>
-            <input type="hidden" name="referrer" value="<?php echo $current_url; ?>">
+            <input type="hidden" name="referrer" value="<?php echo esc_attr($current_url); ?>">
             <?php } ?>
 
             <fieldset class="personal">
@@ -62,7 +62,7 @@
             <div class="col-form-fields col-12">
                 <div class="form-row">
                     <div class="col-12">
-                        <a href="<?php echo $this->buildUrl('', PageController::get_slug(PageType::FORGOT_PASSWORD_PAGE)); ?>" class="btn-proceed btn-forgot-password"><?php echo __('Forgot password', 'propeller-ecommerce'); ?></a>
+                        <a href="<?php echo esc_url($this->buildUrl('', PageController::get_slug(PageType::FORGOT_PASSWORD_PAGE))); ?>" class="btn-proceed btn-forgot-password"><?php echo __('Forgot password', 'propeller-ecommerce'); ?></a>
                     </div>
                 </div>
             </div>

@@ -7,15 +7,15 @@
                     <?php 
                         if (isset($user->company)) {
                             if (is_object($user->company))
-                                echo $user->company->name;
+                                echo esc_html($user->company->name);
                         }   
                     ?>
                     
                     <?php if (!empty($user->cocNumber)) { ?>
-                        <span><?php echo __('Company Reg No.:', 'propeller-ecommerce'); ?>&nbsp;</span><?php echo $user->cocNumber; ?><br>
+                        <span><?php echo __('Company Reg No.:', 'propeller-ecommerce'); ?>&nbsp;</span><?php echo esc_html($user->cocNumber); ?><br>
                     <?php } ?>
                     <?php if (!empty($user->taxNumber)) { ?>
-                        <span><?php echo __('VAT number:', 'propeller-ecommerce'); ?>&nbsp;</span><?php echo $user->taxNumber; ?>
+                        <span><?php echo __('VAT number:', 'propeller-ecommerce'); ?>&nbsp;</span><?php echo esc_html($user->taxNumber); ?>
                     <?php } ?>
                 </div>
             </div>

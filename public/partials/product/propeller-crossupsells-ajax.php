@@ -13,7 +13,7 @@ use Propeller\Includes\Enum\CrossupsellTypes;
                 ?>
             </h2>
             <div class="row propeller-slider-wrapper">
-                <div class="col-12 slick-crossup crossupsells-slider" data-slug="<?php echo $obj->slug; ?>" data-type="<?php echo $type; ?>" data-class="<?php echo $obj->product->class ?>" id="product-<?php echo $type; ?>-slider"></div>
+                <div class="col-12 slick-crossup crossupsells-slider" data-slug="<?php echo esc_attr($obj->slug); ?>" data-type="<?php echo esc_attr($type); ?>" data-class="<?php echo esc_attr($obj->product->class) ?>" id="product-<?php echo esc_attr($type); ?>-slider"></div>
             </div>
         </div>
     </div> 

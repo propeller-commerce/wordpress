@@ -14,7 +14,7 @@
             </div>
         </div>
     <?php } ?>
-    <div class="row" data-action="<?php echo $this->filters->get_action() ?>" data-prop_value="<?php echo $this->filters->get_slug() ?>" data-prop_name="<?php echo $this->filters->get_prop() ?>">
+    <div class="row" data-action="<?php echo esc_attr($this->filters->get_action()) ?>" data-prop_value="<?php echo esc_attr($this->filters->get_slug()) ?>" data-prop_name="<?php echo esc_attr($this->filters->get_prop()) ?>">
         <div class="col-12 col-md-4 col-xl-3 propeller-catalog-filters <?php echo apply_filters('propel_catalog_filters_classes', ''); ?>" id="propeller-catalog-filters">
             <?php if( $this->data->itemsFound > 0 ) { ?>        
                 <div class="row no-gutters fixed-filter-header d-flex d-md-none">
@@ -40,7 +40,7 @@
             <div class="row no-gutters fixed-menu-footer d-flex d-md-none">
                 <div class="col-8 d-flex align-items-center">
                     <button type="button" class="btn-apply-filters" id="filter-menu-show-selection">
-                        <?php echo __('Show', 'propeller-ecommerce'); ?> <span class="catalog-filtered-results" id="filtered_results"><?php echo $this->data->itemsFound; ?></span> <?php echo __('results', 'propeller-ecommerce'); ?>
+                        <?php echo __('Show', 'propeller-ecommerce'); ?> <span class="catalog-filtered-results" id="filtered_results"><?php echo esc_html($this->data->itemsFound); ?></span> <?php echo __('results', 'propeller-ecommerce'); ?>
                     </button>
                 </div>
                 <div class="col-4 d-flex align-items-center justify-content-end">

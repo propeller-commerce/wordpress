@@ -42,20 +42,20 @@ use Propeller\PropellerHelper;
                                         }
                                             
                                     ?>
-                                    <?php echo $this->cart->invoiceAddress->firstName; ?> <?php echo $this->cart->invoiceAddress->lastName; ?>
+                                    <?php echo esc_html($this->cart->invoiceAddress->firstName); ?> <?php echo esc_html($this->cart->invoiceAddress->lastName); ?>
                                 </div>
                                 <div class="user-addr-details">
-                                    <?php echo $this->cart->invoiceAddress->company; ?><br>
-                                    <?php echo $this->cart->invoiceAddress->street; ?> <?php echo $this->cart->invoiceAddress->number; ?> <?php echo $this->cart->invoiceAddress->numberExtension; ?><br>
-                                    <?php echo $this->cart->invoiceAddress->postalCode; ?> <?php echo $this->cart->invoiceAddress->city; ?><br>
+                                    <?php echo esc_html($this->cart->invoiceAddress->company); ?><br>
+                                    <?php echo esc_html($this->cart->invoiceAddress->street); ?> <?php echo esc_html($this->cart->invoiceAddress->number); ?> <?php echo esc_html($this->cart->invoiceAddress->numberExtension); ?><br>
+                                    <?php echo esc_html($this->cart->invoiceAddress->postalCode); ?> <?php echo esc_html($this->cart->invoiceAddress->city); ?><br>
                                     <?php 
                                         $code = $this->cart->invoiceAddress->country;
                                         $countries = include PROPELLER_PLUGIN_DIR . '/includes/Countries.php'; 
 
                                         if( !$countries[$code] ) 
-                                            echo $code;
+                                            echo esc_html($code);
                                         else 
-                                            echo $countries[$code];
+                                            echo esc_html($countries[$code]);
                                     ?>
                                    
                                 </div>                          
@@ -74,7 +74,7 @@ use Propeller\PropellerHelper;
                                         <div class="addr-title"><?php echo __('Delivery address', 'propeller-ecommerce'); ?></div>
                                         <div class="user-addr-details">
                                             
-                                            <?php echo $this->cart->deliveryAddress->company; ?><br>
+                                            <?php echo esc_html($this->cart->deliveryAddress->company); ?><br>
                                             <?php if ($this->cart->deliveryAddress->gender === 'M') {
                                                     echo SALUTATION_M;
                                                 }
@@ -85,17 +85,17 @@ use Propeller\PropellerHelper;
                                                     echo SALUTATION_U;
                                                 } 
                                             ?>  
-                                            <?php echo $this->cart->deliveryAddress->firstName; ?>  <?php echo $this->cart->deliveryAddress->lastName; ?><br>
-                                            <?php echo $this->cart->deliveryAddress->street; ?> <?php echo $this->cart->deliveryAddress->number; ?> <?php echo $this->cart->deliveryAddress->numberExtension; ?><br>
-                                            <?php echo $this->cart->deliveryAddress->postalCode; ?> <?php echo $this->cart->deliveryAddress->city; ?><br>
+                                            <?php echo esc_html($this->cart->deliveryAddress->firstName); ?>  <?php echo esc_html($this->cart->deliveryAddress->lastName); ?><br>
+                                            <?php echo esc_html($this->cart->deliveryAddress->street); ?> <?php echo esc_html($this->cart->deliveryAddress->number); ?> <?php echo esc_html($this->cart->deliveryAddress->numberExtension); ?><br>
+                                            <?php echo esc_html($this->cart->deliveryAddress->postalCode); ?> <?php echo esc_html($this->cart->deliveryAddress->city); ?><br>
                                             <?php 
                                                 $code = $this->cart->deliveryAddress->country;
                                                 $countries = include PROPELLER_PLUGIN_DIR . '/includes/Countries.php'; 
 
                                                 if( !$countries[$code] ) 
-                                                    echo $code;
+                                                    echo esc_html($code);
                                                 else 
-                                                    echo $countries[$code];
+                                                    echo esc_html($countries[$code]);
                                             ?>
                                             
                                         </div>
@@ -121,7 +121,7 @@ use Propeller\PropellerHelper;
                                 <div class="paymethod-details">
                                     <?php foreach ($this->cart->payMethods as $payMethod) { 
                                     if ($payMethod->code == $this->cart->paymentData->method) {
-                                        echo $payMethod->description;
+                                        echo esc_html($payMethod->description);
                                     } 
                                     } ?>
                                 </div>

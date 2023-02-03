@@ -19,12 +19,12 @@ $cluster_product = $product->defaultProduct ? $product->defaultProduct : $produc
                     foreach ($cluster_product->get_attributes() as $attribute) {
                         if($attribute->searchId == 'attr_product_label_1' && !empty($attribute->get_value())) { ?>
                             <div class="product-label label-1 order-1">
-                                <span><?php echo $attribute->get_value(); ?></span>
+                                <span><?php echo esc_html($attribute->get_value()); ?></span>
                             </div>
                         <?php }
                         if($attribute->searchId == 'attr_product_label_2' && !empty($attribute->get_value())) { ?>
                             <div class="product-label label-2  order-2">
-                                <span><?php echo $attribute->get_value(); ?></span>
+                                <span><?php echo esc_html($attribute->get_value()); ?></span>
                             </div>
                         <?php }
                     }
@@ -34,17 +34,17 @@ $cluster_product = $product->defaultProduct ? $product->defaultProduct : $produc
             <div class="product-card-image">					
                 <!-- build the product urls with the classId of the product (temporary) -->
                 
-                <a href="<?php echo $this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $cluster_product->slug[0]->value); ?>">
+                <a href="<?php echo esc_url($this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $cluster_product->slug[0]->value)); ?>">
                     <?php if($cluster_product->has_images()) {?>
                                 <img class="img-fluid" loading="lazy" 
-                                    src="<?php echo $cluster_product->images[0]->images[0]->url;?>"
+                                    src="<?php echo esc_url($cluster_product->images[0]->images[0]->url); ?>"
                                     alt="<?php echo (count($cluster_product->images[0]->alt) ? $cluster_product->images[0]->alt[0]->value : ""); ?>" 
                                     width="<?php echo PROPELLER_PRODUCT_IMG_CATALOG_WIDTH; ?>" 
                                     height="<?php echo PROPELLER_PRODUCT_IMG_CATALOG_HEIGHT; ?>">
                     <?php }
                         else { ?>
                         <img class="img-fluid no-image-card" loading="lazy" 
-                            src="<?php echo $this->assets_url . '/img/no-image-card.webp';?>"
+                            src="<?php echo esc_url($this->assets_url . '/img/no-image-card.webp'); ?>"
                             alt="<?php echo __('No image found', 'propeller-ecommerce'); ?>"
                             width="300" height="300">
                     <?php } ?>
@@ -54,8 +54,8 @@ $cluster_product = $product->defaultProduct ? $product->defaultProduct : $produc
         <div class="card-body product-card-description">
             <div class="product-name">
                 <!-- build the product urls with the classId of the product (temporary) -->
-                <a href="<?php echo $this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value); ?>">
-                    <?php echo $product->name[0]->value; ?>
+                <a href="<?php echo esc_url($this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value)); ?>">
+                    <?php echo esc_html($product->name[0]->value); ?>
                 </a>
             </div>
         </div>
@@ -81,7 +81,7 @@ $cluster_product = $product->defaultProduct ? $product->defaultProduct : $produc
             <div class="add-to-basket-wrapper">  
                 <?php /*if( $cluster_product->isOrderable === 'Y') { */?>
                     <div class="add-to-basket">  
-                        <a href="<?php echo $this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value); ?>" class="btn btn-addtobasket d-flex align-items-center justify-content-center">
+                        <a href="<?php echo esc_url($this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value)); ?>" class="btn btn-addtobasket d-flex align-items-center justify-content-center">
                             <!-- <svg class="d-flex icon icon-cart" aria-hidden="true">
                                 <use xlink:href="#shape-shopping-cart"></use>
                             </svg>     -->
@@ -93,7 +93,7 @@ $cluster_product = $product->defaultProduct ? $product->defaultProduct : $produc
                 <?php /* } */ ?>
             </div>
 
-        <div class="product-code"><?php echo $cluster_product->sku; ?></div>     
+        <div class="product-code"><?php echo esc_html($cluster_product->sku); ?></div>
             
         </div>
 

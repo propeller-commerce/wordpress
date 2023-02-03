@@ -16,6 +16,7 @@ class CategoryModel extends BaseModel {
             $str_args = '(' . $this->parse_arguments($arguments) . ')';
 
         $attr_str_args = $this->parse_arguments($attributes_args);
+        // $attributes_gql = $this->attributes($attr_str_args);
 
         $media_images_gql = $this->extract_query($images_query);
 

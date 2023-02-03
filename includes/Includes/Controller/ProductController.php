@@ -54,11 +54,11 @@ class ProductController extends BaseController {
         Product actions
 
     */
-    public function product_price($product, $obj) {
+    public function product_price($product, $quantity = 1, $is_bulk = false) {
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-product-price.php');
     }
 
-    public function cluster_price($product, $obj) {
+    public function cluster_price($product, $quantity = 1, $is_bulk = false) {
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-cluster-price.php');
     }
     
@@ -162,6 +162,10 @@ class ProductController extends BaseController {
 
     public function product_specifications_content($product) {
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-product-specifications-content.php');
+    }
+
+    public function product_specifications_rows($product) {
+        require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-product-specifications-rows.php');
     }
 
     public function cluster_name($cluster) {
@@ -279,17 +283,6 @@ class ProductController extends BaseController {
             
         if ($data->class == 'cluster')
             $this->product = new Cluster($data);
-        
-        // echo '<pre>';
-        // var_dump($this->product);
-        // echo '</pre>';
-        
-        $this->attributes = [];
-
-        if ($this->product->class == 'product' && $this->product->attributes) {
-            $attrs = new AttributeArray($this->product->attributes);
-            $this->attributes = $attrs->get_non_empty_attrs();
-        }   
 
         $this->slug = get_query_var('slug');
 
@@ -386,16 +379,18 @@ class ProductController extends BaseController {
         return $this->query($gql, $type);
     }
 
-    public function load_specifications($product_id) {
+    public function load_specifications($product_id, $page = 1, $offset = 12) {
         $type = 'product';
 
-        $gql = $this->model->specifications($product_id, ['filter' => new RawObject('{ isPublic: true, offset: 100 }')]);
-        
+        $gql = $this->model->specifications($product_id, ['filter' => new RawObject('{ isPublic: true, offset: 1000 }')]);
+
         $product = new Product($this->query($gql, $type));
 
         ob_start();
 
-        apply_filters('propel_product_specifications_content', $product);
+        $page == 1 
+            ? apply_filters('propel_product_specifications_content', $product)
+            : apply_filters('propel_product_specifications_rows', $product);
         
         $content = ob_get_clean();
         
@@ -471,6 +466,9 @@ class ProductController extends BaseController {
 
         if (!empty($term))
             $qry_params['term'] = $term;
+
+        if (!isset($qry_params['language']))
+            $qry_params['language'] = PROPELLER_LANG;
 
         $sort_params = isset($applied_filters['sort']) && !empty($applied_filters['sort']) ? explode(',', $applied_filters['sort']) : '';
         $sort = is_array($sort_params) && !empty($sort_params[0]) ? $sort_params[0] : array_key_first($this->sort_arr);
@@ -581,6 +579,9 @@ class ProductController extends BaseController {
 
         if (!empty($term))
             $qry_params['manufacturer'] = $term;
+
+        if (!isset($qry_params['language']))
+            $qry_params['language'] = PROPELLER_LANG;
 
         $sort_params = isset($applied_filters['sort']) && !empty($applied_filters['sort']) ? explode(',', $applied_filters['sort']) : '';
         $sort = is_array($sort_params) && !empty($sort_params[0]) ? $sort_params[0] : array_key_first($this->sort_arr);
@@ -840,17 +841,21 @@ class ProductController extends BaseController {
         $attr_data = $this->query($attrs_gql, $type);
 
         $attr_names = [];
+        $attr_offset = 12;
+
         if (isset($attr_data->drillDown) && count($attr_data->drillDown)) {
             foreach ($attr_data->drillDown as $dd)
                 $attr_names[] = $dd->attribute->name;
         }
+
+        $attr_offset = count($attr_names);
 
         $gql = $this->model->get_cluster(
             $clusterId 
                 ? ['clusterId' => (int) $clusterId] 
                 : ['slug' => $slug, 'language' => PROPELLER_LANG],
             count($attr_names) 
-                ? ['filter' => new RawObject('{ name: ["' . implode('", "', $attr_names) . '"] }')]
+                ? ['filter' => new RawObject('{ name: ["' . implode('", "', $attr_names) . '"], offset: ' . $attr_offset . ' }')]
                 : NULL,
             Media::get([
                 'name' => MediaImagesType::LARGE
@@ -873,6 +878,9 @@ class ProductController extends BaseController {
         if ($is_ajax) 
             $qry_params = $this->build_search_arguments($qry_params);
 
+        if (!isset($qry_params['language']))
+            $qry_params['language'] = PROPELLER_LANG;
+
         $gql = $this->model->get_products(
             $qry_params,
             ['filter' => new RawObject('{ name: ["PRODUCT_LABEL_1", "PRODUCT_LABEL_2"]}')],
@@ -892,6 +900,9 @@ class ProductController extends BaseController {
         if ($is_ajax) 
             $qry_params = $this->build_search_arguments($qry_params);
 
+        if (!isset($qry_params['language']))
+            $qry_params['language'] = PROPELLER_LANG;
+
         $gql = $this->model->get_slider_products(
             $qry_params, 
             Media::get([
@@ -909,6 +920,9 @@ class ProductController extends BaseController {
         
         $qry_params['offset'] = PROPELLER_SEARCH_SUGGESTIONS;
         $qry_params['page'] = 1;
+
+        if (!isset($qry_params['language']))
+            $qry_params['language'] = PROPELLER_LANG;
 
         $searchGql = $this->model->global_search_products(
             $qry_params,

@@ -15,11 +15,11 @@ use Propeller\PropellerHelper;
             <div class="col-12 col-md-6">
                 <div class="addr-title"><?php echo __('Delivery address', 'propeller-ecommerce'); ?></div>
                 <div class="user-addr-details">
-                    <?php echo $delivery_address->company; ?><br>
-                    <?php echo $obj->get_salutation($delivery_address); ?> 
-                    <?php echo $delivery_address->firstName; ?> <?php echo $delivery_address->middleName; ?> <?php echo $delivery_address->lastName; ?><br>
-                    <?php echo $delivery_address->street; ?> <?php echo $delivery_address->number; ?> <?php echo $delivery_address->numberExtension; ?><br>
-                    <?php echo $delivery_address->postalCode; ?> <?php echo $delivery_address->city; ?><br>
+                    <?php echo esc_html($delivery_address->company); ?><br>
+                    <?php echo esc_html($obj->get_salutation($delivery_address)); ?>
+                    <?php echo esc_html($delivery_address->firstName); ?> <?php echo esc_html($delivery_address->middleName); ?> <?php echo esc_html($delivery_address->lastName); ?><br>
+                    <?php echo esc_html($delivery_address->street); ?> <?php echo esc_html($delivery_address->number); ?> <?php echo esc_html($delivery_address->numberExtension); ?><br>
+                    <?php echo esc_html($delivery_address->postalCode); ?> <?php echo esc_html($delivery_address->city); ?><br>
                     <?php echo !$countries[$delivery_address->country] ? $delivery_address->country : $countries[$delivery_address->country]; ?>
                     
                 </div>
@@ -42,7 +42,7 @@ use Propeller\PropellerHelper;
     </div>
     <div class="col-2 col-md-1 order-2 order-md-3 d-flex justify-content-end">
         <div class="edit-checkout">
-            <a href="<?php echo $this->buildUrl(PageController::get_slug(PageType::CHECKOUT_PAGE),  '2'); ?>">
+            <a href="<?php echo esc_url($this->buildUrl(PageController::get_slug(PageType::CHECKOUT_PAGE),  '2')); ?>">
                 <svg class="icon icon-edit" aria-hidden="true">
                     <use xlink:href="#shape-checkout-edit"></use>
                 </svg>    

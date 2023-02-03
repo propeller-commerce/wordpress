@@ -18,10 +18,10 @@
                 foreach ($selected_filters as $selected_filter) { 
             ?>
                     <a class="btn-active-filter"
-                    data-filter='<?php echo $selected_filter->filter->searchId; ?>'
+                    data-filter='<?php echo esc_html($selected_filter->filter->searchId); ?>'
                     data-value='<?php echo wp_slash($selected_filter->value); ?>'
-                    data-type='<?php echo $selected_filter->filter->type; ?>'>
-                        <span class="active-filter-name"><?php echo $selected_filter->value; ?></span>
+                    data-type='<?php echo esc_html($selected_filter->filter->type); ?>'>
+                        <span class="active-filter-name"><?php echo esc_html($selected_filter->value); ?></span>
                         <svg class="icon icon-svg" aria-hidden="true">
                             <use xlink:href="#shape-close"></use>
                         </svg>
@@ -29,7 +29,7 @@
             <?php } ?>
         </div>
         <div class="col-auto mr-auto catalog-result">
-            <div class="catalog-result-count"><span id="catalog_total"><?php echo $data->itemsFound; ?></span> <?php echo __('results', 'propeller-ecommerce'); ?></div>
+            <div class="catalog-result-count"><span id="catalog_total"><?php echo esc_html($data->itemsFound); ?></span> <?php echo __('results', 'propeller-ecommerce'); ?></div>
         </div>
         
         <?php require $obj->load_template('partials', DIRECTORY_SEPARATOR . 'other' . DIRECTORY_SEPARATOR . 'propeller-offset-sort.php'); ?>

@@ -8,7 +8,7 @@
                 foreach ($product->videos as $vid) {
         ?>
             <div class="mb-4 embed-responsive embed-responsive-16by9 video">
-                <iframe class="embed-responsive-item" src="<?php echo $vid->videos[0]->uri; ?>" title="<?php echo isset($vid->alt) && count($vid->alt) && !empty($vid->alt[0]->value) ? $vid->alt[0]->value : $vid->videos[0]->uri; ?>" allowfullscreen></iframe>
+                <iframe class="embed-responsive-item" src="<?php echo esc_url($vid->videos[0]->uri); ?>" title="<?php echo isset($vid->alt) && count($vid->alt) && !empty($vid->alt[0]->value) ? $vid->alt[0]->value : $vid->videos[0]->uri; ?>" allowfullscreen></iframe>
             </div>
         <?php
                 }

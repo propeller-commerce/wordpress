@@ -196,7 +196,7 @@ class ProductAjaxController extends BaseAjaxController {
         $prop->reinit_filters();
         
         $response = new stdClass();
-        $response->content = $this->product->load_specifications($_POST['id']);
+        $response->content = $this->product->load_specifications($_POST['id'], isset($_POST['page']) ? $_POST['page'] : 1, isset($_POST['offset']) ? $_POST['offset'] : 12);
 
         $response->status = true;
         $response->error = null;

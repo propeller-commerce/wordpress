@@ -3,10 +3,10 @@
         if (!$option->label || !count($option->values)) continue;   
     ?>
         <div class="col-12 col-md">
-            <h5><?php echo $option->label; ?></h5>
+            <h5><?php echo esc_html($option->label); ?></h5>
 
             <?php if ( $option->display === 'dropdown') { ?>
-                <select class="cluster-dropdown" name="<?php echo $attr_name; ?>" data-cluster_id="<?php echo $cluster->clusterId ?>">
+                <select class="cluster-dropdown" name="<?php echo esc_attr($attr_name); ?>" data-cluster_id="<?php echo esc_attr($cluster->clusterId); ?>">
                 <?php foreach ($option->values as $val) { ?>
                     <?php 
                         $selected = '';
@@ -18,8 +18,8 @@
                             }
                         }
                     ?>
-                    <option value="<?php echo $val; ?>" <?php echo $selected; ?>>
-                        <?php echo $val; ?>
+                    <option value="<?php echo esc_attr($val); ?>" <?php echo (string) $selected; ?>>
+                        <?php echo esc_html($val); ?>
                     </option>
                 <?php } ?>
                 </select>

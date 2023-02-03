@@ -29,7 +29,7 @@
                                         $selected = 'selected="selected"';
                                     }
                             ?>
-                            <option value="<?php echo basename($trn_file); ?>" <?php echo $selected; ?>><?php echo basename($trn_file); ?></option>
+                            <option value="<?php echo basename(esc_attr($trn_file)); ?>" <?php echo (string) $selected; ?>><?php echo basename($trn_file); ?></option>
                         <?php } ?>
                     </select>
                 </div>
@@ -83,7 +83,7 @@
             <select name="locale" id="select_lang" class="form-control mt-3">
                 <option value=""><?php echo __('Select language', 'propeller-ecommerce'); ?></option>
                 <?php foreach ($translator->get_available_languages() as $loc => $locale) { ?>
-                    <option value="<?php echo $locale['wp_locale']; ?>"><?php echo $locale['name']; ?></option>
+                    <option value="<?php echo esc_attr($locale['wp_locale']); ?>"><?php echo esc_html($locale['name']); ?></option>
                 <?php } ?>
             </select>
 
@@ -147,13 +147,13 @@
                     <?php foreach ($translations as $translation) { ?>
                         <tr>
                             <td class="text-center align-middle">
-                                <?php echo $index; ?>.
+                                <?php echo esc_html($index); ?>.
                             </td>
                             <td>
-                                <input type="text" class="border form-control" readonly name="original[<?php echo $index; ?>]" value="<?php echo htmlspecialchars($translation->getOriginal()); ?>" />
+                                <input type="text" class="border form-control" readonly name="original[<?php echo intval($index); ?>]" value="<?php echo htmlspecialchars($translation->getOriginal()); ?>" />
                             </td>
                             <td>
-                                <input type="text" class="border form-control" name="translation[<?php echo $index; ?>]" value="<?php echo $translation->getTranslation(); ?>" />
+                                <input type="text" class="border form-control" name="translation[<?php echo intval($index); ?>]" value="<?php echo htmlspecialchars($translation->getTranslation()); ?>" />
                             </td>
                         </tr>
                     <?php $index++; ?>

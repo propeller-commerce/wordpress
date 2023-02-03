@@ -7,12 +7,12 @@
             <div class="col-12 order-address-details">
                 <div class="user-delivery-details">
                     <div class="user-fullname">
-                        <?php echo $obj->get_salutation($order->invoiceAddress); ?>
-                        <?php echo $order->invoiceAddress[0]->firstName; ?> <?php echo $order->invoiceAddress[0]->middleName; ?> <?php echo $order->invoiceAddress[0]->lastName; ?>
+                        <?php echo esc_html($obj->get_salutation($order->invoiceAddress)); ?>
+                        <?php echo esc_html($order->invoiceAddress[0]->firstName); ?> <?php echo esc_html($order->invoiceAddress[0]->middleName); ?> <?php echo esc_html($order->invoiceAddress[0]->lastName); ?>
                     </div>
-                    <?php echo $order->invoiceAddress[0]->company; ?><br>
-                    <?php echo $order->invoiceAddress[0]->street; ?> <?php echo $order->invoiceAddress[0]->number; ?> <?php echo $order->invoiceAddress[0]->numberExtension; ?><br>
-                    <?php echo $order->invoiceAddress[0]->postalCode; ?> <?php echo $order->invoiceAddress[0]->city; ?><br>
+                    <?php echo esc_html($order->invoiceAddress[0]->company); ?><br>
+                    <?php echo esc_html($order->invoiceAddress[0]->street); ?> <?php echo esc_html($order->invoiceAddress[0]->number); ?> <?php echo esc_html($order->invoiceAddress[0]->numberExtension); ?><br>
+                    <?php echo esc_html($order->invoiceAddress[0]->postalCode); ?> <?php echo esc_html($order->invoiceAddress[0]->city); ?><br>
                     <?php echo !$countries[$order->invoiceAddress[0]->country] ? $order->invoiceAddress[0]->country : $countries[$order->invoiceAddress[0]->country]; ?>
                 </div>                         
             </div>

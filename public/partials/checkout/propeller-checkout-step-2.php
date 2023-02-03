@@ -66,7 +66,7 @@ use Propeller\Includes\Enum\AddressType;
                         <div class="col-12">
                             <form name="checkout-delivery" class="form-handler checkout-form validate" method="post">
                                 <input type="hidden" name="action" value="cart_update_address" />
-                                <input type="hidden" name="step" value="<?php echo $slug; ?>" />
+                                <input type="hidden" name="step" value="<?php echo esc_attr($slug); ?>" />
                                 <input type="hidden" name="next_step" value="3" />
                                 <input type="hidden" name="type" value="<?php echo AddressType::DELIVERY; ?>" />
                                 <input type="hidden" name="icp" value="N" />
@@ -96,7 +96,7 @@ use Propeller\Includes\Enum\AddressType;
                                             <div class="form-row">
                                                 <div class="col-12 col-md-8 form-group col-user-company">
                                                     <label class="form-label" for="field_company"><?php echo __('Company', 'propeller-ecommerce'); ?></label>
-                                                    <input type="text" name="company" value="<?php echo $delivery_address->company; ?>" placeholder="<?php echo __('Company', 'propeller-ecommerce'); ?>" class="form-control required" id="field_company">
+                                                    <input type="text" name="company" value="<?php echo esc_attr($delivery_address->company); ?>" placeholder="<?php echo __('Company', 'propeller-ecommerce'); ?>" class="form-control required" id="field_company">
                                                 </div>
                                             </div>  
                                         </div>
@@ -106,17 +106,17 @@ use Propeller\Includes\Enum\AddressType;
                                             <div class="form-row">
                                                 <div class="col-auto form-group form-check">
                                                     <label class="btn-radio-checkbox form-check-label ">
-                                                        <input type="radio" class="form-check-input" name="gender" value="M" <?php echo $delivery_address->gender == 'M' ? 'checked' : ''; ?>> <span><?php echo __('Mr.', 'propeller-ecommerce'); ?></span>
+                                                        <input type="radio" class="form-check-input" name="gender" value="M" <?php echo (string) $delivery_address->gender == 'M' ? 'checked' : ''; ?>> <span><?php echo __('Mr.', 'propeller-ecommerce'); ?></span>
                                                     </label>
                                                 </div>
                                                 <div class="col-auto form-group form-check">
                                                     <label class="btn-radio-checkbox form-check-label ">
-                                                        <input type="radio" class="form-check-input" name="gender" value="F" <?php echo $delivery_address->gender == 'F' ? 'checked' : ''; ?>> <span><?php echo __('Ms.', 'propeller-ecommerce'); ?></span>
+                                                        <input type="radio" class="form-check-input" name="gender" value="F" <?php echo (string) $delivery_address->gender == 'F' ? 'checked' : ''; ?>> <span><?php echo __('Ms.', 'propeller-ecommerce'); ?></span>
                                                     </label>
                                                 </div>
                                                 <div class="col-auto form-group form-check">
                                                     <label class="btn-radio-checkbox form-check-label ">
-                                                        <input type="radio" class="form-check-input" name="gender" value="U" <?php echo $delivery_address->gender == 'U' ? 'checked' : ''; ?>> <span><?php echo __('Other', 'propeller-ecommerce'); ?></span>
+                                                        <input type="radio" class="form-check-input" name="gender" value="U" <?php echo (string) $delivery_address->gender == 'U' ? 'checked' : ''; ?>> <span><?php echo __('Other', 'propeller-ecommerce'); ?></span>
                                                     </label>
                                                 </div>
                                             </div>  
@@ -127,15 +127,15 @@ use Propeller\Includes\Enum\AddressType;
                                             <div class="form-row">
                                                 <div class="col-12 col-md form-group col-user-firstname">
                                                     <label class="form-label" for="field_fname"><?php echo __('First name', 'propeller-ecommerce'); ?>*</label>
-                                                    <input type="text" name="firstName" value="<?php echo $delivery_address->firstName; ?>" placeholder="<?php echo __('First name', 'propeller-ecommerce'); ?>*" class="form-control required" id="field_fname">
+                                                    <input type="text" name="firstName" value="<?php echo esc_attr($delivery_address->firstName); ?>" placeholder="<?php echo __('First name', 'propeller-ecommerce'); ?>*" class="form-control required" id="field_fname">
                                                 </div>
                                                 <div class="col-12 col-md form-group col-user-middlename">
                                                     <label class="form-label" for="field_mname"><?php echo __('Insertion (optional)', 'propeller-ecommerce'); ?></label>
-                                                    <input type="text" name="middleName" value="<?php echo $delivery_address->middleName; ?>" placeholder="<?php echo __('Insertion (optional)', 'propeller-ecommerce'); ?>" class="form-control" id="field_mname">
+                                                    <input type="text" name="middleName" value="<?php echo esc_attr($delivery_address->middleName); ?>" placeholder="<?php echo __('Insertion (optional)', 'propeller-ecommerce'); ?>" class="form-control" id="field_mname">
                                                 </div>
                                                 <div class="col-12 col-md form-group col-user-lastname">
                                                     <label class="form-label" for="field_lname"><?php echo __('Last name', 'propeller-ecommerce'); ?>*</label>
-                                                    <input type="text" name="lastName" value="<?php echo $delivery_address->lastName; ?>" placeholder="<?php echo __('Last name', 'propeller-ecommerce'); ?>*" class="form-control required" id="field_lname">
+                                                    <input type="text" name="lastName" value="<?php echo esc_attr($delivery_address->lastName); ?>" placeholder="<?php echo __('Last name', 'propeller-ecommerce'); ?>*" class="form-control required" id="field_lname">
                                                 </div>
                                             </div>  
                                         </div>
@@ -145,8 +145,8 @@ use Propeller\Includes\Enum\AddressType;
                                         <div class="col-form-fields col-12">
                                             <div class="form-row">
                                                 <div class="col-12 col-md-8 form-group col-user-mail">
-                                                    <label class="form-label" for="email_<?php echo $delivery_address->id; ?>"><?php echo __('E-mail address', 'propeller-ecommerce'); ?>*</label>
-                                                    <input type="email" name="email" value="<?php echo $delivery_address->email; ?>" placeholder="<?php echo __('E-mail address', 'propeller-ecommerce'); ?>*" class="form-control required email" id="email_<?php echo $delivery_address->id; ?>">
+                                                    <label class="form-label" for="email_<?php echo esc_attr($delivery_address->id); ?>"><?php echo __('E-mail address', 'propeller-ecommerce'); ?>*</label>
+                                                    <input type="email" name="email" value="<?php echo esc_attr($delivery_address->email); ?>" placeholder="<?php echo __('E-mail address', 'propeller-ecommerce'); ?>*" class="form-control required email" id="email_<?php echo esc_attr($delivery_address->id); ?>">
                                                 </div>
                                             </div>  
                                         </div>
@@ -157,7 +157,7 @@ use Propeller\Includes\Enum\AddressType;
                                             <div class="form-row">
                                                 <div class="col-12 col-md-8 form-group col-user-address">
                                                     <label class="form-label" for="field_address"><?php echo __('Street', 'propeller-ecommerce'); ?>*</label>
-                                                    <input type="text" name="street" value="<?php echo $delivery_address->street; ?>" placeholder="<?php echo __('Street', 'propeller-ecommerce'); ?>*" class="form-control required" id="field_address">
+                                                    <input type="text" name="street" value="<?php echo esc_attr($delivery_address->street); ?>" placeholder="<?php echo __('Street', 'propeller-ecommerce'); ?>*" class="form-control required" id="field_address">
                                                 </div>
                                             </div>  
                                         </div>
@@ -167,7 +167,7 @@ use Propeller\Includes\Enum\AddressType;
                                             <div class="form-row">
                                                 <div class="col-12 col-md-8 form-group col-user-address_add">
                                                     <label class="form-label" for="field_address_add"><?php echo __('Address addition (building, unit, etc, optional)', 'propeller-ecommerce'); ?></label>
-                                                    <input type="text" name="number" value="<?php echo $delivery_address->number; ?>" placeholder="<?php echo __('Address addition (building, unit, etc, optional)', 'propeller-ecommerce'); ?>" class="form-control" id="field_address_add">
+                                                    <input type="text" name="number" value="<?php echo esc_attr($delivery_address->number); ?>" placeholder="<?php echo __('Address addition (building, unit, etc, optional)', 'propeller-ecommerce'); ?>" class="form-control" id="field_address_add">
                                                 </div>
                                             </div>  
                                         </div>
@@ -177,7 +177,7 @@ use Propeller\Includes\Enum\AddressType;
                                             <div class="form-row">
                                                 <div class="col-12 col-md-8 form-group col-user-zipcode">
                                                     <label class="form-label" for="field_zipcode"><?php echo __('Postal code', 'propeller-ecommerce'); ?>*</label>
-                                                    <input type="text" name="postalCode" value="<?php echo $delivery_address->postalCode; ?>" placeholder="<?php echo __('Postal code', 'propeller-ecommerce'); ?>*" class="form-control required" id="field_zipcode">
+                                                    <input type="text" name="postalCode" value="<?php echo esc_attr($delivery_address->postalCode); ?>" placeholder="<?php echo __('Postal code', 'propeller-ecommerce'); ?>*" class="form-control required" id="field_zipcode">
                                                 </div>
                                             </div>  
                                         </div>
@@ -187,7 +187,7 @@ use Propeller\Includes\Enum\AddressType;
                                             <div class="form-row">
                                                 <div class="col-12 col-md-8 form-group col-user-city">
                                                     <label class="form-label" for="field_city"><?php echo __('City', 'propeller-ecommerce'); ?>*</label>
-                                                    <input type="text" name="city" value="<?php echo $delivery_address->city; ?>" placeholder="<?php echo __('City', 'propeller-ecommerce'); ?>*" class="form-control required" id="field_city">
+                                                    <input type="text" name="city" value="<?php echo esc_attr($delivery_address->city); ?>" placeholder="<?php echo __('City', 'propeller-ecommerce'); ?>*" class="form-control required" id="field_city">
                                                 </div>
                                             </div>  
                                         </div>
@@ -208,7 +208,7 @@ use Propeller\Includes\Enum\AddressType;
 
                                                     <select id="field_country" name="country" class="form-control required">
                                                         <?php foreach ($countries as $code => $name) { ?>
-                                                            <option value="<?php echo $code; ?>" <?php echo ($code == $selected ? 'selected' : ''); ?>><?php echo $name; ?></option>
+                                                            <option value="<?php echo esc_attr($code); ?>" <?php echo ($code == $selected ? 'selected' : ''); ?>><?php echo esc_html($name); ?></option>
                                                         <?php } ?>
                                                     </select>
 
@@ -240,9 +240,9 @@ use Propeller\Includes\Enum\AddressType;
                                                 <div class="col-12 col-md-8">
                                                     <label class="form-check-label carrier">
                                                         <span class="row d-flex align-items-center">
-                                                            <input type="radio" name="carrier_select" value="<?php echo $carrier->name; ?>" title="Selecteer Verzendwijze." data-rule-required="true" required="required" aria-required="true" class="required"> 
-                                                            <span class="carrier-name col-4 col-md-3"><?php echo $carrier->name; ?></span> 
-                                                            <span class="carrier-cost col-3">&euro; <?php echo $carrier->price; ?></span>
+                                                            <input type="radio" name="carrier_select" value="<?php echo esc_attr($carrier->name); ?>" title="Selecteer Verzendwijze." data-rule-required="true" required="required" aria-required="true" class="required">
+                                                            <span class="carrier-name col-4 col-md-3"><?php echo esc_html($carrier->name); ?></span>
+                                                            <span class="carrier-cost col-3">&euro; <?php echo esc_html($carrier->price); ?></span>
                                                             <span class="col-5 col-md-6 d-flex justify-content-end">
                                                                 <img src="https://sonar.propellor.eu/propellor/interface/img/logo/dhl.png" class="carrier-logo"></span>
                                                         </span>

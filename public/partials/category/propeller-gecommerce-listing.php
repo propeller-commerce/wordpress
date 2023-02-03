@@ -19,25 +19,25 @@ use Propeller\PropellerHelper;
                 
                 {
                     "@type": "ListItem",
-                    "position": "<?php echo $key+1; ?>",
+                    "position": "<?php echo esc_attr($key+1); ?>",
                     "item": {
                         "@type": "Product",
-                        "name": " <?php echo $product->name[0]->value ?> ",
-                        "url":" <?php echo $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value) ?>",
-                        <?php if($product->has_images()) echo'"image":" ' . $product->images[0]->images[0]->url .'",'?>
+                        "name": " <?php echo esc_attr($product->name[0]->value); ?> ",
+                        "url":" <?php echo esc_url($obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value)); ?>",
+                        <?php if($product->has_images()) echo'"image":" ' .esc_url( $product->images[0]->images[0]->url ) .'",'?>
                         "description":" <?php echo isset($product->description[0]->value) ? strip_tags($product->description[0]->value) : '' ?>",
-                        "mpn":"<?php echo $product->manufacturerCode ?>",
-                        "sku":"<?php echo $product->sku ?>'",
-                        "productId":"<?php echo $product->productId ?>",
-                        "category":"<?php echo isset($product->category->name[0]->value) ? $product->category->name[0]->value : ''; ?>",
+                        "mpn":"<?php echo esc_attr($product->manufacturerCode); ?>",
+                        "sku":"<?php echo esc_attr($product->sku); ?>'",
+                        "productId":"<?php echo esc_attr($product->productId); ?>",
+                        "category":"<?php echo isset($product->category->name[0]->value) ? esc_attr($product->category->name[0]->value ) : ''; ?>",
                         "brand": {
                             "@type": "Brand",
-                            "name":"<?php echo $product->manufacturer ?>"
+                            "name":"<?php echo esc_attr($product->manufacturer); ?>"
                         }
                     <?php if ( UserController::is_logged_in() ) { ?>   ,
                         "offers": {
                             "@type": "Offer",
-                            "url": "<?php echo $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value) ?>",
+                            "url": "<?php echo esc_url($obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $product->slug[0]->value)); ?>",
                             "priceCurrency": "EUR",
                             "price": "<?php echo PropellerHelper::formatPriceGTM($product->price->net) ?>",
                             "itemCondition": "http://schema.org/NewCondition",

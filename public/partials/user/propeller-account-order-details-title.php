@@ -1,1 +1,1 @@
-<div class="order-number"><strong><?php echo __('Order number', 'propeller-ecommerce'); ?>:</strong> <?php echo $order->id; ?></div>
+<div class="order-number"><strong><?php echo __('Order number', 'propeller-ecommerce'); ?>:</strong> <?php echo esc_attr($order->id); ?></div>

@@ -5,7 +5,7 @@
     <div class="shopping-cart-totals">
         <div class="row align-items-baseline">
             <div class="col-12">
-                <div class="sc-items"><?php echo __('Order overview', 'propeller-ecommerce'); ?> (<span class="propel-total-items"><?php echo $this->get_items_count();?></span> <?php echo __('items', 'propeller-ecommerce'); ?>)</div>
+                <div class="sc-items"><?php echo __('Order overview', 'propeller-ecommerce'); ?> (<span class="propel-total-items"><?php echo (int) $this->get_items_count();?></span> <?php echo __('items', 'propeller-ecommerce'); ?>)</div>
                 <hr>
             </div>
         </div>
@@ -57,7 +57,7 @@
                     }
                 }
             ?>
-            <div class="col-6 col-xl-5"><?php echo $taxPercentage; ?>% <?php echo __('VAT', 'propeller-ecommerce'); ?></div>
+            <div class="col-6 col-xl-5"><?php echo esc_html($taxPercentage); ?>% <?php echo __('VAT', 'propeller-ecommerce'); ?></div>
             <div class="col-6 ml-auto sc-price text-right">
                 <div class="sc-total-btw">
                     <?php 

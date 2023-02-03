@@ -2,14 +2,14 @@
     <div class="col-12">
         <h3><?php echo __('Specifications', 'propeller-ecommerce'); ?></h3>
     </div>
-    <div class="col-12">
+    <div class="col-12 product-specs-rows">
         <?php if(!empty($product->eanCode)) { ?> 
             <div class="row no-gutters product-specs">
                 <div class="col col-sm-6">
                 <?php echo __('EAN code', 'propeller-ecommerce'); ?>
                 </div>
                 <div class="col-auto">
-                    <?php echo $product->eanCode; ?>
+                    <?php echo esc_html__($product->eanCode); ?>
                 </div>
             </div>
         <?php } ?>
@@ -19,31 +19,10 @@
                 <?php echo __('Brand', 'propeller-ecommerce'); ?>
                 </div>
                 <div class="col-auto">
-                    <?php echo $product->manufacturer; ?>
+                    <?php echo esc_html__($product->manufacturer); ?>
                 </div>
             </div>
         <?php } ?>
-        <?php 
-
-        if($product->has_attributes()){
-            foreach ($product->get_attributes() as $attribute) {
-                if (($attribute->get_type() == 'text' || 
-                        $attribute->get_type() == 'list' || 
-                        $attribute->get_type() == 'enumlist' ||
-                        $attribute->get_type() == 'integer' ||
-                        $attribute->get_type() == 'decimal') && $attribute->has_value()){ ?>
-                        <div class="row no-gutters product-specs">
-                            <div class="col col-sm-6">
-                                <?php echo $attribute->get_description(); ?>
-                            </div>
-                            <div class="col-6">
-                                <?php echo $attribute->get_value(); ?>
-                            </div>
-                        </div>
-                    <?php 
-                }
-            }
-        }
-        ?>
+        <?php apply_filters('propel_product_specifications_rows', $product); ?>
     </div>
 </div>

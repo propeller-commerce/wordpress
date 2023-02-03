@@ -40,7 +40,7 @@
                 <option value=""><?php echo __('Select language', 'propeller-ecommerce'); ?></option>
                 <?php $locales = include PROPELLER_PLUGIN_DIR . '/includes/Locales.php'; ?>
                 <?php foreach ($locales as $loc => $locale) { ?>
-                    <option value="<?php echo $locale['wp_locale']; ?>" <?php echo $settings_result->default_locale == $locale['wp_locale'] ? 'selected="selected"' : ''; ?>><?php echo $locale['name'] . ' (' . $locale['code'] . ')'; ?></option>
+                    <option value="<?php echo esc_attr($locale['wp_locale']); ?>" <?php echo (bool) ($settings_result->default_locale == $locale['wp_locale']) ? 'selected="selected"' : ''; ?>><?php echo esc_html($locale['name']) . ' (' . esc_html($locale['code']) . ')'; ?></option>
                 <?php } ?>
             </select>
         </div>

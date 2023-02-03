@@ -84,12 +84,47 @@
                     success: function(data, msg, xhr) {
                         $('#pane-' + data_type).html(data.content);
                         $(obj).data('loaded', 'true');
+
+                        if (data_type == 'specifications')
+                            Propeller.ProductFixedWrapper.init_specs_show_more();
                     },
                     error: function() {
                         console.log('error', arguments);
                     }
                 });
             }
+        },
+        init_specs_show_more: function() {
+            $('a.load-attributes').off('click').click(function(e) {
+                e.preventDefault();
+
+                var data_type = $(this).data('tab');
+                var data_id = $(this).data('id');
+                var btn_container = $(this).closest('.show-more-container');
+                
+                Propeller.Ajax.call({
+                    url: PropellerHelper.ajax_url,
+                    method: 'POST',
+                    data: {
+                        id: data_id,
+                        action: 'load_product_' + data_type,
+                        page: $(this).data('page'),
+                        offset: $(this).data('offset')
+                    },
+                    loading: $('#pane-' + data_type),
+                    success: function(data, msg, xhr) {
+                        $(btn_container).remove();
+                        
+                        $('.product-specs-rows').append(data.content);
+                        Propeller.ProductFixedWrapper.init_specs_show_more();
+                    },
+                    error: function() {
+                        console.log('error', arguments);
+                    }
+                });
+
+                return false;
+            });
         }
     };
 

@@ -114,7 +114,7 @@ class PropellerFrontend {
         $header_content .= $this->build_js_helper();
         $header_content .= "\r\n" . '<meta name="security" content="' . wp_create_nonce(PROPELLER_NONCE_KEY_FRONTEND) . '">' . "\r\n";
 
-        echo $header_content;
+        echo (string) $header_content;
     }
 
     public function wp_footer_scripts() {
@@ -273,9 +273,10 @@ class PropellerFrontend {
 			'slugs' => $slugs,
 			'urls' => $urls,
 			'behavior' => $behaviors,
-			'no_image' => $this->assets_url.'/img/no-image.webp',
-			'ajax_url' => admin_url('admin-ajax.php'),
+			'no_image' => esc_url($this->assets_url.'/img/no-image.webp'),
+			'ajax_url' => esc_url(admin_url('admin-ajax.php')),
 			'debug' => defined('WP_DEBUG') && WP_DEBUG,
+            'language' => PROPELLER_LANG,
 		];
 
 		$js_content = 'window.PropellerHelper = '.wp_json_encode($js_data).';';

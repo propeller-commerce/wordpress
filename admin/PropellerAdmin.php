@@ -247,6 +247,10 @@ class PropellerAdmin {
             die(json_encode(['success' => $success, 'message' => $message]));
         }
 
+		public function ajax_destroy_caches() {
+			$this->destroy_caches(true);
+		}
+
         public function destroy_caches($return_json = true) {
             global $table_prefix, $wpdb;
 
@@ -280,7 +284,7 @@ class PropellerAdmin {
             
             if ($return_json)
                 die(json_encode(['success' => $success, 'message' => $message]));
-        }
+		}
 
         public function sanitize($data) {
             foreach ($data as $key => $value) {
@@ -322,6 +326,6 @@ class PropellerAdmin {
             
             add_action('wp_ajax_save_propel_behavior', array($this, 'save_behavior'));
             
-            add_action('wp_ajax_propel_destroy_caches', array($this, 'destroy_caches'));
+            add_action('wp_ajax_propel_destroy_caches', array($this, 'ajax_destroy_caches'));
         }
     }

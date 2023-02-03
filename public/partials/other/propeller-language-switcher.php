@@ -7,7 +7,7 @@
     <div class="dropdown-menu dropdown-menu-right lang-options" aria-labelledby="propel-language-switch">
         <?php foreach($this->languages as $lang) { 
             if (strtolower(PROPELLER_LANG) != $lang['short_language_name']) { ?>                               
-                <a class="dropdown-item lang" href="<?php echo $lang['current_page_url']; ?>">
+                <a class="dropdown-item lang" href="<?php echo esc_url($lang['current_page_url']); ?>">
                     <span class="language-icon lang-<?php echo strtolower($lang['short_language_name']); ?>"></span>
                     <span class="language lang-<?php echo strtolower($lang['short_language_name']); ?>"><?php echo strtoupper($lang['short_language_name']); ?></span>
                 </a>

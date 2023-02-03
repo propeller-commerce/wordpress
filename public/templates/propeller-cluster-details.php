@@ -28,13 +28,13 @@
 
                     if ($cluster_product->category) {
                         $breadcrumb_paths[] = [
-                            $this->buildUrl(PageController::get_slug(PageType::CATEGORY_PAGE), $cluster_product->category->slug[0]->value),
+	                        PageController::get_slug(PageType::CATEGORY_PAGE), $cluster_product->category->slug[0]->value,
                             $cluster_product->category->name[0]->value
                         ];
                     }   
                         
                     $breadcrumb_paths[] = [
-                        $this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $cluster_product->slug[0]->value),
+	                    $this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $cluster_product->slug[0]->value),
                         $cluster_product->name[0]->value
                     ];
 
@@ -93,7 +93,7 @@
                         <div class="favorite-add-form">
                             <form name="add_favorite" class="validate form-handler favorite" method="post" novalidate="novalidate">
                                 <input type="hidden" name="action" value="favorites_add_item">
-                                <input type="hidden" name="product_id" value="<?php echo $cluster_product->productId; ?>">                            
+                                <input type="hidden" name="product_id" value="<?php echo esc_attr($cluster_product->productId); ?>">
                                 <button type="submit" class="btn-favorite" rel="nofollow">
                                     <svg class="icon icon-product-favorite icon-heart">
                                         <use class="header-shape-heart" xlink:href="#shape-favorites"></use>

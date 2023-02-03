@@ -28,6 +28,6 @@
         window.slider_recent_products = [];
 
     <?php foreach ($ids as $id) { ?>
-        window.slider_recent_products.push(<?php echo $id; ?>);
+        window.slider_recent_products.push(<?php echo esc_attr($id); ?>);
     <?php } ?>
 </script>

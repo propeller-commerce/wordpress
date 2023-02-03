@@ -62,7 +62,7 @@
             <?php if (!empty($order->total->taxPercentages)) { 
                 foreach ($order->total->taxPercentages as $taxPercentage) { ?>
                 <div class="row align-items-baseline order-calculation">
-                    <div class="col-8 col-lg-6 col-xl-5"><?php echo $taxPercentage->percentage; ?>% <?php echo __('VAT', 'propeller-ecommerce'); ?></div>
+                    <div class="col-8 col-lg-6 col-xl-5"><?php echo esc_html($taxPercentage->percentage); ?>% <?php echo __('VAT', 'propeller-ecommerce'); ?></div>
                     <div class="col-4 col-lg-4 ml-auto order-price text-right">
                         <div class="order-total-btw">
                             <span class="symbol">&euro;&nbsp;</span><span class="order-total-btw"><?php echo PropellerHelper::formatPrice($taxPercentage->total); ?></span>

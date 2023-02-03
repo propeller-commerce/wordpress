@@ -31,7 +31,7 @@
                             <div class="row align-items-baseline">
                                 <div class="col-6 col-lg-5 col-xl-4 label-title"><?php echo __('Track and trace:', 'propeller-ecommerce'); ?></div>
                                 <div class="col-4 order-shippingmethod">
-                                    <?php echo $shipment->trackAndTrace[0]->code;?>
+                                    <?php echo esc_html($shipment->trackAndTrace[0]->code); ?>
                                 </div>
                             </div>
                         <?php } } ?>

@@ -1,6 +1,6 @@
 <form name="checkout-paymethod" class="form-handler checkout-form validate" method="post">
     <input type="hidden" name="action" value="cart_step_3" />
-    <input type="hidden" name="step" value="<?php echo $slug; ?>" />
+    <input type="hidden" name="step" value="<?php echo esc_attr($slug); ?>" />
     <input type="hidden" name="next_step" value="summary" />
     <input type="hidden" name="icp" value="N" />
 

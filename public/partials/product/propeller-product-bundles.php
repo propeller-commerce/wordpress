@@ -25,25 +25,25 @@ use Propeller\PropellerHelper;
                                 <?php foreach ($bundle->items as $key => $bundleItem) { ?> 
                                     <?php $bundleItem->product = new Product($bundleItem->product); ?>
                                     
-                                    <div class="<?php echo $bundleClass; if($bundleItem->isLeader != 'Y') echo ' bundle-item-col'; ?> px-4 pt-2 pb-4">
+                                    <div class="<?php echo esc_attr($bundleClass); if($bundleItem->isLeader != 'Y') echo ' bundle-item-col'; ?> px-4 pt-2 pb-4">
                                             
                                         <div class="card propeller-product-card">
                                             <figure class="card-img-top">
                                                 <div class="product-card-image">					
                                                     <!-- build the product urls with the classId of the product (temporary) -->
                                                     
-                                                    <a href="<?php echo $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $bundleItem->product->slug[0]->value); ?>">
+                                                    <a href="<?php echo esc_url($obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $bundleItem->product->slug[0]->value)); ?>">
                                                         <?php if($bundleItem->product->has_images()) {?>
                                                             <img class="img-fluid" 
-                                                                src="<?php echo $bundleItem->product->images[0]->images[0]->url;?>"
-                                                                alt="<?php echo $bundleItem->product->images[0]->images[0]->alt[0]->value; ?>"
+                                                                src="<?php echo esc_url($bundleItem->product->images[0]->images[0]->url); ?>"
+                                                                alt="<?php echo esc_attr($bundleItem->product->images[0]->images[0]->alt[0]->value); ?>"
                                                                 loading="lazy"
                                                                 width="140" 
                                                                 height="140">
                                                         <?php }
                                                             else { ?>
                                                             <img class="img-fluid" 
-                                                                src="<?php echo $obj->assets_url . '/img/no-image-card.webp';?>"
+                                                                src="<?php echo esc_url($obj->assets_url . '/img/no-image-card.webp'); ?>"
                                                                 alt="<?php echo __('No image found', 'propeller-ecommerce'); ?>"
                                                                 loading="lazy"
                                                                 width="300" height="300">
@@ -55,8 +55,8 @@ use Propeller\PropellerHelper;
                                             <div class="card-body product-card-description">
                                                 <div class="product-name">
                                                     <!-- build the product urls with the classId of the product (temporary) -->
-                                                    <a href="<?php echo $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $bundleItem->product->slug[0]->value); ?>">
-                                                        <?php echo $bundleItem->product->name[0]->value; ?>
+                                                    <a href="<?php echo esc_url($obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $bundleItem->product->slug[0]->value)); ?>">
+                                                        <?php echo esc_html($bundleItem->product->name[0]->value); ?>
                                                     </a>
                                                 </div>
                                             </div>
@@ -95,9 +95,9 @@ use Propeller\PropellerHelper;
                             </div>
                             <div class="bundle-wrapper-details">
                                 <div class="bundle-desc">
-                                    <div class="bundle-title"><?php echo $bundle->name;?></div>
+                                    <div class="bundle-title"><?php echo esc_html($bundle->name); ?></div>
                                     <?php if(!empty($bundle->description)) { ?>
-                                        <div class="bundle-description"><?php echo $bundle->description; ?></div> 
+                                        <div class="bundle-description"><?php echo esc_html($bundle->description); ?></div>
                                     <?php } ?>
                                 </div>
                                 
@@ -124,7 +124,7 @@ use Propeller\PropellerHelper;
                                         <?php } ?>
                                         <div class="col-12">
                                             <form name="add-to-basket-bundle" method="post" class="add-to-basket-bundle-form">
-                                                <input type="hidden" name="bundle_id" value="<?php echo $bundle->comboId; ?>">
+                                                <input type="hidden" name="bundle_id" value="<?php echo esc_attr($bundle->comboId); ?>">
                                                 <input type="hidden" name="quantity" value="1">
                                                 <input type="hidden" name="action" value="cart_add_bundle">
                                             

@@ -15,7 +15,7 @@
         <form name="checkout-notes" class="form-handler checkout-form validate" method="post">
             <input type="hidden" name="action" value="cart_process" />    
             <input type="hidden" name="status" value="<?php echo SessionController::get(PROPELLER_ORDER_STATUS_TYPE); ?>" />
-            <input type="hidden" name="payMethod" value="<?php echo $cart->paymentData->method; ?>" />
+            <input type="hidden" name="payMethod" value="<?php echo esc_attr($cart->paymentData->method); ?>" />
 
             <fieldset>
                 <div class="row form-group">
@@ -40,7 +40,7 @@
                             <div class="col-12 col-md-8">
                                 <label class="form-check-label">
                                     <input class="form-check-input" type="checkbox" name="termsConditions" id="termsConditions" value="Y" required aria-required="true">
-                                    <span><?php echo __('I agree with the', 'propeller-ecommerce'); ?> <a href="<?php echo $obj->buildUrl('',PageController::get_slug(PageType::TERMS_CONDITIONS_PAGE)); ?>" target="_blank"><?php echo __('Terms and Conditions', 'propeller-ecommerce'); ?></a></span>
+                                    <span><?php echo __('I agree with the', 'propeller-ecommerce'); ?> <a href="<?php echo esc_url($obj->buildUrl('',PageController::get_slug(PageType::TERMS_CONDITIONS_PAGE))); ?>" target="_blank"><?php echo __('Terms and Conditions', 'propeller-ecommerce'); ?></a></span>
                                 </label>
                             </div>
                         </div>

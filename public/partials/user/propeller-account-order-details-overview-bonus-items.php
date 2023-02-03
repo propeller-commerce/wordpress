@@ -20,25 +20,25 @@ foreach($items as $item) {
             <div class="order-bonus-item">
                 <div class="row no-gutters align-items-start">
                     <div class="col-2 col-md-2 col-lg-1 px-4 order-bonus-image">							
-                        <a href="<?php echo $this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $bonusItem->product->slug[0]->value); ?>">            												 
+                        <a href="<?php echo esc_url($this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $bonusItem->product->slug[0]->value)); ?>">
                             <img class="img-fluid" 
                             loading="lazy"
-                            src="<?php echo $bonusItem->product->has_images() ? $bonusItem->product->images[0]->images[0]->url : $this->assets_url . '/img/no-image-card.webp'; ?>" 
-                            alt="<?php echo $bonusItem->product->name[0]->value; ?>">
+                            src="<?php echo esc_url($bonusItem->product->has_images() ? $bonusItem->product->images[0]->images[0]->url : $this->assets_url . '/img/no-image-card.webp'); ?>"
+                            alt="<?php echo esc_attr($bonusItem->product->name[0]->value); ?>">
                            
                         </a>
                     </div>
                     <div class="col-10 col-md-4 col-lg-5 pr-5 pl-0 order-bonus-description">
-                        <div class="order-bonus-productname"><a href="<?php echo $this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $bonusItem->product->slug[0]->value); ?>"><?php echo $bonusItem->product->name[0]->value; ?></a></div>
+                        <div class="order-bonus-productname"><a href="<?php echo esc_url($this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $bonusItem->product->slug[0]->value)); ?>"><?php echo esc_html($bonusItem->product->name[0]->value); ?></a></div>
                         <div class="order-bonus-productcode">
-                            <?php echo __('SKU', 'propeller-ecommerce'); ?>: <?php echo $bonusItem->sku; ?>
+                            <?php echo __('SKU', 'propeller-ecommerce'); ?>: <?php echo esc_html($bonusItem->sku); ?>
                         </div>  
                     </div>
                 
                     <div class="offset-2 offset-md-0 col-2 col-md-2 order-bonus-quantity">
                         <div class="product-quantity no-input">
                         <div class="d-block d-md-none label-title"><?php echo __('Quantity', 'propeller-ecommerce'); ?></div>
-                            <?php echo $bonusItem->quantity; ?>
+                            <?php echo esc_html($bonusItem->quantity); ?>
                         </div>
                     </div>
                     <div class="col-2 order-bonus-price">
@@ -65,7 +65,7 @@ foreach($items as $item) {
                     else 
                         $itemStatus = 'Unknown';
                 ?>
-                <span class="shipping-sent <?php echo strtolower($itemStatus); ?>"><?php echo $itemStatus; ?></span>    
+                <span class="shipping-sent <?php echo strtolower($itemStatus); ?>"><?php echo esc_html($itemStatus); ?></span>
                     </div>
                 </div>
             </div>
@@ -74,25 +74,25 @@ foreach($items as $item) {
             <div class="order-bonus-item">
                 <div class="row no-gutters align-items-start">
                     <div class="col-2 col-md-2 col-lg-1 px-4 order-bonus-image">							
-                        <a href="<?php echo $this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $item->product->slug[0]->value); ?>">            												 
+                        <a href="<?php echo esc_url($this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $item->product->slug[0]->value)); ?>">
                             <img class="img-fluid" 
                             loading="lazy"
-                            src="<?php echo $item->product->has_images() ? $item->product->images[0]->images[0]->url : $this->assets_url . '/img/no-image-card.webp'; ?>" 
-                            alt="<?php echo $item->product->name[0]->value; ?>">
+                            src="<?php echo esc_url($item->product->has_images() ? $item->product->images[0]->images[0]->url : $this->assets_url . '/img/no-image-card.webp'); ?>"
+                            alt="<?php echo esc_attr($item->product->name[0]->value); ?>">
                         </a>
                            
                     </div>
                     <div class="col-10 col-md-4 col-lg-5 pr-5 pl-0 order-bonus-description">
-                        <div class="order-bonus-productname"><a href="<?php echo $this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $item->product->slug[0]->value); ?>"><?php echo $item->name; ?></a></div>
+                        <div class="order-bonus-productname"><a href="<?php echo esc_url($this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $item->product->slug[0]->value)); ?>"><?php echo esc_html($item->name); ?></a></div>
                         <div class="order-bonus-productcode">
-                            <?php echo __('SKU', 'propeller-ecommerce'); ?>: <?php echo $item->sku; ?>
+                            <?php echo __('SKU', 'propeller-ecommerce'); ?>: <?php echo esc_html($item->sku); ?>
                         </div>  
                     </div>
                 
                     <div class="offset-2 offset-md-0 col-2 col-md-2 order-bonus-quantity">
                         <div class="product-quantity no-input">
                         <div class="d-block d-md-none label-title"><?php echo __('Quantity', 'propeller-ecommerce'); ?></div>
-                            <?php echo $item->quantity; ?>
+                            <?php echo esc_html($item->quantity); ?>
                         </div>
                     </div>
                     <div class="col-2 order-bonus-price">
@@ -119,7 +119,7 @@ foreach($items as $item) {
                             else 
                                 $itemStatus = 'Unknown';
                         ?>
-                        <span class="shipping-sent <?php echo strtolower($itemStatus); ?>"><?php echo $itemStatus; ?></span>    
+                        <span class="shipping-sent <?php echo strtolower($itemStatus); ?>"><?php echo esc_html($itemStatus); ?></span>
                     </div>
                 </div>
             </div>

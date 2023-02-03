@@ -12,6 +12,10 @@
             $('.cluster-dropdown').off('change').on('change', this.dropdown_changed);
 
             this.load_crossupsells();
+
+            if(Propeller.hasOwnProperty('Cart')) {
+                Propeller.Cart.init();
+            }
         },
         handle_order_button: function() {
             var disable = this.order_form.find('input[name="product_id"').val() == '';
@@ -28,8 +32,6 @@
             Propeller.Product.handle_cluster_change(this);
         },
         handle_cluster_change: function(obj) {
-
-            console.log('here.');
 
             if ($(obj).val() == '')
                 return;
@@ -68,6 +70,10 @@
                     //Propeller.Product.cross_upsell_slider();
                     Propeller.Product.init();
                     Propeller.ProductFixedWrapper.init();
+
+                    if(Propeller.hasOwnProperty('Cart')) {
+                        Propeller.Cart.init();
+                    }
                 },
                 error: function() {
                     console.log('error', arguments);

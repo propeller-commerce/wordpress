@@ -20,7 +20,7 @@ use Propeller\PropellerHelper;
                     echo __('Request overview', 'propeller-ecommerce');
                 else 
                     echo __('Order overview', 'propeller-ecommerce');
-                ?> (<span class="propel-total-items"><?php echo $count;?></span> <?php echo __('products', 'propeller-ecommerce'); ?>)
+                ?> (<span class="propel-total-items"><?php echo (int) $count;?></span> <?php echo __('products', 'propeller-ecommerce'); ?>)
             </div> 
             <hr>
         </div>
@@ -71,7 +71,7 @@ use Propeller\PropellerHelper;
             }
            
         ?>
-        <div class="col-8 col-lg-6 col-xl-5"><?php echo $taxPercentage; ?>% <?php echo __('VAT', 'propeller-ecommerce'); ?></div>
+        <div class="col-8 col-lg-6 col-xl-5"><?php echo esc_html($taxPercentage); ?>% <?php echo __('VAT', 'propeller-ecommerce'); ?></div>
         <div class="col-4 col-lg-4 ml-auto sc-price text-right">
             <div class="sc-total-btw">
                 <span class="symbol">&euro;&nbsp;</span><span class="propel-total-btw"><?php echo PropellerHelper::formatPrice($order->total->tax); ?></span>

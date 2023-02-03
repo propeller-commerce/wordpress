@@ -281,6 +281,14 @@ class ShoppingCartController extends BaseController {
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'checkout' . DIRECTORY_SEPARATOR . 'propeller-checkout-summary-submit.php');
     }
 
+    /**
+     * Used for external price calculation in case custom/external prices are
+     * being used. Call this filter in the ShoppingCartAjaxController
+     */
+    public function shopping_cart_get_item_price($product_identifier, $quantity) {
+        // by default return null since we're using Propeller prices
+        return null;
+    }
     
     /**
      * 
@@ -564,16 +572,23 @@ class ShoppingCartController extends BaseController {
         return $cartData;
     }
 
-    public function add_item($quantity, $product_id, $notes = '') {
+    public function add_item($quantity, $product_id, $notes = '', $price = null) {
         $this->init_cart();
         
         $type = 'cartAddItem';
 
+        $raw_params_arr = [
+            'cartId: "' . $this->cart_id . '"',
+            'quantity: '. $quantity,
+            'notes: "' . $notes .'"',
+            'productId: '. $product_id
+        ];
+
+        if ($price)
+            $raw_params_arr[] = 'price: ' . $price;
+
         $rawParams = '{
-            cartId: "' . $this->cart_id . '",
-            quantity: '. $quantity .',
-            notes: "' . $notes .'",
-            productId: '. $product_id .'
+            ' . implode(',', $raw_params_arr) . '
         }';
 
         $crossupsells_rawParams = '{
@@ -672,16 +687,23 @@ class ShoppingCartController extends BaseController {
         return $this->response;
     }
 
-    public function update_item($quantity, $notes, $item_id) {
+    public function update_item($quantity, $notes, $item_id, $price = null) {
         $this->init_cart();
 
         $type = 'cartUpdateItem';
 
+        $raw_params_arr = [
+            'cartId: "' . $this->cart_id . '"',
+            'quantity: '. $quantity,
+            'notes: "' . $notes .'"',
+            'itemId: '. $item_id
+        ];
+
+        if ($price)
+            $raw_params_arr[] = 'price: ' . $price;
+
         $rawParams = '{
-            cartId: "' . $this->cart_id . '",
-            quantity: '. $quantity .',
-            notes: "' . $notes .'",
-            itemId: '. $item_id .'
+            ' . implode(',', $raw_params_arr) . '
         }';
 
         $crossupsells_rawParams = '{
@@ -1207,7 +1229,8 @@ class ShoppingCartController extends BaseController {
 
         $raw_params = '{
             cartId: "' . $this->cart_id . '"
-            orderStatus: "' . $order_data['status'] . '"
+            orderStatus: "' . $order_data['status'] . '" 
+            language: "' . PROPELLER_LANG . '"
         }';
 
         // params for cross/upsells

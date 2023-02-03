@@ -110,7 +110,7 @@
                     <div class="row no-gutters align-items-start">        
                         <div class="col-2 col-md-1 col-lg-1 px-22 product-image order-1">
                             <a href="#">            												 
-                                <img class="img-fluid" src="<?php echo $this->assets_url . '/img/no-image-card.webp';?>" alt="product-name">
+                                <img class="img-fluid" src="<?php echo esc_url($this->assets_url . '/img/no-image-card.webp'); ?>" alt="product-name">
                             </a>
                         </div>
                         <div class="col-9 col-md-3 col-xl-4 pr-5 product-description order-2">            
@@ -175,7 +175,7 @@
                     <div class="row no-gutters align-items-start">        
                         <div class="col-2 col-md-1 col-lg-1 px-22 product-image order-1">
                             <a href="#">            												 
-                                <img class="img-fluid" src="<?php echo $this->assets_url . '/img/no-image-card.webp';?>" alt="product-name">
+                                <img class="img-fluid" src="<?php echo esc_url($this->assets_url . '/img/no-image-card.webp'); ?>" alt="product-name">
                             </a>
                         </div>
                         <div class="col-9 col-md-3 col-xl-4 pr-5 product-description order-2">            
@@ -240,7 +240,7 @@
                     <div class="row no-gutters align-items-start">        
                         <div class="col-2 col-md-1 col-lg-1 px-22 product-image order-1">
                             <a href="#">            												 
-                                <img class="img-fluid" src="<?php echo $this->assets_url . '/img/no-image-card.webp';?>" alt="product-name">
+                                <img class="img-fluid" src="<?php echo esc_url($this->assets_url . '/img/no-image-card.webp'); ?>" alt="product-name">
                             </a>
                         </div>
                         <div class="col-9 col-md-3 col-xl-4 pr-5 product-description order-2">            
@@ -305,7 +305,7 @@
                     <div class="row no-gutters align-items-start">        
                         <div class="col-2 col-md-1 col-lg-1 px-22 product-image order-1">
                             <a href="#">            												 
-                                <img class="img-fluid" src="<?php echo $this->assets_url . '/img/no-image-card.webp';?>" alt="product-name">
+                                <img class="img-fluid" src="<?php echo esc_url($this->assets_url . '/img/no-image-card.webp'); ?>" alt="product-name">
                             </a>
                         </div>
                         <div class="col-9 col-md-3 col-xl-4 pr-5 product-description order-2">            
@@ -370,7 +370,7 @@
                     <div class="row no-gutters align-items-start">        
                         <div class="col-2 col-md-1 col-lg-1 px-22 product-image order-1">
                             <a href="#">            												 
-                                <img class="img-fluid" src="<?php echo $this->assets_url . '/img/no-image-card.webp';?>" alt="product-name">
+                                <img class="img-fluid" src="<?php echo esc_url($this->assets_url . '/img/no-image-card.webp'); ?>" alt="product-name">
                             </a>
                         </div>
                         <div class="col-9 col-md-3 col-xl-4 pr-5 product-description order-2">            
@@ -435,7 +435,7 @@
                     <div class="row no-gutters align-items-start">        
                         <div class="col-2 col-md-1 col-lg-1 px-22 product-image order-1">
                             <a href="#">            												 
-                                <img class="img-fluid" src="<?php echo $this->assets_url . '/img/no-image-card.webp';?>" alt="product-name">
+                                <img class="img-fluid" src="<?php echo esc_url($this->assets_url . '/img/no-image-card.webp'); ?>" alt="product-name">
                             </a>
                         </div>
                         <div class="col-9 col-md-3 col-xl-4 pr-5 product-description order-2">            
@@ -500,7 +500,7 @@
                     <div class="row no-gutters align-items-start">        
                         <div class="col-2 col-md-1 col-lg-1 px-22 product-image order-1">
                             <a href="#">            												 
-                                <img class="img-fluid" src="<?php echo $this->assets_url . '/img/no-image-card.webp';?>" alt="product-name">
+                                <img class="img-fluid" src="<?php echo esc_url($this->assets_url . '/img/no-image-card.webp'); ?>" alt="product-name">
                             </a>
                         </div>
                         <div class="col-9 col-md-3 col-xl-4 pr-5 product-description order-2">            
@@ -565,7 +565,7 @@
                     <div class="row no-gutters align-items-start">        
                         <div class="col-2 col-md-1 col-lg-1 px-22 product-image order-1">
                             <a href="#">            												 
-                                <img class="img-fluid" src="<?php echo $this->assets_url . '/img/no-image-card.webp';?>" alt="product-name">
+                                <img class="img-fluid" src="<?php echo esc_url($this->assets_url . '/img/no-image-card.webp'); ?>" alt="product-name">
                             </a>
                         </div>
                         <div class="col-9 col-md-3 col-xl-4 pr-5 product-description order-2">            

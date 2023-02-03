@@ -2,7 +2,7 @@
     <div class="row mt-4">
         <div class="col-12">
             <div class="category-description">
-                <?php echo $data->description[0]->value; ?>    
+                <?php echo esc_html($data->description[0]->value); ?>
             </div>
         </div>
     </div>

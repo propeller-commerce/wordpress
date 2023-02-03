@@ -6,7 +6,7 @@ use Propeller\PropellerHelper;
 <div class="shopping-cart-totals">
     <div class="row align-items-baseline">
         <div class="col-12">
-            <div class="sc-items"><?php echo __('Order overview', 'propeller-ecommerce'); ?> (<span class="propel-total-items"><?php echo $obj->get_items_count();?></span> <?php echo __('items', 'propeller-ecommerce'); ?>)</div>
+            <div class="sc-items"><?php echo __('Order overview', 'propeller-ecommerce'); ?> (<span class="propel-total-items"><?php echo (int) $obj->get_items_count();?></span> <?php echo __('items', 'propeller-ecommerce'); ?>)</div>
             <hr>
         </div>
     </div>
@@ -14,24 +14,24 @@ use Propeller\PropellerHelper;
         <div class="row align-items-start sc-item">
             <div class="col-3 product-image">                  
                 <?php if($item->product->has_images()) { ?>          												 
-                    <img class="img-fluid" src="<?php echo $item->product->images[0]->images[0]->url; ?>" alt="<?php echo $item->product->name[0]->value; ?>">
+                    <img class="img-fluid" src="<?php echo esc_url($item->product->images[0]->images[0]->url); ?>" alt="<?php echo esc_attr($item->product->name[0]->value); ?>">
                 <?php } else { ?> 
                     <img class="img-fluid"  
-                        src="<?php echo $obj->assets_url . '/img/no-image-card.webp';?>"
+                        src="<?php echo esc_url($obj->assets_url . '/img/no-image-card.webp'); ?>"
                         alt="<?php echo __('No image found', 'propeller-ecommerce'); ?>">
                 <?php } ?>         												 
             </div>
             <div class="col-9 product-description">            
                 <div class="product-sku">
-                    <?php echo __('SKU', 'propeller-ecommerce'); ?>: <?php echo $item->product->sku; ?>
+                    <?php echo __('SKU', 'propeller-ecommerce'); ?>: <?php echo esc_html($item->product->sku); ?>
                 </div>
                 <div class="product-name">
-                    <?php echo $item->product->name[0]->value; ?>
+                    <?php echo esc_html($item->product->name[0]->value); ?>
                 </div>
             
             </div>
             <div class="col-9 ml-auto d-flex align-items-center justify-content-between">
-                <span class="item-quantity"><?php echo __('Quantity', ''); ?>: <?php echo $item->quantity; ?></span>
+                <span class="item-quantity"><?php echo __('Quantity', ''); ?>: <?php echo esc_html($item->quantity); ?></span>
                 <span class="item-price">
                 <span class="symbol">&euro;&nbsp;</span>
                     <?php echo PropellerHelper::formatPrice($item->price); ?>
@@ -87,7 +87,7 @@ use Propeller\PropellerHelper;
             }
            
         ?>
-        <div class="col-8 col-lg-6 col-xl-5"><?php echo $taxPercentage; ?>% <?php echo __('VAT', 'propeller-ecommerce'); ?></div>
+        <div class="col-8 col-lg-6 col-xl-5"><?php echo esc_html($taxPercentage); ?>% <?php echo __('VAT', 'propeller-ecommerce'); ?></div>
         <div class="col-4 col-lg-4 ml-auto sc-price text-right">
             <div class="sc-total-btw">
                 <?php 

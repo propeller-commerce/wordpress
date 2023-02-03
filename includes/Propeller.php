@@ -35,8 +35,8 @@ class Propeller {
     ];
 
     protected $fe_actions = [
-        'propel_product_price' => ['ProductController', 'product_price', 2],
-        'propel_cluster_price' => ['ProductController', 'cluster_price', 2]
+        'propel_product_price' => ['ProductController', 'product_price', 3],
+        'propel_cluster_price' => ['ProductController', 'cluster_price', 3]
     ];
 
     public static $fe_shortcodes = [
@@ -116,6 +116,7 @@ class Propeller {
         'propel_product_downloads' => ['ProductController', 'product_downloads', 1],
         'propel_product_videos' => ['ProductController', 'product_videos', 1],
         'propel_product_specifications_content' => ['ProductController', 'product_specifications_content', 1],
+        'propel_product_specifications_rows' => ['ProductController', 'product_specifications_rows', 1],
         'propel_product_downloads_content' => ['ProductController', 'product_downloads_content', 1],
         'propel_product_videos_content' => ['ProductController', 'product_videos_content', 1],
 
@@ -214,7 +215,8 @@ class Propeller {
         'propel_shopping_cart_buttons' => ['ShoppingCartController', 'shopping_cart_buttons', 2],
         'propel_shopping_cart_totals' => ['ShoppingCartController', 'shopping_cart_totals', 2],
         'propel_shopping_cart_totals_with_items' => ['ShoppingCartController', 'shopping_cart_totals_with_items', 2],
-
+        
+        'propel_shopping_cart_get_item_price' => ['ShoppingCartController', 'shopping_cart_get_item_price', 2],
 
         'propel_shopping_cart_invoice_address_form' => ['ShoppingCartController', 'shopping_cart_invoice_address_form', 3],
         'propel_shopping_cart_delivery_address_form' => ['ShoppingCartController', 'shopping_cart_delivery_address_form', 3],
@@ -599,6 +601,10 @@ class Propeller {
 	 * @return void
 	 */
 	public function template_redirect() {
+
+		if(headers_sent()) {
+			return;
+		}
 
 		//if ( ( defined( 'DOING_AJAX' ) && DOING_AJAX ) || $_SERVER['REQUEST_METHOD'] === 'POST' || ! empty( $_GET ) ) {
 		//	return;

@@ -110,11 +110,11 @@ class PropellerTranslations {
 
                 $backups_dir = $this->get_lang_bkp_dir();
 
-                $selected_bkp = $backups_dir . DIRECTORY_SEPARATOR . $data['backup_date'];
+                $selected_bkp = $backups_dir . DIRECTORY_SEPARATOR . sanitize_text_field($data['backup_date']);
 
                 FileHandler::copy_dir($selected_bkp, $this->translations_path);
 
-                $msg = __('Translations restored', 'propeller-ecommerce') . ': ' . str_replace('_', ':', $data['backup_date']);
+                $msg = __('Translations restored', 'propeller-ecommerce') . ': ' . str_replace('_', ':', sanitize_text_field($data['backup_date']));
             }
             catch (Exception $ex) {
                 $success = false;
@@ -249,8 +249,8 @@ class PropellerTranslations {
             
             $this->backup_languages();
 
-            $translations = $this->load_translation($_data['po_file']);        
-            $translations_file = $this->get_translations_file($_data['po_file']);
+            $translations = $this->load_translation(sanitize_text_field($_data['po_file']));
+            $translations_file = $this->get_translations_file(sanitize_text_field($_data['po_file']));
             
             for ($i = 0; $i < count($_data['original']); $i++) {
                 try {
@@ -262,8 +262,11 @@ class PropellerTranslations {
 
                     $translation = $translations->find(null, $_data['original'][$i]);
         
-                    if ($translation)
+                    if ($translation) {
+                        $_data['translation'][$i] = htmlspecialchars_decode($_data['translation'][$i]);
+                        $_data['translation'][$i] = stripslashes($_data['translation'][$i]);
                         $translation->translate($_data['translation'][$i]);
+                    }
                     else 
                         propel_log("- Original string for " . $_data['original'][$i] . "not found\r\n");
                 }
@@ -410,12 +413,12 @@ class PropellerTranslations {
             try {
                 $_data = $_POST;
 
-                $translations = $this->load_translation($_data['po_file']);        
-                $translations_file = $this->get_translations_file($_data['po_file']);
+                $translations = $this->load_translation(sanitize_text_field($_data['po_file']));
+                $translations_file = $this->get_translations_file(sanitize_text_field($_data['po_file']));
         
                 $path_parts = pathinfo($translations_file->file);
         
-                $this->mo_generator->generateFile($translations, $this->translations_path . DIRECTORY_SEPARATOR . $path_parts['filename'] . '.mo');    
+                $this->mo_generator->generateFile($translations, $this->translations_path . DIRECTORY_SEPARATOR . sanitize_text_field($path_parts['filename']) . '.mo');
     
                 $msg = __('New translations are generated', 'propeller-ecommerce');
             }

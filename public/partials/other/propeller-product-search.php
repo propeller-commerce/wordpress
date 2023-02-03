@@ -6,11 +6,11 @@
     <form name="search" method="get">        
         <input type="hidden" name="action" value="search">
         <div class="input-group">
-            <label for="term-<?php echo $search_id; ?>" class="sr-only"><?php echo __('Search by product', 'propeller-ecommerce'); ?></label>
+            <label for="term-<?php echo esc_attr($search_id); ?>" class="sr-only"><?php echo __('Search by product', 'propeller-ecommerce'); ?></label>
             <input
                 type="search"
                 name="term"
-                id="term-<?php echo $search_id; ?>"
+                id="term-<?php echo esc_attr($search_id); ?>"
                 class="form-control"
                 placeholder="<?php echo __('Search by product', 'propeller-ecommerce'); ?>"
                 value=""

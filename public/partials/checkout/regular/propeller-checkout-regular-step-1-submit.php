@@ -10,7 +10,7 @@ use Propeller\Includes\Enum\AddressType;
         <input type="hidden" name="status" value="<?php echo SessionController::get(PROPELLER_ORDER_STATUS_TYPE); ?>" />
     <?php } else { ?>
         <input type="hidden" name="action" value="cart_step_1" />
-        <input type="hidden" name="step" value="<?php echo $slug; ?>" />
+        <input type="hidden" name="step" value="<?php echo esc_attr($slug); ?>" />
         <input type="hidden" name="next_step" value="2" />
     <?php } ?>
     

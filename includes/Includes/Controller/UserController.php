@@ -592,6 +592,7 @@ class UserController extends BaseController {
         $raw_params_array[] = 'firstName: "'. $args['firstName'] .'"';
         $raw_params_array[] = 'middleName: "'. $args['middleName'] .'"';
         $raw_params_array[] = 'lastName: "'. $args['lastName'] .'"';
+        $raw_params_array[] = 'primaryLanguage: "'. PROPELLER_LANG .'"';
         // $raw_params_array[] = 'gender: '. new RawObject(isset($args['gender']) ? $args['gender'] : 'U');
 
         if (isset($args['company']) && !empty($args['company'])) $raw_params_array[] = 'company: "'. $args['company'] .'"';
@@ -627,6 +628,7 @@ class UserController extends BaseController {
         $raw_params_array[] = 'middleName: "'. $args['middleName'] .'"';
         $raw_params_array[] = 'lastName: "'. $args['lastName'] .'"';
         $raw_params_array[] = 'gender: '. new RawObject(isset($args['gender']) ? $args['gender'] : 'U');
+        $raw_params_array[] = 'primaryLanguage: "'. PROPELLER_LANG .'"';
 
         if (isset($args['company']) && !empty($args['company'])) $raw_params_array[] = 'company: "'. $args['company'] .'"';
         if (isset($args['email']) && !empty($args['email'])) $raw_params_array[] = 'email: "'. $args['email'] .'"';
@@ -668,8 +670,11 @@ class UserController extends BaseController {
         $response = new stdClass();
         $response->postprocess = new stdClass();
 
-        if (!is_array($reset_link_response)) {
-            $args['user_mail'] = 'd.krstev@propel.us';
+        if (filter_var($reset_link_response, FILTER_VALIDATE_URL) === FALSE) {
+            $response->postprocess->error = true;
+            $response->postprocess->message = $reset_link_response;
+        }
+        else {
 
             $to = sprintf('to: { email: "%s" }', $args['user_mail']);
             $from = sprintf('from: { name: "%s", email: "%s" }', get_bloginfo('name'), get_bloginfo('admin_email'));
@@ -701,16 +706,11 @@ class UserController extends BaseController {
                 $response->postprocess->message = __("An error occurred sending Your reset password email", "propeller-ecommerce");
             }      
         }
-        else {
-            $response->postprocess->error = true;
-            $response->postprocess->message = $reset_link_response;
-        }
             
         return $response;
     }
 
     private function send_registration_email($user_data) {
-        $user_data->email = 'd.krstev@propel.us';
         $to = sprintf('to: { name: "%s", email: "%s" }', sprintf('%s %s %s', $user_data->firstName, $user_data->middleName, $user_data->lastName), $user_data->email);
         $from = sprintf('from: { name: "%s", email: "%s" }', get_bloginfo('name'), get_bloginfo('admin_email'));
         $subject = __('Welcome to', 'propeller-ecommerce') . ' ' . get_bloginfo('name');
@@ -743,9 +743,14 @@ class UserController extends BaseController {
 
         $raw_params_array = [];
 
+        $attrs_offset = 12;
+
         if (defined('PROPELLER_USER_TRACK_ATTR') && !empty(PROPELLER_USER_TRACK_ATTR)) {
             $attr_track = explode(',', PROPELLER_USER_TRACK_ATTR);
+            $attrs_offset = count($attr_track);
+
             $raw_params_array[] = 'name: ["' . implode('", "', $attr_track) . '"]';
+            $raw_params_array[] = 'offset: ' . $attrs_offset;
         }
 
         $attribute_filter = ['filter' => new RawObject('{' . implode(',', $raw_params_array) . '}')];
@@ -836,18 +841,20 @@ class UserController extends BaseController {
     }
 
     protected function process_attributes($attributes) {
-        if (PROPELLER_USER_TRACK_ATTR != '') {
+        if (defined('PROPELLER_USER_TRACK_ATTR') && !empty(PROPELLER_USER_TRACK_ATTR)) {
             $track_attrs = explode(',', PROPELLER_USER_TRACK_ATTR);
 
             foreach ($track_attrs as $track_attr) {
-                $found = array_filter($attributes, function($obj) use($track_attr) { 
-                    return $obj->name == $track_attr; 
+                $found = array_filter($attributes->items, function($obj) use($track_attr) { 
+                    return $obj->attributeDescription->name == $track_attr; 
                 });
 
                 if (count($found)) {
                     $attribute = new ObjectAttribute(current($found));
 
                     SessionController::set($track_attr, $attribute->get_value());
+
+                    continue;
                 }
             }
         }

@@ -10,7 +10,8 @@ class ProductModel extends BaseModel {
     public function get_product($arguments, $attributes_args, $images_args, $language) {
         $str_args = $this->parse_arguments($arguments);
         $attr_str_args = $this->parse_arguments($attributes_args);
-
+        // $attributes_gql = $this->attributes($attr_str_args);
+        
         $media_images_gql = $this->extract_query($images_args);
 
         $tax_zone = PROPELLER_DEFAULT_TAXZONE;
@@ -278,39 +279,12 @@ class ProductModel extends BaseModel {
 
         $attr_str_args = $this->parse_arguments($attributes_args);
 
-        $gql = "
-            attributes($attr_str_args) {
-                id
-                name
-                group
-                searchId
-                description {
-                    value
-                    language
-                }
-                type
-                typeParam
-                isSearchable
-                isPublic
-                isHidden
-                enumValue
-                intValue
-                decimalValue
-                dateValue
-                textValue {
-                    values
-                    language
-                }
-            }
-        ";
-
-        return $gql;
+        return $this->attributes($attr_str_args);
     }
 
     public function get_cluster($arguments, $attributes_args, $images_args, $language) {
         $str_args = $this->parse_arguments($arguments);
         
-
         $media_images_gql = $this->extract_query($images_args);
 
         $tax_zone = PROPELLER_DEFAULT_TAXZONE;
@@ -441,8 +415,8 @@ class ProductModel extends BaseModel {
                                     gross
                                     from
                                     to
-                                }
-                                $cluster_attributes                           
+                                }                       
+                                $cluster_attributes         
                                 $track_attributes
                                 category {
                                     id
@@ -882,32 +856,13 @@ class ProductModel extends BaseModel {
     public function specifications($product_id, $attributes_args) {
         $attr_str_args = $this->parse_arguments($attributes_args);
 
+        $attributes_gql = $this->attributes($attr_str_args);
+
         $gql = <<<QUERY
             query {
                 product(productId: $product_id) {
-                    attributes($attr_str_args) {
-                        id
-                        name
-                        group
-                        searchId
-                        description {
-                            value
-                            language
-                        }
-                        type
-                        typeParam
-                        isSearchable
-                        isPublic
-                        isHidden
-                        enumValue
-                        intValue
-                        decimalValue
-                        dateValue
-                        textValue {
-                            values
-                            language
-                        }
-                    }
+                    productId
+                    $attributes_gql
                 }
             }
         QUERY;

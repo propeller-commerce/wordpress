@@ -21,10 +21,16 @@ class ShoppingCartAjaxController extends BaseAjaxController {
         if ($this->validate_form_request('nonce')) {
             $_POST = $this->sanitize($_POST);
 
+            $prop = new Propeller();
+            $prop->reinit_filters();
+
+            $price = apply_filters('propel_shopping_cart_get_item_price', $_POST['product_id'], (int) $_POST['quantity']);
+
             $response = $this->shoppingCart->add_item(
                 $_POST['quantity'],
                 $_POST['product_id'],
-                (isset($_POST['notes']) ? $_POST['notes'] : '')
+                (isset($_POST['notes']) ? $_POST['notes'] : ''),
+                $price
             );
 
             $response->modal = "add-to-basket-modal";
@@ -76,10 +82,13 @@ class ShoppingCartAjaxController extends BaseAjaxController {
             $prop = new Propeller();
             $prop->reinit_filters();
 
+            $price = apply_filters('propel_shopping_cart_get_item_price', $_POST['item_id'], (int) $_POST['quantity']);
+
             $response = $this->shoppingCart->update_item(
                 $_POST['quantity'],
                 (isset($_POST['notes']) ? $_POST['notes'] : ''),
-                $_POST['item_id']
+                $_POST['item_id'],
+                $price
             );
         }
         else {

@@ -9,10 +9,10 @@
         ?>
             <div class="row no-gutters product-specs">
                 <div class="col col-sm-6">
-                    <?php echo isset($doc->description) && count($doc->description) && !empty($doc->description[0]->value) ? $doc->description[0]->value : $doc->documents[0]->originalUrl; ?>
+                    <?php echo isset($doc->description) && count($doc->description) && !empty($doc->description[0]->value) ? esc_html($doc->description[0]->value) : esc_url($doc->documents[0]->originalUrl); ?>
                 </div>
                 <div class="col-6">
-                    <a href="<?php echo $doc->documents[0]->originalUrl; ?>" target="_blank">
+                    <a href="<?php echo esc_url($doc->documents[0]->originalUrl); ?>" target="_blank">
                         <?php echo __('Download PDF', 'propeller-ecommerce'); ?>
                     </a>
                 </div>

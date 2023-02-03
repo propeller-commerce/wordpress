@@ -22,12 +22,12 @@ $cluster_product = $crossupsell->item->defaultProduct ? $crossupsell->item->defa
                 foreach ($cluster_product->get_attributes() as $attribute) {
                     if($attribute->searchId == 'attr_product_label_1' && !empty($attribute->get_value())) { ?>
                         <div class="product-label label-1 order-1">
-                            <span><?php echo $attribute->get_value(); ?></span>
+                            <span><?php echo esc_html($attribute->get_value()); ?></span>
                         </div>
                     <?php }
                     if($attribute->searchId == 'attr_product_label_2' && !empty($attribute->get_value())) { ?>
                         <div class="product-label label-2  order-2">
-                            <span><?php echo $attribute->get_value(); ?></span>
+                            <span><?php echo esc_html($attribute->get_value()); ?></span>
                         </div>
                     <?php }
                 }
@@ -36,16 +36,16 @@ $cluster_product = $crossupsell->item->defaultProduct ? $crossupsell->item->defa
         </div>
 
         <div class="product-card-image">            
-            <a href="<?php echo $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $crossupsell->item->slug[0]->value); ?>">
+            <a href="<?php echo esc_url($obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $crossupsell->item->slug[0]->value)); ?>">
                 <?php if($cluster_product->has_images()) {?>
                     <img class="img-fluid" loading="lazy" 
-                        src="<?php echo $cluster_product->images[0]->images[0]->url;?>"
-                        alt="<?php echo count($cluster_product->images[0]->alt) ? $cluster_product->images[0]->alt[0]->value : ""; ?>" 
+                        src="<?php echo esc_url($cluster_product->images[0]->images[0]->url);?>"
+                        alt="<?php echo count($cluster_product->images[0]->alt) ? intval($cluster_product->images[0]->alt[0]->value) : ""; ?>"
                         width="<?php echo PROPELLER_PRODUCT_IMG_CATALOG_WIDTH; ?>" height="<?php echo PROPELLER_PRODUCT_IMG_CATALOG_HEIGHT; ?>">
                 <?php }
                     else { ?>
                     <img class="img-fluid" loading="lazy" 
-                        src="<?php echo $obj->assets_url . '/img/no-image-card.webp';?>"
+                        src="<?php echo esc_url($obj->assets_url) . '/img/no-image-card.webp';?>"
                         alt="<?php echo __('No image found', 'propeller-ecommerce'); ?>"
                         width="300" height="300" >
                 <?php } ?>
@@ -56,8 +56,8 @@ $cluster_product = $crossupsell->item->defaultProduct ? $crossupsell->item->defa
         <div class="product-name">
 
             <!-- build the product urls with the classId of the product (temporary) -->
-            <a href="<?php echo $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $crossupsell->item->slug[0]->value); ?>">
-                <?php echo $crossupsell->item->name[0]->value; ?>   
+            <a href="<?php echo esc_url($obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $crossupsell->item->slug[0]->value)); ?>">
+                <?php echo esc_html($crossupsell->item->name[0]->value); ?>
             </a>
         </div>
     </div>
@@ -85,7 +85,7 @@ $cluster_product = $crossupsell->item->defaultProduct ? $crossupsell->item->defa
         <!-- Include the order button template -->	
         <div class="add-to-basket-wrapper">  
                 <div class="add-to-basket"> 
-                    <a class="btn btn-addtobasket d-flex align-items-center justify-content-center" href="<?php echo $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $crossupsell->item->slug[0]->value); ?>">
+                    <a class="btn btn-addtobasket d-flex align-items-center justify-content-center" href="<?php echo esc_url($obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $crossupsell->item->slug[0]->value)); ?>">
                         <svg class="d-flex d-md-none icon icon-cart" aria-hidden="true">
                             <use xlink:href="#shape-shopping-cart"></use>
                         </svg>    
@@ -93,17 +93,14 @@ $cluster_product = $crossupsell->item->defaultProduct ? $crossupsell->item->defa
                     </a>
                 </div>
         </div>
-        <div class="product-code"><?php echo $cluster_product->manufacturer; ?> / <?php echo $cluster_product->sku; ?></div>
+        <div class="product-code"><?php echo esc_html($cluster_product->manufacturer); ?> / <?php echo esc_html($cluster_product->sku); ?></div>
              
         <!-- Stock status -->
         <?php if(!empty($cluster_product->inventory) && $cluster_product->inventory->totalQuantity > 0) { ?>
-            <div class="product-status in-stock"><?php _e( 'Available', 'propeller-ecommerce' ); ?>: <?php echo $cluster_product->inventory->totalQuantity; ?></div>
+            <div class="product-status in-stock"><?php _e( 'Available', 'propeller-ecommerce' ); ?>: <?php echo intval($cluster_product->inventory->totalQuantity); ?></div>
         <?php } else { ?>
             <div class="product-status out-of-stock"><?php _e( 'Out of stock', 'propeller-ecommerce' ); ?></div>
         <?php } ?>
 
-        <div class="product-card-short-description">
-            <?php echo $cluster_product->shortDescription[0]->value;?>                                    
-        </div>
     </div>
 </div>

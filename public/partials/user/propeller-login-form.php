@@ -55,7 +55,7 @@
                                 <input type="submit" class="btn-blue btn-proceed" value="<?php echo __('Log in', 'propeller-ecommerce'); ?>">
                             </div>
                             <div class="col">
-                                <a href="<?php echo $this->buildUrl('', PageController::get_slug(PageType::FORGOT_PASSWORD_PAGE)); ?>" class="btn-forgot-password"><?php echo __('Forgot password?', 'propeller-ecommerce'); ?></a>
+                                <a href="<?php echo esc_url($this->buildUrl('', PageController::get_slug(PageType::FORGOT_PASSWORD_PAGE))); ?>" class="btn-forgot-password"><?php echo __('Forgot password?', 'propeller-ecommerce'); ?></a>
                             </div>
                         </div>
                     </div>

@@ -115,6 +115,8 @@ class PropellerApi {
             $error_log_msg .= print_r($backtrace, true) . "\r\n";
 
             propel_log($error_log_msg . "\r\n");
+
+            return $ex->getMessage();
         }
     }
 

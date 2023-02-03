@@ -1,7 +1,7 @@
 <svg style="display:none">
     <symbol viewBox="0 0 14 14" id="shape-header-close"><title>Close</title> <path d="M13.656 12.212c.41.41.41 1.072 0 1.481a1.052 1.052 0 0 1-1.485 0L7 8.5l-5.207 5.193a1.052 1.052 0 0 1-1.485 0 1.045 1.045 0 0 1 0-1.481L5.517 7.02.307 1.788a1.045 1.045 0 0 1 0-1.481 1.052 1.052 0 0 1 1.485 0L7.001 5.54 12.208.348a1.052 1.052 0 0 1 1.485 0c.41.408.41 1.072 0 1.48L8.484 7.02l5.172 5.192z"/></symbol>
 </svg>
-<div id="delete_address_modal_<?php echo $address->id; ?>" class="propeller-address-modal modal modal-fullscreen-sm-down fade" tabindex="-1" role="dialog" aria-labelledby="modal-title">
+<div id="delete_address_modal_<?php echo esc_attr($address->id); ?>" class="propeller-address-modal modal modal-fullscreen-sm-down fade" tabindex="-1" role="dialog" aria-labelledby="modal-title">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header propel-modal-header">
@@ -17,8 +17,8 @@
                 </button>
             </div>
             <div class="modal-body propel-modal-body" id="propel_modal_body">
-                <form name="delete-address-form" id="delete_address<?php echo $address->id; ?>" class="form-horizontal validate form-handler modal-form modal-edit-form" method="post">
-                    <input type="hidden" name="id" value="<?php echo $address->id; ?>">
+                <form name="delete-address-form" id="delete_address<?php echo esc_attr($address->id); ?>" class="form-horizontal validate form-handler modal-form modal-edit-form" method="post">
+                    <input type="hidden" name="id" value="<?php echo esc_attr($address->id); ?>">
                     <input type="hidden" name="action" value="delete_address">
                     <div class="form-row">
                         <div class="col-12">
@@ -26,10 +26,10 @@
                         </div>
                         <div class="address-details col-12">   
                             <div class="address">
-                                <?php echo $address->company; ?><br>
-                               <?php echo $address->firstName; ?>  <?php echo $address->lastName; ?><br>
-                               <?php echo $address->street; ?>  <?php echo $address->number; ?>  <?php echo $address->numberExtension; ?><br>
-                               <?php echo $address->postalCode; ?>  <?php echo $address->city; ?><br>
+                                <?php echo esc_html($address->company); ?><br>
+                               <?php echo esc_html($address->firstName); ?>  <?php echo esc_html($address->lastName); ?><br>
+                               <?php echo esc_html($address->street); ?>  <?php echo esc_html($address->number); ?>  <?php echo esc_html($address->numberExtension); ?><br>
+                               <?php echo esc_html($address->postalCode); ?>  <?php echo esc_html($address->city); ?><br>
                                <?php 
                                     $code = $address->country;
                                     $countries = include PROPELLER_PLUGIN_DIR . '/includes/Countries.php'; 
@@ -43,7 +43,7 @@
                         <div class="col-form-fields col-12">
                             <div class="form-row">
                                 <div class="col-6">
-                                    <input type="submit" class="btn-modal btn-proceed" id="submit_delete_address<?php echo $address->id; ?>" value="<?php echo __('Delete', 'propeller-ecommerce'); ?>">
+                                    <input type="submit" class="btn-modal btn-proceed" id="submit_delete_address<?php echo esc_attr($address->id); ?>" value="<?php echo __('Delete', 'propeller-ecommerce'); ?>">
                                 </div>
                                 <div class="col-6">
                                     <button type="button" class="btn-modal btn-cancel" data-dismiss="modal"><?php echo __('Cancel', 'propeller-ecommerce'); ?></button>

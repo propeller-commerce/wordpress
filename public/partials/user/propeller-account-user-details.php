@@ -4,10 +4,10 @@
             <div class="col-12">
                 <div class="addr-title"><?php echo __('Personal details', 'propeller-ecommerce'); ?></div>
                 <div class="user-addr-details">
-                    <?php echo $obj->get_salutation($user) ?>
-                    <?php echo $user->firstName; ?> <?php echo $user->lastName; ?><br>
-                    <?php echo $user->email; ?><br>
-                    <?php echo $user->phone; ?>
+                    <?php echo esc_html($obj->get_salutation($user)); ?>
+                    <?php echo esc_html($user->firstName); ?> <?php echo esc_html($user->lastName); ?><br>
+                    <?php echo esc_html($user->email); ?><br>
+                    <?php echo esc_html($user->phone); ?>
                 </div>
             </div>
         </div>

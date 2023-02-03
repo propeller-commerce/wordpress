@@ -30,6 +30,7 @@
             window.searchAutoComplete = new window.autoComplete({
                 selector: "form[name=\"search\"] input[name=\"term\"]",
                 threshold: 3,
+                debounce: 300,
                 cache: false,
                 data: {
                     keys: ['name'],
@@ -38,6 +39,7 @@
                         await Propeller.Ajax.call({
                             url: PropellerHelper.ajax_url,
                             method: 'POST',
+                            loading: $('form[name="search"]').find('.btn-search'),
                             data: {
                                 action: 'global_search',
                                 term: query,
@@ -64,7 +66,7 @@
                 resultsList: {
                     tag: "ul",
                     class: "propeller-autosuggest-items",
-                    maxResults: maxResults+6,
+                    maxResults: maxResults+1,
                     element: (list, data) => {
                         let searchUrl = PropellerHelper.urls.search + data.query
                         let li = document.createElement('li');

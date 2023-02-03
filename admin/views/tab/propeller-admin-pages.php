@@ -39,48 +39,48 @@ use Propeller\Propeller;
 
     <div class="propel-pages-container">
     <?php foreach ($pages_result as $index => $page) { ?>
-        <div class="row propel-page-row" data-index="<?php echo $index; ?>">    
-            <input type="hidden" name="page[<?php echo $index; ?>][id]" value="<?php echo $page->id; ?>">
+        <div class="row propel-page-row" data-index="<?php echo intval($index); ?>">
+            <input type="hidden" name="page[<?php echo intval($index); ?>][id]" value="<?php echo intval($page->id); ?>">
 
             <div class="form-group col-md-2">
-                <input type="text" class="border form-control" placeholder="<?php echo __('Page name', 'propeller-ecommerce'); ?>" name="page[<?php echo $index; ?>][page_name]" value="<?php echo $page->page_name; ?>" required>
+                <input type="text" class="border form-control" placeholder="<?php echo __('Page name', 'propeller-ecommerce'); ?>" name="page[<?php echo intval($index); ?>][page_name]" value="<?php echo esc_attr($page->page_name); ?>" required>
             </div>
             <div class="form-group col-md-2">
-                <input type="text" class="border form-control" placeholder="<?php echo __('Page slug', 'propeller-ecommerce'); ?>" name="page[<?php echo $index; ?>][page_slug]" value="<?php echo $page->page_slug; ?>" required>
+                <input type="text" class="border form-control" placeholder="<?php echo __('Page slug', 'propeller-ecommerce'); ?>" name="page[<?php echo intval($index); ?>][page_slug]" value="<?php echo esc_attr($page->page_slug); ?>" required>
             </div>
             <div class="form-group col-md-2">
-                <select class="border form-control" name="page[<?php echo $index; ?>][page_type]">
+                <select class="border form-control" name="page[<?php echo intval($index); ?>][page_type]">
                     <?php foreach (PageType::getConstants() as $const => $name) { ?>
-                        <option value="<?php echo $name; ?>" <?php echo $page->page_type == $name ? 'selected' : ''; ?>><?php echo $name; ?></option>
+                        <option value="<?php echo esc_attr($name); ?>" <?php echo (bool) ($page->page_type == $name) ? 'selected' : ''; ?>><?php echo esc_html($name); ?></option>
                     <?php } ?>
                 </select>
             </div>
             <div class="form-group col-md-2">
-                <select class="border form-control" name="page[<?php echo $index; ?>][page_shortcode]">
+                <select class="border form-control" name="page[<?php echo intval($index); ?>][page_shortcode]">
                 <?php foreach (Propeller::$fe_shortcodes as $shortcode => $method) { ?>
-                    <option value="<?php echo $shortcode; ?>" <?php echo $page->page_shortcode == $shortcode ? 'selected' : ''; ?>><?php echo $shortcode; ?></option>
+                    <option value="<?php echo esc_attr($shortcode); ?>" <?php echo (bool) ($page->page_shortcode == $shortcode) ? 'selected' : ''; ?>><?php echo esc_html($shortcode); ?></option>
                 <?php } ?>
                 </select>
             </div>
             <div class="form-group col-md-3">
                 <div class="form-check">
-                    <input type="checkbox" id="page_sluggable_<?php echo $index; ?>" class="form-check-input" title="<?php echo $page_sluggable_hint; ?>" name="page[<?php echo $index; ?>][page_sluggable]" value="1" <?php echo isset($page->page_sluggable) && $page->page_sluggable == 1 ? 'checked' : ''; ?>>
-                    <label class="form-check-label" for="page_sluggable_<?php echo $index; ?>"><?php echo __('Apply R/W rules', 'propeller-ecommerce'); ?></label>
+                    <input type="checkbox" id="page_sluggable_<?php echo intval($index); ?>" class="form-check-input" title="<?php echo esc_attr($page_sluggable_hint); ?>" name="page[<?php echo intval($index); ?>][page_sluggable]" value="1" <?php echo isset($page->page_sluggable) && intval($page->page_sluggable) == 1 ? 'checked' : ''; ?>>
+                    <label class="form-check-label" for="page_sluggable_<?php echo intval($index); ?>"><?php echo __('Apply R/W rules', 'propeller-ecommerce'); ?></label>
                 </div>
 
                 <div class="form-check">
-                    <input type="checkbox" id="is_my_account_page_<?php echo $index; ?>" class="form-check-input" title="<?php echo $is_my_account_page_hint; ?>" name="page[<?php echo $index; ?>][is_my_account_page]" value="1" <?php echo isset($page->is_my_account_page) && $page->is_my_account_page == 1 ? 'checked' : ''; ?>>
-                    <label class="form-check-label" for="is_my_account_page_<?php echo $index; ?>"><?php echo __('Is My account page', 'propeller-ecommerce'); ?></label>
+                    <input type="checkbox" id="is_my_account_page_<?php echo intval($index); ?>" class="form-check-input" title="<?php echo esc_attr($is_my_account_page_hint); ?>" name="page[<?php echo intval($index); ?>][is_my_account_page]" value="1" <?php echo isset($page->is_my_account_page) && intval($page->is_my_account_page) == 1 ? 'checked' : ''; ?>>
+                    <label class="form-check-label" for="is_my_account_page_<?php echo intval($index); ?>"><?php echo __('Is My account page', 'propeller-ecommerce'); ?></label>
                 </div>
 
                 <div class="form-check">
-                    <input type="checkbox" id="account_page_is_parent_<?php echo $index; ?>" class="form-check-input" title="<?php echo $account_page_is_parent_hint; ?>" name="page[<?php echo $index; ?>][account_page_is_parent]" value="1" <?php echo isset($page->account_page_is_parent) && $page->account_page_is_parent == 1 ? 'checked' : ''; ?>>
-                    <label class="form-check-label" for="account_page_is_parent_<?php echo $index; ?>"><?php echo __('Child of My Account', 'propeller-ecommerce'); ?></label>
+                    <input type="checkbox" id="account_page_is_parent_<?php echo intval($index); ?>" class="form-check-input" title="<?php echo esc_attr($account_page_is_parent_hint); ?>" name="page[<?php echo intval($index); ?>][account_page_is_parent]" value="1" <?php echo isset($page->account_page_is_parent) && intval($page->account_page_is_parent) == 1 ? 'checked' : ''; ?>>
+                    <label class="form-check-label" for="account_page_is_parent_<?php echo intval($index); ?>"><?php echo __('Child of My Account', 'propeller-ecommerce'); ?></label>
                 </div>
             </div>
             
             <div class="form-group col-md-1 text-center">
-                <button type="button" class="delete-btn" data-id="<?php echo $page->id; ?>">
+                <button type="button" class="delete-btn" data-id="<?php echo intval($page->id); ?>">
                     <span class="dashicons dashicons-remove"></span>
                 </button>
             </div>
@@ -91,48 +91,48 @@ use Propeller\Propeller;
         ?>
 
         <?php if (count($pages_result) == 0) { ?>
-        <div class="form-group row propel-page-row" data-index="<?php echo $index; ?>">    
-            <input type="hidden" name="page[<?php echo $index; ?>][id]" value="0">
+        <div class="form-group row propel-page-row" data-index="<?php echo intval($index); ?>">
+            <input type="hidden" name="page[<?php echo intval($index); ?>][id]" value="0">
 
             <div class="form-group col-md-2">
-                <input type="text" class="border form-control" placeholder="<?php echo __('Page name', 'propeller-ecommerce'); ?>" name="page[<?php echo $index; ?>][page_name]" value="" required>
+                <input type="text" class="border form-control" placeholder="<?php echo __('Page name', 'propeller-ecommerce'); ?>" name="page[<?php echo intval($index); ?>][page_name]" value="" required>
             </div>
             <div class="form-group col-md-2">
-                <input type="text" class="border form-control" placeholder="<?php echo __('Page slug', 'propeller-ecommerce'); ?>" name="page[<?php echo $index; ?>][page_slug]" value="" required>
+                <input type="text" class="border form-control" placeholder="<?php echo __('Page slug', 'propeller-ecommerce'); ?>" name="page[<?php echo intval($index); ?>][page_slug]" value="" required>
             </div>
             <div class="form-group col-md-2">
-                <select class="border form-control" name="page[<?php echo $index; ?>][page_type]">
+                <select class="border form-control" name="page[<?php echo intval($index); ?>][page_type]">
                     <?php foreach (PageType::getConstants() as $const => $name) { ?>
-                        <option value="<?php echo $name; ?>"><?php echo $name; ?></option>
+                        <option value="<?php echo esc_attr($name); ?>"><?php echo esc_html($name); ?></option>
                     <?php } ?>
                 </select>
             </div>
             <div class="form-group col-md-2">
-                <select class="border form-control" name="page[<?php echo $index; ?>][page_shortcode]">
+                <select class="border form-control" name="page[<?php echo intval($index); ?>][page_shortcode]">
                 <?php foreach (Propeller::$fe_shortcodes as $shortcode => $method) { ?>
-                    <option value="<?php echo $shortcode; ?>"><?php echo $shortcode; ?></option>
+                    <option value="<?php echo esc_attr($shortcode); ?>"><?php echo esc_html($shortcode); ?></option>
                 <?php } ?>
                 </select>
             </div>
             <div class="form-group col-md-3">
                 <div class="form-check">
-                    <input type="checkbox" id="page_sluggable_<?php echo $index; ?>" class="form-check-input" title="<?php echo $page_sluggable_hint; ?>" name="page[<?php echo $index; ?>][page_sluggable]" value="1">
-                    <label class="form-check-label" for="page_sluggable_<?php echo $index; ?>"><?php echo __('Apply R/W rules', 'propeller-ecommerce'); ?></label>
+                    <input type="checkbox" id="page_sluggable_<?php echo intval($index); ?>" class="form-check-input" title="<?php echo esc_attr($page_sluggable_hint); ?>" name="page[<?php echo intval($index); ?>][page_sluggable]" value="1">
+                    <label class="form-check-label" for="page_sluggable_<?php echo intval($index); ?>"><?php echo __('Apply R/W rules', 'propeller-ecommerce'); ?></label>
                 </div>
 
                 <div class="form-check">
-                    <input type="checkbox" id="is_my_account_page_<?php echo $index; ?>" class="form-check-input" title="<?php echo $is_my_account_page_hint; ?>" name="page[<?php echo $index; ?>][is_my_account_page]" value="1">
-                    <label class="form-check-label" for="is_my_account_page_<?php echo $index; ?>"><?php echo __('Is My account page', 'propeller-ecommerce'); ?></label>
+                    <input type="checkbox" id="is_my_account_page_<?php echo intval($index); ?>" class="form-check-input" title="<?php echo esc_attr($is_my_account_page_hint); ?>" name="page[<?php echo intval($index); ?>][is_my_account_page]" value="1">
+                    <label class="form-check-label" for="is_my_account_page_<?php echo intval($index); ?>"><?php echo __('Is My account page', 'propeller-ecommerce'); ?></label>
                 </div>
 
                 <div class="form-check">
-                    <input type="checkbox" id="account_page_is_parent_<?php echo $index; ?>" class="form-check-input" title="<?php echo $account_page_is_parent_hint; ?>" name="page[<?php echo $index; ?>][account_page_is_parent]" value="1">
-                    <label class="form-check-label" for="account_page_is_parent_<?php echo $index; ?>"><?php echo __('Child of My Account', 'propeller-ecommerce'); ?></label>
+                    <input type="checkbox" id="account_page_is_parent_<?php echo intval($index); ?>" class="form-check-input" title="<?php echo esc_attr($account_page_is_parent_hint); ?>" name="page[<?php echo intval($index); ?>][account_page_is_parent]" value="1">
+                    <label class="form-check-label" for="account_page_is_parent_<?php echo intval($index); ?>"><?php echo __('Child of My Account', 'propeller-ecommerce'); ?></label>
                 </div>
             </div>
 
             <div class="form-group col-md-1 text-center">
-                <button type="button" class="delete-btn" data-id="<?php echo $page->id; ?>">
+                <button type="button" class="delete-btn" data-id="<?php echo intval($page->id); ?>">
                     <span class="dashicons dashicons-remove"></span>
                 </button>
             </div>
@@ -163,36 +163,36 @@ use Propeller\Propeller;
         <div class="form-group col-md-2">
             <select class="border form-control" name="page[{index}][page_type]">
                 <?php foreach (PageType::getConstants() as $const => $name) { ?>
-                    <option value="<?php echo $name; ?>"><?php echo $name; ?></option>
+                    <option value="<?php echo esc_attr($name); ?>"><?php echo esc_html($name); ?></option>
                 <?php } ?>
             </select>
         </div>
         <div class="form-group col-md-2">
             <select class="border form-control" name="page[{index}][page_shortcode]">
             <?php foreach (Propeller::$fe_shortcodes as $shortcode => $method) { ?>
-                <option value="<?php echo $shortcode; ?>"><?php echo $shortcode; ?></option>
+                <option value="<?php echo esc_attr($shortcode); ?>"><?php echo esc_html($shortcode); ?></option>
             <?php } ?>
             </select>
         </div>
         <div class="form-group col-md-3">
             <div class="form-check">
-                <input type="checkbox" id="page_sluggable_{index}" class="form-check-input" title="<?php echo $page_sluggable_hint; ?>" name="page[{index}][page_sluggable]" value="1">
+                <input type="checkbox" id="page_sluggable_{index}" class="form-check-input" title="<?php echo esc_attr($page_sluggable_hint); ?>" name="page[{index}][page_sluggable]" value="1">
                 <label class="form-check-label" for="page_sluggable_{index}"><?php echo __('Apply R/W rules', 'propeller-ecommerce'); ?></label>
             </div>
 
             <div class="form-check">
-                <input type="checkbox" id="is_my_account_page_{index}" class="form-check-input" title="<?php echo $is_my_account_page_hint; ?>" name="page[{index}][is_my_account_page]" value="1">
+                <input type="checkbox" id="is_my_account_page_{index}" class="form-check-input" title="<?php echo esc_attr($is_my_account_page_hint); ?>" name="page[{index}][is_my_account_page]" value="1">
                 <label class="form-check-label" for="is_my_account_page_{index}"><?php echo __('Is My account page', 'propeller-ecommerce'); ?></label>
             </div>
 
             <div class="form-check">
-                <input type="checkbox" id="account_page_is_parent_{index}" class="form-check-input" title="<?php echo $account_page_is_parent_hint; ?>" name="page[{index}][account_page_is_parent]" value="1">
+                <input type="checkbox" id="account_page_is_parent_{index}" class="form-check-input" title="<?php echo esc_attr($account_page_is_parent_hint); ?>" name="page[{index}][account_page_is_parent]" value="1">
                 <label class="form-check-label" for="account_page_is_parent_{index}"><?php echo __('Child of My Account', 'propeller-ecommerce'); ?></label>
             </div>
         </div>
 
         <div class="form-group col-md-1 text-center">
-            <button type="button" class="delete-btn" data-id="<?php echo $page->id; ?>">
+            <button type="button" class="delete-btn" data-id="<?php echo esc_attr($page->id); ?>">
                 <span class="dashicons dashicons-remove"></span>
             </button>
         </div>

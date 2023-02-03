@@ -105,9 +105,9 @@ class Cluster extends BaseObject {
 
                 foreach ($this->get_products() as $product) {
                     $attr_found = array_filter($product->attributes, function($obj) use ($attr_name) { 
-                        return $obj->name == $attr_name; 
+                        return $obj->attributeDescription->name == $attr_name; 
                     });
-            
+
                     if (count($attr_found)) {
                         $attr = current($attr_found);
         
@@ -181,7 +181,7 @@ class Cluster extends BaseObject {
                     $attr_value = $option->value;
         
                     $attr_found = array_filter($product->attributes, function($obj) use ($attr_name, $attr_value) { 
-                        return $obj->name == $attr_name && $obj->get_value() == $attr_value; 
+                        return $obj->attributeDescription->name == $attr_name && $obj->get_value() == $attr_value; 
                     });
         
                     if (count($attr_found))
@@ -224,12 +224,12 @@ class Cluster extends BaseObject {
     
                 foreach ($this->get_products() as $product) {
                     $first_attr_found = array_filter($product->attributes, function($obj) use ($first_option) { 
-                        return $obj->name == $first_option->name && $obj->get_value() == $first_option->value; 
+                        return $obj->attributeDescription->name == $first_option->name && $obj->get_value() == $first_option->value; 
                     });
     
                     if (count($first_attr_found)) {
                         $attr_found = array_filter($product->attributes, function($obj) use ($attr_name) { 
-                            return $obj->name == $attr_name; 
+                            return $obj->attributeDescription->name == $attr_name; 
                         });
                 
                         if (count($attr_found)) {

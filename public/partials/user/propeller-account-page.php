@@ -29,7 +29,7 @@
                 
                 <ul class="navbar-nav d-block w-100">
                     <li>
-                        <a href="<?php echo $this->buildUrl('',PageController::get_slug(PageType::MY_ACCOUNT_PAGE)); ?>">
+                        <a href="<?php echo esc_url($this->buildUrl('',PageController::get_slug(PageType::MY_ACCOUNT_PAGE))); ?>">
                             <span><?php echo __('My account details', 'propeller-ecommerce'); ?></span>
                             <svg class="icon icon-svg" aria-hidden="true">
                                 <use xlink:href="#shape-arrow-right"></use>
@@ -37,7 +37,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?php echo $this->buildUrl('',PageController::get_slug(PageType::ADDRESSES_PAGE)); ?>">
+                        <a href="<?php echo esc_url($this->buildUrl('',PageController::get_slug(PageType::ADDRESSES_PAGE))); ?>">
                             <span><?php echo __('My addresses', 'propeller-ecommerce'); ?></span>
                             <svg class="icon icon-svg" aria-hidden="true">
                                 <use xlink:href="#shape-arrow-right"></use>
@@ -45,7 +45,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?php echo $this->buildUrl('',PageController::get_slug(PageType::ORDERS_PAGE)); ?>">
+                        <a href="<?php echo esc_url($this->buildUrl('',PageController::get_slug(PageType::ORDERS_PAGE))); ?>">
                             <span><?php echo __('My orders', 'propeller-ecommerce'); ?></span>
                             <svg class="icon icon-svg" aria-hidden="true">
                                 <use xlink:href="#shape-arrow-right"></use>
@@ -53,7 +53,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<?php echo $this->buildUrl('',PageController::get_slug(PageType::QUOTATIONS_PAGE)); ?>">
+                        <a href="<?php echo esc_url($this->buildUrl('',PageController::get_slug(PageType::QUOTATIONS_PAGE))); ?>">
                             <span><?php echo __('My quotes', 'propeller-ecommerce'); ?></span>
                             <svg class="icon icon-svg" aria-hidden="true">
                                 <use xlink:href="#shape-arrow-right"></use>

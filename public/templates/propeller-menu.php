@@ -33,7 +33,7 @@
         <span><?php echo __('Categories', 'propeller-ecommerce'); ?></span>
     </a>
    
-    <?php echo $this->build_menu($this->getMenu()->categories, $classes, 0); ?>
+    <?php echo (string) $this->build_menu($this->getMenu()->categories, $classes, 0); ?>
           
     
 </div>
