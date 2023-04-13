@@ -2,9 +2,9 @@
 namespace Propeller\Includes\Enum;
 
 class CrossupsellTypes {
-    const ACCESSORIES = 'ACCESSORIES';
-    const ALTERNATIVES = 'ALTERNATIVES';
-    const OPTIONS = 'OPTIONS';
-    const PARTS = 'PARTS';
-    const RELATED = 'RELATED';
+    const ACCESSORIES = 'accessories';
+    const ALTERNATIVES = 'alternatives';
+    const OPTIONS = 'options';
+    const PARTS = 'parts';
+    const RELATED = 'related';
 }

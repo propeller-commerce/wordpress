@@ -1,4 +1,13 @@
-<?php if( $data->itemsFound > 0 ) { ?>                
+<?php if( $data->itemsFound > 0 ) { 
+        if ($data->page == 1)
+            $nProductCountPerPrevPage = 1;
+        else
+            $nProductCountPerPrevPage = ($data->page - 1) * $data->offset + 1;
+        if ($data->page * $data->offset < $data->itemsFound)
+            $nProductCountPerCurrentPage = $data->page * $data->offset;
+        else
+            $nProductCountPerCurrentPage = $data->itemsFound;
+    ?>                
     <div class="row align-items-center catalog-result-options">
         <div class="col-12 mb-4 d-md-none">
             <button class="d-flex d-md-none btn-filter-menu" type="button" data-toggle="off-canvas-filters" 
@@ -11,7 +20,7 @@
             </button>
         </div>  
         <div class="col-auto mr-auto catalog-result">
-            <div class="catalog-result-count"><span id="catalog_total"><?= $data->itemsFound; ?></span> <?php echo __('results', 'propeller-ecommerce'); ?></div>
+            <div class="catalog-result-count"><?php echo $nProductCountPerPrevPage;?> - <?php echo $nProductCountPerCurrentPage;?> <?php _e( 'from', 'propeller-ecommerce' ); ?> <span id="catalog_total"><?php echo $data->itemsFound; ?></span> <?php echo __('results', 'propeller-ecommerce'); ?></div>
         </div>
         
         <?php require $obj->load_template('partials', DIRECTORY_SEPARATOR . 'other' . DIRECTORY_SEPARATOR . 'propeller-offset-sort.php'); ?>
@@ -34,8 +43,10 @@
                 </a>
             </div>
         </div>
-        <!-- Active filters -->
-        <div class="col-12 mb-4 mt-4 active-filters">
+    </div>
+    <div class="row no-gutters">
+         <!-- Active filters -->
+         <div class="col-12 mb-4 mt-4 active-filters">
             <?php
                 $selected_filters = $obj->get_selected_filters($obj->filters->getFilters());
                 if(sizeof($selected_filters)) { ?>
@@ -45,10 +56,10 @@
                 foreach ($selected_filters as $selected_filter) { 
             ?>
                 <a class="btn-active-filter"
-                    data-filter="<?= $selected_filter->filter->searchId; ?>" 
-                    data-value="<?= $selected_filter->value; ?>" 
-                    data-type="<?= $selected_filter->filter->type; ?>">
-                        <span class="active-filter-name"><?= $selected_filter->value; ?></span>
+                    data-filter='<?php echo esc_html($selected_filter->filter->searchId); ?>'
+                    data-value='<?php echo wp_slash($selected_filter->value); ?>'
+                    data-type='<?php echo esc_html($selected_filter->filter->type); ?>'>
+                        <span class="active-filter-name"><?php echo esc_html($selected_filter->value); ?></span>
                         <svg class="icon icon-svg" aria-hidden="true">
                             <use xlink:href="#shape-close"></use>
                         </svg>

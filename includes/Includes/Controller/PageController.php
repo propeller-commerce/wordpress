@@ -136,6 +136,8 @@ class PageController extends BaseController {
         $pages_queries[] = "('Checkout summary', 'checkout-summary', 1, 'checkout-summary', 'Checkout summary page', 0, 0)";
         $pages_queries[] = "('Thank you', 'thank-you', 0, 'checkout-thank-you', 'Thank you page', 0, 0)";
         $pages_queries[] = "('Payment failed', 'payment-failed', 0, 'payment-failed', 'Payment failed page', 0, 0)";
+        $pages_queries[] = "('Terms and conditions page', 'terms-conditions', 0, 'menu', 'Terms & Conditions page', 0, 0)";
+        $pages_queries[] = "('Machines', 'my-installations', 1, 'machines', 'Machines page', 0, 0)";
 
         $pages_sql .= implode(', ', $pages_queries);
 

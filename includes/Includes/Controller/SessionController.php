@@ -11,9 +11,9 @@ class SessionController {
             $time = (int) ini_get("session.gc_maxlifetime"); // Set expire time with secends.
 
             if (isset($_SESSION['timeout']) && (time() - $_SESSION['timeout']) > $time) {
-                $UserController->logout();
+                $UserController->logout(false);
 
-                exit();
+                // exit();
             } else {
                 $_SESSION['timeout'] = time();
 
@@ -74,7 +74,8 @@ class SessionController {
 
     public static function end() {
         self::unset();
-        
-        session_destroy();
+		if(self::session_id()) {
+			session_destroy();
+		}
     }
 }

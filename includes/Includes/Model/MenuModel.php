@@ -13,15 +13,8 @@ class MenuModel {
                 category(id: $base_catalog_id) {
                     id
                     categoryId
+                    urlId: categoryId
                     name(language: "$language") {
-                        value
-                        language
-                    }
-                    description(language: "$language") {
-                        value
-                        language
-                    }
-                    shortDescription(language: "$language") {
                         value
                         language
                     }
@@ -32,15 +25,8 @@ class MenuModel {
                     categories {
                         id
                         categoryId
+                        urlId: categoryId
                         name(language: "$language") {
-                            value
-                            language
-                        }
-                        description(language: "$language") {
-                            value
-                            language
-                        }
-                        shortDescription(language: "$language") {
                             value
                             language
                         }
@@ -51,15 +37,8 @@ class MenuModel {
                         categories {
                             id
                             categoryId
+                            urlId: categoryId
                             name(language: "$language") {
-                                value
-                                language
-                            }
-                            description(language: "$language") {
-                                value
-                                language
-                            }
-                            shortDescription(language: "$language") {
                                 value
                                 language
                             }
@@ -70,15 +49,8 @@ class MenuModel {
                             categories {
                                 id
                                 categoryId
+                                urlId: categoryId
                                 name(language: "$language") {
-                                    value
-                                    language
-                                }
-                                description(language: "$language") {
-                                    value
-                                    language
-                                }
-                                shortDescription(language: "$language") {
                                     value
                                     language
                                 }

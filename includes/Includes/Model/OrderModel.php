@@ -258,6 +258,7 @@ class OrderModel extends BaseModel {
                 product {
                     id
                     productId
+                    urlId: productId
                     manufacturerCode
                     eanCode
                     manufacturer
@@ -276,31 +277,7 @@ class OrderModel extends BaseModel {
                     purchaseUnit
                     purchaseMinimumQuantity
                     inventory {
-                        localQuantity
-                        nextDeliveryDate
-                        productId
-                        supplierQuantity
                         totalQuantity
-                    }
-                    category {
-                        id
-                        categoryId
-                        name(language: "$language") {
-                            value
-                            language
-                        }
-                        description(language: "$language") {
-                            value
-                            language
-                        }
-                        shortDescription(language: "$language") {
-                            value
-                            language
-                        }
-                        slug(language: "$language") {
-                            value
-                            language
-                        }
                     }
                     price {
                         net
@@ -317,15 +294,10 @@ class OrderModel extends BaseModel {
                         taxCode
                         type
                     }
-                    bulkPrices {
-                        net
-                        gross
-                        from
-                        to
-                    }
                     cluster {
                         id
                         clusterId
+                        urlId: clusterId
                         slug(language: "$language") {
                             value
                             language

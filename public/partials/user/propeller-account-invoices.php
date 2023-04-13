@@ -3,10 +3,6 @@
     use Propeller\Includes\Controller\PageController;
     use Propeller\Includes\Controller\UserController;
     use Propeller\Includes\Enum\PageType;
-    wp_enqueue_style('datatables_css', 'https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css', array(), null, 'all');
-    wp_enqueue_script('datatables', 'https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js', array( 'jquery'), null, false);
-    wp_enqueue_script('datatables_init', $this->assets_url . '/js/parts/datatables.js', array( 'jquery'), null, true);
-
 ?>
 <?php if (!UserController::is_logged_in()) {
       wp_redirect('/' . PageController::get_slug(PageType::LOGIN_PAGE));
@@ -29,7 +25,7 @@
                     "item": {
                         "@type": "Thing",
                         "@id": " '.  home_url() .' " , 
-                        "name": "'?> <?php echo __("Home","propeller-ecommerce") ?><?php echo '"
+                        "name": "'?> <?php _e("Home","propeller-ecommerce") ?><?php echo '"
                     }
                 },
                 {
@@ -38,7 +34,7 @@
                     "item": {
                         "@type": "Thing",
                         "@id": "' . $this->buildUrl('',PageController::get_slug(PageType::MY_ACCOUNT_PAGE)) . '" , 
-                        "name": "'?> <?php  echo __("My account", "propeller-ecommerce") ?><?php echo '"
+                        "name": "'?> <?php  _e( "My account", "propeller-ecommerce" ) ?><?php echo '"
                     }
                 }
             ]
@@ -47,7 +43,7 @@
     ?>
     <div class="row">
         <div class="col">
-            <?php
+            <?php 
                 $breadcrumb_paths = [
                     [
                         $this->buildUrl('',PageController::get_slug(PageType::MY_ACCOUNT_MOBILE_PAGE)), 
@@ -59,7 +55,7 @@
                     ],
                     [
                         $this->buildUrl('',PageController::get_slug(PageType::INVOICES_PAGE)),
-                        __('Invoices', 'propeller-ecommerce')
+                        __('My invoices', 'propeller-ecommerce')
                     ]
                 ];
 
@@ -68,152 +64,95 @@
         </div>
     </div>
     <duv class="row">
-        <div class="col-12 d-none d-md-flex">
-            <h1><?php echo __('My account', 'propeller-ecommerce'); ?></h1>
-        </div>
-       
+        <?php echo apply_filters('propel_my_account_title', __('My account', 'propeller-ecommerce')); ?>
     </duv>
     <div class="row">
         <div class="col-12 col-lg-3">
-            <?php require $this->load_template('partials', DIRECTORY_SEPARATOR . 'user' . DIRECTORY_SEPARATOR . 'propeller-account-sidemenu.php'); ?>
+            <?php echo apply_filters('propel_my_account_menu', $this); ?>
         </div>
         <div class="col-12 col-lg-9">
             <div class="propeller-account-table propeller-invoices-table">
-                <div class="back-link d-flex d-md-none">
-                    <a href="/my-account/">
-                        <svg class="icon icon-svg icon-arrow-left" aria-hidden="true">
-                            <use class="icon-shape-arrow-left" xlink:href="#shape-arrow-left"></use>
-                        </svg>
-                        <?php echo __('My account', 'propeller-ecommerce'); ?>
-                    </a>
-                </div>
-                <h4><?php echo __('My invoices', 'propeller-ecommerce'); ?></h4>
-                <div class="table-sort-select col-6 px-0 d-flex d-md-none align-items-center">
-                        <label class="label"><?php echo __('Sort by', 'propeller-ecommerce'); ?></label>
-                        <div class="dropdown sticky-dropdown-menu">
-                            <select id="sortTable" name="table-sort" class="form-control">                              
-                                <option value="order_no"><?php echo __('Code', 'propeller-ecommerce'); ?></option>
-                                <option value="order_date"><?php echo __('Date', 'propeller-ecommerce'); ?></option>
-                                <option value="order_quantity"><?php echo __('Total', 'propeller-ecommerce'); ?></option>
-                                <option value="order_total"><?php echo __('Status', 'propeller-ecommerce'); ?></option>
-                                <option value="order_status"><?php echo __('Download', 'propeller-ecommerce'); ?></option>
-                            </select>
+                <h4><?php echo __( 'My invoices', 'propeller-ecommerce' ); ?></h4>
+             
+                <div class="order-headers d-none d-md-flex">
+                    <div class="row w-100 align-items-center">
+                        <div class="col-md-3 code">
+                            <?php echo __( 'Invoice number', 'propeller-ecommerce' ); ?>
+                        </div>
+                        <div class="col-md-2 date">
+                             <?php echo __( 'Date', 'propeller-ecommerce' ); ?>
+                        </div>
+                        <div class="col-md-3 total">
+                            <?php echo __( 'Total', 'propeller-ecommerce' ); ?>
+                        </div>
+                        <div class="col-md-2 status">
+                            <?php echo __( 'Status', 'propeller-ecommerce' ); ?>
+                        </div>
+                        <div class="col-md-2 download">
+                            <?php echo __( 'Download', 'propeller-ecommerce' ); ?>
                         </div>
                     </div>
-                    <table class="table-sorter">
-                        <thead>
-                            <tr>
-                                <th><?php echo __('Code', 'propeller-ecommerce'); ?></th>
-                                <th class="min-tablet-l"><?php echo __('Date', 'propeller-ecommerce'); ?></th>
-                                <th class="min-tablet-l"><?php echo __('Total', 'propeller-ecommerce'); ?></th>
-                                <th class="min-tablet-l"><?php echo __('Status', 'propeller-ecommerce'); ?></th>
-                                <th><?php echo __('Download', 'propeller-ecommerce'); ?></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                          
-                                <tr>
-                                    <td><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Code', 'propeller-ecommerce'); ?></span><span class="col-auto">0000016</span></td>
-                                    <td><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Date', 'propeller-ecommerce'); ?></span><span class="col-auto">10/01/2022</span></td>
-                                    <td><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Total', 'propeller-ecommerce'); ?></span><span class="col-auto"><span class="symbol">&euro;&nbsp;</span>556,66</td>
-                                    <td><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Status', 'propeller-ecommerce'); ?></span><span class="col-auto">Paid</span></td>
-                                    <td>
-                                        <span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Download', 'propeller-ecommerce'); ?></span>
-                                        <div class="d-inline-flex col-auto">
-                                            <a href="#" class="d-flex align-items-center download-pdf-link">            												 
-                                                <svg class="icon icon-download icon-arrow-download" aria-hidden="true">
-                                                    <use class="shape-download" xlink:href="#shape-download"></use>
-                                                </svg>
-                                                <span>
-                                                    <?php echo __('Download PDF', 'propeller-ecommerce'); ?>
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Code', 'propeller-ecommerce'); ?></span><span class="col-auto">0000022</span></td>
-                                    <td><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Date', 'propeller-ecommerce'); ?></span><span class="col-auto">22/01/2022</span></td>
-                                    <td><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Total', 'propeller-ecommerce'); ?></span><span class="col-auto"><span class="symbol">&euro;&nbsp;</span>7.556,66</td>
-                                    <td><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Status', 'propeller-ecommerce'); ?></span><span class="col-auto">Paid</span></td>
-                                    <td>
-                                        <span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Download', 'propeller-ecommerce'); ?></span>
-                                        <div class="d-inline-flex col-auto">
-                                            <a href="#" class="d-flex align-items-center download-pdf-link">            												 
-                                                <svg class="icon icon-download icon-arrow-download" aria-hidden="true">
-                                                    <use class="shape-download" xlink:href="#shape-download"></use>
-                                                </svg>
-                                                <span>
-                                                    <?php echo __('Download PDF', 'propeller-ecommerce'); ?>
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Code', 'propeller-ecommerce'); ?></span><span class="col-auto">0000026</span></td>
-                                    <td><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Date', 'propeller-ecommerce'); ?></span><span class="col-auto">15/02/2022</span></td>
-                                    <td><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Total', 'propeller-ecommerce'); ?></span><span class="col-auto"><span class="symbol">&euro;&nbsp;</span>5.667,20</td>
-                                    <td><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Status', 'propeller-ecommerce'); ?></span><span class="col-auto">Paid</span></td>
-                                    <td>
-                                        <span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Download', 'propeller-ecommerce'); ?></span>
-                                        <div class="d-inline-flex col-auto">
-                                            <a href="#" class="d-flex align-items-center download-pdf-link">            												 
-                                                <svg class="icon icon-download icon-arrow-download" aria-hidden="true">
-                                                    <use class="shape-download" xlink:href="#shape-download"></use>
-                                                </svg>
-                                                <span>
-                                                    <?php echo __('Download PDF', 'propeller-ecommerce'); ?>
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Code', 'propeller-ecommerce'); ?></span><span class="col-auto">0000035</span></td>
-                                    <td><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Date', 'propeller-ecommerce'); ?></span><span class="col-auto">24/02/2022</span></td>
-                                    <td><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Total', 'propeller-ecommerce'); ?></span><span class="col-auto"><span class="symbol">&euro;&nbsp;</span>13.7878,00</td>
-                                    <td><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Status', 'propeller-ecommerce'); ?></span><span class="col-auto">Paid</span></td>
-                                    <td>
-                                        <span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Download', 'propeller-ecommerce'); ?></span>
-                                        <div class="d-inline-flex col-auto">
-                                            <a href="#" class="d-flex align-items-center download-pdf-link">            												 
-                                                <svg class="icon icon-download icon-arrow-download" aria-hidden="true">
-                                                    <use class="shape-download" xlink:href="#shape-download"></use>
-                                                </svg>
-                                                <span>
-                                                    <?php echo __('Download PDF', 'propeller-ecommerce'); ?>
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Code', 'propeller-ecommerce'); ?></span><span class="col-auto">0000040</span></td>
-                                    <td><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Date', 'propeller-ecommerce'); ?></span><span class="col-auto">15/03/2022</span></td>
-                                    <td><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Total', 'propeller-ecommerce'); ?></span><span class="col-auto"><span class="symbol">&euro;&nbsp;</span>6.520,36</td>
-                                    <td><span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Status', 'propeller-ecommerce'); ?></span><span class="col-auto">Paid</span></td>
-                                    <td>
-                                        <span class="table-label d-inline-block d-md-none col-5 col-sm-4 px-0"><?php echo __('Download', 'propeller-ecommerce'); ?></span>
-                                        <div class="d-inline-flex col-auto">
-                                            <a href="#" class="d-flex align-items-center download-pdf-link">            												 
-                                                <svg class="icon icon-download icon-arrow-download" aria-hidden="true">
-                                                    <use class="shape-download" xlink:href="#shape-download"></use>
-                                                </svg>
-                                                <span>
-                                                    <?php echo __('Download PDF', 'propeller-ecommerce'); ?>
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                                            
-                        </tbody>
-                    </table>
-                   
-                
-                <?php ?>
-                   
+                </div>
+                <div class="order-product-item">
+                    <div class="row no-gutters align-items-start">        
+                        <div class="col-md-3">
+                            <span class="label d-inline-flex d-md-none"><?php echo __('Invoice number', 'propeller-ecommerce');?>: </span>
+                            <span class="code">123</span>   
+                        </div>
+                        <div class="col-md-2">  
+                            <span class="label d-inline-flex d-md-none"><?php echo __('Date', 'propeller-ecommerce');?>: </span>                                    
+                            <span class="date">12-03-2023</span>   
+                        </div>
+                        <div class="col-md-3">
+                            <span class="label d-inline-flex d-md-none"><?php echo __('Total', 'propeller-ecommerce');?>: </span>
+                            <span class="total"><span class="symbol">&euro;</span>1.203,00</span>             
+                        </div>      
+                        <div class="col-md-2">
+                            <span class="label d-inline-flex d-md-none"><?php echo __('Status', 'propeller-ecommerce');?>: </span>
+                            <span class="status">Paid</span>             
+                        </div>                  
+                        <div class="col-md-2">
+                            <a href="#" class="d-flex align-items-center download-pdf-link" target="_blank">            												 
+                                <svg class="icon icon-download icon-arrow-download" aria-hidden="true">
+                                    <use class="shape-download" xlink:href="#shape-download"></use>
+                                </svg>
+                                <span>
+                                    <?php echo __('Download PDF', 'propeller-ecommerce'); ?>
+                                </span>
+                            </a>  
+                        </div>
+                    </div>
+                </div>
+                <div class="order-product-item">
+                    <div class="row no-gutters align-items-start">        
+                        <div class="col-md-3">
+                            <span class="label d-inline-flex d-md-none"><?php echo __('Invoice number', 'propeller-ecommerce');?>: </span>
+                            <span class="code">1234</span>   
+                        </div>
+                        <div class="col-md-2">  
+                            <span class="label d-inline-flex d-md-none"><?php echo __('Date', 'propeller-ecommerce');?>: </span>
+                            <span class="date">12-02-2023</span>   
+                        </div>
+                        <div class="col-md-3">
+                            <span class="label d-inline-flex d-md-none"><?php echo __('Total', 'propeller-ecommerce');?>: </span>
+                            <span class="total"><span class="symbol">&euro;</span>1.863,00</span>             
+                        </div>      
+                        <div class="col-md-2">
+                            <span class="label d-inline-flex d-md-none"><?php echo __('Status', 'propeller-ecommerce');?>: </span>
+                            <span class="status">Paid</span>             
+                        </div>                  
+                        <div class="col-md-2">
+                            <a href="#" class="d-flex align-items-center download-pdf-link" target="_blank">            												 
+                                <svg class="icon icon-download icon-arrow-download" aria-hidden="true">
+                                    <use class="shape-download" xlink:href="#shape-download"></use>
+                                </svg>
+                                <span>
+                                    <?php echo __('Download PDF', 'propeller-ecommerce'); ?>
+                                </span>
+                            </a>  
+                        </div>
+                    </div>
+                </div>
             </div>
            
         </div>

@@ -8,7 +8,7 @@
 
 use Propeller\Includes\Controller\SessionController;
 
-echo __('Type of order', 'propeller-ecommerce'); ?></div>
+echo __('Type of order', 'propeller-ecommerce' ); ?></div>
         </div>
     </div>
     <div class="order-type" id="orderType">
@@ -19,17 +19,17 @@ echo __('Type of order', 'propeller-ecommerce'); ?></div>
                     <div class="form-row">
                         <div class="col-12 form-group form-check">
                             <label class="btn-radio-checkbox form-check-label ">
-                                <input type="radio" class="form-check-input" name="order_type" value="regular" <?php echo SessionController::get(PROPELLER_ORDER_TYPE) == 'regular' ? 'checked' : ''; ?>> <span><?php echo __('Regular order', 'propeller-ecommerce'); ?></span>
+                                <input type="radio" class="form-check-input" name="order_type" value="regular" <?php echo SessionController::get(PROPELLER_ORDER_TYPE) == 'regular' ? 'checked' : ''; ?>> <span><?php echo __('Regular order', 'propeller-ecommerce' ); ?></span>
                             </label>
                         </div>
                         <div class="col-12 form-group form-check">
                             <label class="btn-radio-checkbox form-check-label ">
-                                <input type="radio" class="form-check-input" name="order_type" value="quick" <?php echo SessionController::get(PROPELLER_ORDER_TYPE) == 'quick' ? 'checked' : ''; ?>> <span><?php echo __('Quick order', 'propeller-ecommerce'); ?></span>
+                                <input type="radio" class="form-check-input" name="order_type" value="quick" <?php echo SessionController::get(PROPELLER_ORDER_TYPE) == 'quick' ? 'checked' : ''; ?>> <span><?php echo __('Quick order', 'propeller-ecommerce' ); ?></span>
                             </label>
                         </div>
                         <div class="col-12 form-group form-check">
                             <label class="btn-radio-checkbox form-check-label ">
-                                <input type="radio" class="form-check-input" name="order_type" value="dropshipment" <?php echo SessionController::get(PROPELLER_ORDER_TYPE) == 'dropshipment' ? 'checked' : ''; ?>> <span><?php echo __('Dropshipment order', 'propeller-ecommerce'); ?></span>
+                                <input type="radio" class="form-check-input" name="order_type" value="dropshipment" <?php echo SessionController::get(PROPELLER_ORDER_TYPE) == 'dropshipment' ? 'checked' : ''; ?>> <span><?php echo __('Dropshipment order', 'propeller-ecommerce' ); ?></span>
                             </label>
                         </div>
                     </div>  
@@ -38,7 +38,7 @@ echo __('Type of order', 'propeller-ecommerce'); ?></div>
         </form>
         <div class="row">
             <div class="col-12">
-                <a data-target="#orderTypeModal" data-toggle="modal"  href="#orderTypeModal" class="order-type-modal"><?php echo __('Find out more about different order types here', 'propeller-ecommerce'); ?></a>
+                <a data-target="#orderTypeModal" data-toggle="modal"  href="#orderTypeModal" class="order-type-modal"><?php echo __('Find out more about different order types here', 'propeller-ecommerce' ); ?></a>
             </div>
         </div>
     </div>        
@@ -48,7 +48,7 @@ echo __('Type of order', 'propeller-ecommerce'); ?></div>
         <div class="modal-content">
             <div class="modal-header propel-modal-header">
                 <div id="propel_modal_title" class="modal-title">
-                    <span><?php echo __('Different order types', 'propeller-ecommerce'); ?></span>
+                    <span><?php echo __('Different order types', 'propeller-ecommerce' ); ?></span>
                 </div>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">
@@ -60,22 +60,22 @@ echo __('Type of order', 'propeller-ecommerce'); ?></div>
             </div>
             <div class="modal-body propel-modal-body" id="propel_modal_body">
                 <div class="order-title">
-                    <?php echo __('Regular order', 'propeller-ecommerce'); ?>
+                    <?php echo __('Regular order', 'propeller-ecommerce' ); ?>
                 </div>
                 <div class="order-description">
-                    <?php echo __('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sodales congue ipsum id ultrices. Quisque eu nisl sapien. In auctor pulvinar lorem, ac posuere mauris sagittis at. Integer maximus elementum pulvinar. Donec commodo quam id tellus fermentum.', 'propeller-ecommerce'); ?>
+                    <?php echo __('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sodales congue ipsum id ultrices. Quisque eu nisl sapien. In auctor pulvinar lorem, ac posuere mauris sagittis at. Integer maximus elementum pulvinar. Donec commodo quam id tellus fermentum.', 'propeller-ecommerce' ); ?>
                 </div>
                 <div class="order-title">
-                    <?php echo __('Quick order', 'propeller-ecommerce'); ?>
+                    <?php echo __('Quick order', 'propeller-ecommerce' ); ?>
                 </div>
                 <div class="order-description">
-                    <?php echo __('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sodales congue ipsum id ultrices. Quisque eu nisl sapien. In auctor pulvinar lorem, ac posuere mauris sagittis at. Integer maximus elementum pulvinar. Donec commodo quam id tellus fermentum.', 'propeller-ecommerce'); ?>
+                    <?php echo __('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sodales congue ipsum id ultrices. Quisque eu nisl sapien. In auctor pulvinar lorem, ac posuere mauris sagittis at. Integer maximus elementum pulvinar. Donec commodo quam id tellus fermentum.', 'propeller-ecommerce' ); ?>
                 </div>
                 <div class="order-title">
-                    <?php echo __('Dropshipment', 'propeller-ecommerce'); ?>
+                    <?php echo __('Dropshipment', 'propeller-ecommerce' ); ?>
                 </div>
                 <div class="order-description">
-                    <?php echo __('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sodales congue ipsum id ultrices. Quisque eu nisl sapien. In auctor pulvinar lorem, ac posuere mauris sagittis at. Integer maximus elementum pulvinar. Donec commodo quam id tellus fermentum.', 'propeller-ecommerce'); ?>
+                    <?php echo __('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sodales congue ipsum id ultrices. Quisque eu nisl sapien. In auctor pulvinar lorem, ac posuere mauris sagittis at. Integer maximus elementum pulvinar. Donec commodo quam id tellus fermentum.', 'propeller-ecommerce' ); ?>
                 </div>
             </div>
         </div>

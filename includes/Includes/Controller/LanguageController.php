@@ -23,11 +23,15 @@ class LanguageController extends BaseController {
 
         $langs = trp_custom_language_switcher();
 
-        foreach ($langs as $name => $item) {           
-            if (strtolower(PROPELLER_LANG) != $item['short_language_name'] && isset($propel['url_slugs'])) {
+        foreach ($langs as $name => $item) {    
+            $item_lang = $item['short_language_name'];
+            if (strpos($item_lang, '_'))
+                $item_lang = explode('_', $item_lang)[1];
+
+            if (strtolower(PROPELLER_LANG) != $item_lang && isset($propel['url_slugs'])) {
                 $link_chunks = explode('/', $item['current_page_url']);
                 
-                $slug = $this->get_lang_slug($item['short_language_name'], $propel['url_slugs']);
+                $slug = $this->get_lang_slug($item_lang, $propel['url_slugs']);
 
                 if ($slug != "") {
                     $link_chunks[count($link_chunks) - 2] = $slug;

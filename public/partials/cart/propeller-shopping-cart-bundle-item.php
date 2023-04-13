@@ -18,26 +18,26 @@ $cart_item->product = new Product($cart_item->product);
     <symbol viewBox="0 0 12 9" id="shape-in-stock"><title>In stock</title>><path d="m4.924 8.823 6.9-6.94a.606.606 0 0 0 0-.853l-.848-.853a.598.598 0 0 0-.849 0L4.5 5.837 1.873 3.193a.598.598 0 0 0-.849 0l-.848.853a.606.606 0 0 0 0 .854l3.9 3.922a.598.598 0 0 0 .848 0z"/> </symbol> 
     <symbol viewBox="0 0 9 10" id="shape-out-stock"><title>Out stock</title> <path d="m6.206 4.875 2.559-2.559a.804.804 0 0 0 0-1.137l-.57-.568a.804.804 0 0 0-1.136 0L4.5 3.169 1.941.611a.804.804 0 0 0-1.137 0l-.569.568a.804.804 0 0 0 0 1.137l2.56 2.559-2.56 2.559a.804.804 0 0 0 0 1.137l.57.569a.804.804 0 0 0 1.136 0L4.5 6.58l2.559 2.56a.804.804 0 0 0 1.137 0l.569-.57a.804.804 0 0 0 0-1.136l-2.56-2.559Z" fill-rule="nonzero"/></symbol>  
 </svg>
-<div class="container-fluid px-0 basket-item-container" data-item-id="<?= $cart_item->id; ?>">
+<div class="container-fluid px-0 basket-item-container" data-item-id="<?php echo esc_attr($cart_item->id); ?>">
     <div class="row product-item no-gutters align-items-start">
         <div class="col-2 col-md-1 product-image mb-3">
-            <a href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $cart_item->product->slug[0]->value); ?>">  
+            <a href="<?php echo esc_url($obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $cart_item->product->slug[0]->value, $cart_item->product->urlId)); ?>">
             <?php if ($cart_item->product->has_images()) { ?>          												 
-                <img class="img-fluid" src="<?= $cart_item->product->images[0]->images[0]->url; ?>" alt="<?= $cart_item->product->name[0]->value; ?>">
+                <img class="img-fluid" src="<?php echo esc_url($cart_item->product->images[0]->images[0]->url); ?>" alt="<?php echo esc_attr($cart_item->product->name[0]->value); ?>">
             <?php } else { ?> 
                 <img class="img-fluid"  
-                    src="<?php echo $obj->assets_url . '/img/no-image-card.webp';?>"
+                    src="<?php echo esc_url($obj->assets_url . '/img/no-image-card.webp'); ?>"
                     alt="<?php echo __('No image found', ''); ?>">
             <?php } ?>
             </a>
         </div>
         <div class="col-10 col-md-4 col-lg-6 product-description">            
-            <a class="product-name" href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $cart_item->product->slug[0]->value); ?>">
-                <?= $cart_item->bundle->name; ?>
+            <a class="product-name" href="<?php echo esc_url($obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $cart_item->product->slug[0]->value, $cart_item->product->urlId)); ?>">
+                <?php echo esc_html($cart_item->bundle->name); ?>
             </a>
             <div class="delete-basket-item d-flex d-md-none">
                 <form name="delete-product" method="post" class="delete-basket-item-form">
-                    <input type="hidden" name="item_id" value="<?= $cart_item->bundleId; ?>">
+                    <input type="hidden" name="item_id" value="<?php echo esc_attr($cart_item->bundleId); ?>">
                     <input type="hidden" name="action" value="cart_delete_item">
                     <div class="input-group">
                         <button class="btn-delete d-flex align-items-start justify-content-end">
@@ -51,25 +51,25 @@ $cart_item->product = new Product($cart_item->product);
             <div class="product-bundle-items">
                 <?php echo __("Combo products:",'propeller-ecommerce'); ?>
                 <?php foreach ($cart_item->bundle->items as $bundleItem) { ?>
-                    <div>- <a href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $bundleItem->product->slug[0]->value); ?>"><?= $bundleItem->product->name[0]->value; ?></a></div>
+                    <div>- <a href="<?php echo esc_url($obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $bundleItem->product->slug[0]->value, $bundleItem->product->urlId)); ?>"><?php echo esc_html($bundleItem->product->name[0]->value); ?></a></div>
                 <?php } ?>
             </div>
             
         </div>
         <form name="add-product" method="post" class="offset-2 offset-md-0 update-basket-item-form col-3 col-md-4 col-lg-3">
             <input type="hidden" name="action" value="cart_update_item">
-            <input type="hidden" name="item_id" value="<?= $cart_item->id; ?>">
+            <input type="hidden" name="item_id" value="<?php echo esc_attr($cart_item->id); ?>">
             <div class="row no-gutters">
                 <!-- <div class="d-none d-md-block col-md-5 col-lg-5 product-reference">
                     <div class="add-to-basket update notes">
                         <label for="notes" class="sr-only"><?php echo __('Reference', 'propeller-ecommerce'); ?></label>
-                        <input type="text" name="notes" class="form-control" value="<?= $cart_item->notes; ?>">
+                        <input type="text" name="notes" class="form-control" value="<?php echo esc_attr($cart_item->notes); ?>">
                     </div>
                 </div> -->
                 <div class="col-7 col-md-6 col-lg-8 price-per-item d-none d-md-flex">
                     <div class="product-price product-price-item">
                         <span class="price"><span class="symbol">&euro;&nbsp;</span>
-                            <?= PropellerHelper::formatPrice($cart_item->bundle->price->gross); ?>
+                            <?php echo PropellerHelper::formatPrice($cart_item->bundle->price->gross); ?>
                         </span>
                         <small><?php echo __('excl. VAT', 'propeller-ecommerce'); ?></small> 
                     </div>    
@@ -84,8 +84,8 @@ $cart_item->product = new Product($cart_item->product);
                             class="quantity large form-control input-number"
                             name="quantity"
                             autocomplete="off"
-                            value="<?= $cart_item->quantity; ?>"
-                            data-stock="">
+                            value="<?php echo esc_attr($cart_item->quantity); ?>"
+                           >
                     </div>
                 </div>
             </div> 
@@ -95,14 +95,14 @@ $cart_item->product = new Product($cart_item->product);
             <div class="product-price product-total text-right text-md-left">
                 <span class="price"><span class="symbol">&euro;&nbsp;</span>
                     <span class="basket-item-price">
-                        <?= PropellerHelper::formatPrice($cart_item->bundle->price->gross); ?>
+                        <?php echo PropellerHelper::formatPrice($cart_item->bundle->price->gross); ?>
                     </span>
                 </span>
                 <small><?php echo __('excl. VAT', 'propeller-ecommerce'); ?></small> 
             </div>  
             <div class="add-to-basket d-none d-md-flex">
                 <form name="delete-product" action="#" method="post" class="delete-basket-item-form">
-                    <input type="hidden" name="item_id" value="<?= $cart_item->id; ?>">
+                    <input type="hidden" name="item_id" value="<?php echo esc_attr($cart_item->id); ?>">
                     <input type="hidden" name="action" value="cart_delete_item">
                     <div class="input-group">
                         <button class="btn-delete">

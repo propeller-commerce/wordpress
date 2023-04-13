@@ -20,7 +20,7 @@ use Propeller\Includes\Enum\PageType;
                 $aClass = (isset($cat->categories) && sizeof($cat->categories)) ? 'has-submenu dropdown-toggle' : '';
                 $aLabel = (isset($cat->categories) && sizeof($cat->categories)) ? 'data-toggle="collapse" href="#submenu_' . $subMenuIndex . '" aria-expanded="false" data-target="#submenu_' . $subMenuIndex . '"' : '';
                 
-                $menu_url = $menuObj->buildUrl(PageController::get_slug(PageType::CATEGORY_PAGE), $cat->slug[0]->value);
+                $menu_url = $menuObj->buildUrl(PageController::get_slug(PageType::CATEGORY_PAGE), $cat->slug[0]->value, $cat->urlId);
         
                 if (sizeof($search_categories) && isset($search_categories[$cat->categoryId])) {
                     if (!empty(get_query_var('term')))

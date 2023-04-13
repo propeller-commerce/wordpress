@@ -2,7 +2,7 @@
 .nav-tabs .nav-link { color: #fa3a6b; }
 .nav-tabs .nav-link:focus { outline: none; box-shadow: none; }
 
-#page_row_template { display: none; }
+#page_row_template, #slug_row_template { display: none; }
 .delete-btn { border: none; background-color: transparent; padding: 0; }
 
 .propel-pages-container .form-check .form-check-label { line-height: 1rem; margin-top: -22px; margin-left: 25px; }
@@ -11,4 +11,12 @@
 .table th.propel-col-50 { width: 48%; }
 table .form-control:disabled, .form-control[readonly] { background-color: #fff; }
 
-.alert-fixed { position:fixed; top: 5%; right: 1%; width: auto; z-index:9999; }
+.alert.alert-fixed { position:fixed; top: 5%; right: 1%; width: auto; z-index:9999; }
+
+.propel-admin-form .form-group { margin-bottom: 0; padding-top: 1rem; padding-bottom: 1rem; }
+
+.propel-admin-form .ac .ac-header { background-color: #f7f7f9; }
+.propel-admin-form .ac .ac-panel .form-check { padding-left: 0; }
+
+#propel_behavior_form > .form-row { border-bottom: 1px solid rgba(0,0,0,.1); }
+#propel_behavior_form > .form-row:hover { background-color: #f7f7f9; }

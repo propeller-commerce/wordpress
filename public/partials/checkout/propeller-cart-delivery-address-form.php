@@ -11,11 +11,11 @@
     <symbol viewBox="0 0 16 12" id="shape-valid"><title>Valid</title><path d="m6.566 11.764 9.2-9.253a.808.808 0 0 0 0-1.137L14.634.236a.797.797 0 0 0-1.131 0L6 7.782 2.497 4.259a.797.797 0 0 0-1.131 0L.234 5.397a.808.808 0 0 0 0 1.137l5.2 5.23a.797.797 0 0 0 1.132 0z" fill="#54A023"/> </symbol>
 
 </svg>
-<div id="edit_address_modal_<?= $delivery_address->id; ?>" class="propeller-address-modal modal fade modal-fullscreen-sm-down" tabindex="-1" role="dialog" aria-labelledby="propel_modal_edit_title_<?= $rand; ?>">
+<div id="edit_address_modal_<?php echo esc_attr($delivery_address->id); ?>" class="propeller-address-modal modal fade modal-fullscreen-sm-down" tabindex="-1" role="dialog" aria-labelledby="propel_modal_edit_title_<?php echo esc_attr($rand); ?>">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header propel-modal-header">
-                <div id="propel_modal_edit_title_<?= $rand; ?>" class="modal-title">
+                <div id="propel_modal_edit_title_<?php echo esc_attr($rand); ?>" class="modal-title">
                     <span>
                         <?php if($delivery_address->id != 0) 
                                 echo __('Edit delivery address', 'propeller-ecommerce'); 
@@ -31,12 +31,12 @@
                     </span>
                 </button>
             </div>
-            <div class="modal-body propel-modal-body" id="propel_modal_edit_body_<?= $rand; ?>">
-                <form name="add-delivery-address-form" id="edit_address<?= $delivery_address->id; ?>" class="form-horizontal validate form-handler modal-edit-form dropshipment-form" method="post">
-                    <input type="hidden" name="id" value="<?= $delivery_address->id; ?>">
-                    <input type="hidden" name="type" value="<?= AddressType::DELIVERY; ?>">
+            <div class="modal-body propel-modal-body" id="propel_modal_edit_body_<?php echo esc_attr($rand); ?>">
+                <form name="add-delivery-address-form" id="edit_address<?php echo esc_attr($delivery_address->id); ?>" class="form-horizontal validate form-handler modal-edit-form dropshipment-form" method="post">
+                    <input type="hidden" name="id" value="<?php echo esc_attr($delivery_address->id); ?>">
+                    <input type="hidden" name="type" value="<?php echo esc_attr(AddressType::DELIVERY); ?>">
                     <input type="hidden" name="action" value="cart_update_address">            
-                    <input type="hidden" name="<?php echo $delivery_address->id ==0 ? 'add_delivery_address' : 'update_delivery_address' ?>" value="Y" />
+                    <input type="hidden" name="<?php echo (int) $delivery_address->id ==0 ? 'add_delivery_address' : 'update_delivery_address' ?>" value="Y" />
 
                     <input type="hidden" name="save_delivery_address" value="Y" />
                     <input type="hidden" name="carrier" value="" />
@@ -45,8 +45,8 @@
                             <div class="col-form-fields col-12">
                                 <div class="form-row">
                                     <div class="col-12 form-group col-user-company">
-                                        <label class="form-label" for="company_<?= $rand; ?>"><?php echo __('Company', 'propeller-ecommerce'); ?>*</label>
-                                        <input type="text" name="company" value="<?= $delivery_address->company; ?>" placeholder="<?php echo __('Company', 'propeller-ecommerce'); ?>*" class="form-control required" id="company_<?= $rand; ?>">
+                                        <label class="form-label" for="company_<?php echo esc_attr($rand); ?>"><?php echo __('Company', 'propeller-ecommerce'); ?>*</label>
+                                        <input type="text" name="company" value="<?php echo esc_attr($delivery_address->company); ?>" placeholder="<?php echo __('Company', 'propeller-ecommerce'); ?>*" class="form-control required" id="company_<?php echo esc_attr($rand); ?>">
                                     </div>
                                 </div>  
                             </div>
@@ -77,16 +77,16 @@
                             <div class="col-form-fields col-12">
                                 <div class="form-row">
                                     <div class="col-12 col-md-5 form-group col-user-firstname">
-                                        <label class="form-label" for="firstName_<?= $rand; ?>"><?php echo __('First name', 'propeller-ecommerce'); ?>*</label>
-                                        <input type="text" name="firstName" value="<?= $delivery_address->firstName; ?>" placeholder="<?php echo __('First name', 'propeller-ecommerce'); ?>*" class="form-control required" id="firstName_<?= $rand; ?>">
+                                        <label class="form-label" for="firstName_<?php echo esc_attr($rand); ?>"><?php echo __('First name', 'propeller-ecommerce'); ?>*</label>
+                                        <input type="text" name="firstName" value="<?php echo esc_attr($delivery_address->firstName); ?>" placeholder="<?php echo __('First name', 'propeller-ecommerce'); ?>*" class="form-control required" id="firstName_<?php echo esc_attr($rand); ?>">
                                     </div>
                                     <div class="col-12 col-md-3 form-group col-user-middlename">
-                                        <label class="form-label" for="middleName_<?= $rand; ?>"><?php echo __('Insertion', 'propeller-ecommerce'); ?></label>
-                                        <input type="text" name="middleName" value="<?= $delivery_address->middleName; ?>" placeholder="<?php echo __('Insertion (optional)', 'propeller-ecommerce'); ?>" class="form-control" id="middleName_<?= $rand; ?>">
+                                        <label class="form-label" for="middleName_<?php echo esc_attr($rand); ?>"><?php echo __('Insertion', 'propeller-ecommerce'); ?></label>
+                                        <input type="text" name="middleName" value="<?php echo esc_attr($delivery_address->middleName); ?>" placeholder="<?php echo __('Insertion (optional)', 'propeller-ecommerce'); ?>" class="form-control" id="middleName_<?php echo esc_attr($rand); ?>">
                                     </div>
                                     <div class="col-12 col-md-4 form-group col-user-lastname">
-                                        <label class="form-label" for="lastName_<?= $rand; ?>"><?php echo __('Last name', 'propeller-ecommerce'); ?>*</label>
-                                        <input type="text" name="lastName" value="<?= $delivery_address->lastName; ?>" placeholder="<?php echo __('Last name', 'propeller-ecommerce'); ?>*" class="form-control required" id="lastName_<?= $rand; ?>">
+                                        <label class="form-label" for="lastName_<?php echo esc_attr($rand); ?>"><?php echo __('Last name', 'propeller-ecommerce'); ?>*</label>
+                                        <input type="text" name="lastName" value="<?php echo esc_attr($delivery_address->lastName); ?>" placeholder="<?php echo __('Last name', 'propeller-ecommerce'); ?>*" class="form-control required" id="lastName_<?php echo esc_attr($rand); ?>">
                                     </div>
                                 </div>  
                             </div>
@@ -97,12 +97,12 @@
                             <div class="col-form-fields col-12">
                                 <div class="form-row">
                                     <div class="col-8 form-group col-user-street">
-                                        <label class="form-label" for="street_<?= $rand; ?>"><?php echo __('Street', 'propeller-ecommerce'); ?>*</label>
-                                        <input type="text" name="street" value="<?= $delivery_address->street; ?>" placeholder="<?php echo __('Street', 'propeller-ecommerce'); ?>*" class="form-control required" id="street_<?= $rand; ?>">
+                                        <label class="form-label" for="street_<?php echo esc_attr($rand); ?>"><?php echo __('Street', 'propeller-ecommerce'); ?>*</label>
+                                        <input type="text" name="street" value="<?php echo esc_attr($delivery_address->street); ?>" placeholder="<?php echo __('Street', 'propeller-ecommerce'); ?>*" class="form-control required" id="street_<?php echo esc_attr($rand); ?>">
                                     </div>
                                     <div class="col-4 form-group col-user-street-number">
-                                        <label class="form-label" for="number_<?= $rand; ?>"><?php echo __('Number', 'propeller-ecommerce'); ?>*</label>
-                                        <input type="text" name="number" value="<?= $delivery_address->number; ?>" placeholder="<?php echo __('Number', 'propeller-ecommerce'); ?>*" class="form-control required" id="number_<?= $rand; ?>">
+                                        <label class="form-label" for="number_<?php echo esc_attr($rand); ?>"><?php echo __('Number', 'propeller-ecommerce'); ?>*</label>
+                                        <input type="text" name="number" value="<?php echo esc_attr($delivery_address->number); ?>" placeholder="<?php echo __('Number', 'propeller-ecommerce'); ?>*" class="form-control required" id="number_<?php echo esc_attr($rand); ?>">
                                     </div>
                                 </div>  
                             </div>
@@ -111,8 +111,8 @@
                             <div class="col-form-fields col-12">
                                 <div class="form-row">
                                     <div class="col-12 form-group col-user-address_add">
-                                        <label class="form-label" for="number_<?= $rand; ?>"><?php echo __('Address addition (building, unit, etc, optional)', 'propeller-ecommerce'); ?></label>
-                                        <input type="text" name="numberExtension" value="<?= $delivery_address->numberExtension; ?>" placeholder="<?php echo __('Address addition (building, unit, etc, optional)', 'propeller-ecommerce'); ?>" class="form-control" maxlength="7" id="numberExtension_<?= $rand; ?>">
+                                        <label class="form-label" for="number_<?php echo esc_attr($rand); ?>"><?php echo __('Address addition (building, unit, etc, optional)', 'propeller-ecommerce'); ?></label>
+                                        <input type="text" name="numberExtension" value="<?php echo esc_attr($delivery_address->numberExtension); ?>" placeholder="<?php echo __('Address addition (building, unit, etc, optional)', 'propeller-ecommerce'); ?>" class="form-control" maxlength="7" id="numberExtension_<?php echo esc_attr($rand); ?>">
                                     </div>
                                 </div>  
                             </div>
@@ -121,8 +121,8 @@
                             <div class="col-form-fields col-12">
                                 <div class="form-row">
                                     <div class="col-12 form-group col-user-zipcode">
-                                        <label class="form-label" for="code_<?= $rand; ?>"><?php echo __('Postal code', 'propeller-ecommerce'); ?>*</label>
-                                        <input type="text" name="postalCode" value="<?= $delivery_address->postalCode; ?>" placeholder="<?php echo __('Postal code', 'propeller-ecommerce'); ?>*" class="form-control required" id="code_<?= $rand; ?>">
+                                        <label class="form-label" for="code_<?php echo esc_attr($rand); ?>"><?php echo __('Postal code', 'propeller-ecommerce'); ?>*</label>
+                                        <input type="text" name="postalCode" value="<?php echo esc_attr($delivery_address->postalCode); ?>" placeholder="<?php echo __('Postal code', 'propeller-ecommerce'); ?>*" class="form-control required" id="code_<?php echo esc_attr($rand); ?>">
                                     </div>
                                 </div>  
                             </div>
@@ -131,8 +131,8 @@
                             <div class="col-form-fields col-12">
                                 <div class="form-row">
                                     <div class="col-12 form-group col-user-city">
-                                        <label class="form-label" for="city_<?= $rand; ?>"><?php echo __('City', 'propeller-ecommerce'); ?>*</label>
-                                        <input type="text" name="city" value="<?= $delivery_address->city; ?>" placeholder="<?php echo __('City', 'propeller-ecommerce'); ?>*" class="form-control required" id="city_<?= $rand; ?>">
+                                        <label class="form-label" for="city_<?php echo esc_attr($rand); ?>"><?php echo __('City', 'propeller-ecommerce'); ?>*</label>
+                                        <input type="text" name="city" value="<?php echo esc_attr($delivery_address->city); ?>" placeholder="<?php echo __('City', 'propeller-ecommerce'); ?>*" class="form-control required" id="city_<?php echo esc_attr($rand); ?>">
                                     </div>
                                 </div>  
                             </div>
@@ -141,11 +141,11 @@
                             <div class="col-form-fields col-12">
                                 <div class="form-row">
                                     <div class="col-12 form-group col-user-country">
-                                        <label class="form-label" for="country_<?= $rand; ?>"><?php echo __('Country', 'propeller-ecommerce'); ?>*</label>
+                                        <label class="form-label" for="country_<?php echo esc_attr($rand); ?>"><?php echo __('Country', 'propeller-ecommerce'); ?>*</label>
 
-                                        <select id="country_<?= $rand; ?>" name="country" class="form-control required">
+                                        <select id="country_<?php echo esc_attr($rand); ?>" name="country" class="form-control required">
                                             <?php foreach ($countries as $code => $name) { ?>
-                                                <option value="<?= $code; ?>" <?php echo ($code == $selected ? 'selected' : ''); ?>><?php echo $name; ?></option>
+                                                <option value="<?php echo esc_attr($code); ?>" <?php echo ($code == $selected ? 'selected' : ''); ?>><?php echo esc_html__($name); ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -156,8 +156,8 @@
                             <div class="col-form-fields col-12">
                                 <div class="form-row">
                                     <div class="col-12 form-group col-user-address">
-                                        <label class="form-label" for="email_<?= $rand; ?>"><?php echo __('E-mail', 'propeller-ecommerce'); ?>*</label>
-                                        <input type="email" name="email" value="<?= $delivery_address->email; ?>" placeholder="<?php echo __('E-mail', 'propeller-ecommerce'); ?>*" class="form-control required" id="email_<?= $rand; ?>">
+                                        <label class="form-label" for="email_<?php echo esc_attr($rand); ?>"><?php echo __('E-mail', 'propeller-ecommerce'); ?>*</label>
+                                        <input type="email" name="email" value="<?php echo esc_attr($delivery_address->email); ?>" placeholder="<?php echo __('E-mail', 'propeller-ecommerce'); ?>*" class="form-control required" id="email_<?php echo esc_attr($rand); ?>">
                                     </div>
                                 </div>  
                             </div>
@@ -166,8 +166,8 @@
                             <div class="col-form-fields col-12">
                                 <div class="form-row">
                                     <div class="col-12 form-group col-user-notes">
-                                        <label class="form-label" for="notes_<?= $rand; ?>"><?php echo __('Remarks (optional)', 'propeller-ecommerce'); ?></label>
-                                        <textarea name="notes" value="<?= $delivery_address->notes; ?>" placeholder="<?php echo __('Remarks (optional)', 'propeller-ecommerce'); ?>" class="form-control" id="notes_<?= $rand; ?>"></textarea>
+                                        <label class="form-label" for="notes_<?php echo esc_attr($rand); ?>"><?php echo __('Remarks (optional)', 'propeller-ecommerce'); ?></label>
+                                        <textarea name="notes" placeholder="<?php echo __('Remarks (optional)', 'propeller-ecommerce'); ?>" class="form-control" id="notes_<?php echo esc_attr($rand); ?>"><?php echo esc_html($delivery_address->notes); ?></textarea>
                                     </div>
                                 </div>  
                             </div>
@@ -177,7 +177,7 @@
                         <div class="col-form-fields col-12">
                             <div class="form-row">
                                 <div class="col d-flex justify-content-start">
-                                    <button type="submit" class="btn-modal btn-proceed btn-modal-address btn-modal-submit" id="submit_edit_address<?= $rand; ?>"><?php echo __('Save this address', 'propeller-ecommerce'); ?></button>
+                                    <button type="submit" class="btn-modal btn-proceed btn-modal-address btn-modal-submit" id="submit_edit_address<?php echo esc_attr($rand); ?>"><?php echo __('Save this address', 'propeller-ecommerce'); ?></button>
                                 </div>
                                 <div class="col-auto">
                                     <button type="button" class="btn-modal btn-cancel" data-dismiss="modal"><?php echo __('Cancel', 'propeller-ecommerce'); ?></button>

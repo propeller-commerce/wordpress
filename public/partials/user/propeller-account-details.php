@@ -61,13 +61,13 @@ use Propeller\Includes\Enum\AddressType;
     </div>
     <div class="row">
 
-        <?= apply_filters('propel_my_account_title', __('My account', 'propeller-ecommerce')); ?>
+        <?php echo apply_filters('propel_my_account_title', __('My account', 'propeller-ecommerce')); ?>
 
     </div>
     <div class="row">
         <div class="col-12 col-lg-3">
 
-            <?= apply_filters('propel_my_account_menu', $this); ?>
+            <?php echo apply_filters('propel_my_account_menu', $this); ?>
         
         </div>
         <div class="col-12 col-lg-9">
@@ -75,40 +75,28 @@ use Propeller\Includes\Enum\AddressType;
                 <div class="account-details">
                     <div class="row">
 
-                        <?= apply_filters('propel_my_account_user_details_title', __('Your details', 'propeller-ecommerce')); ?>
+                        <?php echo apply_filters('propel_my_account_user_details_title', __('Your details', 'propeller-ecommerce')); ?>
                     
                     </div>
                     <div class="row">
 
-                        <?= apply_filters('propel_my_account_user_details', $this->get_user(), $this); ?>
+                        <?php echo apply_filters('propel_my_account_user_details', $this->get_user(), $this); ?>
 
-                        <?= apply_filters('propel_my_account_company_details', $this->get_user(), $this); ?>
-
-                    </div>
-                </div>
-                <div class="account-details">
-                    <div class="row">
-
-                        <?= apply_filters('propel_my_account_pass_newsletter_title', __('Password and newsletter', 'propeller-ecommerce')); ?>
-                        
-                    </div>
-                    <div class="row">
-                        
-                        <?= apply_filters('propel_my_account_pass_newsletter', $this->get_user()); ?>
+                        <?php echo apply_filters('propel_my_account_company_details', $this->get_user(), $this); ?>
 
                     </div>
                 </div>
                 <div class="default-addresses">
                     <div class="row">
                         
-                        <?= apply_filters('propel_my_account_addresses_title', __('My addresses', 'propeller-ecommerce')); ?>
+                        <?php echo apply_filters('propel_my_account_addresses_title', __('My addresses', 'propeller-ecommerce')); ?>
                         
                     </div>
                     <div class="row">
                         
-                        <?= apply_filters('propel_address_box', $this->get_default_address(AddressType::INVOICE), $this, __('Default billing address', 'propeller-ecommerce'), true, false); ?>
+                        <?php echo apply_filters('propel_address_box', $this->get_default_address(AddressType::INVOICE), $this, __('Default billing address', 'propeller-ecommerce'), true, false); ?>
 
-                        <?= apply_filters('propel_address_box', $this->get_default_address(AddressType::DELIVERY), $this, __('Default delivery address', 'propeller-ecommerce'), true, false); ?>
+                        <?php echo apply_filters('propel_address_box', $this->get_default_address(AddressType::DELIVERY), $this, __('Default delivery address', 'propeller-ecommerce'), true, false); ?>
                         
                     </div>
                 </div>

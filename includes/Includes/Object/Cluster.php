@@ -4,7 +4,6 @@ namespace Propeller\Includes\Object;
 use stdClass;
 
 class Cluster extends BaseObject {
-    public $formated_options = [];
     public $cluster_type = 'normal';
 
     public $_options = [];
@@ -51,9 +50,9 @@ class Cluster extends BaseObject {
                 
             $this->products = $product_arr;
         }
-
+        
         if (!$this->defaultProduct)
-            $this->defaultProduct = $this->products[0];
+            $this->defaultProduct = $this->products[0];            
 
         if ($initialize) {
             if (!$this->options && !$this->drillDown)
@@ -69,6 +68,13 @@ class Cluster extends BaseObject {
     }
 
     public function init_cluster() {
+
+	    $cluster_id = !empty($_POST['cluster_id']) ? sanitize_text_field($_POST['cluster_id']) : null;
+
+	    if (is_null($cluster_id)) {
+		    $this->set_default_product_options();
+	    }
+
         $this->collect_options_values();
         $this->get_formatted_options();
         $this->get_selected_options();
@@ -94,6 +100,27 @@ class Cluster extends BaseObject {
         return isset($this->crossupsells) && is_array($this->crossupsells) && count($this->crossupsells) > 0;
     }
 
+    private function set_default_product_options() {
+        if (isset($this->drillDown) && $this->drillDown) {
+            foreach ($this->drillDown as $drilldown) {
+                $attr_name = $drilldown->attributeId;
+                $this->drilldowns[] = $attr_name;
+
+                $attr_found = array_filter($this->defaultProduct->attributes, function($obj) use ($attr_name) { 
+                    return $obj->attributeDescription->name == $attr_name; 
+                });
+
+                if (count($attr_found)) {
+                    $attr = current($attr_found);
+
+                    $_REQUEST[$attr_name] = $attr->get_value();
+                    
+                    // break;
+                }
+            }
+        }
+    }
+
     public function collect_options_values() {
         if (isset($this->drillDown) && $this->drillDown) {
             usort($this->drillDown, function($obj1, $obj2) {
@@ -106,9 +133,9 @@ class Cluster extends BaseObject {
 
                 foreach ($this->get_products() as $product) {
                     $attr_found = array_filter($product->attributes, function($obj) use ($attr_name) { 
-                        return $obj->name == $attr_name; 
+                        return $obj->attributeDescription->name == $attr_name; 
                     });
-            
+
                     if (count($attr_found)) {
                         $attr = current($attr_found);
         
@@ -155,7 +182,7 @@ class Cluster extends BaseObject {
     
             if (isset($_REQUEST[$this->drilldowns[$i]])) {
                 $sel_option->name = $this->drilldowns[$i];
-                $sel_option->value = $_REQUEST[$this->drilldowns[$i]];
+                $sel_option->value = sanitize_text_field( $_REQUEST[$this->drilldowns[$i]]);
             }
             else {
                 if (isset($this->formatted_options[$this->drilldowns[$i]])) {
@@ -182,7 +209,7 @@ class Cluster extends BaseObject {
                     $attr_value = $option->value;
         
                     $attr_found = array_filter($product->attributes, function($obj) use ($attr_name, $attr_value) { 
-                        return $obj->name == $attr_name && $obj->get_value() == $attr_value; 
+                        return $obj->attributeDescription->name == $attr_name && $obj->get_value() == $attr_value; 
                     });
         
                     if (count($attr_found))
@@ -210,8 +237,8 @@ class Cluster extends BaseObject {
             if (isset($_REQUEST['clicked_attr'])) {
                 $first_option = new stdClass();
     
-                $first_option->name = $_REQUEST['clicked_attr'];
-                $first_option->value = $_REQUEST['clicked_val'];
+                $first_option->name = sanitize_text_field($_REQUEST['clicked_attr']);
+                $first_option->value = sanitize_text_field($_REQUEST['clicked_val']);
             }
                 
             $new_options = [];
@@ -225,12 +252,12 @@ class Cluster extends BaseObject {
     
                 foreach ($this->get_products() as $product) {
                     $first_attr_found = array_filter($product->attributes, function($obj) use ($first_option) { 
-                        return $obj->name == $first_option->name && $obj->get_value() == $first_option->value; 
+                        return $obj->attributeDescription->name == $first_option->name && $obj->get_value() == $first_option->value; 
                     });
     
                     if (count($first_attr_found)) {
                         $attr_found = array_filter($product->attributes, function($obj) use ($attr_name) { 
-                            return $obj->name == $attr_name; 
+                            return $obj->attributeDescription->name == $attr_name; 
                         });
                 
                         if (count($attr_found)) {

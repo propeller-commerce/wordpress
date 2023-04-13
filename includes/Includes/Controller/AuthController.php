@@ -2,10 +2,7 @@
 
 namespace Propeller\Includes\Controller;
 
-use GraphQL\Mutation;
 use GraphQL\RawObject;
-use Propeller\Includes\Model\AuthModel;
-use Propeller\Includes\Mutation\Login;
 
 class AuthController extends BaseController {
     protected $model;
@@ -13,7 +10,7 @@ class AuthController extends BaseController {
     public function __construct() {
         parent::__construct();
 
-        $this->model = new AuthModel();
+        $this->model = $this->load_model('auth');
     }
 
     public function login($email, $password, $provider = '') {

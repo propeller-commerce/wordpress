@@ -27,6 +27,8 @@ class MetaYoastPresenter extends Abstract_Indexable_Presenter {
 
             if (isset($propel['meta']['image']))
                 $tags[] = '<meta name="twitter:image" content="' . esc_attr($propel['meta']['image']) . '" />';
+
+            $tags[] = '<!-- Propeller SEO: Yoast -->';
         }
 
         return implode(PHP_EOL . "\t", $tags);

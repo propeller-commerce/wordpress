@@ -4,15 +4,15 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit9094f79e49bbf4b1a914bf51b3592e85
+class ComposerStaticInita05c0f9407fa0b555f5248b0838b26ac
 {
     public static $files = array (
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
-        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
+        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -30,7 +30,6 @@ class ComposerStaticInit9094f79e49bbf4b1a914bf51b3592e85
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
             'Propeller\\Frontend\\' => 19,
-            'Propeller\\Custom\\' => 17,
             'Propeller\\Admin\\' => 16,
             'Propeller\\' => 10,
             'PhpParser\\' => 10,
@@ -74,8 +73,8 @@ class ComposerStaticInit9094f79e49bbf4b1a914bf51b3592e85
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -84,10 +83,6 @@ class ComposerStaticInit9094f79e49bbf4b1a914bf51b3592e85
         'Propeller\\Frontend\\' => 
         array (
             0 => __DIR__ . '/../..' . '/public',
-        ),
-        'Propeller\\Custom\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/custom',
         ),
         'Propeller\\Admin\\' => 
         array (
@@ -173,10 +168,10 @@ class ComposerStaticInit9094f79e49bbf4b1a914bf51b3592e85
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit9094f79e49bbf4b1a914bf51b3592e85::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit9094f79e49bbf4b1a914bf51b3592e85::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit9094f79e49bbf4b1a914bf51b3592e85::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit9094f79e49bbf4b1a914bf51b3592e85::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInita05c0f9407fa0b555f5248b0838b26ac::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita05c0f9407fa0b555f5248b0838b26ac::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInita05c0f9407fa0b555f5248b0838b26ac::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInita05c0f9407fa0b555f5248b0838b26ac::$classMap;
 
         }, null, ClassLoader::class);
     }

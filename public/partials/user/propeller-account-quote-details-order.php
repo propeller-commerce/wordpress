@@ -3,7 +3,12 @@
         <form name="checkout-notes" class="form-handler checkout-form validate" method="post">
             <input type="hidden" name="action" value="change_order_status" />
             <input type="hidden" name="status" value="NEW" />
-            <input type="hidden" name="order_id" value="<?= $order->id; ?>" />
+            <input type="hidden" name="order_id" value="<?php
+
+use Propeller\Includes\Controller\PageController;
+use Propeller\Includes\Enum\PageType;
+
+ echo esc_attr($order->id); ?>" />
             
             <fieldset>
                 <legend class="checkout-header"><?php echo __('Notes', 'propeller-ecommerce'); ?></legend>
@@ -23,7 +28,7 @@
                             <div class="col-12">
                                 <label class="form-check-label">
                                     <input class="form-check-input" type="checkbox" name="termsConditions" id="termsConditions" value="Y" required aria-required="true">
-                                    <span><?php echo __('I agree with the ', 'propeller-ecommerce'); ?> <a href="/"><?php echo __('Terms and Conditions', 'propeller-ecommerce'); ?></a></span>
+                                    <span><?php echo __('I agree with the ', 'propeller-ecommerce'); ?> <a href="<?php echo esc_url($this->buildUrl('',PageController::get_slug(PageType::TERMS_CONDITIONS_PAGE))); ?>" target="_blank"><?php echo __('Terms and Conditions', 'propeller-ecommerce'); ?></a></span>
                                 </label>
                             </div>
                         </div>

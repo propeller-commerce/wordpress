@@ -46,6 +46,8 @@ class UserModel extends BaseModel {
     public function viewer($attributes_args) {
         $attr_str_args = $this->parse_arguments($attributes_args);
 
+        $attributes_gql = $this->attributes($attr_str_args);
+
         $gql = <<<QUERY
             query {
                 viewer {
@@ -63,6 +65,7 @@ class UserModel extends BaseModel {
                     mailingList
                     ... on Contact {
                         userId: contactId
+                        debtorId
                         company {
                             id
                             companyId
@@ -88,32 +91,11 @@ class UserModel extends BaseModel {
                                 isDefault
                             }
                         }
-                        attributes($attr_str_args) {
-                            id
-                            name
-                            group
-                            searchId
-                            description {
-                                value
-                                language
-                            }
-                            type
-                            typeParam
-                            isSearchable
-                            isPublic
-                            isHidden
-                            enumValue
-                            intValue
-                            decimalValue
-                            dateValue
-                            textValue {
-                                values
-                                language
-                            }
-                        }
+                        $attributes_gql
                     }
                     ... on Customer {
                         userId: customerId
+                        debtorId
                         addresses {
                             id
                             code
@@ -134,75 +116,7 @@ class UserModel extends BaseModel {
                             type
                             isDefault
                         }
-                        attributes($attr_str_args) {
-                            id
-                            name
-                            group
-                            searchId
-                            description {
-                                value
-                                language
-                            }
-                            type
-                            typeParam
-                            isSearchable
-                            isPublic
-                            isHidden
-                            enumValue
-                            intValue
-                            decimalValue
-                            dateValue
-                            textValue {
-                                values
-                                language
-                            }
-                        }
-                    }
-                    ... on User {
-                        userId
-                        addresses {
-                            id
-                            code
-                            firstName
-                            middleName
-                            lastName
-                            email
-                            country
-                            city
-                            street
-                            number
-                            numberExtension
-                            postalCode
-                            company
-                            phone
-                            icp
-                            notes
-                            type
-                            isDefault
-                        }
-                        attributes($attr_str_args) {
-                            id
-                            name
-                            group
-                            searchId
-                            description {
-                                value
-                                language
-                            }
-                            type
-                            typeParam
-                            isSearchable
-                            isPublic
-                            isHidden
-                            enumValue
-                            intValue
-                            decimalValue
-                            dateValue
-                            textValue {
-                                values
-                                language
-                            }
-                        }
+                        $attributes_gql
                     }
                 }
             }             
@@ -213,8 +127,6 @@ class UserModel extends BaseModel {
 
     public function contact_create($arguments) {
         $str_args = $this->parse_arguments($arguments);
-
-        // TODO: contactRegister
 
         $gql = <<<QUERY
             mutation {
@@ -269,8 +181,6 @@ class UserModel extends BaseModel {
 
     public function customer_create($arguments) {
         $str_args = $this->parse_arguments($arguments);
-
-        // TODO: use customerRegister instead of create
 
         $gql = <<<QUERY
             mutation {
@@ -335,8 +245,12 @@ class UserModel extends BaseModel {
         $str_args = $this->parse_arguments($arguments);
 
         $attr_str_args = '';
-        if (count($attributes_args))
+        $attributes_gql = '';
+        if (count($attributes_args)) {
             $attr_str_args = '(' . $this->parse_arguments($attributes_args) . ')';
+            $attributes_gql = $this->attributes($attr_str_args);
+        }
+            
 
         $gql = <<<QUERY
             query {
@@ -355,6 +269,7 @@ class UserModel extends BaseModel {
                     mailingList
                     ... on Contact {
                         userId: contactId
+                        debtorId
                         company {
                             id
                             companyId
@@ -379,32 +294,11 @@ class UserModel extends BaseModel {
                                 isDefault
                             }
                         }
-                        attributes $attr_str_args {
-                            id
-                            name
-                            group
-                            searchId
-                            description {
-                                value
-                                language
-                            }
-                            type
-                            typeParam
-                            isSearchable
-                            isPublic
-                            isHidden
-                            enumValue
-                            intValue
-                            decimalValue
-                            dateValue
-                            textValue {
-                                values
-                                language
-                            }
-                        }
+                        $attributes_gql
                     }
                     ... on Customer {
                         userId: customerId
+                        debtorId
                         addresses {
                             id
                             code
@@ -424,74 +318,7 @@ class UserModel extends BaseModel {
                             type
                             isDefault
                         }
-                        attributes $attr_str_args {
-                            id
-                            name
-                            group
-                            searchId
-                            description {
-                                value
-                                language
-                            }
-                            type
-                            typeParam
-                            isSearchable
-                            isPublic
-                            isHidden
-                            enumValue
-                            intValue
-                            decimalValue
-                            dateValue
-                            textValue {
-                                values
-                                language
-                            }
-                        }
-                    }
-                    ... on User {
-                        userId
-                        addresses {
-                            id
-                            code
-                            firstName
-                            middleName
-                            lastName
-                            email
-                            country
-                            city
-                            street
-                            number
-                            numberExtension
-                            postalCode
-                            company
-                            phone
-                            notes
-                            type
-                            isDefault
-                        }
-                        attributes $attr_str_args {
-                            id
-                            name
-                            group
-                            searchId
-                            description {
-                                value
-                                language
-                            }
-                            type
-                            typeParam
-                            isSearchable
-                            isPublic
-                            isHidden
-                            enumValue
-                            intValue
-                            decimalValue
-                            dateValue
-                            textValue {
-                                values
-                                language
-                            }
-                        }
+                        $attributes_gql
                     }
                 }
             }        

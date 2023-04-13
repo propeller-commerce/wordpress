@@ -2,8 +2,10 @@
 
 namespace Propeller;
 
+use Exception;
 use GraphQL\Client;
 use GraphQL\Exception\QueryError;
+use Propeller\Http\Client as HttpClient;
 use Propeller\Includes\Controller\SessionController;
 
 class PropellerApi {
@@ -29,6 +31,8 @@ class PropellerApi {
     }
 
     protected function buildClient($ommit_access_token) {
+		$httpClient = apply_filters('propel_use_wp_http', true) ? new HttpClient() : null;
+        
         $this->client = new Client(
             $this->endpoint,
             [],
@@ -36,7 +40,8 @@ class PropellerApi {
                 'connect_timeout' => 60,
                 'timeout' => 60,
                 'headers' => $this->buildHeaders($ommit_access_token)
-            ]
+            ],
+	        $httpClient
         );
     }
 
@@ -56,7 +61,7 @@ class PropellerApi {
             return;
 
         // if (!$this->client)
-            $this->buildClient($ommit_access_token);
+        $this->buildClient($ommit_access_token);
         
         try {
             $result = gettype($gql) == 'string' ? $this->client->runRawQuery($gql) : $this->client->runQuery($gql);
@@ -74,7 +79,7 @@ class PropellerApi {
             debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
             $backtrace = ob_get_clean();
 
-            if (PROPELLER_DEBUG) {
+            if (PROPELLER_DEBUG && $display_error) {
                 echo "<pre class=\"text-danger\">";
                 var_dump($exception->getErrorDetails());
                 echo "</pre>";
@@ -88,35 +93,53 @@ class PropellerApi {
                 echo "</pre>";
             }
 
-            $this->log_error($exception->getErrorDetails()['message'], $backtrace);
+            $error_log_msg = date("Y-m-d H:i:s") . "\r\n";
+            $error_log_msg .= print_r($exception->getErrorDetails(), true) . "\r\n";
+            $error_log_msg .= gettype($gql) == 'string' ? $gql : esc_attr($gql->__toString()) . "\r\n";
+            $error_log_msg .= print_r($backtrace, true) . "\r\n";
+            propel_log($error_log_msg . "\r\n");
             
             $err_array = $exception->getErrorDetails();
-            $err_array['query'] = gettype($gql) == 'string' ? $gql : $gql->__toString();
+            $err_array['query'] = gettype($gql) == 'string' ? esc_attr($gql) : esc_attr($gql->__toString());
 
-            return $this->process_errors($err_array);
+            if (isset($exception->getData()->$type))
+                return $exception->getData()->$type;
+            else 
+                return $this->process_errors($err_array);
+        }
+        catch (Exception $ex) {
+            ob_start();
+            debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+            $backtrace = ob_get_clean();
+
+            $error_log_msg = date("Y-m-d H:i:s") . "\r\n";
+            $error_log_msg .= print_r($ex->getMessage(), true) . "\r\n";
+            $error_log_msg .= gettype($gql) == 'string' ? esc_attr($gql) : esc_attr($gql->__toString()) . "\r\n";
+            $error_log_msg .= print_r($backtrace, true) . "\r\n";
+
+            propel_log($error_log_msg . "\r\n");
+
+            return $ex->getMessage();
         }
     }
 
     public function dump_builder($gql, $execution_time = 0) {
         if (gettype($gql) != 'string')
-            echo 'BUILDER: ' . $gql->__toString();
+            echo 'BUILDER: ' . esc_attr($gql->__toString());
 
-        // echo gettype($gql) == 'string' ? 'RAW: ' . $gql : 'BUILDER: ' . $gql->__toString();
+        // echo gettype($gql) == 'string' ? 'RAW: ' . $gql : 'BUILDER: ' . esc_attr($gql->__toString());
     }
 
     public function dump($gql, $execution_time = 0) {
-        // if (gettype($gql) != 'string')
-        //     echo 'BUILDER: ' . $gql->__toString();
         echo '<pre>';
-        echo gettype($gql) == 'string' ? 'RAW: ' . $gql : 'BUILDER: ' . $gql->__toString();
+        echo gettype($gql) == 'string' ? 'RAW: ' . esc_attr($gql) : 'BUILDER: ' . esc_attr($gql->__toString());
         echo '</pre>';
     }
 
     protected function process_errors($err_array)
     {
-        $errors = $this->collect_errors($err_array);
+        // $errors = $this->collect_errors($err_array);
         $message = $err_array['message'];
-
 
         if (defined('PROPELLER_DEBUG') && PROPELLER_DEBUG) {
            
@@ -129,10 +152,12 @@ class PropellerApi {
             if (isset($err_array['query']))
                 $details[] = '<b>Query:</b> ' . $err_array['query'];
 
-            return '<div><p>Error: ' . $message . '</p><p>' . implode('<br />', $errors) . '</p><p>' . implode('<br />', $details) . '</p></div>';
+            // return '<div><p>Error: ' . $message . '</p><p>' . implode('<br />', $errors) . '</p><p>' . implode('<br />', $details) . '</p></div>';
+            return '<div><p>Error: ' . $message . '</p><p>' . implode('<br />', $details) . '</p></div>';
         }
         
-        return '<div><p>' . $message . '</p><p>' . implode('<br />', $errors) . '</p></div>';
+        // return '<div><p>' . $message . '</p><p>' . implode('<br />', $errors) . '</p></div>';
+        return $message;
     }
 
     private function collect_errors($err_array) {
@@ -164,9 +189,9 @@ class PropellerApi {
     protected function get_credentials() {
         global $wpdb;
 
-        $results = $wpdb->get_results( 
-            $wpdb->prepare("SELECT * FROM " . $wpdb->prefix . PROPELLER_SETTINGS_TABLE. " WHERE id = %d", 1) 
-        );
+	    $results = $wpdb->get_results(
+		    $wpdb->prepare("SELECT * FROM " . $wpdb->prefix . PROPELLER_SETTINGS_TABLE. " WHERE id = %d", 1)
+	    );
 
         if (sizeof($results)) {
             $this->endpoint = $results[0]->api_url;
@@ -192,15 +217,18 @@ class PropellerApi {
 
             if (!defined('PROPELLER_DEFAULT_CUSTOMER_PARENT')) 
                 define('PROPELLER_DEFAULT_CUSTOMER_PARENT', (int) $results[0]->customer_root);
+
+            if (!defined('PROPELLER_DEFAULT_LOCALE')) 
+                define('PROPELLER_DEFAULT_LOCALE', $results[0]->default_locale);
         }
     }
 
     public function log_error($message, $backtrace) {
-        error_log($message);
+        propel_log($message);
 
         if (is_array($backtrace)) {
             foreach ($backtrace as $trace) {
-                error_log($trace['file'] . ': ' . $trace['line'] . ', function: ' . $trace['function']);
+                propel_log($trace['file'] . ': ' . $trace['line'] . ', function: ' . $trace['function']);
             }
         }
     }

@@ -1,11 +1,7 @@
 <?php
 namespace Propeller\Includes\Controller;
 
-use GraphQL\Mutation;
-use GraphQL\Query;
 use GraphQL\RawObject;
-use Propeller\Includes\Model\CompanyModel;
-use Propeller\Includes\Query\Company;
 
 class CompanyController extends BaseController {
     protected $model;
@@ -13,7 +9,7 @@ class CompanyController extends BaseController {
     public function __construct() {
         parent::__construct();
 
-        $this->model = new CompanyModel();
+        $this->model = $this->load_model('company');
     }
 
     public function create($args) {

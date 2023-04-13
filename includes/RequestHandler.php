@@ -3,6 +3,8 @@ namespace Propeller;
 
 use Propeller\Includes\Controller\BaseController;
 use Propeller\Includes\Controller\CategoryController;
+use Propeller\Includes\Controller\FlashController;
+use Propeller\Includes\Controller\MachineController;
 use Propeller\Includes\Controller\OrderController;
 use Propeller\Includes\Controller\PageController;
 use Propeller\Includes\Controller\ProductController;
@@ -25,18 +27,22 @@ class RequestHandler {
                         ? new $ref() 
                         : new CategoryController();
     
-                    $applied_filters = $_REQUEST;
+                    $applied_filters = PropellerUtils::sanitize($_REQUEST);
     
                     $filters_applied = $categoryObj->process_filters($applied_filters);
                     $qry_params = $categoryObj->build_search_arguments($filters_applied);
     
                     $slug = isset($applied_filters['slug']) ? $applied_filters['slug'] : $query_vars['slug'];
+                    $categoryId = null;
+
+                    if (isset($query_vars['obid']) && is_numeric($query_vars['obid']) && PROPELLER_ID_IN_URL)
+                        $categoryId = (int) $query_vars['obid'];
                     
-                    $data = $categoryObj->get_catalog($slug, $qry_params);
+                    $data = $categoryObj->get_catalog($slug, $categoryId, $qry_params);
     
                     if (!is_object($data)) {
-                        error_log(print_r($data, true));
-                        $propel['error_404'] = 'Category not found';
+                        propel_log(print_r($data, true));
+                        $propel['error_404'] = 'Category';
                     }
                     else {
                         $propel['url_slugs'] = $data->slugs;
@@ -51,7 +57,7 @@ class RequestHandler {
                             'title' => $data->name[0]->value,
                             'description' => strip_tags(trim($data->description[0]->value)), 
                             'type' => 'category', 
-                            'url' => $categoryObj->buildUrl(PageController::get_slug(PageType::CATEGORY_PAGE), $data->slug[0]->value),
+                            'url' => $categoryObj->buildUrl(PageController::get_slug(PageType::CATEGORY_PAGE), $data->slug[0]->value, $data->urlId),
                             'locale' => get_locale()
                         ];
         
@@ -62,7 +68,7 @@ class RequestHandler {
                     break;
                 case PageController::get_slug(PageType::PRODUCT_PAGE): 
                     if (!isset($query_vars['slug']) || empty($query_vars['slug'])) {
-                        $propel['error_404'] = 'Product not found';
+                        $propel['error_404'] = 'Product';
                     }
                     else {
                         $ref = 'Propeller\Custom\Includes\Controller\ProductController';
@@ -71,22 +77,49 @@ class RequestHandler {
                             ? new $ref() 
                             : new ProductController();
 
-                        $data = $productObj->get_product($query_vars['slug'], null, [
+                        $slug = $query_vars['slug'];
+                        $productId = null;
+
+                        if (isset($query_vars['obid']) && is_numeric($query_vars['obid']) && PROPELLER_ID_IN_URL)
+                            $productId = (int) $query_vars['obid'];
+
+                        $data = $productObj->get_product($slug, $productId, [
                             'attribute' => '{isPublic: true}'
                         ]);
 
-                        if (!is_object($data)) {
-                            error_log(print_r($data, true));
-                            $propel['error_404'] = 'Product not found';
+                        // var_dump($data);
+                        // die;
+
+                        if (isset($data->exists) && !$data->exists) {                           
+                            propel_log(print_r($data, true));
+
+                            if (isset($data->languages)) {
+                                $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+                                $default_lang_url = $productObj->get_product_default_lang_url(PROPELLER_DEFAULT_LOCALE, $current_url);
+    
+                                if ($default_lang_url) {
+                                    wp_redirect($default_lang_url);
+                                    die;
+                                }
+                                else {
+                                    $propel['error_404'] = 'Product';
+                                    propel_log($current_url . ' not found in default language ' . PROPELLER_DEFAULT_LOCALE);
+                                }
+                            }
+                            else {
+                                $propel['error_404'] = 'Product';
+                                propel_log($query_vars['slug'] . ' not found in default language ' . PROPELLER_DEFAULT_LOCALE);
+                            }
                         }
                         else {
-                            if ($data->class == 'product' && $data->status == 'N')
-                                $propel['error_404'] = 'Product not found';
+                            if ($data->status == 'N')
+                                $propel['error_404'] = 'Product';
                             else {
                                 $productObj->preserve_recently_viewed($data->id);
 
                                 if ($data->class == 'cluster')
-                                    SessionController::set(PROPELLER_VIEWING_CLUSTER, $data);
+                                    $productObj->preserve_cluster($data);
                         
                                 $propel['url_slugs'] = $data->slugs;
                                 
@@ -101,7 +134,7 @@ class RequestHandler {
                                     'title' => $data->name[0]->value,
                                     'description' => strip_tags(trim($data->description[0]->value)), 
                                     'type' => 'product', 
-                                    'url' => $productObj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $data->slug[0]->value),
+                                    'url' => $productObj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $data->slug[0]->value, $data->urlId),
                                     'locale' => get_locale()
                                 ];
                 
@@ -120,7 +153,7 @@ class RequestHandler {
                         ? new $ref() 
                         : new ProductController();
     
-                    $applied_filters = $_REQUEST;
+                    $applied_filters = PropellerUtils::sanitize($_REQUEST);
     
                     $filters_applied = $productObj->process_filters($applied_filters);
                     $qry_params = $productObj->build_search_arguments($filters_applied);
@@ -134,7 +167,7 @@ class RequestHandler {
                     $data = $productObj->get_products($qry_params);
 
                     if (!is_object($data)) {
-                        error_log(print_r($data, true));
+                        propel_log(print_r($data, true));
                         $propel['error_404'] = 'Page not found';
                     }
                     else {
@@ -154,8 +187,8 @@ class RequestHandler {
                     $productObj = class_exists($ref, true) 
                         ? new $ref() 
                         : new ProductController();
-    
-                    $applied_filters = $_REQUEST;
+
+	                $applied_filters = PropellerUtils::sanitize($_REQUEST);
     
                     $filters_applied = $productObj->process_filters($applied_filters);
                     $qry_params = $productObj->build_search_arguments($filters_applied);
@@ -169,7 +202,7 @@ class RequestHandler {
                     $data = $productObj->get_products($qry_params);
     
                     if (!is_object($data)) {
-                        error_log(print_r($data, true));
+                        propel_log(print_r($data, true));
                         $propel['error_404'] = 'Page not found';
                     }
                     else {
@@ -183,12 +216,74 @@ class RequestHandler {
                     }
     
                     break;
+                case PageController::get_slug(PageType::MACHINES_PAGE): 
+                    if (!UserController::is_propeller_logged_in()) {
+                        $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+                        FlashController::add('referrer', $current_url);
+                        FlashController::add('register_referrer', $current_url);
+                                    
+                        $redirect_url = '/' . PageController::get_slug(PageType::LOGIN_PAGE);
+                        
+                        wp_safe_redirect($redirect_url);
+                        die;
+                    }
+    
+                    $ref = 'Propeller\Custom\Includes\Controller\MachineController';
+
+                    $machineObj = class_exists($ref, true) 
+                        ? new $ref() 
+                        : new MachineController();
+    
+                    $applied_filters = PropellerUtils::sanitize($_REQUEST);
+
+                    $filters_applied = $machineObj->process_filters($applied_filters);
+                    $qry_params = $machineObj->build_search_arguments($filters_applied);
+
+                    $slug = $query_vars['slug'];
+
+                    if (is_array($slug))
+                        $slug = $slug[count($slug) - 1];
+
+                    $data = !isset($query_vars['slug']) 
+                        ? $machineObj->get_installations($qry_params) 
+                        : $machineObj->get_machines($slug);
+
+                    if (!is_object($data)) {
+                        propel_log(print_r($data, true));
+                        $propel['error_404'] = 'Page not found';
+                    }
+                    else {
+                        $propel['meta'] = [
+                            'url' => $machineObj->buildUrl(PageController::get_slug(PageType::MACHINES_PAGE), '')
+                        ];
+                            
+                        $propel['url_slugs'] = $data->slugs;
+                    
+                        $propel['data'] = $data;
+                        $propel['title'] = $data->name[0]->value;
+                        $propel['description'] = $data->description[0]->value;
+    
+                        $propel['breadcrumbs'] = $this->pack_breadcrumbs($data, PageController::get_slug(PageType::MACHINES_PAGE));
+    
+                        $propel['meta'] = [
+                            'title' => $data->name[0]->value,
+                            'description' => strip_tags(trim($data->description[0]->value)), 
+                            'type' => 'machine', 
+                            'url' => $machineObj->buildUrl(PageController::get_slug(PageType::MACHINES_PAGE), $data->slug[0]->value),
+                            'locale' => get_locale()
+                        ];
+        
+                        if (isset($data->images) && is_array($data->images) && count($data->images) > 0) 
+                            $propel['meta']['image'] = $data->images[0]->url;
+                    }                    
+                    
+                    break;
                 case PageController::get_slug(PageType::THANK_YOU_PAGE): 
                     if (!isset($_GET['order_id']) || empty($_GET['order_id'])) {
                         $propel['error_404'] = 'Page not found';
                     }
                     else if (!UserController::is_propeller_logged_in()) {
-                        $propel['error_403'] = 'Access forbidden';
+                        $propel['error_403'] = 'Accesss denied';
                     }
                     else {
                         $ref = 'Propeller\Custom\Includes\Controller\ShoppingCartController';
@@ -201,13 +296,12 @@ class RequestHandler {
                         $order = $orderController->get_order((int) $_GET['order_id']);
 
                         if (!is_object($order)) {
-                            error_log(print_r($order, true));
+                            propel_log(print_r($order, true));
                             $propel['error_404'] = 'Page not found';
                         }
                         else {
                             if (SessionController::get(PROPELLER_USER_DATA)->userId != $order->userId) {
-                                wp_redirect(home_url('/403/'));
-                                exit();
+                                $propel['error_403'] = 'Accesss denied';
                             }
                             else {
                                 if ($order->paymentData->status != PaymentStatuses::FAILED && 
@@ -232,8 +326,7 @@ class RequestHandler {
                     }
                     else {
                         if (!UserController::is_propeller_logged_in()) {
-                            wp_redirect(home_url('/403/'));
-                            die;
+                            $propel['error_403'] = 'Accesss denied';
                         }
                         else {
                             $ref = 'Propeller\Custom\Includes\Controller\OrderController';
@@ -242,10 +335,10 @@ class RequestHandler {
                                 ? new $ref() 
                                 : new OrderController();
                     
-                            $data = $orderController->get_order((int) $_REQUEST['order_id']);
+                            $data = $orderController->get_order((int) sanitize_text_field( $_REQUEST['order_id']) );
                     
                             if (!is_object($data)) {
-                                @error_log(print_r($data), true);
+                                propel_log(print_r($data, true));
                                 $propel['error_404'] = 'Page not found';
                             }
                             else {
@@ -255,6 +348,32 @@ class RequestHandler {
                                     $propel['order'] = $data;
                             }
                         }
+                    }
+
+                    break;
+                case PageController::get_slug(PageType::MY_ACCOUNT_PAGE): 
+                case PageController::get_slug(PageType::MY_ACCOUNT_MOBILE_PAGE): 
+                case PageController::get_slug(PageType::ADDRESSES_PAGE): 
+                case PageController::get_slug(PageType::ORDERS_PAGE): 
+                case PageController::get_slug(PageType::ORDER_DETAILS_PAGE): 
+                case PageController::get_slug(PageType::INVOICES_PAGE): 
+                case PageController::get_slug(PageType::ORDERLIST_PAGE): 
+                case PageController::get_slug(PageType::QUOTATIONS_PAGE): 
+                case PageController::get_slug(PageType::ACCOUNT_DETAILS_PAGE): 
+                case PageController::get_slug(PageType::FAVORITES_PAGE): 
+                case PageController::get_slug(PageType::CHECKOUT_PAGE): 
+                case PageController::get_slug(PageType::CHECKOUT_SUMMARY_PAGE): 
+                case PageController::get_slug(PageType::THANK_YOU_PAGE):
+                case PageController::get_slug(PageType::PRODUCT_REQUEST_PAGE):
+                    if (!UserController::is_propeller_logged_in()) {
+                        $current_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+                        FlashController::add('referrer', $current_url);
+                        FlashController::add('register_referrer', $current_url);
+                                  
+                        $redirect_url = '/' . PageController::get_slug(PageType::LOGIN_PAGE);
+                        
+                        wp_safe_redirect($redirect_url);
+                        die;
                     }
 
                     break;
@@ -273,7 +392,7 @@ class RequestHandler {
         foreach ($data->categoryPath as $path) {
             if ($index > 0) {
                 $bcrumbs[] = [
-                    $obj->buildUrl(PageController::get_slug(PageType::CATEGORY_PAGE), $path->slug[0]->value),
+                    $obj->buildUrl(PageController::get_slug(PageType::CATEGORY_PAGE), $path->slug[0]->value, $path->urlId),
                     $path->name[0]->value
                 ];
             }
@@ -282,7 +401,7 @@ class RequestHandler {
         }
 
         $bcrumbs[] = [
-            $obj->buildUrl($page_slug, $data->slug[0]->value),
+            $obj->buildUrl($page_slug, $data->slug[0]->value, $data->urlId),
             $data->name[0]->value            
         ];
     

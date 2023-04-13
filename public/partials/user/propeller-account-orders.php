@@ -71,18 +71,18 @@
     </div>
     <div class="row">
         
-        <?= apply_filters('propel_my_account_title', __('My account', 'propeller-ecommerce')); ?>
+        <?php echo apply_filters('propel_my_account_title', __('My account', 'propeller-ecommerce')); ?>
        
     </div>
     <div class="row">
         <div class="col-12 col-lg-3">
             
-            <?= apply_filters('propel_my_account_menu', $this); ?>
+            <?php echo apply_filters('propel_my_account_menu', $this); ?>
 
         </div>
         <div class="col-12 col-lg-9">
             
-            <?= apply_filters('propel_account_orders_table', $this->orders, $this->data, $this); ?>
+            <?php echo apply_filters('propel_account_orders_table', $this->orders, $this->data, $this); ?>
            
         </div>
         

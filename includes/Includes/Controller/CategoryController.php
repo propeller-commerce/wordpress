@@ -1,15 +1,15 @@
 <?php
 namespace Propeller\Includes\Controller;
 
-use GraphQL\Query;
 use GraphQL\RawObject;
 use Propeller\Includes\Enum\MediaImagesType;
+use Propeller\Includes\Enum\MediaType;
 use Propeller\Includes\Enum\PageType;
-use Propeller\Includes\Model\CategoryModel;
 use Propeller\Includes\Object\Cluster;
 use Propeller\Includes\Object\FilterArray;
 use Propeller\Includes\Object\Product;
-use Propeller\Includes\Query\MediaImages;
+use Propeller\Includes\Query\Media;
+use Propeller\PropellerUtils;
 use stdClass;
 
 class CategoryController extends BaseController {
@@ -24,6 +24,7 @@ class CategoryController extends BaseController {
     protected $filters;
 
     protected $model;
+    public $pagename;
 
     const FILTERS_FLASH_KEY = 'filters'; 
     
@@ -34,7 +35,7 @@ class CategoryController extends BaseController {
     public function __construct() {
         parent::__construct();
 
-        $this->model = new CategoryModel();
+        $this->model = $this->load_model('category');
 
         $this->sort_arr = [
             "dateChanged" => __('Date changed', 'propeller-ecommerce'),
@@ -64,10 +65,10 @@ class CategoryController extends BaseController {
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'category' . DIRECTORY_SEPARATOR . 'propeller-product-listing-title.php');
     }
 
-    public function product_listing_pre_grid($data, $obj, $sort, $prop_name, $prop_value, $do_action) {
+    public function product_listing_pre_grid($data, $obj, $sort, $prop_name, $prop_value, $do_action, $obid) {
         global $wp;
 
-        $pagename = PageController::get_slug(PageType::CATEGORY_PAGE); // search/brand/category
+        $this->pagename = PageController::get_slug(PageType::CATEGORY_PAGE); // search/brand/category/machines
 
         if (isset($wp->query_vars) && isset($wp->query_vars['pagename']))
             $pagename = $wp->query_vars['pagename'];
@@ -105,7 +106,9 @@ class CategoryController extends BaseController {
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'category' . DIRECTORY_SEPARATOR . 'propeller-filter-container.php');
     }
 
-    public function category_listing_grid($obj, $products, $paging_data, $sort, $prop_name, $prop_value, $do_action) {
+    public function category_listing_grid($obj, $products, $paging_data, $sort, $prop_name, $prop_value, $do_action, $obid = null) {
+        $display_class = isset($_REQUEST['view']) && !empty($_REQUEST['view']) ? sanitize_text_field($_REQUEST['view']) : 'blocks';
+
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-product-grid.php');
     }
 
@@ -117,7 +120,7 @@ class CategoryController extends BaseController {
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'category' . DIRECTORY_SEPARATOR . 'propeller-product-listing-products.php');
     }
 
-    public function category_listing_pagination($paging_data, $prop_name, $prop_value, $do_action) {
+    public function category_listing_pagination($paging_data, $prop_name, $prop_value, $do_action, $obid) {
         $prev = $paging_data->page - 1;
         $prev_disabled = false;
         
@@ -147,10 +150,10 @@ class CategoryController extends BaseController {
         Category shortcodes
     */
     public function product_listing($applied_filters = [], $is_ajax = false) {
-        global $propel;
+        global $propel, $wp_query;
         
         if (!$applied_filters || !sizeof($applied_filters))
-            $applied_filters = $_REQUEST;
+            $applied_filters = PropellerUtils::sanitize($_REQUEST);
 
         $filters_applied = $this->process_filters($applied_filters);
         $qry_params = $this->build_search_arguments($filters_applied);
@@ -159,14 +162,25 @@ class CategoryController extends BaseController {
         
         $slug = isset($applied_filters['slug']) ? $applied_filters['slug'] : get_query_var('slug');
         
+        $categoryId = null;
+
+        if (PROPELLER_ID_IN_URL) {
+            if (isset($wp_query->query_vars) && isset($wp_query->query_vars['obid']) && is_numeric($wp_query->query_vars['obid']))
+                $categoryId = (int) $wp_query->query_vars['obid'];
+            else if (isset($applied_filters['obid']) && is_numeric($applied_filters['obid']))
+                $categoryId = (int) $applied_filters['obid'];
+        }   
+
+        $style = isset($applied_filters['view']) ? $applied_filters['view'] : 'blocks';
+        
         $this->data = isset($propel['data']) 
             ? $propel['data'] 
-            : $this->get_catalog($slug, $qry_params);
+            : $this->get_catalog($slug, $categoryId, $qry_params);
 
         $this->products = [];
 
         foreach ($this->data->products->items as $product) {
-            if (!count($product->slug) || ($product->class == 'product' && $product->status == 'N')) {
+            if (!count($product->slug)) {
                 $this->data->products->itemsFound--;
                 continue;
             }
@@ -185,6 +199,8 @@ class CategoryController extends BaseController {
         $this->filters->set_slug($slug);
         $this->filters->set_action('do_filter');
         $this->filters->set_prop('slug');
+        $this->filters->set_obid($categoryId);
+        $this->filters->set_liststyle($style);
 
         $paging_data = $this->data->products;
         
@@ -193,6 +209,7 @@ class CategoryController extends BaseController {
         $do_action = "do_filter";
         $prop_name = "slug";
         $prop_value = $slug;
+        $obid = $categoryId;
 
         $this->title = $this->data->name[0]->value;
 
@@ -201,8 +218,18 @@ class CategoryController extends BaseController {
         if ($is_ajax) {
             $response = new stdClass();
 
-            apply_filters('propel_category_grid', $this, $this->products, $paging_data, $sort, $prop_name, $prop_value, $do_action);
-            $response->content = ob_get_clean();
+            apply_filters('propel_category_title', $this->data);
+            $cat_title = ob_get_clean();
+            
+            ob_start();
+            apply_filters('propel_category_grid', $this, $this->products, $paging_data, $sort, $prop_name, $prop_value, $do_action, $obid);
+            $cat_grid = ob_get_clean();
+
+            ob_start();
+            apply_filters('propel_category_description', $this->data);
+            $cat_desc = ob_get_clean();
+
+            $response->content = $cat_title . $cat_grid . $cat_desc;
 
             ob_start();
             apply_filters('propel_category_filters', $this->filters);
@@ -218,21 +245,29 @@ class CategoryController extends BaseController {
         return ob_get_clean();
     }
 
-    public function get_catalog($idOrSlug = null, $args = []) {
-        $queryArgument = 'id';
+    public function get_catalog($idOrSlug = null, $categoryId = null, $args = []) {
+        $category_argument = null;
 
-        if (!$idOrSlug)
-            $idOrSlug = $this->base_catalog_id;
-        else
-            $queryArgument = is_numeric($idOrSlug) ? 'id' : 'slug';
+        if (!$idOrSlug) {
+            $category_argument = ['id' => $this->base_catalog_id];
+        }
+        else if ($categoryId) {
+            $category_argument = ['categoryId' => $categoryId];
+        }
+        else {
+            $category_argument = [is_numeric($idOrSlug) ? 'id' : 'slug' => $idOrSlug];
+        }
+
+        if (!isset($args['language']))
+            $args['language'] = PROPELLER_LANG;
 
         $gql = $this->model->get_catalog(
-            [$queryArgument => $idOrSlug], 
+            $category_argument, 
             $args,
             ['filter' => new RawObject('{ name: ["PRODUCT_LABEL_1", "PRODUCT_LABEL_2"]}')],
-            MediaImages::get_media_images_query([
+            Media::get([
                 'name' => MediaImagesType::MEDIUM
-            ])->__toString(),
+            ], MediaType::IMAGES)->__toString(),
             PROPELLER_LANG
         );
 
@@ -241,6 +276,12 @@ class CategoryController extends BaseController {
 
     public function get_category($id) {
         $gql = $this->model->get_category(['categoryId' => $id], PROPELLER_LANG);
+
+        return $this->query($gql, $this->type);
+    }
+
+    public function get_category_products($category_id, $language, $offset = 12, $page = 1) {
+        $gql = $this->model->get_category_products($category_id, $language, $offset, $page);
 
         return $this->query($gql, $this->type);
     }

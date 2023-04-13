@@ -30,7 +30,7 @@ class FlashController {
         $flashes = [];
 
         foreach ($_SESSION as $key => $value) {
-            if (strpos($key, PROPELLER_FLASH_PREFIX)) {
+            if (strpos($key, PROPELLER_FLASH_PREFIX) !== false) {
                 $flashes[$key] = $value;
             }
         }

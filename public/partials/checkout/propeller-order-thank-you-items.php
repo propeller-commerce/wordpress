@@ -13,35 +13,35 @@ use Propeller\PropellerHelper;
         
         <div class="row no-gutters align-items-start align-items-md-center sc-item">
             <div class="col-2 col-md-1 product-image">          
-                <a href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $item->product->slug[0]->value); ?>">												 
+                <a href="<?php echo esc_url($obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $item->product->slug[0]->value, $item->product->urlId)); ?>">
                     <?php if($item->product->has_images()) { ?>          												 
-                        <img class="img-fluid" src="<?= $item->product->images[0]->images[0]->url; ?>" alt="<?= $item->product->name[0]->value; ?>">
+                        <img class="img-fluid" src="<?php echo esc_url($item->product->images[0]->images[0]->url); ?>" alt="<?php echo esc_attr($item->product->name[0]->value); ?>">
                     <?php } else { ?> 
                         <img class="img-fluid" 
-                            src="<?php echo $obj->assets_url . '/img/no-image-card.webp';?>"
+                            src="<?php echo esc_url($obj->assets_url . '/img/no-image-card.webp'); ?>"
                             alt="<?php echo __('No image found', 'propeller-ecommerce'); ?>">
                     <?php } ?>
                 </a>
             </div>
             <div class="col-10 col-md-7 product-description">   
                 <div class="product-name">
-                    <a class="product-name" href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $item->product->slug[0]->value); ?>">
-                        <?= $item->name; ?>
+                    <a class="product-name" href="<?php echo esc_url($obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $item->product->slug[0]->value, $item->product->urlId)); ?>">
+                        <?php echo esc_html($item->product->name[0]->value); ?>
                     </a>
                 </div>         
                 <div class="product-sku">
-                    <?php echo __('SKU', 'propeller-ecommerce'); ?>: <?= $item->sku; ?>
+                    <?php echo __('SKU', 'propeller-ecommerce'); ?>: <?php echo esc_html($item->sku); ?>
                 </div>
             </div>
             <div class="pl-22 col-10 col-md-4 ml-auto d-flex align-items-center justify-content-md-between">
                 <div class="item-quantity">
                     <span class="label d-block d-md-inline-flex"><?php echo __('Quantity', 'propeller-ecommerce'); ?></span> 
-                    <?= $item->quantity; ?>
+                    <?php echo esc_html($item->quantity); ?>
                 </div>
                 <div class="pl-5 item-price">
                     <span class="label d-block d-md-none"><?php echo __('Price', 'propeller-ecommerce'); ?></span>
                     <span class="symbol">&euro;&nbsp;</span>
-                        <?= PropellerHelper::formatPrice($item->priceTotal); ?>
+                        <?php echo PropellerHelper::formatPrice($item->priceTotal); ?>
                 </div>
             </div>
         </div>
@@ -58,30 +58,30 @@ use Propeller\PropellerHelper;
                 <div class="order-bonus-item">
                     <div class="row no-gutters align-items-center">
                         <div class="col-2 col-md-1 order-bonus-image">		
-                        <a href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $bonusItem->product->slug[0]->value); ?>">											
+                        <a href="<?php echo esc_url($obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $bonusItem->product->slug[0]->value, $bonusItem->product->urlId)); ?>">
                             <img class="img-fluid" 
                                 loading="lazy"
-                                src="<<?php echo $bonusItem->product->has_images() ? $bonusItem->product->images[0]->images[0]->url : $obj->assets_url . '/img/no-image-card.webp'; ?>" 
-                                alt="<?= $bonusItem->product->name[0]->value; ?>">
+                                src="<?php echo esc_url($bonusItem->product->has_images() ? $bonusItem->product->images[0]->images[0]->url : $obj->assets_url . '/img/no-image-card.webp'); ?>"
+                                alt="<?php echo esc_attr($bonusItem->product->name[0]->value); ?>">
                             
                         </a>					
                            
                         </div>
                         <div class="col-10 col-md-7 order-bonus-description">
                             <div class="order-bonus-productname">
-                                <a href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $bonusItem->product->slug[0]->value); ?>">	
-                                    <?= $bonusItem->name; ?>
+                                <a href="<?php echo esc_url($obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $bonusItem->product->slug[0]->value, $bonusItem->product->urlId)); ?>">
+                                    <?php echo esc_html($bonusItem->product->name[0]->value); ?>
                                 </a>
                             </div>
                             <div class="order-bonus-productcode">
-                                <?php echo __('SKU', 'propeller-ecommerce'); ?>: <?= $bonusItem->sku; ?>
+                                <?php echo __('SKU', 'propeller-ecommerce'); ?>: <?php echo esc_html($bonusItem->sku); ?>
                             </div>  
                         </div>
                         
                         <div class="pl-22 col-10 col-md-4 ml-auto d-flex align-items-center justify-content-md-between order-bonus-quantity">
                             <div class="item-quantity no-input">
                                 <span class="label d-block d-md-inline-flex"><?php echo __('Quantity', 'propeller-ecommerce'); ?></span>
-                                    <?= $bonusItem->quantity; ?>
+                                    <?php echo esc_html($bonusItem->quantity); ?>
                             </div>
                             <div class="pl-5 item-price">
                                 <span class="label d-block d-md-none"><?php echo __('Price', 'propeller-ecommerce'); ?></span>
@@ -95,34 +95,34 @@ use Propeller\PropellerHelper;
                 <div class="order-bonus-item">
                     <div class="row no-gutters align-items-center">
                         <div class="col-2 col-md-1 order-bonus-image">		
-                        <a href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $item->product->slug[0]->value); ?>">											
+                        <a href="<?php echo esc_url($obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $item->product->slug[0]->value, $item->product->urlId)); ?>">
                             <img class="img-fluid" 
-                                src="<<?php echo $item->product->has_images() ? $item->product->images[0]->images[0]->url : $obj->assets_url . '/img/no-image-card.webp'; ?>" 
-                                alt="<?= $item->product->name[0]->value; ?>">
+                                src="<?php echo esc_url($item->product->has_images() ? $item->product->images[0]->images[0]->url : $obj->assets_url . '/img/no-image-card.webp'); ?>"
+                                alt="<?php echo esc_attr($item->product->name[0]->value); ?>">
                             
                         </a>					
                            
                         </div>
                         <div class="col-10 col-md-7 order-bonus-description">
                             <div class="order-bonus-productname">
-                                <a href="<?= $obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $item->product->slug[0]->value); ?>">	
-                                    <?= $item->name; ?>
+                                <a href="<?php echo esc_url($obj->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $item->product->slug[0]->value, $item->product->urlId)); ?>">
+                                    <?php echo esc_html($item->product->name[0]->value); ?>
                                 </a>
                             </div>
                             <div class="order-bonus-productcode">
-                                <?php echo __('SKU', 'propeller-ecommerce'); ?>: <?= $item->sku; ?>
+                                <?php echo __('SKU', 'propeller-ecommerce'); ?>: <?php echo esc_html($item->sku); ?>
                             </div>  
                         </div>
                         
                         <div class="pl-22 col-10 col-md-4 ml-auto d-flex align-items-center justify-content-md-between order-bonus-quantity">
                             <div class="item-quantity no-input">
                                 <span class="label d-block d-md-inline-flex"><?php echo __('Quantity', 'propeller-ecommerce'); ?></span>
-                                    <?= $item->quantity; ?>
+                                    <?php echo esc_html($item->quantity); ?>
                             </div>
                             <div class="pl-5 item-price">
                                 <span class="label d-block d-md-none"><?php echo __('Price', 'propeller-ecommerce'); ?></span>
                                 <span class="symbol">&euro;&nbsp;</span>
-                                    <?= PropellerHelper::formatPrice($item->priceTotal); ?>                   
+                                    <?php echo PropellerHelper::formatPrice($item->priceTotal); ?>                   
                             </div>
                         </div>
                     </div>

@@ -3,7 +3,6 @@
 namespace Propeller\Includes\Controller;
 
 use GraphQL\RawObject;
-use Propeller\Includes\Model\WarehouseModel;
 
 class WarehouseController extends BaseController {
     protected $type = 'warehouse';
@@ -14,7 +13,7 @@ class WarehouseController extends BaseController {
     public function __construct() {
         parent::__construct();
 
-        $this->model = new WarehouseModel();
+        $this->model = $this->load_model('warehouse');
     }
 
     public function get_warehouses($args = []) {

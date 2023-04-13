@@ -5,16 +5,12 @@ use Propeller\Includes\Enum\AddressType;
 
 ?>
 <form name="checkout" class="form-handler checkout-form validate" method="post" action="">
-    <?php if (SessionController::get(PROPELLER_ORDER_STATUS_TYPE) == 'REQUEST') { ?>
-        <input type="hidden" name="action" value="cart_process" />    
-        <input type="hidden" name="status" value="<?= SessionController::get(PROPELLER_ORDER_STATUS_TYPE); ?>" />
-    <?php } else { ?>
-        <input type="hidden" name="action" value="cart_step_1" />
-        <input type="hidden" name="step" value="<?= $slug; ?>" />
-        <input type="hidden" name="next_step" value="2" />
-    <?php } ?>
-    
-    <input type="hidden" name="type" value="<?= AddressType::INVOICE; ?>" />
+
+    <input type="hidden" name="action" value="cart_step_1" />
+    <input type="hidden" name="step" value="<?php echo esc_attr($slug); ?>" />
+    <input type="hidden" name="next_step" value="2" />
+  
+    <input type="hidden" name="type" value="<?php echo AddressType::INVOICE; ?>" />
     
     <div class="row form-group form-group-submit">
         <div class="col-form-fields col-12">

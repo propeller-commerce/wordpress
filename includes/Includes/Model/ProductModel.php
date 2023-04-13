@@ -10,7 +10,8 @@ class ProductModel extends BaseModel {
     public function get_product($arguments, $attributes_args, $images_args, $language) {
         $str_args = $this->parse_arguments($arguments);
         $attr_str_args = $this->parse_arguments($attributes_args);
-
+        // $attributes_gql = $this->attributes($attr_str_args);
+        
         $media_images_gql = $this->extract_query($images_args);
 
         $tax_zone = PROPELLER_DEFAULT_TAXZONE;
@@ -44,7 +45,19 @@ class ProductModel extends BaseModel {
                         value
                         language
                     }
+                    category {
+                        urlId: categoryId
+                        name(language: "$language") {
+                            language
+                          value
+                        }
+                        slug(language: "$language") {
+                                language
+                            value
+                        }
+                    }
                     categoryPath {
+                        urlId: categoryId
                         name(language: "$language") {
                             language
                           value
@@ -54,12 +67,19 @@ class ProductModel extends BaseModel {
                           value
                       }
                     }
-                    crossupsells(input: { types: [ACCESSORIES] }) {
+                    accessories: crossupsells(input: { types: [ACCESSORIES] }) {
+                        type
+                    }
+                    alternatives: crossupsells(input: { types: [ALTERNATIVES] }) {
+                        type
+                    }
+                    related: crossupsells(input: { types: [RELATED] }) {
                         type
                     }
                     ... on Product {
                         id
                         productId
+                        urlId: productId
                         shortName
                         manufacturerCode
                         eanCode
@@ -75,13 +95,10 @@ class ProductModel extends BaseModel {
                         suggestedPrice
                         minimumQuantity
                         unit
+                        package
                         purchaseUnit
                         purchaseMinimumQuantity
                         inventory {
-                            localQuantity
-                            nextDeliveryDate
-                            productId
-                            supplierQuantity
                             totalQuantity
                         }
                         price(taxZone: "$tax_zone") {
@@ -104,120 +121,8 @@ class ProductModel extends BaseModel {
                             from
                             to
                         }
-                        attributes($attr_str_args) {
-                            id
-                            name
-                            group
-                            searchId
-                            description {
-                                value
-                                language
-                            }
-                            type
-                            typeParam
-                            isSearchable
-                            isPublic
-                            isHidden
-                            enumValue
-                            intValue
-                            decimalValue
-                            dateValue
-                            textValue {
-                                values
-                                language
-                            }
-                        }
                         $track_attributes
-                        $media_images_gql
-                        crossupsells(input: { types: [ACCESSORIES] }) {
-                            type
-                            subtype
-                            clusterId
-                            productId
-                            item {
-                                class
-                                name(language: "$language") {
-                                    value
-                                    language
-                                }
-                                description(language: "$language") {
-                                    value
-                                    language
-                                }
-                                shortDescription(language: "$language") {
-                                    value
-                                    language
-                                }
-                                sku
-                                slug(language: "$language") {
-                                    value
-                                    language
-                                }
-                                ... on Product {
-                                    id
-                                    productId
-                                    shortName
-                                    manufacturerCode
-                                    eanCode
-                                    manufacturer
-                                    supplier
-                                    supplierCode
-                                    taxCode
-                                    status
-                                    isOrderable
-                                    hasBundle
-                                    isBundleLeader
-                                    originalPrice
-                                    suggestedPrice
-                                    minimumQuantity
-                                    unit
-                                    purchaseUnit
-                                    purchaseMinimumQuantity
-                                    inventory {
-                                        balance {
-                                            id
-                                            productId
-                                            location
-                                            warehouseId
-                                            sku
-                                            supplier
-                                            supplierCode
-                                            costPrice
-                                            dateModified
-                                            nextDeliveryDate
-                                            notes
-                                            quantity
-                                        }
-                                        localQuantity
-                                        nextDeliveryDate
-                                        productId
-                                        supplierQuantity
-                                        totalQuantity
-                                    }
-                                    price(taxZone: "$tax_zone") {
-                                        net
-                                        gross
-                                        quantity
-                                        discount {
-                                            value
-                                            formula
-                                            quantity
-                                            validFrom
-                                            validTo
-                                        }
-                                        taxCode
-                                        type
-                                    }
-                                    bulkPrices {
-                                        net
-                                        gross
-                                        from
-                                        to
-                                    }
-                                    $media_images_gql
-                                }
-                            }
-                        }
+                        $media_images_gql                        
                         bundles {
                             comboId
                             name
@@ -242,14 +147,6 @@ class ProductModel extends BaseModel {
                                         value
                                         language
                                     }
-                                    description(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    shortDescription(language: "$language") {
-                                        value
-                                        language
-                                    }
                                     sku
                                     slug(language: "$language") {
                                         value
@@ -258,6 +155,7 @@ class ProductModel extends BaseModel {
                                     ... on Product {
                                         id
                                         productId
+                                        urlId: productId
                                         shortName
                                         manufacturerCode
                                         eanCode
@@ -273,13 +171,10 @@ class ProductModel extends BaseModel {
                                         suggestedPrice
                                         minimumQuantity
                                         unit
+                                        package
                                         purchaseUnit
                                         purchaseMinimumQuantity
                                         inventory {
-                                            localQuantity
-                                            nextDeliveryDate
-                                            productId
-                                            supplierQuantity
                                             totalQuantity
                                         }
                                         price(taxZone: "$tax_zone") {
@@ -296,12 +191,6 @@ class ProductModel extends BaseModel {
                                             taxCode
                                             type
                                         }
-                                        bulkPrices {
-                                            net
-                                            gross
-                                            from
-                                            to
-                                        }
                                         $media_images_gql
                                     }
                                 }
@@ -310,15 +199,8 @@ class ProductModel extends BaseModel {
                         category {
                             id
                             categoryId
+                            urlId: categoryId
                             name(language: "$language") {
-                                value
-                                language
-                            }
-                            description(language: "$language") {
-                                value
-                                language
-                            }
-                            shortDescription(language: "$language") {
                                 value
                                 language
                             }
@@ -367,15 +249,75 @@ class ProductModel extends BaseModel {
         return $gql;
     }
 
-    public function get_cluster($arguments, $attributes_args, $images_args, $language) {
+    public function check_product_language($slug, $product_id, $type, $language) {
+        $str_args = ($product_id ? $type . "Id: $product_id" : "slug: \"$slug\"") . ", language: \"$language\"";
+
+        $gql = <<<QUERY
+            query {
+                $type(
+                    $str_args
+                ) {
+                    slugs: slug {
+                        value
+                        language
+                    }
+                }
+            }
+        QUERY;
+
+        return $gql;
+    }
+
+    public function get_cluster_attributes($arguments, $language) {
         $str_args = $this->parse_arguments($arguments);
+
+        $gql = <<<QUERY
+            query {
+                cluster($str_args) {
+                    ... on Cluster {
+                        drillDown {
+                            attributeId
+                            attribute {
+                                id
+                                name
+                                searchId
+                                group
+                                typeParam
+                                description(language: "$language") {
+                                    value
+                                    language
+                                }
+                            }
+                            priority
+                            displayType
+                        }
+                    }
+                }
+            }
+            QUERY;
+
+        return $gql;
+    }
+
+    private function cluster_attributes($attributes_args) {
+        if (!$attributes_args)
+            return "";
+
         $attr_str_args = $this->parse_arguments($attributes_args);
 
+        return $this->attributes($attr_str_args);
+    }
+
+    public function get_cluster($arguments, $attributes_args, $images_args, $language) {
+        $str_args = $this->parse_arguments($arguments);
+        
         $media_images_gql = $this->extract_query($images_args);
 
         $tax_zone = PROPELLER_DEFAULT_TAXZONE;
 
         $track_attributes = $this->product_track_attributes();
+
+        $cluster_attributes = $this->cluster_attributes($attributes_args);
 
         $gql = <<<QUERY
             query {
@@ -402,10 +344,28 @@ class ProductModel extends BaseModel {
                         value
                         language
                     }
-                    crossupsells(input: { types: [ACCESSORIES] }) {
+                    accessories: crossupsells(input: { types: [ACCESSORIES] }) {
                         type
                     }
+                    alternatives: crossupsells(input: { types: [ALTERNATIVES] }) {
+                        type
+                    }
+                    related: crossupsells(input: { types: [RELATED] }) {
+                        type
+                    }
+                    category {
+                        urlId: categoryId
+                        name(language: "$language") {
+                            language
+                          value
+                        }
+                        slug(language: "$language") {
+                                language
+                            value
+                        }
+                    }
                     categoryPath {
+                        urlId: categoryId
                         name(language: "$language") {
                             language
                           value
@@ -419,6 +379,7 @@ class ProductModel extends BaseModel {
                         id
                         class
                         clusterId
+                        urlId: clusterId
                         defaultProduct {
                             productId
                         }
@@ -444,6 +405,7 @@ class ProductModel extends BaseModel {
                             ... on Product {
                                 id
                                 productId
+                                urlId: productId
                                 shortName
                                 manufacturerCode
                                 eanCode
@@ -462,10 +424,6 @@ class ProductModel extends BaseModel {
                                 purchaseUnit
                                 purchaseMinimumQuantity
                                 inventory {
-                                    localQuantity
-                                    nextDeliveryDate
-                                    productId
-                                    supplierQuantity
                                     totalQuantity
                                 }
                                 price(taxZone: "$tax_zone") {
@@ -487,43 +445,14 @@ class ProductModel extends BaseModel {
                                     gross
                                     from
                                     to
-                                }
-                                attributes($attr_str_args) {
-                                    id
-                                    name
-                                    group
-                                    searchId
-                                    description {
-                                        value
-                                        language
-                                    }
-                                    type
-                                    typeParam
-                                    isSearchable
-                                    isPublic
-                                    isHidden
-                                    enumValue
-                                    intValue
-                                    decimalValue
-                                    dateValue
-                                    textValue {
-                                        values
-                                        language
-                                    }
-                                }
+                                }                       
+                                $cluster_attributes         
                                 $track_attributes
                                 category {
                                     id
                                     categoryId
+                                    urlId: categoryId
                                     name(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    description(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    shortDescription(language: "$language") {
                                         value
                                         language
                                     }
@@ -557,14 +486,6 @@ class ProductModel extends BaseModel {
                                                 value
                                                 language
                                             }
-                                            description(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            shortDescription(language: "$language") {
-                                                value
-                                                language
-                                            }
                                             sku
                                             slug(language: "$language") {
                                                 value
@@ -573,6 +494,7 @@ class ProductModel extends BaseModel {
                                             ... on Product {
                                                 id
                                                 productId
+                                                urlId: productId
                                                 shortName
                                                 manufacturerCode
                                                 eanCode
@@ -591,10 +513,6 @@ class ProductModel extends BaseModel {
                                                 purchaseUnit
                                                 purchaseMinimumQuantity
                                                 inventory {
-                                                    localQuantity
-                                                    nextDeliveryDate
-                                                    productId
-                                                    supplierQuantity
                                                     totalQuantity
                                                 }
                                                 price(taxZone: "$tax_zone") {
@@ -610,12 +528,6 @@ class ProductModel extends BaseModel {
                                                     }
                                                     taxCode
                                                     type
-                                                }
-                                                bulkPrices {
-                                                    net
-                                                    gross
-                                                    from
-                                                    to
                                                 }
                                                 $media_images_gql
                                             }
@@ -651,6 +563,7 @@ class ProductModel extends BaseModel {
                                 ... on Product {
                                     id
                                     productId
+                                    urlId: productId
                                     shortName
                                     manufacturerCode
                                     eanCode
@@ -669,10 +582,6 @@ class ProductModel extends BaseModel {
                                     purchaseUnit
                                     purchaseMinimumQuantity
                                     inventory {
-                                        localQuantity
-                                        nextDeliveryDate
-                                        productId
-                                        supplierQuantity
                                         totalQuantity
                                     }
                                     price(taxZone: "$tax_zone") {
@@ -695,42 +604,13 @@ class ProductModel extends BaseModel {
                                         from
                                         to
                                     }
-                                    attributes($attr_str_args) {
-                                        id
-                                        name
-                                        group
-                                        searchId
-                                        description {
-                                            value
-                                            language
-                                        }
-                                        type
-                                        typeParam
-                                        isSearchable
-                                        isPublic
-                                        isHidden
-                                        enumValue
-                                        intValue
-                                        decimalValue
-                                        dateValue
-                                        textValue {
-                                            values
-                                            language
-                                        }
-                                    }
+                                    $cluster_attributes
                                     $track_attributes
                                     category {
                                         id
                                         categoryId
+                                        urlId: categoryId
                                         name(language: "$language") {
-                                            value
-                                            language
-                                        }
-                                        description(language: "$language") {
-                                            value
-                                            language
-                                        }
-                                        shortDescription(language: "$language") {
                                             value
                                             language
                                         }
@@ -739,80 +619,7 @@ class ProductModel extends BaseModel {
                                             language
                                         }
                                     }
-                                    $media_images_gql
-                                    crossupsells(input: { types: [ACCESSORIES] }) {
-                                        type
-                                        subtype
-                                        product {
-                                            class
-                                            name(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            description(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            shortDescription(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            sku
-                                            slug(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            ... on Product {
-                                                id
-                                                productId
-                                                shortName
-                                                manufacturerCode
-                                                eanCode
-                                                manufacturer
-                                                supplier
-                                                supplierCode
-                                                taxCode
-                                                status
-                                                isOrderable
-                                                hasBundle
-                                                isBundleLeader
-                                                originalPrice
-                                                suggestedPrice
-                                                minimumQuantity
-                                                unit
-                                                purchaseUnit
-                                                purchaseMinimumQuantity
-                                                inventory {
-                                                    localQuantity
-                                                    nextDeliveryDate
-                                                    productId
-                                                    supplierQuantity
-                                                    totalQuantity
-                                                }
-                                                price(taxZone: "$tax_zone") {
-                                                    net
-                                                    gross
-                                                    quantity
-                                                    discount {
-                                                        value
-                                                        formula
-                                                        quantity
-                                                        validFrom
-                                                        validTo
-                                                    }
-                                                    taxCode
-                                                    type
-                                                }
-                                                bulkPrices {
-                                                    net
-                                                    gross
-                                                    from
-                                                    to
-                                                }
-                                                $media_images_gql
-                                            }
-                                        }
-                                    }
+                                    $media_images_gql                                    
                                     bundles {
                                         comboId
                                         name
@@ -837,14 +644,6 @@ class ProductModel extends BaseModel {
                                                     value
                                                     language
                                                 }
-                                                description(language: "$language") {
-                                                    value
-                                                    language
-                                                }
-                                                shortDescription(language: "$language") {
-                                                    value
-                                                    language
-                                                }
                                                 sku
                                                 slug(language: "$language") {
                                                     value
@@ -853,6 +652,7 @@ class ProductModel extends BaseModel {
                                                 ... on Product {
                                                     id
                                                     productId
+                                                    urlId: productId
                                                     shortName
                                                     manufacturerCode
                                                     eanCode
@@ -871,10 +671,6 @@ class ProductModel extends BaseModel {
                                                     purchaseUnit
                                                     purchaseMinimumQuantity
                                                     inventory {
-                                                        localQuantity
-                                                        nextDeliveryDate
-                                                        productId
-                                                        supplierQuantity
                                                         totalQuantity
                                                     }
                                                     price(taxZone: "$tax_zone") {
@@ -890,12 +686,6 @@ class ProductModel extends BaseModel {
                                                         }
                                                         taxCode
                                                         type
-                                                    }
-                                                    bulkPrices {
-                                                        net
-                                                        gross
-                                                        from
-                                                        to
                                                     }
                                                     $media_images_gql
                                                 }
@@ -941,9 +731,8 @@ class ProductModel extends BaseModel {
         return $gql;
     }
 
-    public function cluster_crossupsells($arguments, $attributes_args, $images_args, $language) {
+    public function crossupsells($arguments, $attributes_args, $images_args, $language, $type, $class) {
         $str_args = $this->parse_arguments($arguments);
-        $attr_str_args = $this->parse_arguments($attributes_args);
 
         $media_images_gql = $this->extract_query($images_args);
 
@@ -951,10 +740,12 @@ class ProductModel extends BaseModel {
 
         $track_attributes = $this->product_track_attributes();
 
+        $crossupsell_type = strtoupper($type);
+
         $gql = <<<QUERY
             query {
-                cluster($str_args) {
-                    crossupsells(input: { types: [ACCESSORIES] }) {
+                $class($str_args) {
+                    $type: crossupsells(input: { types: [$crossupsell_type] }) {
                         type
                         subtype
                         productId
@@ -965,7 +756,8 @@ class ProductModel extends BaseModel {
                                 value
                                 language
                             }
-                            description(language: "$language") {
+                            sku
+                            slug(language: "$language") {
                                 value
                                 language
                             }
@@ -973,14 +765,10 @@ class ProductModel extends BaseModel {
                                 value
                                 language
                             }
-                            sku
-                            slug(language: "$language") {
-                                value
-                                language
-                            }
                             ... on Product {
                                 id
                                 productId
+                                urlId: productId
                                 shortName
                                 manufacturerCode
                                 eanCode
@@ -996,13 +784,10 @@ class ProductModel extends BaseModel {
                                 suggestedPrice
                                 minimumQuantity
                                 unit
+                                package
                                 purchaseUnit
                                 purchaseMinimumQuantity
                                 inventory {
-                                    localQuantity
-                                    nextDeliveryDate
-                                    productId
-                                    supplierQuantity
                                     totalQuantity
                                 }
                                 price(taxZone: "$tax_zone") {
@@ -1019,28 +804,20 @@ class ProductModel extends BaseModel {
                                     taxCode
                                     type
                                 }
-                                bulkPrices {
-                                    net
-                                    gross
-                                    from
-                                    to
-                                }
                                 $media_images_gql
+                                $track_attributes
                             }
                             ... on Cluster {
                                 id
                                 class
                                 clusterId
+                                urlId: clusterId
                                 defaultProduct {
                                     productId
                                 }
                                 products {
                                     class
                                     name(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    description(language: "$language") {
                                         value
                                         language
                                     }
@@ -1056,6 +833,7 @@ class ProductModel extends BaseModel {
                                     ... on Product {
                                         id
                                         productId
+                                        urlId: productId
                                         shortName
                                         manufacturerCode
                                         eanCode
@@ -1090,15 +868,8 @@ class ProductModel extends BaseModel {
                                         category {
                                             id
                                             categoryId
+                                            urlId: categoryId
                                             name(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            description(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            shortDescription(language: "$language") {
                                                 value
                                                 language
                                             }
@@ -1107,12 +878,14 @@ class ProductModel extends BaseModel {
                                                 language
                                             }
                                         }
-                                        $media_images_gql                                   
+                                        $media_images_gql       
+                                        $track_attributes                            
                                     }
                                 }
                             }
                         }
                     }
+                    
                 }
             }
             QUERY;
@@ -1120,178 +893,18 @@ class ProductModel extends BaseModel {
             return $gql;
     }
 
-    public function product_crossupsells($arguments, $attributes_args, $images_args, $language) {
-        $str_args = $this->parse_arguments($arguments);
+    public function specifications($product_id, $attributes_args) {
         $attr_str_args = $this->parse_arguments($attributes_args);
 
-        $media_images_gql = $this->extract_query($images_args);
-
-        $tax_zone = PROPELLER_DEFAULT_TAXZONE;
-
-        $track_attributes = $this->product_track_attributes();
+        $attributes_gql = $this->attributes($attr_str_args);
 
         $gql = <<<QUERY
             query {
-                product($str_args) {
-                    crossupsells(input: { types: [ACCESSORIES] }) {
-                        type
-                        subtype
-                        productId
-                        clusterId
-                        item {
-                            class
-                            name(language: "$language") {
-                                value
-                                language
-                            }
-                            description(language: "$language") {
-                                value
-                                language
-                            }
-                            shortDescription(language: "$language") {
-                                value
-                                language
-                            }
-                            sku
-                            slug(language: "$language") {
-                                value
-                                language
-                            }
-                            ... on Product {
-                                id
-                                productId
-                                shortName
-                                manufacturerCode
-                                eanCode
-                                manufacturer
-                                supplier
-                                supplierCode
-                                taxCode
-                                status
-                                isOrderable
-                                hasBundle
-                                isBundleLeader
-                                originalPrice
-                                suggestedPrice
-                                minimumQuantity
-                                unit
-                                purchaseUnit
-                                purchaseMinimumQuantity
-                                inventory {
-                                    localQuantity
-                                    nextDeliveryDate
-                                    productId
-                                    supplierQuantity
-                                    totalQuantity
-                                }
-                                price(taxZone: "$tax_zone") {
-                                    net
-                                    gross
-                                    quantity
-                                    discount {
-                                        value
-                                        formula
-                                        quantity
-                                        validFrom
-                                        validTo
-                                    }
-                                    taxCode
-                                    type
-                                }
-                                bulkPrices {
-                                    net
-                                    gross
-                                    from
-                                    to
-                                }
-                                $media_images_gql
-                            }
-                            ... on Cluster {
-                                id
-                                class
-                                clusterId
-                                defaultProduct {
-                                    productId
-                                }
-                                products {
-                                    class
-                                    name(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    description(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    shortDescription(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    sku
-                                    slug(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    ... on Product {
-                                        id
-                                        productId
-                                        shortName
-                                        manufacturerCode
-                                        eanCode
-                                        manufacturer
-                                        supplier
-                                        supplierCode
-                                        taxCode
-                                        status
-                                        isOrderable
-                                        hasBundle
-                                        isBundleLeader
-                                        originalPrice
-                                        suggestedPrice
-                                        minimumQuantity
-                                        unit
-                                        purchaseUnit
-                                        purchaseMinimumQuantity
-                                        price(taxZone: "$language") {
-                                            net
-                                            gross
-                                            quantity
-                                            discount {
-                                                value
-                                                formula
-                                                quantity
-                                                validFrom
-                                                validTo
-                                            }
-                                            taxCode
-                                            type
-                                        }
-                                        category {
-                                            id
-                                            categoryId
-                                            name(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            description(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            shortDescription(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            slug(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                        }
-                                        $media_images_gql                                   
-                                    }
-                                }
-                            }
-                        }
-                    }
+                product(productId: $product_id) {
+                    productId
+                    eanCode
+                    manufacturer
+                    $attributes_gql
                 }
             }
         QUERY;
@@ -1322,14 +935,6 @@ class ProductModel extends BaseModel {
                             value
                             language
                         }
-                        description(language: "$language") {
-                            value
-                            language
-                        }
-                        shortDescription(language: "$language") {
-                            value
-                            language
-                        }
                         sku
                         slug(language: "$language") {
                             value
@@ -1338,6 +943,7 @@ class ProductModel extends BaseModel {
                         ... on Product {
                             id
                             productId
+                            urlId: productId
                             manufacturerCode
                             eanCode
                             manufacturer
@@ -1345,6 +951,7 @@ class ProductModel extends BaseModel {
                             taxCode
                             status
                             isOrderable
+                            package
                             packageUnit
                             packageUnitQuantity
                             originalPrice
@@ -1356,31 +963,7 @@ class ProductModel extends BaseModel {
                             purchaseUnit
                             purchaseMinimumQuantity
                             inventory {
-                                localQuantity
-                                nextDeliveryDate
-                                productId
-                                supplierQuantity
                                 totalQuantity
-                            }
-                            category {
-                                id
-                                categoryId
-                                name(language: "$language") {
-                                    value
-                                    language
-                                }
-                                description(language: "$language") {
-                                    value
-                                    language
-                                }
-                                shortDescription(language: "$language") {
-                                    value
-                                    language
-                                }
-                                slug(language: "$language") {
-                                    value
-                                    language
-                                }
                             }
                             price {
                                 net
@@ -1397,32 +980,19 @@ class ProductModel extends BaseModel {
                                 taxCode
                                 type
                             }
-                            bulkPrices {
-                                net
-                                gross
-                                from
-                                to
-                            }
                             $media_images_gql
                         }
                         ... on Cluster {
                             id
                             class
                             clusterId
+                            urlId: clusterId
                             defaultProduct {
                                 productId
                             }
                             products {
                                 class
                                 name(language: "$language") {
-                                    value
-                                    language
-                                }
-                                description(language: "$language") {
-                                    value
-                                    language
-                                }
-                                shortDescription(language: "$language") {
                                     value
                                     language
                                 }
@@ -1434,6 +1004,7 @@ class ProductModel extends BaseModel {
                                 ... on Product {
                                     id
                                     productId
+                                    urlId: productId
                                     manufacturerCode
                                     eanCode
                                     manufacturer
@@ -1451,33 +1022,6 @@ class ProductModel extends BaseModel {
                                     unit
                                     purchaseUnit
                                     purchaseMinimumQuantity
-                                    inventory {
-                                        localQuantity
-                                        nextDeliveryDate
-                                        productId
-                                        supplierQuantity
-                                        totalQuantity
-                                    }
-                                    category {
-                                        id
-                                        categoryId
-                                        name(language: "$language") {
-                                            value
-                                            language
-                                        }
-                                        description(language: "$language") {
-                                            value
-                                            language
-                                        }
-                                        shortDescription(language: "$language") {
-                                            value
-                                            language
-                                        }
-                                        slug(language: "$language") {
-                                            value
-                                            language
-                                        }
-                                    }
                                     price {
                                         net
                                         gross
@@ -1493,133 +1037,8 @@ class ProductModel extends BaseModel {
                                         taxCode
                                         type
                                     }
-                                    bulkPrices {
-                                        net
-                                        gross
-                                        from
-                                        to
-                                    }
                                     $media_images_gql
                                 }
-                            }
-                            options {
-                                id
-                                defaultProduct {
-                                    productId
-                                }
-                                products {
-                                    class
-                                    name(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    description(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    shortDescription(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    sku
-                                    slug(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    ... on Product {
-                                        id
-                                        productId
-                                        manufacturerCode
-                                        eanCode
-                                        manufacturer
-                                        supplierCode
-                                        taxCode
-                                        status
-                                        isOrderable
-                                        packageUnit
-                                        packageUnitQuantity
-                                        originalPrice
-                                        costPrice
-                                        suggestedPrice
-                                        storePrice
-                                        minimumQuantity
-                                        unit
-                                        purchaseUnit
-                                        purchaseMinimumQuantity
-                                        inventory {
-                                            localQuantity
-                                            nextDeliveryDate
-                                            productId
-                                            supplierQuantity
-                                            totalQuantity
-                                        }
-                                        category {
-                                            id
-                                            categoryId
-                                            name(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            description(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            shortDescription(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            slug(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                        }
-                                        price {
-                                            net
-                                            gross
-                                            quantity
-                                            discount {
-                                                formula
-                                                type
-                                                quantity
-                                                value
-                                                validFrom
-                                                validTo
-                                            }
-                                            taxCode
-                                            type
-                                        }
-                                        bulkPrices {
-                                            net
-                                            gross
-                                            from
-                                            to
-                                        }
-                                        $media_images_gql
-                                    }
-                                }
-                                name(language: "$language") {
-                                    value
-                                    language
-                                }
-                                description(language: "$language") {
-                                    value
-                                    language
-                                }
-                                shortDescription(language: "$language") {
-                                    value
-                                    language
-                                }
-                            }
-                            drillDown {
-                                attributeId
-                                attribute {
-                                    description(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                }
-                                priority
-                                displayType
                             }
                         }
                     }
@@ -1680,14 +1099,6 @@ class ProductModel extends BaseModel {
                             value
                             language
                         }
-                        description(language: "$language") {
-                            value
-                            language
-                        }
-                        shortDescription(language: "$language") {
-                            value
-                            language
-                        }
                         sku
                         slug(language: "$language") {
                             value
@@ -1696,6 +1107,7 @@ class ProductModel extends BaseModel {
                         ... on Product {
                             id
                             productId
+                            urlId: productId
                             manufacturerCode
                             eanCode
                             manufacturer
@@ -1703,6 +1115,7 @@ class ProductModel extends BaseModel {
                             taxCode
                             status
                             isOrderable
+                            package
                             packageUnit
                             packageUnitQuantity
                             originalPrice
@@ -1714,31 +1127,7 @@ class ProductModel extends BaseModel {
                             purchaseUnit
                             purchaseMinimumQuantity
                             inventory {
-                                localQuantity
-                                nextDeliveryDate
-                                productId
-                                supplierQuantity
                                 totalQuantity
-                            }
-                            category {
-                                id
-                                categoryId
-                                name(language: "$language") {
-                                    value
-                                    language
-                                }
-                                description(language: "$language") {
-                                    value
-                                    language
-                                }
-                                shortDescription(language: "$language") {
-                                    value
-                                    language
-                                }
-                                slug(language: "$language") {
-                                    value
-                                    language
-                                }
                             }
                             price {
                                 net
@@ -1755,35 +1144,6 @@ class ProductModel extends BaseModel {
                                 taxCode
                                 type
                             }
-                            bulkPrices {
-                                net
-                                gross
-                                from
-                                to
-                            }
-                            attributes($attr_str_args) {
-                                id
-                                name
-                                group
-                                searchId
-                                description {
-                                    value
-                                    language
-                                }
-                                type
-                                typeParam
-                                isSearchable
-                                isPublic
-                                isHidden
-                                enumValue
-                                intValue
-                                decimalValue
-                                dateValue
-                                textValue {
-                                    values
-                                    language
-                                }
-                            }
                             $track_attributes
                             $media_images_gql
                         }
@@ -1791,20 +1151,13 @@ class ProductModel extends BaseModel {
                             id
                             class
                             clusterId
+                            urlId: clusterId
                             defaultProduct {
                                 productId
                             }
                             products {
                                 class
                                 name(language: "$language") {
-                                    value
-                                    language
-                                }
-                                description(language: "$language") {
-                                    value
-                                    language
-                                }
-                                shortDescription(language: "$language") {
                                     value
                                     language
                                 }
@@ -1816,6 +1169,7 @@ class ProductModel extends BaseModel {
                                 ... on Product {
                                     id
                                     productId
+                                    urlId: productId
                                     manufacturerCode
                                     eanCode
                                     manufacturer
@@ -1823,6 +1177,7 @@ class ProductModel extends BaseModel {
                                     taxCode
                                     status
                                     isOrderable
+                                    package
                                     packageUnit
                                     packageUnitQuantity
                                     originalPrice
@@ -1833,33 +1188,6 @@ class ProductModel extends BaseModel {
                                     unit
                                     purchaseUnit
                                     purchaseMinimumQuantity
-                                    inventory {
-                                        localQuantity
-                                        nextDeliveryDate
-                                        productId
-                                        supplierQuantity
-                                        totalQuantity
-                                    }
-                                    category {
-                                        id
-                                        categoryId
-                                        name(language: "$language") {
-                                            value
-                                            language
-                                        }
-                                        description(language: "$language") {
-                                            value
-                                            language
-                                        }
-                                        shortDescription(language: "$language") {
-                                            value
-                                            language
-                                        }
-                                        slug(language: "$language") {
-                                            value
-                                            language
-                                        }
-                                    }
                                     price {
                                         net
                                         gross
@@ -1875,134 +1203,9 @@ class ProductModel extends BaseModel {
                                         taxCode
                                         type
                                     }
-                                    bulkPrices {
-                                        net
-                                        gross
-                                        from
-                                        to
-                                    }
                                     $media_images_gql
                                 }
-                            }
-                            options {
-                                id
-                                defaultProduct {
-                                    productId
-                                }
-                                products {
-                                    class
-                                    name(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    description(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    shortDescription(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    sku
-                                    slug(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                    ... on Product {
-                                        id
-                                        productId
-                                        manufacturerCode
-                                        eanCode
-                                        manufacturer
-                                        supplierCode
-                                        taxCode
-                                        status
-                                        isOrderable
-                                        packageUnit
-                                        packageUnitQuantity
-                                        originalPrice
-                                        costPrice
-                                        suggestedPrice
-                                        storePrice
-                                        minimumQuantity
-                                        unit
-                                        purchaseUnit
-                                        purchaseMinimumQuantity
-                                        inventory {
-                                            localQuantity
-                                            nextDeliveryDate
-                                            productId
-                                            supplierQuantity
-                                            totalQuantity
-                                        }
-                                        category {
-                                            id
-                                            categoryId
-                                            name(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            description(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            shortDescription(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                            slug(language: "$language") {
-                                                value
-                                                language
-                                            }
-                                        }
-                                        price {
-                                            net
-                                            gross
-                                            quantity
-                                            discount {
-                                                formula
-                                                type
-                                                quantity
-                                                value
-                                                validFrom
-                                                validTo
-                                            }
-                                            taxCode
-                                            type
-                                        }
-                                        bulkPrices {
-                                            net
-                                            gross
-                                            from
-                                            to
-                                        }
-                                        $media_images_gql
-                                    }
-                                }
-                                name(language: "$language") {
-                                    value
-                                    language
-                                }
-                                description(language: "$language") {
-                                    value
-                                    language
-                                }
-                                shortDescription(language: "$language") {
-                                    value
-                                    language
-                                }
-                            }
-                            drillDown {
-                                attributeId
-                                attribute {
-                                    description(language: "$language") {
-                                        value
-                                        language
-                                    }
-                                }
-                                priority
-                                displayType
-                            }
+                            }                            
                         }
                     }
                 }
@@ -2017,11 +1220,15 @@ class ProductModel extends BaseModel {
 
         $media_images_gql = $this->extract_query($images_args);
 
+        $tax_zone = PROPELLER_DEFAULT_TAXZONE;
+
         $gql = <<<QUERY
             query {
                 products($str_args) {
                     itemsFound
                     items {
+                        class
+                        sku
                         name(language: "$language") {
                             value
                             language
@@ -2031,9 +1238,50 @@ class ProductModel extends BaseModel {
                             language
                         }
                         ... on Product {
+                            productId
+                            urlId: productId
+                            minimumQuantity
+                            unit
                             $media_images_gql
+                            price(taxZone: "$tax_zone") {
+                                net
+                                gross
+                                quantity
+                                discount {
+                                    value
+                                    formula
+                                    quantity
+                                    validFrom
+                                    validTo
+                                }
+                                taxCode
+                                type
+                            }
                         }
                     }
+                }
+            }
+        QUERY;
+
+        // ... on Cluster {
+        //     defaultProduct {
+        //         $media_images_gql
+        //     }
+        //     products {
+        //         $media_images_gql
+        //     }
+        // }
+
+        return $gql;
+    }
+
+    public function downloads($product_id, $downloads_args) {
+        $media_downloads_gql = $this->extract_query($downloads_args);
+
+        $gql = <<<QUERY
+            query {
+                product(productId: $product_id) {
+                    $media_downloads_gql
                 }
             }
         QUERY;
@@ -2041,6 +1289,17 @@ class ProductModel extends BaseModel {
         return $gql;
     }
 
-    
-    
+    public function videos($product_id, $videos_args) {
+        $media_videos_gql = $this->extract_query($videos_args);
+
+        $gql = <<<QUERY
+            query {
+                product(productId: $product_id) {
+                    $media_videos_gql
+                }
+            }
+        QUERY;
+
+        return $gql;
+    }
 }

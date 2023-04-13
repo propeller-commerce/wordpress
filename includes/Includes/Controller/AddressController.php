@@ -3,14 +3,10 @@
 namespace Propeller\Includes\Controller;
 
 use Exception;
-use GraphQL\Mutation;
-use GraphQL\Query;
 use GraphQL\RawObject;
 use Propeller\Includes\Enum\AddressType;
 use Propeller\Includes\Enum\PageType;
 use Propeller\Includes\Enum\UserTypes;
-use Propeller\Includes\Model\AddressModel;
-use Propeller\Includes\Query\Address;
 use stdClass;
 
 class AddressController extends BaseController {
@@ -24,7 +20,7 @@ class AddressController extends BaseController {
     public function __construct() {
         parent::__construct();
 
-        $this->model = new AddressModel();
+        $this->model = $this->load_model('address');
 
         $this->is_registration = false;
 
@@ -39,10 +35,15 @@ class AddressController extends BaseController {
         Addresses filters
     */
     public function address_box($address, $obj, $title, $show_title = false, $show_modify = false, $show_delete = false, $show_set_default = false) {
+
+		$this->assets()->std_requires_asset('propeller-address-default');
+
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'user' . DIRECTORY_SEPARATOR . 'propeller-account-address-box.php');
     }
 
     public function address_add($type, $title, $obj) {
+        $address = $this->get_address_obj($type);
+
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'user' . DIRECTORY_SEPARATOR . 'propeller-account-address-add.php');
     }
 
@@ -63,6 +64,9 @@ class AddressController extends BaseController {
     }
 
     public function address_set_default($address) {
+
+		$this->assets()->std_requires_asset('propeller-address-default');
+
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'user' . DIRECTORY_SEPARATOR . 'propeller-account-address-set-default.php');
     }
 
@@ -100,7 +104,11 @@ class AddressController extends BaseController {
 
         ob_start();
 
-        $this->addresses = $this->get_addresses($_REQUEST);
+		$args = [
+			'type' => isset($_REQUEST['type']) ? sanitize_text_field($_REQUEST['type']) : AddressType::DELIVERY,
+		];
+
+        $this->addresses = $this->get_addresses($args);
 
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'user' . DIRECTORY_SEPARATOR . 'propeller-account-addresses.php');
         
@@ -113,12 +121,6 @@ class AddressController extends BaseController {
         $param_value = 0;
 
         switch ($this->user_type) {
-            case UserTypes::USER:
-                $type = 'addressesByUserId';
-                $param_name = 'userId';
-                $param_value = $this->user->userId;
-
-                break;
             case UserTypes::CUSTOMER:
                 $type = 'addressesByCustomerId';
                 $param_name = 'customerId';
@@ -137,9 +139,9 @@ class AddressController extends BaseController {
         $params[$param_name] = $param_value;
 
         if (isset($args['type'])) 
-            $params['type'] = new RawObject(isset($args['type']) ? $args['type'] : AddressType::DELIVERY);
+            $params['type'] = new RawObject(isset($args['type']) ? sanitize_text_field($args['type']) : AddressType::DELIVERY);
 
-        $gql = $this->model->get_addresses($params);
+        $gql = $this->model->get_addresses($type, $params);
             
         $addressesData = $this->query($gql, $type);
 
@@ -296,7 +298,7 @@ class AddressController extends BaseController {
         $address->country = '';
         $address->email = '';
         $address->firstName = '';
-        $address->id = $type;
+        $address->id = 0;
         $address->lastName = '';
         $address->middleName = '';
         $address->gender = '';
@@ -332,7 +334,7 @@ class AddressController extends BaseController {
     private function format_params($args) {
         $params = [];
 
-        $args['code'] = 'Dummy code';
+        $args['code'] = '';
 
         if (isset($args['city']) && !empty($args['city'])) $params[] = 'city: "' . $args['city'] . '"';
         if (isset($args['code']) && !empty($args['code'])) $params[] = 'code: "' . $args['code'] . '"';
@@ -352,11 +354,14 @@ class AddressController extends BaseController {
         if (isset($args['region']) && !empty($args['region'])) $params[] = 'region: "' . $args['region'] . '"';
         if (isset($args['street']) && !empty($args['street'])) $params[] = 'street: "' . $args['street'] . '"';
         if (isset($args['phone']) && !empty($args['phone'])) $params[] = 'phone: "' . $args['phone'] . '"';
-        if (isset($args['icp']) && !empty($args['icp'])) $params[] = 'icp: ' . new RawObject($args['icp']);
-        else $params[] = 'icp: ' . new RawObject("N");
+
+        // if ($this->user_type != UserTypes::CUSTOMER) {
+        //     if (isset($args['icp']) && !empty($args['icp'])) $params[] = 'icp: ' . new RawObject($args['icp']);
+        //     else $params[] = 'icp: ' . new RawObject("N");
+        // }
         
         if (!isset($args['id']) || !is_numeric($args['id']) || (int) $args['id'] == 0)
-            $params[] = 'type: ' . new RawObject(isset($args['type']) ? $args['type'] : AddressType::DELIVERY);
+            $params[] = 'type: ' . new RawObject(isset($args['type']) ? sanitize_text_field($args['type']) : AddressType::DELIVERY);
         else 
             $params[] = 'id: ' . (isset($args['id']) ? (int) $args['id'] : 0);
 

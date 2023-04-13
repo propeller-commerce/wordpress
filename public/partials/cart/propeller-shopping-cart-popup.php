@@ -95,7 +95,7 @@ $shoppingCart = new Propeller\Includes\Controller\ShoppingCartController();
                         </div>
                         <div class="row modal-btn-wrapper">
                             <div class="col-12">
-                                <a href="<?= $shoppingCart->buildUrl('', PageController::get_slug(PageType::SHOPPING_CART_PAGE)); ?>" class="btn-checkout">
+                                <a href="<?php echo esc_url($shoppingCart->buildUrl('', PageController::get_slug(PageType::SHOPPING_CART_PAGE))); ?>" class="btn-checkout">
                                     <?php echo __('Continue to order', 'propeller-ecommerce'); ?>  
                                 </a>
                             </div>
