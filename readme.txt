@@ -72,7 +72,7 @@ Release date: 2023-04-13
 
 * Version 1.1
 
-[Release Notes](https://github.com/propeller-commerce/wordpress/releases/tag/1.1.0)
+[Release Notes](https://github.com/propeller-commerce/wordpress/releases/tag/v1.1.0)
 
 
 = 1.0.0 =
