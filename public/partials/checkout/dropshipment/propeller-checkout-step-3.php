@@ -1,5 +1,8 @@
-<?php 
-use Propeller\PropellerHelper;
+<?php   
+    $countries = include PROPELLER_PLUGIN_DIR . '/includes/Countries.php'; 
+    $delivery_address = $this->get_delivery_address();
+    $invoice_address = $this->get_invoice_address();
+  
 ?>
 <svg style="display: none;">
     <symbol viewBox="0 0 18 21" id="shape-checkout-edit"><title>Edit</title> <g fill="none" fill-rule="evenodd"><path d="M17.34 1.978 16.023.659A2.242 2.242 0 0 0 14.432 0c-.577 0-1.152.22-1.592.659L.452 13.047l-.447 4.016a.844.844 0 0 0 .932.932l4.012-.444L17.341 5.16a2.25 2.25 0 0 0 0-3.182zM4.434 16.477l-3.27.362.363-3.275 9.278-9.277 2.91 2.91-9.281 9.28zM16.546 4.364l-2.037 2.037-2.91-2.91 2.037-2.037c.212-.212.495-.329.795-.329.3 0 .583.117.796.33l1.319 1.318a1.127 1.127 0 0 1 0 1.591z" fill="#005FAD" fill-rule="nonzero"/><path stroke="#005FAD" stroke-linecap="round" d="M.5 20.5h17"/></g></symbol>  
@@ -10,177 +13,38 @@ use Propeller\PropellerHelper;
  
 </svg>
 <div class="propeller-checkout-wrapper propeller-checkout-summary">
-    <div class="container-fluid px-0 checkout-header-wrapper">
-        <div class="row align-items-start">
-            <div class="col-12 col-sm mr-auto checkout-header">
-                <h1><?php echo __('Order (Dropshipment)', 'propeller-ecommerce'); ?></h1>
-            </div>
-        </div>
-    </div>
+    
+    <?php echo apply_filters('propel_checkout_regular_page_title', $this->cart, $this); ?>
+
     <div class="container-fluid px-0">
         <div class="row">
             <div class="col-12 col-lg-8">
                 <div class="checkout-wrapper-steps">
-                    <div class="row align-items-start">
-                        <div class="col-10 col-md-3 col-lg-3">
-                            <div class="checkout-title"><?php echo __('Your details', 'propeller-ecommerce'); ?></div>
-                        </div>
-                        <div class="col-12 col-md-7 col-lg-7 ml-md-auto order-3 order-md-2 user-details">
-                            <div class="user-fullname">
-                                <?php if ($this->cart->invoiceAddress->gender === 'M') {
-                                        echo SALUTATION_M;
-                                    }
-                                    else if ($this->cart->invoiceAddress->gender === 'F') {
-                                        echo SALUTATION_F;
-                                    }
-                                    else {
-                                        echo SALUTATION_U;
-                                    }
-                                        
-                                ?>
-                                <?= $this->cart->invoiceAddress->firstName; ?> <?= $this->cart->invoiceAddress->lastName; ?>
-                            </div>
-                            <div class="user-addr-details">
-                                <?= $this->cart->invoiceAddress->company; ?><br>
-                                <?= $this->cart->invoiceAddress->street; ?> <?= $this->cart->invoiceAddress->number; ?> <?= $this->cart->invoiceAddress->numberExtension; ?><br>
-                                <?= $this->cart->invoiceAddress->postalCode; ?> <?= $this->cart->invoiceAddress->city; ?><br>
-                                <?php 
-                                    $code = $this->cart->invoiceAddress->country;
-                                    $countries = include PROPELLER_PLUGIN_DIR . '/src/Countries.php'; 
 
-                                    if( !$countries[$code] ) 
-                                        echo $code;
-                                    else 
-                                        echo $countries[$code];
-                                ?>
-                            </div>                          
-                        </div>
-                    </div>
+                    <?php echo apply_filters('propel_checkout_step_1_info', $this->cart, $this); ?>
 
                 </div>
                 <div class="checkout-wrapper-steps">
-                    <div class="row align-items-start">
-                        <div class="col-10 col-md-3 col-lg-3">
-                            <div class="checkout-title"><?php echo __('Delivery', 'propeller-ecommerce'); ?></div>
-                        </div>
-                        <div class="col-12 col-md-7 col-lg-7 ml-md-auto order-3 order-md-2 user-details">
-                            <div class="row">
-                                <div class="col-12 col-md-6">
-                                    <div class="addr-title"><?php echo __('Delivery address', 'propeller-ecommerce'); ?></div>
-                                    <div class="user-addr-details">
-                                        
-                                        <?= $this->cart->deliveryAddress->company; ?><br>
-                                        <?php if ($this->cart->deliveryAddress->gender === 'M') {
-                                                echo SALUTATION_M;
-                                            }
-                                            else if ($this->cart->deliveryAddress->gender === 'F') {
-                                                echo SALUTATION_F;
-                                            }
-                                            else {
-                                                echo SALUTATION_U;
-                                            } 
-                                        ?>  
-                                        <?= $this->cart->deliveryAddress->firstName; ?>  <?= $this->cart->deliveryAddress->lastName; ?><br>
-                                        <?= $this->cart->deliveryAddress->street; ?> <?= $this->cart->deliveryAddress->number; ?> <?= $this->cart->deliveryAddress->numberExtension; ?><br>
-                                        <?= $this->cart->deliveryAddress->postalCode; ?> <?= $this->cart->deliveryAddress->city; ?><br>
-                                        <?php 
-                                            $code = $this->cart->deliveryAddress->country;
-                                            $countries = include PROPELLER_PLUGIN_DIR . '/src/Countries.php'; 
-
-                                            if( !$countries[$code] ) 
-                                                echo $code;
-                                            else 
-                                                echo $countries[$code];
-                                        ?>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <div class="addr-title"><?php echo __('Shipping costs', 'propeller-ecommerce'); ?></div>
-                                    <div class="user-addr-details">
-                                        <?php echo '<span class="symbol">&euro;&nbsp;</span><span class="propel-total-shipping">' . PropellerHelper::formatPrice($this->cart->postageData->postage) . '</span>'; ?>                                      
-                                    </div>
-                                </div>
-                            </div>
-                         
-                        </div>
-                    </div>
+                    
+                    <?php echo apply_filters('propel_checkout_step_2_info', $this->cart, $this); ?>
                     
                 </div>
                 <div class="checkout-wrapper-steps">
-                    <div class="row align-items-start">
-                        <div class="col-10 col-md-3 col-lg-3">
-                            <div class="checkout-title"><?php echo __('Payment method', 'propeller-ecommerce'); ?></div>
-                        </div>
-                        <div class="col-12 col-md-7 col-lg-7 ml-md-auto order-3 order-md-2">                         
-                            <div class="paymethod-details">
-                                <?php foreach ($this->cart->payMethods as $payMethod) { 
-                                  if ($payMethod->code == $this->cart->paymentData->method) {
-                                      echo $payMethod->description;
-                                  } 
-                                } ?>
-                            </div>
-                        </div>
-                    </div>
+                    
+                    <?php echo apply_filters('propel_checkout_step_3_info', $this->cart, $this); ?>
+
                 </div>
                 <div class="checkout-wrapper-steps">
-                    <div class="row align-items-start">
-                        <div class="col-10 col-md-3 col-lg-3">
-                            <div class="checkout-title"><?php echo __('Notes', 'propeller-ecommerce'); ?></div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <form name="checkout-notes" class="form-handler checkout-form validate" method="post">
-                                <input type="hidden" name="action" value="cart_process">
-                                <fieldset>
-                                    <div class="row form-group">
-                                        <div class="col-form-fields col-12 col-md-8">                   
-                                            <label class="form-label" for="field_notes"><?php echo __('Your reference (optional)', 'propeller-ecommerce'); ?></label>
-                                            <input type="text" name="notes" value="" class="form-control" id="field_notes" maxlength="30">
-                                        </div>
-                                    </div>
-                                    <!-- <div class="row form-group">
-                                        <div class="col-form-fields col-12 col-md-8">                   
-                                            <label class="form-label" for="field_extra"><?php echo __('Your reference (optional)', 'propeller-ecommerce'); ?></label>
-                                            <textarea name="order_extra" value="" class="form-control" id="field_extra"></textarea>
-                                        </div>
-                                    </div> -->
-                                </fieldset>
-                                <hr class="checkout-divider"/>
-                                <fieldset>
-                                    <legend class="checkout-header"><?php echo __('Place your order', 'propeller-ecommerce'); ?></legend>
-                                    <div class="row form-group">
-                                        <div class="col-form-fields col-12">
-                                            <div class="form-row">
-                                                <div class="col-12 col-md-8">
-                                                    <label class="form-check-label">
-                                                        <input class="form-check-input" type="checkbox" name="termsConditions" id="termsConditions" value="Y" required aria-required="true">
-                                                        <span><?php echo __('I agree with the', 'propeller-ecommerce'); ?> <a href="/"><?php echo __('Terms and Conditions', 'propeller-ecommerce'); ?></a></span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <div class="row form-group form-group-submit">
-                                    <div class="col-form-fields col-12">
-                                        <div class="form-row">
-                                            <div class="col-12 col-md-8">
-                                                <button type="submit" class="btn-proceed btn-green"><?php echo __('Place an order', 'propeller-ecommerce'); ?></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+
+                    <?php echo apply_filters('propel_checkout_summary_form', $this->cart, $this); ?>
+
                 </div>
             </div>
             <div class="col-12 col-lg-4">
-                <?php include $this->partials_dir .'/cart/propeller-shopping-cart-totals.php'?>   
+
+                <?php echo apply_filters('propel_shopping_cart_totals_with_items', $this->cart, $this); ?>  
+
             </div>
         </div>
     </div>
 </div>
-
-<?php include $this->partials_dir . '/other/propeller-toast.php'; ?>

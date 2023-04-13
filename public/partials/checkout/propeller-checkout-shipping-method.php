@@ -13,7 +13,7 @@ use Propeller\PropellerHelper;
                 <div class="col-12">
                     <div class="shipping-cost-wrapper justify-content-between d-flex align-items-center">
                         <div class="carrier-name col-6"><?php echo __('Shipping costs','propeller-ecommerce'); ?></div> 
-                        <div class="carrier-cost col-4 text-right">&euro; <?= PropellerHelper::formatPrice($cart->postageData->postage); ?></div>     
+                        <div class="carrier-cost col-4 text-right">&euro; <?php echo PropellerHelper::formatPrice($cart->postageData->postage); ?></div>     
                     </div>                                                                                                 
                 </div>
             </div>

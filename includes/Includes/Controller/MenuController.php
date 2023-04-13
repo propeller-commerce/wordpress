@@ -1,10 +1,7 @@
 <?php
 namespace Propeller\Includes\Controller;
 
-use GraphQL\Query;
 use Propeller\Includes\Enum\PageType;
-use Propeller\Includes\Model\MenuModel;
-use Propeller\Includes\Query\Category as CategoryQuery;
 
 class MenuController extends BaseController {
     protected $type = 'category';
@@ -14,7 +11,7 @@ class MenuController extends BaseController {
     public function __construct() {
         parent::__construct();
 
-        $this->model = new MenuModel();
+        $this->model = $this->load_model('menu');
 
         $this->category_slug = PageController::get_slug(PageType::CATEGORY_PAGE);
     }
@@ -32,7 +29,7 @@ class MenuController extends BaseController {
 
         foreach ($categories as $cat) {
             if (sizeof($cat->name)) {
-                $cat->url = $this->buildUrl(PageController::get_slug(PageType::CATEGORY_PAGE), $cat->slug[0]->value);
+                $cat->url = $this->buildUrl(PageController::get_slug(PageType::CATEGORY_PAGE), $cat->slug[0]->value, $cat->urlId);
             
                 array_push($cats, $cat);
             }
@@ -45,11 +42,12 @@ class MenuController extends BaseController {
     }
 
     function build_menu($categories, $classes = [], $index = 0) {
-        $slug = isset($_REQUEST['slug']) ? $_REQUEST['slug'] : "";
+        $slug = isset($_REQUEST['slug']) ? sanitize_text_field($_REQUEST['slug']) : "";
 
         $ul_class = isset($classes[$index]) && isset($classes[$index]['ul_classes']) ? $classes[$index]['ul_classes'] : '';
         $li_class = isset($classes[$index]) && isset($classes[$index]['li_classes']) ? $classes[$index]['li_classes'] : '';
-        
+		$a_classes = isset($classes[$index]) && isset($classes[$index]['a_classes']) ? $classes[$index]['a_classes'] : '';
+
         $str = '<ul class="menu-list ' . $ul_class . '">';
 
         foreach ($categories as $cat) {
@@ -60,12 +58,14 @@ class MenuController extends BaseController {
           
             $li_childClass = (isset($cat->categories) && sizeof($cat->categories)) ? 'menu-item-has-children' : '';
             $str .= '<li class="' . $li_class .' '. $li_childClass . '">';
-            $aClass = (isset($cat->categories) && sizeof($cat->categories)) ? 'has-submenu' : '';
+
+			$aClass = $a_classes;
+            $aClass .= (isset($cat->categories) && sizeof($cat->categories)) ? ' has-submenu' : '';
 
             if (!empty($slug) && $slug == $cat->slug[0]->value)
                 $aClass .= ' active';
             
-            $str .= '<a href="' . $this->buildUrl(PageController::get_slug(PageType::CATEGORY_PAGE), $cat->slug[0]->value) . '" class="' . $aClass . '">';
+            $str .= '<a href="' . $this->buildUrl(PageController::get_slug(PageType::CATEGORY_PAGE), $cat->slug[0]->value, $cat->urlId) . '" class="' . $aClass . '">';
             $str .= $cat->name[0]->value;
             $str .= '</a>';
 
@@ -83,8 +83,9 @@ class MenuController extends BaseController {
     }
 
     public function getMenu($elementor_call = false) {
-        $gql = $this->model->get_menu(PROPELLER_BASE_CATALOG, PROPELLER_LANG);
-        
+		$lang = defined('PROPELLER_LANG') ? PROPELLER_LANG : PROPELLER_FALLBACK_LANG;
+        $gql = $this->model->get_menu(PROPELLER_BASE_CATALOG, $lang);
+
         if ($elementor_call) {
             $menu_structure = $this->query($gql, $this->type);    
         }
@@ -99,8 +100,6 @@ class MenuController extends BaseController {
                 CacheController::set($menu_transient, $menu_structure);
             }
         }
-
-        // var_dump($menu_structure);
 
         return $menu_structure;
     }

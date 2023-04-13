@@ -21,7 +21,11 @@ class Attribute extends BaseObject {
         switch ($this->get_type()) {
             case self::ATTR_TEXT: 
                 return $this->hasTextValue();
+            case self::ATTR_LIST: 
+                return $this->hasTextValue();
             case self::ATTR_ENUM: 
+                return $this->hasEnumValue();
+            case self::ATTR_ENUMLIST: 
                 return $this->hasEnumValue();
             case self::ATTR_INTEGER:
                 return $this->hasIntValue();
@@ -35,38 +39,42 @@ class Attribute extends BaseObject {
     }
 
     public function get_type() {
-        return $this->type;
+        return $this->attributeDescription->type;
     }
 
     public function get_description() {
-        $found = array_filter($this->description, function($obj) { return strtolower($obj->language) == strtolower(PROPELLER_LANG); });
+        $found = array_filter($this->attributeDescription->description, function($obj) { return strtolower($obj->language) == strtolower(PROPELLER_LANG); });
 
         if (!count($found)) 
-            $found = array_filter($this->description, function($obj) { return strtolower($obj->language) == strtolower(PROPELLER_FALLBACK_LANG); });
+            $found = array_filter($this->attributeDescription->description, function($obj) { return strtolower($obj->language) == strtolower(PROPELLER_FALLBACK_LANG); });
             
         if (count($found))
-            return current($found)->value;            
+            return current($found)->value;
 
         return '';
     }
 
     public function is_searchable() {
-        return $this->isSearchable;
+        return $this->attributeDescription->isSearchable;
     }
 
     public function is_public() {
-        return $this->isPublic;
+        return $this->attributeDescription->isPublic;
     }
 
     public function is_hidden() {
-        return $this->isHidden;
+        return $this->attributeDescription->isHidden;
     }
 
     public function get_value() {
         switch ($this->get_type()) {
             case self::ATTR_TEXT: 
                 return $this->getTextValue();
+            case self::ATTR_LIST: 
+                return $this->getTextValue();
             case self::ATTR_ENUM: 
+                return $this->getEnumValue();
+            case self::ATTR_ENUMLIST: 
                 return $this->getEnumValue();
             case self::ATTR_INTEGER:
                 return $this->getIntValue();
@@ -144,10 +152,21 @@ class Attribute extends BaseObject {
 
     // enum attr
     private function hasEnumValue() {
-        return is_array($this->enumValue) && sizeof($this->enumValue);
+        return $this->enumValue && is_array($this->enumValue) && sizeof($this->enumValue) && $this->has_array_values($this->enumValue);
     }
 
     private function getEnumValue() {
-        return implode(', ', $this->enumValue);
+        if ($this->hasEnumValue()) {
+            $values = [];
+
+            foreach ($this->enumValue as $val) {
+                if (!empty(trim($val)))
+                    $values[] = $val;
+            }
+
+            return join(', ', $values); 
+        }
+        
+        return '';
     }
 }

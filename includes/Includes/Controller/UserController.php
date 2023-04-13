@@ -13,7 +13,6 @@ use Propeller\Includes\Enum\OrderStatus;
 use Propeller\Includes\Enum\OrderType;
 use Propeller\Includes\Enum\PageType;
 use Propeller\Includes\Enum\UserTypes;
-use Propeller\Includes\Model\UserModel;
 use Propeller\Includes\Object\Attribute as ObjectAttribute;
 
 
@@ -22,16 +21,18 @@ class UserController extends BaseController {
     protected $model;
     protected $AuthController;
     protected $ShoppingCart;
+    protected $response;
 
     public function __construct() {
         parent::__construct();
 
-        $this->model = new UserModel();
+        $this->model = $this->load_model('user');
 
         $this->AuthController = new AuthController();
         $this->ShoppingCart = new ShoppingCartController();
 
         add_action('wp_logout', array($this, 'logout'), PHP_INT_MAX);
+        add_action('logout_redirect', array($this, 'logout_redirect'), PHP_INT_MAX);
     }
 
     /*
@@ -102,6 +103,7 @@ class UserController extends BaseController {
             $redirect_url = '/' . PageController::get_slug(PageType::LOGIN_PAGE);
             
             wp_safe_redirect($redirect_url);
+
             die;
         }
        
@@ -242,6 +244,8 @@ class UserController extends BaseController {
             else {
                 SessionController::set(PROPELLER_USER_ATTR_VALUE, 'guest');
             }
+
+            return null;
         }
             
 
@@ -299,7 +303,7 @@ class UserController extends BaseController {
                 }
                 
                 // wp_clear_auth_cookie();
-                // $this->set_cookie(PROPELLER_USER_SESSION, $loginData->session->email, time() + (2 * DAY_IN_SECONDS));
+                $this->set_cookie(PROPELLER_USER_SESSION, $loginData->session->email, time() + (2 * DAY_IN_SECONDS));
                 SessionController::set(PROPELLER_USER_ID, $userData->userId);
 
                 if (isset($userData->attributes))
@@ -313,7 +317,7 @@ class UserController extends BaseController {
                 $postprocess->message = __('Welcome', 'propeller-ecommerce') . ' ' . $userData->firstName;
                 
                 if (!is_object($cartUserData)) {
-                    $postprocess->message = __('Wrong credentials', 'propeller-ecommerce');
+                    $postprocess->message = __('Failed assigning user to cart', 'propeller-ecommerce');
                 }
             }
         }            
@@ -431,11 +435,9 @@ class UserController extends BaseController {
                 // && isset($_COOKIE[PROPELLER_USER_SESSION]);
     }
 
-    public function logout() {
+    public function logout($redirect = true) {
         $this->remove_cookie(PROPELLER_USER_SESSION);
         
-        SessionController::end();
-
         if (PROPELLER_USER_TRACK_ATTR != '') {
             $track_attrs = explode(',', PROPELLER_USER_TRACK_ATTR);
 
@@ -450,16 +452,30 @@ class UserController extends BaseController {
         // SessionController::set(PROPELLER_USER_ATTR_VALUE, 'guest');
         // CacheController::delete(CacheController::PROPELLER_MENU_TRANSIENT);
 
-        $this->AuthController->logout();
+        if (SessionController::has(PROPELLER_ACCESS_TOKEN))
+            $this->AuthController->logout();
 
+        SessionController::end();
+
+        if ($redirect) {
+            $redirect_url = home_url();
+
+            if (PROPELLER_WP_CLOSED_PORTAL)
+                $redirect_url = home_url('/' . PageController::get_slug(PageType::LOGIN_PAGE));
+            
+            wp_safe_redirect($redirect_url);
+    
+            return $redirect_url;
+        }
+    }
+
+    public function logout_redirect() {
         $redirect_url = home_url();
 
         if (PROPELLER_WP_CLOSED_PORTAL)
-            $redirect_url = '/' . PageController::get_slug(PageType::LOGIN_PAGE);
+            $redirect_url = home_url('/' . PageController::get_slug(PageType::LOGIN_PAGE));
         
-        wp_safe_redirect($redirect_url);
-
-        die;
+        return $redirect_url;
     }
 
     public function register_user($args) {
@@ -486,20 +502,16 @@ class UserController extends BaseController {
         $postprocess->message = "";
 
         if (is_object($registration_response)) {
-            $postprocess->message .= __('Registration successful! You can log in now.');
+            $postprocess->message .= __('Registration successful', 'propeller-ecommerce');
             
-            // $auth_data = $this->AuthController->create([
-            //     'email' => $args['email'],
-            //     'password' => $args['password']
-            // ]);
+            $user_data = $args['user_type'] == UserTypes::CONTACT 
+                         ? $registration_response->contact 
+                         : $registration_response->customer;
 
-            // if (!is_object($auth_data))
-            //     $postprocess->message .= '<br />' . __('Failed to create authentication.');
-            
             // Preserve addresses
             $addressController = new AddressController();
-            $addressController->set_user_data($registration_response->contact);
-            $addressController->set_user_type($registration_response->contact->__typename);
+            $addressController->set_user_data($user_data);
+            $addressController->set_user_type($user_data->__typename);
             $addressController->set_is_registration(true);
 
             // Check what can be filled in from the user data
@@ -515,19 +527,10 @@ class UserController extends BaseController {
                 $args['invoice_address']['middleName'] = $args['middleName'];
             $args['invoice_address']['isDefault'] = 'Y';
 
-            $address_user_id = $registration_response->contact->userId;
-            switch ($registration_response->contact->__typename) {
-                case UserTypes::USER:
-                    $address_user_id = $registration_response->userId;
-                    break;
-                case UserTypes::CUSTOMER:
-                    $address_user_id = $registration_response->userId;
-                    break;
-                case UserTypes::CONTACT:
-                    $address_user_id = $registration_response->contact->company->companyId;
-                    break;
-            }
-
+            $address_user_id = $user_data->__typename == UserTypes::CUSTOMER 
+                               ? $user_data->userId 
+                               : $user_data->company->companyId;
+            
             $addressResult = $addressController->add_address($args['invoice_address'], $address_user_id);
             if (!is_object($addressResult))
                 $postprocess->message .= '<br />' . __('Failed to create invoice address.');
@@ -559,10 +562,18 @@ class UserController extends BaseController {
             }
 
             $postprocess->is_registered = true;
-            $postprocess->redirect = $this->buildUrl('', 'login');
+            $redirect_url = $this->buildUrl('', PageController::get_slug(PageType::LOGIN_PAGE));
+            $postprocess->redirect = esc_url_raw($redirect_url);
+
+            $this->send_registration_email($user_data);
+
+            $postprocess->error = false;
         }
-        else
+        else {
+            $postprocess->error = true;
             $postprocess->message .= '<br />' . $registration_response;
+        }
+            
 
         $this->response->postprocess = $postprocess;
 
@@ -592,6 +603,7 @@ class UserController extends BaseController {
         $raw_params_array[] = 'firstName: "'. $args['firstName'] .'"';
         $raw_params_array[] = 'middleName: "'. $args['middleName'] .'"';
         $raw_params_array[] = 'lastName: "'. $args['lastName'] .'"';
+        $raw_params_array[] = 'primaryLanguage: "'. PROPELLER_LANG .'"';
         // $raw_params_array[] = 'gender: '. new RawObject(isset($args['gender']) ? $args['gender'] : 'U');
 
         if (isset($args['company']) && !empty($args['company'])) $raw_params_array[] = 'company: "'. $args['company'] .'"';
@@ -627,6 +639,7 @@ class UserController extends BaseController {
         $raw_params_array[] = 'middleName: "'. $args['middleName'] .'"';
         $raw_params_array[] = 'lastName: "'. $args['lastName'] .'"';
         $raw_params_array[] = 'gender: '. new RawObject(isset($args['gender']) ? $args['gender'] : 'U');
+        $raw_params_array[] = 'primaryLanguage: "'. PROPELLER_LANG .'"';
 
         if (isset($args['company']) && !empty($args['company'])) $raw_params_array[] = 'company: "'. $args['company'] .'"';
         if (isset($args['email']) && !empty($args['email'])) $raw_params_array[] = 'email: "'. $args['email'] .'"';
@@ -668,14 +681,22 @@ class UserController extends BaseController {
         $response = new stdClass();
         $response->postprocess = new stdClass();
 
-        if (!is_array($reset_link_response)) {
+        if (filter_var($reset_link_response, FILTER_VALIDATE_URL) === FALSE) {
+            $response->postprocess->error = true;
+            $response->postprocess->message = $reset_link_response;
+        }
+        else {
+
             $to = sprintf('to: { email: "%s" }', $args['user_mail']);
             $from = sprintf('from: { name: "%s", email: "%s" }', get_bloginfo('name'), get_bloginfo('admin_email'));
             $subject = __('Reset password?', 'propeller-ecommerce');
 
             ob_start();
-            require $this->emails_dir .'/propeller-reset-password-template.php';
+
+            require $this->load_template('emails', DIRECTORY_SEPARATOR . 'propeller-reset-password-template.php');
+            
             $body = ob_get_clean();
+            ob_end_clean();
 
             $body = str_replace('"', '\"', $body);
             $body = trim(preg_replace('/\s+/', ' ', $body));
@@ -693,16 +714,39 @@ class UserController extends BaseController {
                 $response->postprocess->message = __("Your reset password email sent", "propeller-ecommerce");
             else {
                 $response->postprocess->error = true;
-                $response->postprocess->message = $reset_email_response;
-            }    
-        }
-        else {
-            $response->postprocess->error = true;
-            $response->postprocess->message = $reset_link_response;
+                $response->postprocess->message = __("An error occurred sending Your reset password email", "propeller-ecommerce");
+            }      
         }
             
-
         return $response;
+    }
+
+    private function send_registration_email($user_data) {
+        $to = sprintf('to: { name: "%s", email: "%s" }', sprintf('%s %s %s', $user_data->firstName, $user_data->middleName, $user_data->lastName), $user_data->email);
+        $from = sprintf('from: { name: "%s", email: "%s" }', get_bloginfo('name'), get_bloginfo('admin_email'));
+        $subject = __('Welcome to', 'propeller-ecommerce') . ' ' . get_bloginfo('name');
+
+        ob_start();
+
+        require $this->load_template('emails', DIRECTORY_SEPARATOR . 'propeller-registration-template.php');
+        
+        $body = ob_get_clean();
+        ob_end_clean();
+
+        $body = str_replace('"', '\"', $body);
+        $body = trim(preg_replace('/\s+/', ' ', $body));
+        
+        $vars = '
+            site: { name: "' . get_bloginfo('name') . '" }, 
+            user: { firstName: "' . $user_data->firstName . '" },
+            url: { login: "' . $this->buildUrl('', PageController::get_slug(PageType::LOGIN_PAGE)) . '" }
+        ';
+
+        $email_controller = new EmailController();
+
+        $registration_email_response = $email_controller->send_propeller_email($to, $from, $subject, $body, EmailEventTypes::TRANSACTIONAL, [], [], $vars);
+
+        return $registration_email_response;
     }
 
     public function get_viewer() {
@@ -710,9 +754,14 @@ class UserController extends BaseController {
 
         $raw_params_array = [];
 
+        $attrs_offset = 12;
+
         if (defined('PROPELLER_USER_TRACK_ATTR') && !empty(PROPELLER_USER_TRACK_ATTR)) {
             $attr_track = explode(',', PROPELLER_USER_TRACK_ATTR);
+            $attrs_offset = count($attr_track);
+
             $raw_params_array[] = 'name: ["' . implode('", "', $attr_track) . '"]';
+            $raw_params_array[] = 'offset: ' . $attrs_offset;
         }
 
         $attribute_filter = ['filter' => new RawObject('{' . implode(',', $raw_params_array) . '}')];
@@ -803,26 +852,27 @@ class UserController extends BaseController {
     }
 
     protected function process_attributes($attributes) {
-        if (PROPELLER_USER_TRACK_ATTR != '') {
+        if (defined('PROPELLER_USER_TRACK_ATTR') && !empty(PROPELLER_USER_TRACK_ATTR)) {
             $track_attrs = explode(',', PROPELLER_USER_TRACK_ATTR);
 
             foreach ($track_attrs as $track_attr) {
-                $found = array_filter($attributes, function($obj) use($track_attr) { 
-                    return $obj->name == $track_attr; 
+                $found = array_filter($attributes->items, function($obj) use($track_attr) { 
+                    return $obj->attributeDescription->name == $track_attr; 
                 });
 
                 if (count($found)) {
                     $attribute = new ObjectAttribute(current($found));
 
                     SessionController::set($track_attr, $attribute->get_value());
+
+                    continue;
                 }
             }
         }
     }
 
     public function user_prices($user_specific_prices) {
-        $specific_prices = filter_var($user_specific_prices, FILTER_VALIDATE_BOOLEAN);
-        SessionController::set(PROPELLER_SPECIFIC_PRICES, $specific_prices);
+        SessionController::set(PROPELLER_SPECIFIC_PRICES, $user_specific_prices == 1 ? true : false);
 
         $response = new stdClass();
         $response->success = true;
@@ -839,14 +889,15 @@ class UserController extends BaseController {
         SessionController::start();
 
         SessionController::set(PROPELLER_SESSION, $session->session);
-        SessionController::set(PROPELLER_UID, $session->session->uid);
-
+        
         SessionController::set(PROPELLER_ACCESS_TOKEN, $session->session->accessToken);
         SessionController::set(PROPELLER_REFRESH_TOKEN, $session->session->refreshToken);
         SessionController::set(PROPELLER_EXPIRATION_TIME, $session->session->expirationTime);
     }
 
     protected function postprocess_refresh_token($refresh) {
+        SessionController::get(PROPELLER_USER_DATA);
+
         SessionController::set(PROPELLER_ACCESS_TOKEN, $refresh->access_token);
         SessionController::set(PROPELLER_REFRESH_TOKEN, $refresh->refresh_token);
 
@@ -855,7 +906,4 @@ class UserController extends BaseController {
         $now_date->add(new DateInterval('PT' . $refresh->expires_in . 'S'));
         SessionController::set(PROPELLER_EXPIRATION_TIME, $now_date->format('c'));
     }
-
 }
-
-?>

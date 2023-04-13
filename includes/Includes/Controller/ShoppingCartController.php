@@ -10,12 +10,13 @@ use Propeller\PropellerHelper;
 use Propeller\Includes\Controller\UserController;
 use Propeller\Includes\Enum\CrossupsellTypes;
 use Propeller\Includes\Enum\MediaImagesType;
+use Propeller\Includes\Enum\MediaType;
 use Propeller\Includes\Enum\OrderStatus;
 use Propeller\Includes\Enum\PageType;
 use Propeller\Includes\Enum\PaymentStatuses;
-use Propeller\Includes\Model\ShoppingCartModel;
+use Propeller\Includes\Enum\UserTypes;
 use Propeller\Includes\Object\Product;
-use Propeller\Includes\Query\MediaImages;
+use Propeller\Includes\Query\Media;
 use Propeller\Propeller;
 use stdClass;
 
@@ -30,7 +31,7 @@ class ShoppingCartController extends BaseController {
     public function __construct() {
         parent::__construct();
 
-        $this->model = new ShoppingCartModel();
+        $this->model = $this->load_model('shoppingCart');
     }
 
     public function init_cart() {
@@ -85,7 +86,14 @@ class ShoppingCartController extends BaseController {
     }
 
     public function shopping_cart_voucher($cart, $obj) {
+
+		$this->assets()->std_requires_asset('propeller-action-tooltip');
+
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'cart' . DIRECTORY_SEPARATOR . 'propeller-shopping-cart-voucher.php');
+    }
+    
+    public function shopping_cart_order_type($cart, $obj) {
+        require $this->load_template('partials', DIRECTORY_SEPARATOR . 'cart' . DIRECTORY_SEPARATOR . 'propeller-shopping-cart-order-type.php');
     }
 
     public function shopping_cart_totals($cart, $obj) {
@@ -273,6 +281,14 @@ class ShoppingCartController extends BaseController {
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'checkout' . DIRECTORY_SEPARATOR . 'propeller-checkout-summary-submit.php');
     }
 
+    /**
+     * Used for external price calculation in case custom/external prices are
+     * being used. Call this filter in the ShoppingCartAjaxController
+     */
+    public function shopping_cart_get_item_price($product_identifier, $quantity) {
+        // by default return null since we're using Propeller prices
+        return null;
+    }
     
     /**
      * 
@@ -339,62 +355,70 @@ class ShoppingCartController extends BaseController {
         return ob_get_clean();
     }
 
-    public function quick_add_to_basket() {
-        $this->init_cart();
+	public function quick_add_to_basket() {
 
-        $error = null;
-        $products = [];
+		$this->init_cart();
 
-        $values = $this->parse_excel();
+		$error    = null;
+		$products = [];
 
-        if (!is_array($values)) {
-            $error = __('Error uploading Excel file', 'propeller-ecommerce');
-        }
-        else {
-            $products = [];
+		$subtotal = 0;
+		$exclbtw  = 0;
+		$total    = 0;
 
-            $subtotal = 0;
-            $exclbtw = 0;
-            $total = 0;
-    
-            if (count($values)) {
-                $productController = new ProductController();
-    
-                $skus = [];
-                foreach ($values as $key => $val)
-                    $skus[] = "" . $val['code'] . "";
-                
-                $products_search = $productController->get_products(['sku' => $skus]);
+		if($this->is_post_request()) {
+			if ( ! $this->validate_form_request( '_wpnonce', PROPELLER_NONCE_KEY_FRONTEND ) ) {
+				$error = __( 'Permission denied!', 'propeller-ecommerce' );
+			} else {
 
-                foreach ($products_search->items as $item) {
-                    $net_price = $this->get_quick_item_price($item->price);  
-                    $quantity = $this->get_quick_item_quantity($values, $item->sku);
-    
-                    $quick_item = new stdClass();
-                    $quick_item->code = $item->sku;
-                    $quick_item->id = $item->classId;
-                    $quick_item->name = $item->name[0]->value;
-                    $quick_item->net_price = $net_price;
-                    $quick_item->quantity = $quantity;
-                    $quick_item->total = $net_price * $quantity;
-    
-                    $products[] = $quick_item;
-    
-                    $total += $quick_item->total;
-                }
-            }
-    
-            $exclbtw = PropellerHelper::percentage(21, $total);
-            $subtotal = $total - $exclbtw;
-    
-            $products = array_reverse($products);
-        }
+				$values = $this->parse_excel();
 
-        ob_start();
+                if ( ! is_array( $values ) || count($values) === 0 ) {
+					$error = __( 'Error uploading Excel file', 'propeller-ecommerce' );
+				} else {
 
-        require $this->load_template('templates', DIRECTORY_SEPARATOR . 'propeller-quick-add-to-basket.php');
-        return ob_get_clean();
-    }
+					$productController = new ProductController();
+
+					$skus = [];
+					foreach ( $values as $key => $val ) {
+						$skus[] = "\"" . $val['code'] . "\"";
+					}
+
+					$products_search = $productController->get_products( [ 'sku' => implode(',', $skus) ], true );
+
+					if(isset($products_search->items)) {
+						foreach ( $products_search->items as $item ) {
+							$net_price = $this->get_quick_item_price( $item->price );
+							$quantity  = $this->get_quick_item_quantity( $values, $item->sku );
+
+							$quick_item            = new stdClass();
+							$quick_item->code      = $item->sku;
+							$quick_item->id        = $item->classId;
+							$quick_item->name      = $item->name[0]->value;
+							$quick_item->net_price = $net_price;
+							$quick_item->quantity  = $quantity;
+							$quick_item->total     = $net_price * $quantity;
+
+							$products[] = $quick_item;
+
+							$total += $quick_item->total;
+						}
+					}
+
+					$exclbtw  = PropellerHelper::percentage( 21, $total );
+					$subtotal = $total - $exclbtw;
+
+					$products = array_reverse( $products );
+				}
+			}
+		}
+
+		ob_start();
+
+		require $this->load_template( 'templates', DIRECTORY_SEPARATOR . 'propeller-quick-add-to-basket.php' );
+
+		return ob_get_clean();
+	}
 
     private function get_quick_item_price($price) {
         if ($price->discount)
@@ -415,7 +439,9 @@ class ShoppingCartController extends BaseController {
     private function parse_excel() {
         $values = [];
 
-        if (isset($_POST['action']) && $_POST['action'] == 'upload_excel_file') {
+		$action = !empty($_POST['action']) ? sanitize_text_field($_POST['action']) : null;
+
+        if ($action === 'upload_excel_file' && !empty($_FILES['attachment']['tmp_name'])) {
             $file = wp_upload_bits($_FILES['attachment']['name'], null, file_get_contents($_FILES['attachment']['tmp_name']));
 
             if ($file['error'] != false) {
@@ -474,6 +500,8 @@ class ShoppingCartController extends BaseController {
     public function shopping_cart() {
         $this->init_cart();
 
+		$this->assets()->std_requires_asset('propeller-action-tooltip');
+
         ob_start();
         
         require $this->load_template('templates', DIRECTORY_SEPARATOR . 'propeller-shopping-cart.php');
@@ -488,14 +516,14 @@ class ShoppingCartController extends BaseController {
 
         // params for cross/upsells
         $crossupsells_rawParams = '{
-            types: [' . CrossupsellTypes::ACCESSORIES . ']
+            types: [' . strtoupper(CrossupsellTypes::ACCESSORIES) . ']
         }';
 
         $gql = $this->model->cart_start(
             new RawObject('siteId: ' . PROPELLER_SITE_ID), 
-            MediaImages::get_media_images_query([
+            Media::get([
                 'name' => MediaImagesType::LARGE
-            ])->__toString(), 
+            ], MediaType::IMAGES)->__toString(),
             ['input' => new RawObject($crossupsells_rawParams)], 
             PROPELLER_LANG
         );
@@ -526,14 +554,14 @@ class ShoppingCartController extends BaseController {
         }';
 
         $crossupsells_rawParams = '{
-            types: [' . CrossupsellTypes::ACCESSORIES . ']
+            types: [' . strtoupper(CrossupsellTypes::ACCESSORIES) . ']
         }';
 
         $gql = $this->model->set_user(
             ['input' => new RawObject($rawParams)], 
-            MediaImages::get_media_images_query([
+            Media::get([
                 'name' => MediaImagesType::LARGE
-            ])->__toString(), 
+            ], MediaType::IMAGES)->__toString(),
             ['input' => new RawObject($crossupsells_rawParams)], 
             PROPELLER_LANG
         );
@@ -547,27 +575,34 @@ class ShoppingCartController extends BaseController {
         return $cartData;
     }
 
-    public function add_item($quantity, $product_id, $notes = '') {
+    public function add_item($quantity, $product_id, $notes = '', $price = null) {
         $this->init_cart();
         
         $type = 'cartAddItem';
 
+        $raw_params_arr = [
+            'cartId: "' . $this->cart_id . '"',
+            'quantity: '. $quantity,
+            'notes: "' . $notes .'"',
+            'productId: '. $product_id
+        ];
+
+        if ($price)
+            $raw_params_arr[] = 'price: ' . $price;
+
         $rawParams = '{
-            cartId: "' . $this->cart_id . '",
-            quantity: '. $quantity .',
-            notes: "' . $notes .'",
-            productId: '. $product_id .'
+            ' . implode(',', $raw_params_arr) . '
         }';
 
         $crossupsells_rawParams = '{
-            types: [' . CrossupsellTypes::ACCESSORIES . ']
+            types: [' . strtoupper(CrossupsellTypes::ACCESSORIES) . ']
         }';
         
         $gql = $this->model->add_item(
             ['input' => new RawObject($rawParams)],
-            MediaImages::get_media_images_query([
+            Media::get([
                 'name' => MediaImagesType::LARGE
-            ])->__toString(),
+            ], MediaType::IMAGES)->__toString(),
             ['input' => new RawObject($crossupsells_rawParams)],
             PROPELLER_LANG
         );
@@ -617,14 +652,14 @@ class ShoppingCartController extends BaseController {
         }';
 
         $crossupsells_rawParams = '{
-            types: [' . CrossupsellTypes::ACCESSORIES . ']
+            types: [' . strtoupper(CrossupsellTypes::ACCESSORIES) . ']
         }';
         
         $gql = $this->model->add_item_bundle(
             ['input' => new RawObject($rawParams)],
-            MediaImages::get_media_images_query([
+            Media::get([
                 'name' => MediaImagesType::LARGE
-            ])->__toString(),
+            ], MediaType::IMAGES)->__toString(),
             ['input' => new RawObject($crossupsells_rawParams)],
             PROPELLER_LANG
         );
@@ -655,27 +690,34 @@ class ShoppingCartController extends BaseController {
         return $this->response;
     }
 
-    public function update_item($quantity, $notes, $item_id) {
+    public function update_item($quantity, $notes, $item_id, $price = null) {
         $this->init_cart();
 
         $type = 'cartUpdateItem';
 
+        $raw_params_arr = [
+            'cartId: "' . $this->cart_id . '"',
+            'quantity: '. $quantity,
+            'notes: "' . $notes .'"',
+            'itemId: '. $item_id
+        ];
+
+        if ($price)
+            $raw_params_arr[] = 'price: ' . $price;
+
         $rawParams = '{
-            cartId: "' . $this->cart_id . '",
-            quantity: '. $quantity .',
-            notes: "' . $notes .'",
-            itemId: '. $item_id .'
+            ' . implode(',', $raw_params_arr) . '
         }';
 
         $crossupsells_rawParams = '{
-            types: [' . CrossupsellTypes::ACCESSORIES . ']
+            types: [' . strtoupper(CrossupsellTypes::ACCESSORIES) . ']
         }';
 
         $gql = $this->model->update_item(
             ['input' => new RawObject($rawParams)],
-            MediaImages::get_media_images_query([
+            Media::get([
                 'name' => MediaImagesType::LARGE
-            ])->__toString(),
+            ], MediaType::IMAGES)->__toString(),
             ['input' => new RawObject($crossupsells_rawParams)],
             PROPELLER_LANG
         );
@@ -720,14 +762,14 @@ class ShoppingCartController extends BaseController {
         }';
 
         $crossupsells_rawParams = '{
-            types: [' . CrossupsellTypes::ACCESSORIES . ']
+            types: [' . strtoupper(CrossupsellTypes::ACCESSORIES) . ']
         }';
     
         $gql = $this->model->delete_item(
             ['input' => new RawObject($rawParams)],
-            MediaImages::get_media_images_query([
+            Media::get([
                 'name' => MediaImagesType::LARGE
-            ])->__toString(),
+            ], MediaType::IMAGES)->__toString(),
             ['input' => new RawObject($crossupsells_rawParams)],
             PROPELLER_LANG
         );
@@ -777,14 +819,14 @@ class ShoppingCartController extends BaseController {
         
         // params for cross/upsells
         $crossupsells_rawParams = '{
-            types: [' . CrossupsellTypes::ACCESSORIES . ']
+            types: [' . strtoupper(CrossupsellTypes::ACCESSORIES) . ']
         }';
         
         $gql = $this->model->update(
             ['input' => new RawObject($rawParams)], 
-            MediaImages::get_media_images_query([
+            Media::get([
                 'name' => MediaImagesType::LARGE
-            ])->__toString(),
+            ], MediaType::IMAGES)->__toString(),
             ['input' => new RawObject($crossupsells_rawParams)],
             PROPELLER_LANG
         );
@@ -807,14 +849,14 @@ class ShoppingCartController extends BaseController {
 
         // params for cross/upsells
         $crossupsells_rawParams = '{
-            types: [' . CrossupsellTypes::ACCESSORIES . ']
+            types: [' . strtoupper(CrossupsellTypes::ACCESSORIES) . ']
         }';
 
         $gql = $this->model->cart_update_address(
             ['input' => new RawObject($rawParams)],
-            MediaImages::get_media_images_query([
+            Media::get([
                 'name' => MediaImagesType::LARGE
-            ])->__toString(),
+            ], MediaType::IMAGES)->__toString(),
             ['input' => new RawObject($crossupsells_rawParams)],
             PROPELLER_LANG
         );
@@ -830,7 +872,7 @@ class ShoppingCartController extends BaseController {
             $postprocess->message = __("Address updated", 'propeller-ecommerce');
 
             if (isset($address_data['next_step']))
-                $postprocess->redirect = home_url("/" . PageController::get_slug(PageType::CHECKOUT_PAGE) . "/" . $address_data['next_step'] . '/');
+                $postprocess->redirect = esc_url_raw(home_url("/" . PageController::get_slug(PageType::CHECKOUT_PAGE) . "/" . $address_data['next_step'] . '/'));
             else
                 $postprocess->reload = true;
         }
@@ -838,6 +880,9 @@ class ShoppingCartController extends BaseController {
             $postprocess->success = false;
             $postprocess->message = $cartData;
         }
+
+        if (!$this->response)
+            $this->response = new stdClass();
 
         $this->response->object = $this->object_name;
 
@@ -858,14 +903,14 @@ class ShoppingCartController extends BaseController {
 
         // params for cross/upsells
         $crossupsells_rawParams = '{
-            types: [' . CrossupsellTypes::ACCESSORIES . ']
+            types: [' . strtoupper(CrossupsellTypes::ACCESSORIES) . ']
         }';
         
         $gql = $this->model->action_code(
             $raw_params, 
-            MediaImages::get_media_images_query([
+            Media::get([
                 'name' => MediaImagesType::LARGE
-            ])->__toString(),
+            ], MediaType::IMAGES)->__toString(),
             ['input' => new RawObject($crossupsells_rawParams)],
             PROPELLER_LANG
         );
@@ -905,14 +950,14 @@ class ShoppingCartController extends BaseController {
 
         // params for cross/upsells
         $crossupsells_rawParams = '{
-            types: [' . CrossupsellTypes::ACCESSORIES . ']
+            types: [' . strtoupper(CrossupsellTypes::ACCESSORIES) . ']
         }';
         
         $gql = $this->model->remove_action_code(
             $raw_params, 
-            MediaImages::get_media_images_query([
+            Media::get([
                 'name' => MediaImagesType::LARGE
-            ])->__toString(),
+            ], MediaType::IMAGES)->__toString(),
             ['input' => new RawObject($crossupsells_rawParams)],
             PROPELLER_LANG
         );
@@ -952,14 +997,14 @@ class ShoppingCartController extends BaseController {
 
         // params for cross/upsells
         $crossupsells_rawParams = '{
-            types: [' . CrossupsellTypes::ACCESSORIES . ']
+            types: [' . strtoupper(CrossupsellTypes::ACCESSORIES) . ']
         }';
         
         $gql = $this->model->voucher_code(
             $raw_params, 
-            MediaImages::get_media_images_query([
+            Media::get([
                 'name' => MediaImagesType::LARGE
-            ])->__toString(),
+            ], MediaType::IMAGES)->__toString(),
             ['input' => new RawObject($crossupsells_rawParams)],
             PROPELLER_LANG
         );
@@ -999,14 +1044,14 @@ class ShoppingCartController extends BaseController {
 
         // params for cross/upsells
         $crossupsells_rawParams = '{
-            types: [' . CrossupsellTypes::ACCESSORIES . ']
+            types: [' . strtoupper(CrossupsellTypes::ACCESSORIES) . ']
         }';
         
         $gql = $this->model->remove_voucher_code(
             $raw_params, 
-            MediaImages::get_media_images_query([
+            Media::get([
                 'name' => MediaImagesType::LARGE
-            ])->__toString(),
+            ], MediaType::IMAGES)->__toString(),
             ['input' => new RawObject($crossupsells_rawParams)],
             PROPELLER_LANG
         );
@@ -1061,14 +1106,14 @@ class ShoppingCartController extends BaseController {
 
         // params for cross/upsells
         $crossupsells_rawParams = '{
-            types: [' . CrossupsellTypes::ACCESSORIES . ']
+            types: [' . strtoupper(CrossupsellTypes::ACCESSORIES) . ']
         }';
         
         $gql = $this->model->update(
             ['input' => new RawObject($raw_data)], 
-            MediaImages::get_media_images_query([
+            Media::get([
                 'name' => MediaImagesType::LARGE
-            ])->__toString(),
+            ], MediaType::IMAGES)->__toString(),
             ['input' => new RawObject($crossupsells_rawParams)],
             PROPELLER_LANG
         );
@@ -1163,8 +1208,7 @@ class ShoppingCartController extends BaseController {
     public function process($order_data) {
         $this->init_cart();
 
-        if (!isset($_POST['payMethod']) || empty($_POST['payMethod']))
-            $_POST['payMethod'] = PROPELLER_DEFAULT_PAYMETHOD;
+		$payMethod = !empty($_POST['payMethod']) ? sanitize_text_field($_POST['payMethod']) : PROPELLER_DEFAULT_PAYMETHOD;
 
         if ($order_data['status'] == OrderStatus::ORDER_STATUS_NEW) {
             $payment = $this->get_payment_data();
@@ -1190,19 +1234,20 @@ class ShoppingCartController extends BaseController {
 
         $raw_params = '{
             cartId: "' . $this->cart_id . '"
-            orderStatus: "' . $order_data['status'] . '"
+            orderStatus: "' . $order_data['status'] . '" 
+            language: "' . PROPELLER_LANG . '"
         }';
 
         // params for cross/upsells
         $crossupsells_rawParams = '{
-            types: [' . CrossupsellTypes::ACCESSORIES . ']
+            types: [' . strtoupper(CrossupsellTypes::ACCESSORIES) . ']
         }';
         
         $gql = $this->model->process(
             ['input' => new RawObject($raw_params)], 
-            MediaImages::get_media_images_query([
+            Media::get([
                 'name' => MediaImagesType::SMALL
-            ])->__toString(),
+            ], MediaType::IMAGES)->__toString(),
             PROPELLER_LANG
         );
 
@@ -1214,11 +1259,11 @@ class ShoppingCartController extends BaseController {
             $payment_controller = new PaymentController();
             $redirect_url = $this->buildUrl('', PageController::get_slug(PageType::THANK_YOU_PAGE)) . '?order_id=' . $cartData->cartOrderId;
             
-            if ($_POST['payMethod'] != PROPELLER_DEFAULT_PAYMETHOD && $payment_controller->has_providers()) {                
+            if ($payMethod != PROPELLER_DEFAULT_PAYMETHOD && $payment_controller->has_providers()) {
                 
                 $payment_args = [
                     "user_id" => SessionController::get(PROPELLER_USER_ID),
-                    "method" => $_POST['payMethod'],
+                    "method" => $payMethod,
                     "order_id" => $cartData->cartOrderId,
                     "amount" => sprintf("%.2F", number_format($cartData->order->total->net, 2, '.', '')),
                     "currency" => "EUR",    // TODO: check how to make this dynamic
@@ -1242,14 +1287,26 @@ class ShoppingCartController extends BaseController {
             }
             else {
                 $orderController = new OrderController();
-                $orderController->change_status([
-                    'order_id' => $cartData->cartOrderId,
-                    'status' => SessionController::get(PROPELLER_ORDER_STATUS_TYPE),
-                    'add_pdf' => 'true',
-                    'payStatus' => 'UNKNOWN',
-                    'send_email' => 'true',
-                    'delete_cart' => 'true'
-                ]);
+                if ( SessionController::get(PROPELLER_ORDER_STATUS_TYPE) == OrderStatus::ORDER_STATUS_NEW) {
+                    $orderController->change_status([
+                        'order_id' => $cartData->cartOrderId,
+                        'status' => SessionController::get(PROPELLER_ORDER_STATUS_TYPE),
+                        'add_pdf' => 'true',
+                        'payStatus' => 'UNKNOWN',
+                        'send_email' => 'true',
+                        'delete_cart' => 'true'
+                    ]);
+                }
+                else {
+                    $orderController->change_status([
+                        'order_id' => $cartData->cartOrderId,
+                        'status' => SessionController::get(PROPELLER_ORDER_STATUS_TYPE),
+                        'add_pdf' => 'false',
+                        'payStatus' => 'UNKNOWN',
+                        'send_email' => 'false',
+                        'delete_cart' => 'true'
+                    ]);
+                }
             }
 
             $this->response = new stdClass();
@@ -1260,7 +1317,7 @@ class ShoppingCartController extends BaseController {
             FlashController::add(PROPELLER_ORDER_PLACED, $cartData->cartOrderId);
 
             $postprocess->message = __("Cart processed", 'propeller-ecommerce');
-            $postprocess->redirect = $redirect_url;
+            $postprocess->redirect = esc_url_raw($redirect_url);
         }
         else {
             $postprocess->message = $cartData;
@@ -1406,7 +1463,7 @@ class ShoppingCartController extends BaseController {
         $invoiceAddress = null;
         $deliveryAddress = null;
 
-        if ($userData->__typename == 'Contact') {
+        if ($userData->__typename == UserTypes::CONTACT) {
             foreach ($userData->company->addresses as $addr) {
                 if ($addr->type == AddressType::DELIVERY && $addr->isDefault == 'Y')
                     $deliveryAddress = $addr;
@@ -1436,7 +1493,7 @@ class ShoppingCartController extends BaseController {
         catch (Exception $ex) {}
     }
 
-    private function format_address_params($args) {
+    protected function format_address_params($args) {
         $params = [];
 
         if (isset($args['city']) && !empty($args['city'])) $params[] = 'city: "' . $args['city'] . '"';
@@ -1444,8 +1501,13 @@ class ShoppingCartController extends BaseController {
         if (isset($args['company']) && !empty($args['company'])) $params[] = 'company: "' . $args['company'] . '"';
         if (isset($args['country']) && !empty($args['country'])) $params[] = 'country: "' . $args['country'] . '"';
         if (isset($args['email']) && !empty($args['email'])) $params[] = 'email: "' . $args['email'] . '"';
+        
         if (isset($args['firstName']) && !empty($args['firstName'])) $params[] = 'firstName: "' . $args['firstName'] . '"';
+        else $params[] = 'firstName: "' . SessionController::get(PROPELLER_USER_DATA)->firstName . '"';
+        
         if (isset($args['lastName']) && !empty($args['lastName'])) $params[] = 'lastName: "' . $args['lastName'] . '"';
+        else $params[] = 'lastName: "' . SessionController::get(PROPELLER_USER_DATA)->lastName . '"';
+
         if (isset($args['middleName']) && !empty($args['middleName'])) $params[] = 'middleName: "' . $args['middleName'] . '"';
         if (isset($args['gender']) && !empty($args['gender'])) $params[] = 'gender: ' . new RawObject($args['gender']);
         else  $params[] = 'gender: ' . new RawObject("U");
@@ -1459,7 +1521,7 @@ class ShoppingCartController extends BaseController {
         if (isset($args['icp']) && !empty($args['icp'])) $params[] = 'icp: ' . new RawObject($args['icp']);
         else $params[] = 'icp: ' . new RawObject("N");
         if (isset($args['phone']) && !empty($args['phone'])) $params[] = 'phone: "' . $args['phone'] . '"';
-        $params[] = 'type: ' . new RawObject(isset($args['type']) ? $args['type'] : AddressType::DELIVERY);
+        $params[] = 'type: ' . new RawObject(isset($args['type']) ?  $args['type'] : AddressType::DELIVERY);
 
         return $params;
     }

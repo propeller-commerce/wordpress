@@ -6,9 +6,9 @@
     <symbol viewBox="0 0 8 14" id="shape-arrow-right"><title>Arrow right </title><path d="M.31.303.307.308a1.055 1.055 0 0 0 0 1.487L5.478 7 .306 12.205a1.055 1.055 0 0 0 0 1.487 1.041 1.041 0 0 0 1.478 0l5.91-5.948a1.055 1.055 0 0 0 0-1.488h-.001L7.42 5.98 1.784.308A1.041 1.041 0 0 0 .31.303z" fill-rule="evenodd"/></symbol>  
     <symbol viewBox="0 0 14 14" id="shape-close"><title>Close</title><path d="M1.795.308 7 5.512 12.205.308a1.052 1.052 0 1 1 1.487 1.487L8.488 7l5.204 5.205a1.052 1.052 0 1 1-1.487 1.487L7 8.488l-5.205 5.204a1.052 1.052 0 1 1-1.487-1.487L5.512 7 .308 1.795A1.052 1.052 0 1 1 1.795.308z" fill-rule="evenodd"/></symbol>  
 </svg>
-<div class="container-fluid px-0 propeller-product-listing <?= apply_filters('propel_product_listing_classes', 'propeller-product-listing'); ?>">
-    <div class="row">
-        <div class="col-12 col-md-4 col-xl-3 propeller-catalog-filters <?= apply_filters('propel_catalog_filters_classes', ''); ?>" id="propeller-catalog-filters">
+<div class="container-fluid px-0 propeller-product-listing <?php echo apply_filters('propel_product_listing_classes', 'propeller-product-listing'); ?>">
+    <div class="row" data-action="<?php echo esc_attr($this->filters->get_action()); ?>" data-prop_value="<?php echo esc_attr($this->filters->get_slug()); ?>" data-prop_name="<?php echo esc_attr($this->filters->get_prop()); ?>" data-liststyle="<?php echo esc_attr($this->filters->get_liststyle()); ?>">
+        <div class="col-12 col-md-4 col-xl-3 propeller-catalog-filters <?php echo apply_filters('propel_catalog_filters_classes', ''); ?>" id="propeller-catalog-filters">
             <?php if( $this->data->itemsFound > 0 ) { ?>        
                 <div class="row no-gutters fixed-filter-header d-flex d-md-none">
                     <div class="col">
@@ -33,7 +33,7 @@
             <div class="row no-gutters fixed-menu-footer d-flex d-md-none">
                 <div class="col-8 d-flex align-items-center">
                     <button type="button" class="btn-apply-filters" id="filter-menu-show-selection">
-                        <?php echo __('Show', 'propeller-ecommerce'); ?> <span class="catalog-filtered-results" id="filtered_results"><?= $this->data->itemsFound; ?></span> <?php echo __('resultaten', ''); ?>
+                        <?php echo __('Show', 'propeller-ecommerce'); ?> <span class="catalog-filtered-results" id="filtered_results"><?php echo esc_html($this->data->itemsFound); ?></span> <?php echo __('results', 'propeller-ecommerce'); ?>
                     </button>
                 </div>
                 <div class="col-4 d-flex align-items-center justify-content-end">

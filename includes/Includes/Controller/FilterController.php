@@ -9,6 +9,8 @@ class FilterController extends BaseController {
     protected $slug = '';
     protected $action = '';
     protected $prop = '';
+    protected $liststyle = 'blocks';
+    protected $obid = '';
     protected $attr_filters;
     public $filters = [];
     
@@ -74,6 +76,14 @@ class FilterController extends BaseController {
         $this->prop = $name;
     }
 
+    public function set_liststyle($style) {
+        $this->liststyle = $style;
+    }
+
+    public function set_obid($obid) {
+        $this->obid = $obid;
+    }
+
     public function get_slug() {
         return $this->slug;
     }
@@ -84,5 +94,13 @@ class FilterController extends BaseController {
 
     public function get_prop() {
         return $this->prop;
+    }
+
+    public function get_liststyle() {
+        return $this->liststyle;
+    }
+
+    public function get_obid() {
+        return $this->obid;
     }
 }

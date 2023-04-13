@@ -2,22 +2,22 @@
     $expanded = true;
 ?>
 <div class="filter">
-    <button class="btn-filter" type="button" href="#filtersForm_<?= $filter->id; ?>" data-toggle="collapse" aria-expanded="<?php echo $expanded ? 'true': 'false'; ?>" aria-controls="filterForm_<?= $filter->id; ?>">
-        <span><?= $filter->description; ?></span>
+    <button class="btn-filter" type="button" href="#filtersForm_<?php echo esc_attr($filter->id); ?>" data-toggle="collapse" aria-expanded="<?php echo esc_attr($expanded ? 'true': 'false'); ?>" aria-controls="filterForm_<?php echo esc_attr($filter->id); ?>">
+        <span><?php echo esc_html($filter->description); ?></span>
     </button>  
         
-    <div class="text-filter collapse <?php echo $expanded ? 'show': ''; ?>" id="filtersForm_<?= $filter->id; ?>">
-        <form method="get" class="filterForm collapse <?php echo $expanded ? 'show': ''; ?>" id="filterForm_<?= $filter->id; ?>">
-            <input type="hidden" name="prop_value" value="<?= $this->slug; ?>" />
-            <input type="hidden" name="prop_name" value="<?= $this->prop; ?>" />
-            <input type="hidden" name="action" value="<?= $this->action; ?>" />
+    <div class="text-filter collapse <?php echo (bool) $expanded ? 'show': ''; ?>" id="filtersForm_<?php echo esc_attr($filter->id); ?>">
+        <form method="get" class="filterForm" id="filterForm_<?php echo esc_attr($filter->id); ?>">
+            <input type="hidden" name="prop_value" value="<?php echo esc_attr($this->slug); ?>" />
+            <input type="hidden" name="prop_name" value="<?php echo esc_attr($this->prop); ?>" />
+            <input type="hidden" name="action" value="<?php echo esc_attr($this->action); ?>" />
             
             <?php foreach ($filter->textFilter as $vals) { if ($vals->value != '') { ?>
                 <div class="form-check">
                     <?php 
                         $checked = '';
                         if (isset($_REQUEST[$filter->searchId])) {
-                            $filter_vals = explode(',', $_REQUEST[$filter->searchId]);
+                            $filter_vals = explode('^', esc_attr($_REQUEST[$filter->searchId]));
 
                             if (in_array($vals->value . '~' . $type, $filter_vals))
                                 $checked = 'checked';
@@ -26,13 +26,13 @@
 
                     <input 
                         type="checkbox" 
-                        name="<?= $filter->searchId; ?>" 
+                        name="<?php echo esc_attr($filter->searchId); ?>"
                         class="form-check-input styled-checkbox" 
-                        id="filterForm_<?= $filter->id; ?>_<?= $vals->value; ?>" 
-                        value="<?= $vals->value . '~' . $type; ?>"
-                        <?= $checked; ?>>
-                        <label for="filterForm_<?= $filter->id; ?>_<?= $vals->value; ?>" title="<?= $vals->value; ?>" 
-                            class="form-check-label"><span class="value"><?= $vals->value; ?> (<?= $vals->count; ?>)</span>
+                        id="filterForm_<?php echo esc_attr($filter->id); ?>_<?php echo esc_attr($vals->value); ?>"
+                        value="<?php echo esc_attr($vals->value) . '~' . esc_attr($type); ?>"
+                        <?php echo (string) $checked; ?>>
+                        <label for="filterForm_<?php echo esc_attr($filter->id); ?>_<?php echo esc_attr($vals->value); ?>" title="<?php echo esc_attr($vals->value); ?>"
+                            class="form-check-label"><span class="value"><?php echo esc_attr($vals->value); ?> (<?php echo intval($vals->count); ?>)</span>
                     </label>
                 </div> 
             <?php } } ?>

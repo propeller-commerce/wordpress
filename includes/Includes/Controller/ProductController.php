@@ -2,18 +2,18 @@
 
 namespace Propeller\Includes\Controller;
 
-use GraphQL\InlineFragment;
-use GraphQL\Query;
 use GraphQL\RawObject;
 use Propeller\Includes\Enum\MediaImagesType;
+use Propeller\Includes\Enum\MediaType;
 use Propeller\Includes\Enum\PageType;
-use Propeller\Includes\Model\ProductModel;
 use Propeller\Includes\Object\AttributeArray;
 use Propeller\Includes\Object\Cluster;
 use Propeller\Includes\Object\FilterArray;
 use Propeller\Includes\Object\Product;
-use Propeller\Includes\Query\MediaImages;
+use Propeller\Includes\Query\Media;
+use Propeller\PropellerUtils;
 use stdClass;
+use TRP_Translate_Press;
 
 class ProductController extends BaseController {
     protected $type = 'product';
@@ -27,11 +27,12 @@ class ProductController extends BaseController {
     public $sort_order = [];
 
     protected $model;
+    public $pagename;
 
     public function __construct() {
         parent::__construct();
 
-        $this->model = new ProductModel();
+        $this->model = $this->load_model('product');
 
         $this->sort_arr = [
             "dateChanged" => __('Date changed', 'propeller-ecommerce'),
@@ -56,11 +57,11 @@ class ProductController extends BaseController {
         Product actions
 
     */
-    public function product_price($product, $obj) {
+    public function product_price($product, $quantity = 1, $is_bulk = false) {
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-product-price.php');
     }
 
-    public function cluster_price($product, $obj) {
+    public function cluster_price($product, $quantity = 1, $is_bulk = false) {
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-cluster-price.php');
     }
     
@@ -126,6 +127,10 @@ class ProductController extends BaseController {
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-product-card-crossupsell.php');
     }
 
+    public function product_crossupsells_ajax_items($product, $obj, $type) {
+        require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-product-crossupsells-ajax-items.php');
+    }
+
     public function product_add_favorite($product) {
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-product-add-favorite.php');
     }
@@ -148,6 +153,22 @@ class ProductController extends BaseController {
 
     public function product_specifications($product) {
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-product-specifications.php');
+    }
+
+    public function product_downloads_content($product) {
+        require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-product-downloads-content.php');
+    }
+
+    public function product_videos_content($product) {
+        require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-product-videos-content.php');
+    }
+
+    public function product_specifications_content($product) {
+        require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-product-specifications-content.php');
+    }
+
+    public function product_specifications_rows($product) {
+        require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-product-specifications-rows.php');
     }
 
     public function cluster_name($cluster) {
@@ -222,11 +243,7 @@ class ProductController extends BaseController {
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-cluster-card-crossupsell.php');
     }
 
-    public function cluster_crossupsells_ajax($obj) {
-        require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-cluster-crossupsells-ajax.php');
-    }
-
-    public function cluster_crossupsells_ajax_items($cluster, $obj) {
+    public function cluster_crossupsells_ajax_items($cluster, $obj, $type) {
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-cluster-crossupsells-ajax-items.php');
     }
 
@@ -246,6 +263,9 @@ class ProductController extends BaseController {
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-cluster-card.php');
     }
     
+    public function crossupsells_ajax($obj, $type) {
+        require $this->load_template('partials', DIRECTORY_SEPARATOR . 'product' . DIRECTORY_SEPARATOR . 'propeller-crossupsells-ajax.php');
+    }
     
     
     /* 
@@ -254,11 +274,18 @@ class ProductController extends BaseController {
     
     */
     public function product_details($is_ajax = false) {
-        global $propel;
+        global $propel, $wp_query;
         
+        $productId = null;
+
+        if (PROPELLER_ID_IN_URL) {
+            if (isset($wp_query->query_vars) && isset($wp_query->query_vars['obid']) && is_numeric($wp_query->query_vars['obid']))
+                $productId = (int) $wp_query->query_vars['obid'];
+        }
+
         $data = isset($propel['data']) 
             ? $propel['data'] 
-            : $this->get_product(get_query_var('slug'), null, [
+            : $this->get_product(get_query_var('slug'), $productId, [
                 'attribute' => '{ isPublic: true }'
             ]);
 
@@ -267,13 +294,6 @@ class ProductController extends BaseController {
             
         if ($data->class == 'cluster')
             $this->product = new Cluster($data);
-        
-        $this->attributes = [];
-
-        if ($this->product->class == 'product' && $this->product->attributes) {
-            $attrs = new AttributeArray($this->product->attributes);
-            $this->attributes = $attrs->get_non_empty_attrs();
-        }   
 
         $this->slug = get_query_var('slug');
 
@@ -287,32 +307,47 @@ class ProductController extends BaseController {
         return $content;
     }
 
-    public function cluster_details($slug) {
-        $data = $this->get_cluster($slug, null, [
-            'attribute' => '{ isPublic: true }'
-        ]);
+    public function cluster_details($slug, $cluster_id = 0) {
+        $data = null;
 
-        $this->product = new Cluster($data);
+        if ($cluster_id > 0) {
+            $cluster_transient = PROPELLER_VIEWING_CLUSTER . '_' . $cluster_id;
+
+            if (false === ($data = CacheController::get($cluster_transient))) {
+                $data = $this->get_cluster($slug, $cluster_id, [
+                    'attribute' => '{ isPublic: true }'
+                ]);
+
+                CacheController::set($cluster_transient, $data, 30 * MINUTE_IN_SECONDS);
+            }
+        }
+
+        if ($data) {
+            $this->product = new Cluster($data);
+            $this->slug = $this->product->slug[0]->value;
+
+            ob_start();
+    
+            require $this->load_template('templates', DIRECTORY_SEPARATOR . 'propeller-cluster-details.php');
+            $content = ob_get_contents();
+            ob_end_clean();
+    
+            $this->slug = $slug;
+    
+            return $content;
+        }
         
-        ob_start();
-
-        require $this->load_template('templates', DIRECTORY_SEPARATOR . 'propeller-cluster-details.php');
-        $content = ob_get_contents();
-        ob_end_clean();
-
-        $this->slug = $slug;
-
-        return $content;
+        return '';
     }
 
-    public function load_crossupsells($slug, $class) {
+    public function load_crossupsells($slug, $class, $crossupsell_type) {
         $data = $class == 'product' 
-            ? $this->load_product_crossupsells($slug)
-            : $this->load_cluster_crossupsells($slug);
+            ? $this->load_product_crossupsells($slug, $crossupsell_type)
+            : $this->load_cluster_crossupsells($slug, $crossupsell_type);
 
         ob_start();
 
-        apply_filters('propel_' . $class . '_crossupsells_ajax_items', $data, $this);
+        apply_filters('propel_' . $class . '_crossupsells_ajax_items', $data, $this, $crossupsell_type);
         
         $content = ob_get_clean();
         
@@ -321,37 +356,104 @@ class ProductController extends BaseController {
         return $content;
     }
 
-    private function load_product_crossupsells($slug) {
+    private function load_product_crossupsells($slug, $crossupsell_type) {
         $type = 'product';
 
-        $gql = $this->model->product_crossupsells(
+        $gql = $this->model->crossupsells(
             ['slug' => $slug, 'language' => PROPELLER_LANG],
             ['filter' => new RawObject('{ isPublic: true }')],
-            MediaImages::get_media_images_query([
-                'name' => MediaImagesType::LARGE
-            ])->__toString(),
-            PROPELLER_LANG
+            Media::get([
+                'name' => MediaImagesType::MEDIUM
+            ], MediaType::IMAGES)->__toString(),
+            PROPELLER_LANG,
+            $crossupsell_type,
+            $type
         );
 
         return $this->query($gql, $type);
     }
 
-    private function load_cluster_crossupsells($slug) {
+    private function load_cluster_crossupsells($slug, $crossupsell_type) {
         $type = 'cluster';
 
-        $gql = $this->model->cluster_crossupsells(
+        $gql = $this->model->crossupsells(
             ['slug' => $slug, 'language' => PROPELLER_LANG],
             ['filter' => new RawObject('{ isPublic: true }')],
-            MediaImages::get_media_images_query([
-                'name' => MediaImagesType::LARGE
-            ])->__toString(),
-            PROPELLER_LANG
+            Media::get([
+                'name' => MediaImagesType::MEDIUM
+            ], MediaType::IMAGES)->__toString(),
+            PROPELLER_LANG,
+            $crossupsell_type,
+            $type
         );
 
         return $this->query($gql, $type);
+    }
+
+    public function load_specifications($product_id, $page = 1, $offset = 12) {
+        $type = 'product';
+
+        $gql = $this->model->specifications($product_id, ['filter' => new RawObject('{ isPublic: true, offset: 1000 }')]);
+
+        $product = new Product($this->query($gql, $type));
+
+        ob_start();
+
+        $page == 1 
+            ? apply_filters('propel_product_specifications_content', $product)
+            : apply_filters('propel_product_specifications_rows', $product);
+        
+        $content = ob_get_clean();
+        
+        ob_end_clean();
+        
+        return $content;
+    }
+
+    public function load_downloads($product_id) {
+        $type = 'product';
+
+        $gql = $this->model->downloads($product_id, Media::get(null, MediaType::DOCUMENTS));
+        
+        $product = new Product($this->query($gql, $type));
+
+        ob_start();
+
+        apply_filters('propel_product_downloads_content', $product);
+        
+        $content = ob_get_clean();
+        
+        ob_end_clean();
+        
+        return $content;
+    }
+    
+    public function load_videos($product_id) {
+        $type = 'product';
+
+        $gql = $this->model->videos($product_id, Media::get(null, MediaType::VIDEOS));
+        
+        $product = new Product($this->query($gql, $type));
+
+        ob_start();
+
+        apply_filters('propel_product_videos_content', $product);
+        
+        $content = ob_get_clean();
+        
+        ob_end_clean();
+        
+        return $content;
     }
     
     public function search_products() {
+
+	    static $search_id = null;
+	    if(is_null($search_id)) {
+		    $search_id = 0;
+	    }
+	    $search_id++;
+
         ob_start();
         
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'other' . DIRECTORY_SEPARATOR . 'propeller-product-search.php');
@@ -363,7 +465,7 @@ class ProductController extends BaseController {
         global $propel;
 
         if (!$applied_filters || !sizeof($applied_filters))
-            $applied_filters = $_REQUEST;
+            $applied_filters = PropellerUtils::sanitize($_REQUEST);
 
         $applied_filters['language'] = PROPELLER_LANG;
 
@@ -376,14 +478,20 @@ class ProductController extends BaseController {
         if (!empty($term))
             $qry_params['term'] = $term;
 
+        if (!isset($qry_params['language']))
+            $qry_params['language'] = PROPELLER_LANG;
+
         $sort_params = isset($applied_filters['sort']) && !empty($applied_filters['sort']) ? explode(',', $applied_filters['sort']) : '';
         $sort = is_array($sort_params) && !empty($sort_params[0]) ? $sort_params[0] : array_key_first($this->sort_arr);
         $order = is_array($sort_params) && !empty($sort_params[1]) ? $sort_params[1] : array_key_first($this->sort_order);
+        $style = isset($applied_filters['view']) ? $applied_filters['view'] : 'blocks';
 
         $this->data = isset($propel['data']) 
             ? $propel['data'] 
             : $this->get_products($qry_params);
 
+        $this->products = [];
+        
         foreach ($this->data->items as $product) {
             if (!count($product->slug) || ($product->class == 'product' && $product->status == 'N')) {
                 $this->data->products->itemsFound--;
@@ -404,6 +512,7 @@ class ProductController extends BaseController {
         $this->filters->set_slug($term);
         $this->filters->set_action("do_search");
         $this->filters->set_prop('term');
+        $this->filters->set_liststyle($style);
 
         $this->search_categories = [];
         foreach ($this->products as $product) {
@@ -453,10 +562,8 @@ class ProductController extends BaseController {
     }
 
     public function global_product_search($applied_filters = [], $is_ajax = false) {
-        ob_start();
-
         if (!$applied_filters || !sizeof($applied_filters))
-            $applied_filters = $_REQUEST;
+            $applied_filters = PropellerUtils::sanitize($_REQUEST);
 
         $term = isset($applied_filters['term']) ? $applied_filters['term'] : get_query_var('term');
 
@@ -466,14 +573,16 @@ class ProductController extends BaseController {
         $term = urldecode($term);
         $qry_params['term'] = $term;
 
-        return $this->global_search_products($qry_params);
+        $results = $this->global_search_products($qry_params);
+
+        return $results;
     }
 
     public function brand($applied_filters = [], $is_ajax = false) {
         global $propel;
 
         if (!$applied_filters || !sizeof($applied_filters))
-            $applied_filters = $_REQUEST;
+            $applied_filters = PropellerUtils::sanitize($_REQUEST);
 
         $applied_filters['language'] = PROPELLER_LANG;
 
@@ -486,9 +595,13 @@ class ProductController extends BaseController {
         if (!empty($term))
             $qry_params['manufacturer'] = $term;
 
+        if (!isset($qry_params['language']))
+            $qry_params['language'] = PROPELLER_LANG;
+
         $sort_params = isset($applied_filters['sort']) && !empty($applied_filters['sort']) ? explode(',', $applied_filters['sort']) : '';
         $sort = is_array($sort_params) && !empty($sort_params[0]) ? $sort_params[0] : array_key_first($this->sort_arr);
         $order = is_array($sort_params) && !empty($sort_params[1]) ? $sort_params[1] : array_key_first($this->sort_order);
+        $style = isset($applied_filters['view']) ? $applied_filters['view'] : 'blocks';
 
         $this->data = isset($propel['data']) 
             ? $propel['data']
@@ -516,6 +629,7 @@ class ProductController extends BaseController {
         $this->filters->set_slug($term);
         $this->filters->set_prop('manufacturer');
         $this->filters->set_action("do_brand");
+        $this->filters->set_liststyle($style);
 
         $this->search_categories = [];
         foreach ($this->products as $product) {
@@ -565,8 +679,9 @@ class ProductController extends BaseController {
     public function brand_listing_content($applied_filters = [], $is_ajax = false) {
         ob_start();
 
-        if (!$applied_filters || !sizeof($applied_filters))
-        $applied_filters = $_REQUEST;
+        if (!$applied_filters || !sizeof($applied_filters)) {
+	        $applied_filters = PropellerUtils::sanitize( $_REQUEST );
+        }
 
         $filters_applied = $this->process_filters($applied_filters);
         $qry_params = $this->build_search_arguments($filters_applied);
@@ -583,7 +698,6 @@ class ProductController extends BaseController {
     }
 
     public function product_slider($atts = [], $content = null) {
-        ob_start();
 
         $arguments = shortcode_atts(
             [
@@ -608,10 +722,9 @@ class ProductController extends BaseController {
         
         $slider_template = $this->partials_dir . DIRECTORY_SEPARATOR . 'other' . DIRECTORY_SEPARATOR . 'propeller-product-slider.php';
         $do_search = true;
-
         if ($arguments['type'] != '') {
             switch ($arguments['type']) {
-                case 'recently_viewed': 
+                case 'recently_viewed':
                     $slider_template = $this->partials_dir . DIRECTORY_SEPARATOR . 'other' . DIRECTORY_SEPARATOR . 'propeller-recent-slider.php';
                     
                     $do_search = false;
@@ -627,7 +740,9 @@ class ProductController extends BaseController {
             }
         }
 
-        $no_results = false;
+
+
+	    $no_results = false;
         $products = [];
 
         if ($do_search) {
@@ -649,7 +764,9 @@ class ProductController extends BaseController {
         else 
             $no_results = true;
 
-        require $slider_template;
+	    ob_start();
+
+	    require $slider_template;
 
         return ob_get_clean();
     }
@@ -680,11 +797,13 @@ class ProductController extends BaseController {
     /**
      * Temporary function, checks if /product/$slug is product or cluster
      */
-    private function check_product($slug) {
+    private function check_product($slug, $productId = null) {
         $class = null;
 
         $product_gql = $this->model->check_product(
-            ['slug' => $slug, 'language' => PROPELLER_LANG]
+            $productId 
+                ? ['productId' => (int) $productId, 'language' => PROPELLER_LANG] 
+                : ['slug' => $slug, 'language' => PROPELLER_LANG]
         );
         
         $product_check_response = $this->query($product_gql, 'product', false, false);
@@ -693,7 +812,9 @@ class ProductController extends BaseController {
             $class = $product_check_response->class;
         else {
             $cluster_gql = $this->model->check_cluster(
-                ['slug' => $slug, 'language' => PROPELLER_LANG]
+                $productId 
+                    ? ['clusterId' => (int) $productId, 'language' => PROPELLER_LANG] 
+                    : ['slug' => $slug, 'language' => PROPELLER_LANG]
             );
 
             $cluster_check_response = $this->query($cluster_gql, 'cluster', false, false);
@@ -705,63 +826,162 @@ class ProductController extends BaseController {
         return $class;
     }
 
+    private function check_product_language($slug, $productId = null, $type = 'product') {
+        $language = PROPELLER_LANG;
+
+        $gql = $this->model->check_product_language($slug, $productId, $type, $language);
+
+        $response = $this->query($gql, $type);
+
+        $return = new stdClass();
+
+        if (is_object($response) && count($response->slugs)) {
+            $found = array_filter($response->slugs, function($obj) use ($language) { 
+                return strtolower($obj->language) == strtolower($language); 
+            });
+    
+            if (!count($found)) {
+                $return->exists = false;
+                
+
+                $default_lang = PROPELLER_DEFAULT_LOCALE;
+
+                if (strpos($default_lang, '_'))
+                    $default_lang = explode('_', $default_lang)[1];
+
+                $default_found = array_filter($response->slugs, function($obj) use ($default_lang) { 
+                    return strtolower($obj->language) == strtolower($default_lang); 
+                });
+
+                if (count($default_found))
+                    $return->languages = [ current($default_found) ];
+                else 
+                    $return->languages = $response->slugs;
+            }
+            else
+                $return->exists = true;
+        }
+        else {
+            $return->exists = false;
+            // $return->languages = $response->slugs;
+        }
+
+        return $return;
+    }
+
+    public function get_product_default_lang_url($language, $original_url) {
+        if (class_exists('TRP_Translate_Press')) {
+            $trp = TRP_Translate_Press::get_trp_instance();
+            $url_converter = $trp->get_component( 'url_converter' );
+    
+            // It's recommended to keep third parameter of the get_url_for_language() an empty string.
+            $url = $url_converter->get_url_for_language( $language, $original_url, '' );
+    
+            return $url;
+        }
+
+        return null;
+    }
+
     public function get_product($slug, $productId = null, $args = []) {
-        $class = $this->check_product($slug);
+        $class = $this->check_product($slug, $productId);
 
         if ($class == 'cluster')
             return $this->get_cluster($slug, $productId, $args);
 
-        $gql = $this->model->get_product(
-            $productId 
-                ? ['productId' => (int) $productId] 
-                : ['slug' => $slug, 'language' => PROPELLER_LANG],
-            ['filter' => new RawObject('{ isPublic: true }')],
-            MediaImages::get_media_images_query([
-                'name' => MediaImagesType::LARGE
-            ])->__toString(),
-            PROPELLER_LANG
-        );
-        
-        return $this->query($gql, $this->type);
-    }
+        $product_data = $this->check_product_language($slug, $productId, 'product');
 
-    public function get_cluster($slug, $clusterId = null, $args = []) {
-        if (SessionController::has(PROPELLER_VIEWING_CLUSTER)) {
-            return SessionController::get(PROPELLER_VIEWING_CLUSTER);
-        }
-        else {
-            $type = 'cluster';
 
-            $gql = $this->model->get_cluster(
-                $clusterId 
-                    ? ['clusterId' => (int) $clusterId] 
+        if ($product_data->exists) {
+            $gql = $this->model->get_product(
+                $productId 
+                    ? ['productId' => (int) $productId, 'language' => PROPELLER_LANG] 
                     : ['slug' => $slug, 'language' => PROPELLER_LANG],
                 ['filter' => new RawObject('{ isPublic: true }')],
-                MediaImages::get_media_images_query([
+                Media::get([
                     'name' => MediaImagesType::LARGE
-                ])->__toString(),
+                ], MediaType::IMAGES)->__toString(),
                 PROPELLER_LANG
             );
     
-            return $this->query($gql, $type);
+            return $this->query($gql, $this->type);
+        }
+        else {
+            return $product_data;
+        }
+    }
+
+    public function get_cluster($slug, $clusterId = null, $args = []) {
+        $type = 'cluster';
+        $data = null;
+        
+        if ($clusterId) {
+            $cluster_transient = PROPELLER_VIEWING_CLUSTER . '_' . $clusterId;
+
+            if (false !== ($data = CacheController::get($cluster_transient)))
+                return $data;
+        }
+
+        $product_data = $this->check_product_language($slug, $clusterId, 'cluster');
+
+        if ($product_data->exists) {
+            $attrs_gql = $this->model->get_cluster_attributes($clusterId 
+                ? ['clusterId' => (int) $clusterId, 'language' => PROPELLER_LANG] 
+                : ['slug' => $slug, 'language' => PROPELLER_LANG], PROPELLER_LANG);
+            $attr_data = $this->query($attrs_gql, $type);
+
+            $attr_names = [];
+            $attr_offset = 12;
+
+            if (isset($attr_data->drillDown) && count($attr_data->drillDown)) {
+                foreach ($attr_data->drillDown as $dd)
+                    $attr_names[] = $dd->attribute->name;
+            }
+
+            $attr_offset = count($attr_names);
+
+            $gql = $this->model->get_cluster(
+                $clusterId 
+                    ? ['clusterId' => (int) $clusterId, 'language' => PROPELLER_LANG] 
+                    : ['slug' => $slug, 'language' => PROPELLER_LANG],
+                count($attr_names) 
+                    ? ['filter' => new RawObject('{ name: ["' . implode('", "', $attr_names) . '"], offset: ' . $attr_offset . ' }')]
+                    : NULL,
+                Media::get([
+                    'name' => MediaImagesType::LARGE
+                ], MediaType::IMAGES)->__toString(),
+                PROPELLER_LANG
+            );
+
+            $data = $this->query($gql, $type);
+
+            $this->preserve_cluster($data);
+            
+            return $data;
+        }
+        else {
+            return $product_data;
         }
     }
 
     public function get_products($qry_params, $is_ajax = false) {
         $type = 'products';
 
-        $qry_params['hidden'] = new RawObject('false');
+        //$qry_params['hidden'] = new RawObject('false');
         
         if ($is_ajax) 
             $qry_params = $this->build_search_arguments($qry_params);
+
+        if (!isset($qry_params['language']))
+            $qry_params['language'] = PROPELLER_LANG;
 
         $gql = $this->model->get_products(
             $qry_params,
             ['filter' => new RawObject('{ name: ["PRODUCT_LABEL_1", "PRODUCT_LABEL_2"]}')],
             ['filter' => new RawObject('{ isSearchable: true }')],
-            MediaImages::get_media_images_query([
+            Media::get([
                 'name' => MediaImagesType::MEDIUM
-            ]),
+            ], MediaType::IMAGES)->__toString(),
             PROPELLER_LANG
         );
             
@@ -774,11 +994,14 @@ class ProductController extends BaseController {
         if ($is_ajax) 
             $qry_params = $this->build_search_arguments($qry_params);
 
+        if (!isset($qry_params['language']))
+            $qry_params['language'] = PROPELLER_LANG;
+
         $gql = $this->model->get_slider_products(
             $qry_params, 
-            MediaImages::get_media_images_query([
+            Media::get([
                 'name' => MediaImagesType::MEDIUM
-            ])->__toString(),
+            ], MediaType::IMAGES)->__toString(),
             PROPELLER_LANG);
             
         return $this->query($gql, $type);
@@ -792,11 +1015,14 @@ class ProductController extends BaseController {
         $qry_params['offset'] = PROPELLER_SEARCH_SUGGESTIONS;
         $qry_params['page'] = 1;
 
+        if (!isset($qry_params['language']))
+            $qry_params['language'] = PROPELLER_LANG;
+
         $searchGql = $this->model->global_search_products(
             $qry_params,
-            MediaImages::get_media_images_query([
-                'name' => MediaImagesType::MEDIUM
-            ]),
+            Media::get([
+                'name' => MediaImagesType::SMALL
+            ], MediaType::IMAGES)->__toString(),
             PROPELLER_LANG
         );
 
@@ -817,5 +1043,12 @@ class ProductController extends BaseController {
             array_pop($products);
 
         $this->set_cookie(PROPELLER_RECENT_PRODS_COOKIE, implode(',', $products));
+    }
+
+    public function preserve_cluster($data) {
+        $cluster_transient = PROPELLER_VIEWING_CLUSTER . '_' . $data->clusterId;
+
+        if (false === ($cluster_data = CacheController::get($cluster_transient)))
+            CacheController::set($cluster_transient, $data, 30 * MINUTE_IN_SECONDS);
     }
 }

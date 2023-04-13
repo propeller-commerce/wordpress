@@ -90,7 +90,10 @@ class PropellerInstall {
 
     private static function recurse_copy($src, $dst) { 
         $dir = @opendir($src); 
-        @mkdir($dst); 
+        @mkdir($dst);
+		if(false === $dir) {
+			return;
+		}
         while(false !== ($file = @readdir($dir)) ) { 
             if (($file != '.') && ($file != '..')) { 
                 if (@is_dir($src . DIRECTORY_SEPARATOR . $file)) { 

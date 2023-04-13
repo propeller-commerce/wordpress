@@ -11,6 +11,24 @@ if (!defined('PROPELLER_COOKIE_EXPIRATION'))
 if (!defined('PROPELLER_DEFAULT_TAXZONE'))
     define('PROPELLER_DEFAULT_TAXZONE',						'NL');
 
+if (!defined('PROPELLER_CATALOG_DEPTH'))
+    define('PROPELLER_CATALOG_DEPTH',						3);
+
+if (!defined('PROPELLER_SITEMAP_MAX_ITEMS'))
+    define('PROPELLER_SITEMAP_MAX_ITEMS',				    50000);
+
+if (!defined('PROPELLER_ERROR_LOG'))
+    define('PROPELLER_ERROR_LOG',                           plugin_dir_path(__FILE__) . 'propel-errors.log');
+
+if (!is_file(PROPELLER_ERROR_LOG)) {
+    @chmod(PROPELLER_ERROR_LOG, 0777);
+    @file_put_contents(PROPELLER_ERROR_LOG, "Error log\r\n");
+}
+
+if (!defined('PROPELLER_MACHINES_DEPTH'))
+    define('PROPELLER_MACHINES_DEPTH',						5);
+    
+
 // Flash messages
 if (!defined('PROPELLER_FLASH_PREFIX'))
     define('PROPELLER_FLASH_PREFIX',						'flash_');
@@ -76,17 +94,29 @@ if (!defined('SALUTATION_U'))
 /**********************************************************************/
 
 
-
 /* The following constants must not be overwritten at all costs */
 
-define('PROPELLER_VERSION', 			'0.0.1' );
-define('PROPELLER_PLUGIN_NAME',			'propeller-ecommerce' );
+define('PROPELLER_VERSION', 			'0.0.1');
+define('PROPELLER_PLUGIN_NAME',			'propeller-ecommerce');
+define('PROPELLER_DB_VERSION', 			0.6);
+define('PROPELLER_DB_VERSION_OPTION', 	'propel_db_version');
+
 define('PROPELLER_PLUGIN_DIR', 			plugin_dir_path(__FILE__));
 define('PROPELLER_PLUGIN_DIR_URL', 		plugin_dir_url(__FILE__));
 
-define('PROPELLER_PLUGIN_EXTEND_DIR',	plugin_dir_path(__FILE__) . 'custom');
-define('PROPELLER_PLUGIN_EXTEND_URL',	plugin_dir_url(__FILE__) . '/custom');
+/**
+ * Support for third party plugins
+ * If those are defined from earlier,the custom folder will have different location
+ */
+if ( ! defined( 'PROPELLER_PLUGIN_EXTEND_DIR' ) ) {
+	define( 'PROPELLER_PLUGIN_EXTEND_DIR', plugin_dir_path( __FILE__ ) . 'custom' );
+	define( 'PROPELLER_PLUGIN_EXTEND_URL', plugin_dir_url( __FILE__ ) . 'custom' );
+	require_once  plugin_dir_path(__FILE__) . 'load-custom.php';
+}
 
+/**
+ * Template constants
+ */
 define('PROPELLER_EMAILS_DIR',		    plugin_dir_path(__FILE__) . 'public' . DIRECTORY_SEPARATOR . 'email');
 define('PROPELLER_PARTIALS_DIR',	    plugin_dir_path(__FILE__) . 'public' . DIRECTORY_SEPARATOR . 'partials');
 define('PROPELLER_TEMPLATES_DIR',	    plugin_dir_path(__FILE__) . 'public' . DIRECTORY_SEPARATOR . 'templates');
@@ -98,6 +128,7 @@ define('PROPELLER_ASSETS_URL',		    plugin_dir_url(__FILE__) . 'public/assets');
 define('PROPELLER_SETTINGS_TABLE', 		'propel_settings');
 define('PROPELLER_PAGES_TABLE', 		'propel_pages');
 define('PROPELLER_BEHAVIOR_TABLE', 		'propel_behavior');
+define('PROPELLER_SLUGS_TABLE', 		'propel_slugs');
 
 // Session/user based globals
 define('PROPELLER_USER_ID', 			'user_id');
@@ -134,6 +165,12 @@ define('PROPELLER_SESSION_LANG', 						"session_locale");
 define('PROPELLER_DEFAULT_DELIVERY_ADDRESS_CHANGED',	"default_delivery_address_changed");
 define('PROPELLER_ORDER_STATUS_TYPE',					"order_status_type");
 
-define('PROPELLER_VIEWING_CLUSTER',					    "viewing_cluster");
+define('PROPELLER_VIEWING_CLUSTER',					    "propeller_viewing_cluster");
+define('PROPELLER_PRICE_REQUEST',					    "propeller_price_request");
+
+// Security
+define('PROPELLER_NONCE_KEY_FRONTEND',                  'propeller_frontend');
+
+define('PROPELLER_GRECAPTCHA_VERIFY_URL',               'https://www.google.com/recaptcha/api/siteverify');
 
 /**********************************************************************/

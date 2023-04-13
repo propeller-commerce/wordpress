@@ -4,12 +4,13 @@ namespace Propeller\Includes\Controller;
 
 use GraphQL\RawObject;
 use Propeller\Includes\Enum\MediaImagesType;
+use Propeller\Includes\Enum\MediaType;
 use Propeller\Includes\Enum\OrderStatus;
 use Propeller\Includes\Enum\OrderType;
 use Propeller\Includes\Enum\PageType;
-use Propeller\Includes\Model\OrderModel;
 use Propeller\Includes\Object\Product;
-use Propeller\Includes\Query\MediaImages;
+use Propeller\Includes\Query\Media;
+use Propeller\PropellerUtils;
 use stdClass;
 
 class OrderController extends BaseController {
@@ -19,7 +20,7 @@ class OrderController extends BaseController {
     public function __construct() {
         parent::__construct();
 
-        $this->model = new OrderModel();
+        $this->model = $this->load_model('order');
     }
 
     public function orders_table($orders, $data, $obj) {
@@ -31,6 +32,9 @@ class OrderController extends BaseController {
     }
 
     public function orders_table_list($orders, $data, $obj) {
+
+		$this->assets()->std_requires_asset('propeller-account-paginator');
+
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'user' . DIRECTORY_SEPARATOR . 'propeller-account-orders-table-list.php');
     }
 
@@ -39,6 +43,9 @@ class OrderController extends BaseController {
     }
 
     public function orders_table_list_paging($data, $obj) {
+
+		$this->assets()->std_requires_asset('propeller-account-paginator');
+
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'user' . DIRECTORY_SEPARATOR . 'propeller-account-orders-table-list-paging.php');
     }
 
@@ -51,7 +58,10 @@ class OrderController extends BaseController {
     }
 
     public function quotations_table_list($orders, $data, $obj) {
-        require $this->load_template('partials', DIRECTORY_SEPARATOR . 'user' . DIRECTORY_SEPARATOR . 'propeller-account-quotations-table-list.php');
+
+	    $this->assets()->std_requires_asset('propeller-account-paginator');
+
+	    require $this->load_template('partials', DIRECTORY_SEPARATOR . 'user' . DIRECTORY_SEPARATOR . 'propeller-account-quotations-table-list.php');
     }
 
     public function quotations_table_list_item($order, $obj) {
@@ -59,6 +69,9 @@ class OrderController extends BaseController {
     }
 
     public function quotations_table_list_paging($data, $obj) {
+
+		$this->assets()->std_requires_asset('propeller-account-paginator');
+
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'user' . DIRECTORY_SEPARATOR . 'propeller-account-quotations-table-list-paging.php');
     }
 
@@ -71,7 +84,7 @@ class OrderController extends BaseController {
     }
 
     public function order_details_data($order) {
-        require $this->load_template('partials', DIRECTORY_SEPARATOR . 'user' . DIRECTORY_SEPARATOR . 'propeller-account-order-details-data.php');
+	    require $this->load_template('partials', DIRECTORY_SEPARATOR . 'user' . DIRECTORY_SEPARATOR . 'propeller-account-order-details-data.php');
     }
 
     public function order_details_shipments($order) {
@@ -87,6 +100,9 @@ class OrderController extends BaseController {
     }
 
     public function order_details_returns_form($order) {
+
+		$this->assets()->std_requires_asset('propeller-order-details-return');
+
         require $this->load_template('partials', DIRECTORY_SEPARATOR . 'user' . DIRECTORY_SEPARATOR . 'propeller-account-order-details-returns-form.php');
     }
 
@@ -214,13 +230,15 @@ class OrderController extends BaseController {
 
         ob_start();
 
+        $_REQUEST = PropellerUtils::sanitize($_REQUEST);
+
         $order_args = [
             'status' => '["' . new RawObject(OrderStatus::ORDER_STATUS_QUOTATION) .'"]'
         ];
     
-        $order_args['offset'] = (isset($_REQUEST['offset']) ? $_REQUEST['offset'] : 12);
+        $order_args['offset'] = (isset($_REQUEST['offset']) ? (int) $_REQUEST['offset'] : 12);
     
-        $order_args['page'] = (isset($_REQUEST['page']) ? $_REQUEST['page'] : 1);
+        $order_args['page'] = (isset($_REQUEST['page']) ? (int) $_REQUEST['page'] : 1);
     
         $this->data = $this->get_orders($order_args);
     
@@ -247,14 +265,16 @@ class OrderController extends BaseController {
             exit;
         }
 
+        $_REQUEST = PropellerUtils::sanitize($_REQUEST);
+
         $order_args = [
             'type'   => '['. new RawObject(OrderType::DROPSHIPMENT) . ', '.  new RawObject(OrderType::PURCHASE) .', '.  new RawObject(OrderType::QUOTATION) .']',
             'status' => '["' . new RawObject(OrderStatus::ORDER_STATUS_NEW) .'", "' . new RawObject(OrderStatus::ORDER_STATUS_CONFIRMED) .'", "' . new RawObject(OrderStatus::ORDER_STATUS_VALIDATED) .'", "' . new RawObject(OrderStatus::ORDER_STATUS_ARCHIVED) .'"]'
         ];
     
-        $order_args['offset'] = (isset($_REQUEST['offset']) ? $_REQUEST['offset'] : 12);
+        $order_args['offset'] = (isset($_REQUEST['offset']) ? (int) $_REQUEST['offset'] : 12);
     
-        $order_args['page'] = (isset($_REQUEST['page']) ? $_REQUEST['page'] : 1);
+        $order_args['page'] = (isset($_REQUEST['page']) ? (int) $_REQUEST['page'] : 1);
     
         $this->data = $this->get_orders($order_args);
     
@@ -279,6 +299,8 @@ class OrderController extends BaseController {
 
     public function order_details() {
         global $propel;
+
+        $_REQUEST = PropellerUtils::sanitize($_REQUEST);
     
         $this->order = isset($propel['order']) 
             ? $propel['order'] 
@@ -332,9 +354,9 @@ class OrderController extends BaseController {
         $params[] = 'userId: '. $userId;
         
         if (isset($args['offset']))
-            $params[] = 'offset: ' . (isset($args['offset']) ? $args['offset'] : 12);
+            $params[] = 'offset: ' . (isset($args['offset']) ? (int) $args['offset'] : 12);
         if (isset($args['page']))
-            $params[] = 'page: ' . (isset($args['page']) ? $args['page'] : 1);
+            $params[] = 'page: ' . (isset($args['page']) ? (int) $args['page'] : 1);
         if (isset($args['status']))
             $params[] = 'status: ' . (isset($args['status']) ? $args['status'] : '');
         if (isset($args['type']))
@@ -354,9 +376,9 @@ class OrderController extends BaseController {
 
         $gql = $this->model->get_order(
             ['orderId' => $order_id],
-            MediaImages::get_media_images_query([
+            Media::get([
                 'name' => MediaImagesType::SMALL
-            ])->__toString(),
+            ], MediaType::IMAGES)->__toString(),
             PROPELLER_LANG
         );
         
@@ -398,9 +420,9 @@ class OrderController extends BaseController {
 
         $gql = $this->model->change_status(
             ['input' => new RawObject('{' . implode(',', $raw_params) . '}')],
-            MediaImages::get_media_images_query([
+            Media::get([
                 'name' => MediaImagesType::SMALL
-            ])->__toString(),
+            ], MediaType::IMAGES)->__toString(),
             PROPELLER_LANG
         );
         
@@ -414,7 +436,7 @@ class OrderController extends BaseController {
 
             FlashController::add(PROPELLER_ORDER_PLACED, (int) $data['order_id']);
             
-            $postprocess->redirect = $this->buildUrl(PageController::get_slug(PageType::THANK_YOU_PAGE), '') . '?order_id=' . $data['order_id'];
+            $postprocess->redirect = esc_url_raw(add_query_arg(['order_id' => $data['order_id']], $this->buildUrl(PageController::get_slug(PageType::THANK_YOU_PAGE), '')));
             $postprocess->status = true;
 
             $response->postprocess = $postprocess;
@@ -427,31 +449,33 @@ class OrderController extends BaseController {
     }
 
     public function return_request($args) {
+        $cc = !empty(PROPELLER_CC_EMAIL) ? PROPELLER_CC_EMAIL : get_bloginfo('admin_email');
+        $bcc = !empty(PROPELLER_BCC_EMAIL) ? PROPELLER_BCC_EMAIL : get_bloginfo('admin_email');
+        
         $headers = [
             'MIME-Version: 1.0',
             'Content-type: text/html; charset=UTF-8',
             'From: ' . get_bloginfo('name') . ' <' . get_bloginfo('admin_email') . '>',
-            'Bcc: ' . get_bloginfo('name') . ' <' . get_bloginfo('admin_email') . '>',
+            'Cc: ' . $cc,
+            'Bcc: ' . $bcc,
             'X-Priority: 1',
 	        'X-Mailer: PHP/' . PHP_VERSION
         ];
 
         ob_start();
 
-        
-        require $this->emails_dir .'/propeller-return-request-template.php';
+        require $this->load_template('emails', DIRECTORY_SEPARATOR . 'propeller-return-request-template.php');
 
         $email_content = ob_get_contents();
         ob_end_clean();    
         
-
         $response = new stdClass();
         $response->postprocess = new stdClass();
 
         $response->object = 'Order';
 
-        // $response->postprocess->success = wp_mail($args['return_email'], __('Return request', 'propeller-ecommerce'), $email_content, $headers);
-        $response->postprocess->success = mail($args['return_email'], __('Return request', 'propeller-ecommerce'), $email_content, implode("\r\n", $headers));
+        $response->postprocess->success = wp_mail($args['return_email'], __('Return request', 'propeller-ecommerce'), $email_content, implode("\r\n", $headers));
+        // $response->postprocess->success = mail($args['return_email'], __('Return request', 'propeller-ecommerce'), $email_content, implode("\r\n", $headers));
 
         $msg = __('Return request sent. We will contact you.', 'propeller-ecommerce');
         if (!$response->postprocess->success) {

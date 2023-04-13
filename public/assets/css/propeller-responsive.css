@@ -880,7 +880,7 @@
         border: none;
         font-size: 1.8rem;
         border-radius: 0;
-        color: var(--lighter-grey);
+        color: var(--light-grey);
         font-weight: bold;
         padding: 1rem 0;
     }

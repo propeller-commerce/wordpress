@@ -381,14 +381,6 @@ class ShoppingCartModel extends BaseModel {
                                 value
                                 language
                             }
-                            description(language: "$language") {
-                                value
-                                language
-                            }
-                            shortDescription(language: "$language") {
-                                value
-                                language
-                            }
                             sku
                             slug(language: "$language") {
                                 value
@@ -397,6 +389,7 @@ class ShoppingCartModel extends BaseModel {
                             ... on Product {
                                 id
                                 productId
+                                urlId: productId
                                 shortName
                                 manufacturerCode
                                 eanCode
@@ -415,24 +408,6 @@ class ShoppingCartModel extends BaseModel {
                                 purchaseUnit
                                 purchaseMinimumQuantity
                                 inventory {
-                                    balance {
-                                        id
-                                        productId
-                                        location
-                                        warehouseId
-                                        sku
-                                        supplier
-                                        supplierCode
-                                        costPrice
-                                        dateModified
-                                        nextDeliveryDate
-                                        notes
-                                        quantity
-                                    }
-                                    localQuantity
-                                    nextDeliveryDate
-                                    productId
-                                    supplierQuantity
                                     totalQuantity
                                 }
                                 price(taxZone: "$tax_zone") {
@@ -449,92 +424,17 @@ class ShoppingCartModel extends BaseModel {
                                     taxCode
                                     type
                                 }
-                                bulkPrices {
-                                    net
-                                    gross
-                                    from
-                                    to
-                                }
                                 $media_images_gql
                             }
                         }
                     }
                 }
                 productId
-                childItems {
-                    id
-                    notes
-                    price
-                    priceNet
-                    totalPrice
-                    totalPriceNet
-                    sum
-                    sumNet
-                    totalSum
-                    totalSumNet
-                    quantity
-                    taxCode
-                    expectedDeliveryDate
-                    deliveryDeadline
-                    discount
-                    discountPercentage
-                    product {
-                        class
-                        name(language: "$language") {
-                            value
-                            language
-                        }
-                        sku
-                        slug(language: "$language") {
-                            value
-                            language
-                        }
-                        ... on Product {
-                            id
-                            productId  
-                            status
-                            isOrderable
-                            originalPrice
-                            suggestedPrice
-                            minimumQuantity
-                            unit
-                            purchaseUnit
-                            purchaseMinimumQuantity
-                            price(taxZone: "$tax_zone") {
-                                net
-                                gross
-                                quantity
-                                discount {
-                                    value
-                                    formula
-                                    quantity
-                                    validFrom
-                                    validTo
-                                }
-                                taxCode
-                                type
-                            }
-                            bulkPrices {
-                                net
-                                gross
-                                from
-                                to
-                            }
-                            $media_images_gql
-                        }
-                    }
-                }
+                urlId: productId
                 product {
                     class
+                    urlId: productId
                     name(language: "$language") {
-                        value
-                        language
-                    }
-                    description(language: "$language") {
-                        value
-                        language
-                    }
-                    shortDescription(language: "$language") {
                         value
                         language
                     }
@@ -553,14 +453,6 @@ class ShoppingCartModel extends BaseModel {
                                 value
                                 language
                             }
-                            description(language: "$language") {
-                                value
-                                language
-                            }
-                            shortDescription(language: "$language") {
-                                value
-                                language
-                            }
                             sku
                             slug(language: "$language") {
                                 value
@@ -569,6 +461,7 @@ class ShoppingCartModel extends BaseModel {
                             ... on Product {
                                 id
                                 productId
+                                urlId: productId
                                 shortName
                                 manufacturerCode
                                 eanCode
@@ -587,24 +480,6 @@ class ShoppingCartModel extends BaseModel {
                                 purchaseUnit
                                 purchaseMinimumQuantity
                                 inventory {
-                                    balance {
-                                        id
-                                        productId
-                                        location
-                                        warehouseId
-                                        sku
-                                        supplier
-                                        supplierCode
-                                        costPrice
-                                        dateModified
-                                        nextDeliveryDate
-                                        notes
-                                        quantity
-                                    }
-                                    localQuantity
-                                    nextDeliveryDate
-                                    productId
-                                    supplierQuantity
                                     totalQuantity
                                 }
                                 price(taxZone: "$tax_zone") {
@@ -621,12 +496,6 @@ class ShoppingCartModel extends BaseModel {
                                     taxCode
                                     type
                                 }
-                                bulkPrices {
-                                    net
-                                    gross
-                                    from
-                                    to
-                                }
                                 $media_images_gql
                             }
                         }
@@ -634,6 +503,7 @@ class ShoppingCartModel extends BaseModel {
                     ... on Product {
                         id
                         productId
+                        urlId: productId
                         shortName
                         manufacturerCode
                         eanCode
@@ -652,24 +522,6 @@ class ShoppingCartModel extends BaseModel {
                         purchaseUnit
                         purchaseMinimumQuantity
                         inventory {
-                            balance {
-                                id
-                                productId
-                                location
-                                warehouseId
-                                sku
-                                supplier
-                                supplierCode
-                                costPrice
-                                dateModified
-                                nextDeliveryDate
-                                notes
-                                quantity
-                            }
-                            localQuantity
-                            nextDeliveryDate
-                            productId
-                            supplierQuantity
                             totalQuantity
                         }
                         price(taxZone: "$tax_zone") {
@@ -686,16 +538,11 @@ class ShoppingCartModel extends BaseModel {
                             taxCode
                             type
                         }
-                        bulkPrices {
-                            net
-                            gross
-                            from
-                            to
-                        }
                     }
                     cluster {
                         id
                         clusterId
+                        urlId: clusterId
                         slug(language: "$language") {
                             value
                             language
@@ -711,6 +558,7 @@ class ShoppingCartModel extends BaseModel {
                 product {
                     id
                     productId
+                    urlId: productId
                     shortName
                     manufacturerCode
                     eanCode
@@ -729,24 +577,6 @@ class ShoppingCartModel extends BaseModel {
                     purchaseUnit
                     purchaseMinimumQuantity
                     inventory {
-                        balance {
-                            id
-                            productId
-                            location
-                            warehouseId
-                            sku
-                            supplier
-                            supplierCode
-                            costPrice
-                            dateModified
-                            nextDeliveryDate
-                            notes
-                            quantity
-                        }
-                        localQuantity
-                        nextDeliveryDate
-                        productId
-                        supplierQuantity
                         totalQuantity
                     }
                     price(taxZone: "$tax_zone") {
@@ -762,12 +592,6 @@ class ShoppingCartModel extends BaseModel {
                         }
                         taxCode
                         type
-                    }
-                    bulkPrices {
-                        net
-                        gross
-                        from
-                        to
                     }
                     slug(language: "$language") {
                         value

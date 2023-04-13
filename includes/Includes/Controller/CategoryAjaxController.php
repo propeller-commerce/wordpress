@@ -4,20 +4,23 @@ namespace Propeller\Includes\Controller;
 use Propeller\Includes\Controller\CategoryController;
 use Propeller\Propeller;
 
-class CategoryAjaxController {
+class CategoryAjaxController extends BaseAjaxController {
     protected $category;
 
     public function __construct() { 
+        parent::__construct();
+
         $this->category = new CategoryController();
     }
 
     public function do_filter() {
-        unset($_POST['action']);
+        $this->init_ajax();
+        
+	    $data = $this->sanitize($_POST);
 
-        $prop = new Propeller();
-        $prop->reinit_filters();
+        unset($data['action']);
 
-        $response = $this->category->product_listing($_POST, true);
+        $response = $this->category->product_listing($data, true);
 
         die(json_encode($response));
     }

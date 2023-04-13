@@ -1,7 +1,8 @@
 <?php
-    use Propeller\Includes\Controller\PageController;
+
+use Propeller\Includes\Controller\FlashController;
+use Propeller\Includes\Controller\PageController;
     use Propeller\Includes\Enum\PageType;
-    use Propeller\Includes\Controller\SessionController;
     use Propeller\Includes\Controller\UserController;
 ?>
 <div class="container-fluid propeller-login-wrapper">
@@ -12,6 +13,10 @@
             <?php  } else { ?>
             <form name="login" class="form-handler login-form page-login-form" method="post">
                 <input type="hidden" name="action" value="do_login">
+                <?php if (FlashController::get('referrer')) { ?>
+                    <input type="hidden" name="referrer" value="<?php echo esc_url(FlashController::flash('referrer')); ?>">
+                <?php } ?>
+                
                 <fieldset class="personal">
                     <div class="row form-group">
                         <div class="col-form-fields col-12">
@@ -29,7 +34,7 @@
                             <div class="form-row">
                             <div class="col-12 col-md-8 form-group col-user-password form-group-input">
                                     <label class="form-label" for="field_password"><?php echo __('Password', 'propeller-ecommerce'); ?>*</label>
-                                    <input type="password" name="user_password" value="" placeholder="<?php echo __('Password', 'propeller-ecommerce'); ?>*" class="form-control required" id="field_password" minlength="8">
+                                    <input type="password" name="user_password" value="" placeholder="<?php echo __('Password', 'propeller-ecommerce'); ?>*" class="form-control required" id="field_password" minlength="6">
                                     <span class="input-pass-message"></span>
                                 </div>
                             </div>  
@@ -55,7 +60,7 @@
                                 <input type="submit" class="btn-blue btn-proceed" value="<?php echo __('Log in', 'propeller-ecommerce'); ?>">
                             </div>
                             <div class="col">
-                                <a href="<?= $this->buildUrl('', PageController::get_slug(PageType::FORGOT_PASSWORD_PAGE)); ?>" class="btn-forgot-password"><?php echo __('Forgot password?', 'propeller-ecommerce'); ?></a>
+                                <a href="<?php echo esc_url($this->buildUrl('', PageController::get_slug(PageType::FORGOT_PASSWORD_PAGE))); ?>" class="btn-forgot-password"><?php echo __('Forgot password?', 'propeller-ecommerce'); ?></a>
                             </div>
                         </div>
                     </div>

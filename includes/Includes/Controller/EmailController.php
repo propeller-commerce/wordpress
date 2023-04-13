@@ -2,19 +2,19 @@
 
 namespace Propeller\Includes\Controller;
 
-use GraphQL\Mutation;
 use GraphQL\RawObject;
 use Propeller\Includes\Enum\EmailEventTypes;
-use Propeller\Includes\Model\EmailModel;
 
 class EmailController extends BaseController {
     protected $model;
 
     public function __construct() {
-        $this->model = new EmailModel();    
+        parent::__construct();
+
+        $this->model = $this->load_model('email'); 
     }
 
-    public function send_propeller_email($to, $from, $subject, $content, $email_type = EmailEventTypes::CUSTOM, $args = [], $attachments = [], $vars = []) {
+    public function send_propeller_email($to, $from, $subject, $content, $email_type = EmailEventTypes::TRANSACTIONAL, $args = [], $attachments = [], $vars = []) {
         $type = 'publishEmailEvent';
 
         $raw_args = [];

@@ -3,7 +3,9 @@
 
     use Propeller\Includes\Controller\PageController;
     use Propeller\Includes\Controller\SessionController;
-    use Propeller\Includes\Enum\PageType;
+use Propeller\Includes\Controller\UserController;
+use Propeller\Includes\Enum\CrossupsellTypes;
+use Propeller\Includes\Enum\PageType;
 
     $user_prices = SessionController::get(PROPELLER_SPECIFIC_PRICES);
 ?>
@@ -15,19 +17,19 @@
     <symbol viewBox="0 0 25 25" id="shape-equals"><title>Equals</title><g fill="none" fill-rule="evenodd"><path d="M12.5 0C5.595 0 0 5.595 0 12.5S5.595 25 12.5 25 25 19.405 25 12.5 19.405 0 12.5 0z" fill="#62BC5E" fill-rule="nonzero"/><rect fill="#FFF" x="7" y="8" width="11" height="3" rx="1.5"/><rect fill="#FFF" x="7" y="14" width="11" height="3" rx="1.5"/></g></symbol>
 </svg>
 
-<div class="container-fluid px-0 propeller-product-details <?= apply_filters('propel_product_details_classes', 'adrian-tina-class'); ?>">
-    <?= apply_filters('propel_product_gecommerce', $this->product, $this); ?>    
+<div class="container-fluid px-0 propeller-product-details <?php echo apply_filters('propel_product_details_classes', 'adrian-tina-class'); ?>">
+    <?php echo apply_filters('propel_product_gecommerce', $this->product, $this); ?>    
     
         <div class="row">
             <div class="col">
                 <?php
                     $breadcrumb_paths = [
                         [
-                            $this->buildUrl(PageController::get_slug(PageType::CATEGORY_PAGE), $this->product->category->slug[0]->value),
+	                        $this->buildUrl(PageController::get_slug(PageType::CATEGORY_PAGE), $this->product->category->slug[0]->value, $this->product->category->urlId),
                             $this->product->category->name[0]->value
                         ],
                         [
-                            $this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $this->product->slug[0]->value),
+	                        $this->buildUrl(PageController::get_slug(PageType::PRODUCT_PAGE), $this->product->slug[0]->value, $this->product->urlId),
                             $this->product->name[0]->value
                         ]
                     ];
@@ -40,36 +42,40 @@
         <div class="row product-gallery-price-wrapper">
             <!-- Product gallery -->
             <div class="col-12 col-lg-7 gallery-wrapper">
-                <?= apply_filters('propel_product_name_mobile', $this->product); ?>
+                <?php echo apply_filters('propel_product_name_mobile', $this->product); ?>
 
-                <?= apply_filters('propel_product_meta_mobile', $this->product, $this); ?>
+                <?php echo apply_filters('propel_product_meta_mobile', $this->product, $this); ?>
                 
-                <?= apply_filters('propel_product_gallery', $this->product, $this); ?>
+                <?php echo apply_filters('propel_product_gallery', $this->product, $this); ?>
 
-                <?= apply_filters('propel_product_desc_media', $this->product, $this); ?>
+                <?php echo apply_filters('propel_product_desc_media', $this->product, $this); ?>
                 
             </div>
 
             <!-- Product name, pricing, short description -->
             <div class="col-12 col-lg-5">
                 <div class="product-price-description-wrapper">
-                    <?= apply_filters('propel_product_name', $this->product); ?>
+                    <?php echo apply_filters('propel_product_name', $this->product); ?>
 
-                    <?= apply_filters('propel_product_meta', $this->product, $this); ?>
+                    <?php echo apply_filters('propel_product_meta', $this->product, $this); ?>
+                   
+                    <?php if (!(!UserController::is_logged_in() && PROPELLER_WP_SEMICLOSED_PORTAL)) { ?> 
+                        <?php echo apply_filters('propel_product_price_details', $this->product, $this); ?>
+                    <?php } ?>   
+                    <?php echo apply_filters('propel_product_short_desc', $this->product); ?>
 
-                    <?= apply_filters('propel_product_price_details', $this->product, $this); ?>
-
-                    <?= apply_filters('propel_product_short_desc', $this->product); ?>
-
-                    <?= apply_filters('propel_product_bulk_prices', $this->product); ?>
+                    <?php if (!(!UserController::is_logged_in() && PROPELLER_WP_SEMICLOSED_PORTAL)) { ?> 
+                        <?php echo apply_filters('propel_product_bulk_prices', $this->product); ?>
+                    <?php } ?>   
 
                     <div class="row justify-content-between add-to-basket-wrapper d-none d-md-flex">
                         <?php if ( $this->product->isOrderable === 'Y') { ?>
-                            <?= apply_filters('propel_product_add_to_basket', $this->product); ?>
-                        
-                            <div class="col-auto">
-                                <?= apply_filters('propel_product_add_favorite', $this->product); ?>
-                            </div>
+                           
+                            <?php echo apply_filters('propel_product_add_to_basket', $this->product); ?>
+                           
+                            <!-- <div class="col-auto"> -->
+                                <?php //echo apply_filters('propel_product_add_favorite', $this->product); ?>
+                            <!-- </div> -->
                         <?php } else { ?>
                             <div class="col-12">
                                 <div class="alert alert-dark alert-not-available"><?php echo __('Product is no longer available', 'propeller-ecommerce'); ?></div>
@@ -84,21 +90,25 @@
             </div>
         </div>
 
-        <?= apply_filters('propel_product_bundles', $this->product, $this); ?>
+        <?php echo apply_filters('propel_product_bundles', $this->product, $this); ?>
         
-        <?= apply_filters('propel_product_crossupsells', $this->product, $this); ?>
+        <?php echo apply_filters('propel_crossupsells_ajax', $this, CrossupsellTypes::ACCESSORIES); ?>
+        <?php echo apply_filters('propel_crossupsells_ajax', $this, CrossupsellTypes::ALTERNATIVES); ?>
+        <?php echo apply_filters('propel_crossupsells_ajax', $this, CrossupsellTypes::RELATED); ?>
+      
+            <div id="fixed-wrapper" class="d-md-none fixed-wrapper <?php if (sizeof($this->product->bulkPrices) > 1) { ?>has-bulk-prices<?php } ?>">
+                <?php if (!(!UserController::is_logged_in() && PROPELLER_WP_SEMICLOSED_PORTAL)) { ?>     
+                    <?php echo apply_filters('propel_product_bulk_prices', $this->product); ?>
+                <?php } ?>
+                <div class="row align-items-center justify-content-between">
 
-        <div id="fixed-wrapper" class="d-md-none fixed-wrapper <?php if (sizeof($this->product->bulkPrices) > 1) { ?>has-bulk-prices<?php } ?>">
-            <?= apply_filters('propel_product_bulk_prices', $this->product); ?>
-
-            <div class="row align-items-center justify-content-between">
-
-                <?= apply_filters('propel_product_add_to_basket', $this->product); ?>
-
-                <div class='col-auto pr-30'>
-                    <?= apply_filters('propel_product_add_favorite', $this->product); ?>
-                </div>     
-            </div>
-        </div> 
+                    <?php echo apply_filters('propel_product_add_to_basket', $this->product); ?>
+                    <?php /*
+                    <div class='col-auto pr-30'>
+                        <?php echo apply_filters('propel_product_add_favorite', $this->product); ?>
+                    </div> */ ?>    
+                </div>
+            </div> 
+       
     </div>
 </div>

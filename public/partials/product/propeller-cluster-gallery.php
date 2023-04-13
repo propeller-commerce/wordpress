@@ -1,59 +1,67 @@
 <svg style="display: none;">
-    <symbol viewBox="0 0 20 21" id="shape-zoom"><title>Zoom</title><path d="m19.863 18.816-4.742-4.742a.464.464 0 0 0-.332-.136h-.516A8.124 8.124 0 0 0 8.125.5 8.124 8.124 0 0 0 0 8.624a8.124 8.124 0 0 0 13.437 6.148v.516a.48.48 0 0 0 .137.332l4.742 4.742a.47.47 0 0 0 .664 0l.883-.883a.47.47 0 0 0 0-.664zM8.125 14.875a6.248 6.248 0 0 1-6.25-6.25 6.248 6.248 0 0 1 6.25-6.25 6.248 6.248 0 0 1 6.25 6.25 6.248 6.248 0 0 1-6.25 6.25z"/></symbol>  
+    <symbol viewBox="0 0 20 21" id="shape-zoom"><title>Zoom</title>
+        <path d="m19.863 18.816-4.742-4.742a.464.464 0 0 0-.332-.136h-.516A8.124 8.124 0 0 0 8.125.5 8.124 8.124 0 0 0 0 8.624a8.124 8.124 0 0 0 13.437 6.148v.516a.48.48 0 0 0 .137.332l4.742 4.742a.47.47 0 0 0 .664 0l.883-.883a.47.47 0 0 0 0-.664zM8.125 14.875a6.248 6.248 0 0 1-6.25-6.25 6.248 6.248 0 0 1 6.25-6.25 6.248 6.248 0 0 1 6.25 6.25 6.248 6.248 0 0 1-6.25 6.25z"/>
+    </symbol>
 </svg>
 <div class='row'>
     <div class="product-image col-12 col-md-8 mx-md-auto col-lg-9 order-1 order-lg-2 pl-lg-0">
         <div class="product-labels">
-			<?php if($cluster_product->has_attributes()) {
-                foreach ($cluster_product->get_attributes() as $attribute) {
-                    if($attribute->searchId == 'attr_product_label_1' && !empty($attribute->get_value())) { ?>
-                         <div class="product-label label-1">
-                            <span><?= $attribute->get_value(); ?></span>
+			<?php if ( $cluster_product->has_attributes() ) {
+				foreach ( $cluster_product->get_attributes() as $attribute ) {
+					if ( $attribute->attributeDescription->searchId == 'attr_product_label_1' && ! empty( $attribute->get_value() ) ) { ?>
+                        <div class="product-label label-1">
+                            <span><?php echo esc_html($attribute->get_value()); ?></span>
                         </div>
-                    <?php }
-                    else if($attribute->searchId == 'attr_product_label_2' && !empty($attribute->get_value())) { ?>
+					<?php } else if ( $attribute->attributeDescription->searchId == 'attr_product_label_2' && ! empty( $attribute->get_value() ) ) { ?>
                         <div class="product-label label-2">
-                            <span><?= $attribute->get_value(); ?></span>
+                            <span><?php echo esc_html($attribute->get_value()); ?></span>
                         </div>
-                    <?php }
-                 }
-            }
-            ?>		
-		</div>
+					<?php }
+				}
+			}
+			?>
+        </div>
 
-        
-        <div class="gallery-container" id="gallery-container">			
-            <div id="slick-gallery" class="slick-gallery">		
-                <?php
-                
-                if($cluster_product->has_images()) {
-                    foreach ($cluster_product->images as $images) {
-                        foreach ($images->images as $image) { ?>
-                        <div class="gallery-item-slick">                                      
-                           <a href='<?= $image->url; ?>' data-size="800x800">                        
-                                <img src='<?= $image->url; ?>' class="d-block mx-auto img-fluid" alt='<?= (count($images->alt) ? $images->alt[0]->value : ""); ?>' width="450" height="450">
+
+        <div class="gallery-container" id="gallery-container">
+            <div id="slick-gallery" class="slick-gallery">
+				<?php
+
+				if ( $cluster_product->has_images() ) {
+					foreach ( $cluster_product->images as $images ) {
+						foreach ( $images->images as $image ) { ?>
+                            <div class="gallery-item-slick">
+                                <a href='<?php echo esc_url($image->url); ?>' data-size="800x800">
+                                    <img src='<?php echo esc_url($image->url); ?>' class="d-block mx-auto img-fluid"
+                                         alt='<?php echo( count( $images->alt ) ? esc_attr($images->alt[0]->value) : "" ); ?>'
+                                         width="450" height="450">
                                     <span class="zoom-link">
-                                       <svg class="icon icon-zoom" aria-hidden="true"><use xlink:href="#shape-zoom"></use></svg>
+                                       <svg class="icon icon-zoom" aria-hidden="true"><use
+                                                   xlink:href="#shape-zoom"></use></svg>
                                     </span>
-                            </a>                                        
-                        </div>
-                    <?php } }
-                } else { ?>	  
-                    <div class="gallery-item-slick">                                      
-                        <a href='<?php echo $obj->assets_url . '/img/no-image.webp';?>' data-size="450x450">                        
-                            <img src='<?php echo $obj->assets_url . '/img/no-image.webp';?>' class="d-block mx-auto img-fluid" alt='<?php echo __('No image found', 'propeller-ecommerce'); ?>' width="450" height="450">
-                                <span class="zoom-link">
+                                </a>
+                            </div>
+						<?php }
+					}
+				} else { ?>
+                    <div class="gallery-item-slick">
+                        <a href='<?php echo esc_url($obj->assets_url . '/img/no-image.webp'); ?>' data-size="450x450">
+                            <img src='<?php echo esc_url($obj->assets_url . '/img/no-image.webp'); ?>'
+                                 class="d-block mx-auto img-fluid"
+                                 alt='<?php echo __( 'No image found', 'propeller-ecommerce' ); ?>' width="450"
+                                 height="450">
+                            <span class="zoom-link">
                                     <svg class="icon icon-zoom" aria-hidden="true"><use xlink:href="#shape-zoom"></use></svg>
                                 </span>
-                        </a>                                        
-                    </div>       
-                <?php } ?>          	
+                        </a>
+                    </div>
+				<?php } ?>
             </div>
         </div>
         <!-- Root element of PhotoSwipe. Must have class pswp. -->
-        <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true" id="pswp">    
-            <div class="pswp__bg"></div>   
-            <div class="pswp__scroll-wrap">        
+        <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true" id="pswp">
+            <div class="pswp__bg"></div>
+            <div class="pswp__scroll-wrap">
                 <div class="pswp__container">
                     <div class="pswp__item"></div>
                     <div class="pswp__item"></div>
@@ -69,13 +77,13 @@
                         <div class="pswp__preloader">
                             <div class="pswp__preloader__icn">
                                 <div class="pswp__preloader__cut">
-                                <div class="pswp__preloader__donut"></div>
+                                    <div class="pswp__preloader__donut"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                        <div class="pswp__share-tooltip"></div> 
+                        <div class="pswp__share-tooltip"></div>
                     </div>
                     <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
                     </button>
@@ -87,33 +95,40 @@
                 </div>
             </div>
         </div>
-            
+
     </div>
 
-    <div id="thumbnail-slick" class="product-thumbnail-slider-slick col-12 col-md-8 mx-md-auto col-lg-3 order-2 order-lg-1 d-none d-md-block">
-        <div class="product-thumbnail-slick <?php if($cluster_product->has_images() && count($cluster_product->images) <= 3 or empty($cluster_product->images)) echo 'single-thumbnail'?>" id="product-thumb-slick">
-            <?php 
-                $keyThumbImg = 0;
-                
-                if($cluster_product->has_images()) {
-                    foreach ($cluster_product->images as $images) { 
-                        foreach ($images->images as $image) { 
-                ?>
+    <div id="thumbnail-slick"
+         class="product-thumbnail-slider-slick col-12 col-md-8 mx-md-auto col-lg-3 order-2 order-lg-1 d-none d-md-block">
+        <div class="product-thumbnail-slick <?php if ( $cluster_product->has_images() && count( $cluster_product->images ) <= 3 or empty( $cluster_product->images ) )
+			echo 'single-thumbnail' ?>" id="product-thumb-slick">
+			<?php
+			$keyThumbImg = 0;
+
+			if ( $cluster_product->has_images() ) {
+				foreach ( $cluster_product->images as $images ) {
+					foreach ( $images->images as $image ) {
+						?>
                         <div class="item">
                             <div class="image">
-                                <img src="<?= $image->url; ?>" alt="<?= (count($images->alt) ? $images->alt[0]->value : ""); ?>" <?php if( $keyThumbImg > 4 ) { ?> loading="lazy" <?php } ?> width="120" height="120"/>
+                                <img src="<?php echo esc_url( $image->url ); ?>"
+                                     alt="<?php echo( count( $images->alt ) ? $images->alt[0]->value : "" ); ?>" <?php if ( $keyThumbImg > 4 ) { ?> loading="lazy" <?php } ?>
+                                     width="120" height="120"/>
                             </div>
                         </div>
-                <?php } 
-                    $keyThumbImg++;
-                } } else { ?>
-                        <div class="item">
-                            <div class="image">
-                                <img src="<?php echo $obj->assets_url . '/img/no-image-small.webp';?>" <?php if( $keyThumbImg > 3 ) { ?> loading="lazy" <?php } ?> alt="<?php echo __('No image found', 'propeller-ecommerce'); ?>" width="120" height="120"/>
-                            </div>
-                        </div>
-                <?php } ?>
+					<?php }
+					$keyThumbImg ++;
+				}
+			} else { ?>
+                <div class="item">
+                    <div class="image">
+                        <img src="<?php echo esc_url( $obj->assets_url . '/img/no-image-small.webp' ) ?>" <?php if ( $keyThumbImg > 3 ) { ?> loading="lazy" <?php } ?>
+                             alt="<?php echo __( 'No image found', 'propeller-ecommerce' ); ?>" width="120"
+                             height="120"/>
+                    </div>
+                </div>
+			<?php } ?>
         </div>
-        
+
     </div>
-</div>	
+</div>

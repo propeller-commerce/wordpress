@@ -114,7 +114,7 @@ class Filter extends BaseObject {
     }
 
     private function getTextValue() {
-        return $this->textFilter;
+        return trim($this->textFilter);
     }
 
     // list attr
@@ -130,7 +130,7 @@ class Filter extends BaseObject {
 
         foreach ($this->textFilter as $values) {
             $vals[] = [
-                'value' => $values->value,
+                'value' => trim($values->value),
                 'count' => $values->count
             ];
         }

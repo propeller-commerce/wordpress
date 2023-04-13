@@ -4,6 +4,6 @@
 ?>     
 
     <div class="propeller-list-item col-12 col-sm-6 col-xl-4">
-        <?= apply_filters('propel_' . $product->class . '_card', $product, $this); ?>
+        <?php echo apply_filters('propel_' . $product->class . '_card', $product, $this); ?>
     </div>
 <?php } ?>

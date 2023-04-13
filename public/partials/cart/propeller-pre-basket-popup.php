@@ -47,27 +47,23 @@ use Propeller\PropellerHelper;
                                 <div class="col-12">
                                     <div class="row no-gutters">
                                         <div class="col-auto col-md-4 col-lg-2"> <span><?php echo __('Desired quantity', 'propeller-ecommerce'); ?>: </span></div>
-                                        <div class="col">150</div>
+                                        <div class="col added-item-quantity"></div>
                                     </div>
                                     <div class="row no-gutters">
                                         <div class="col-auto col-md-4 col-lg-2"> <span><?php echo __('Available', 'propeller-ecommerce'); ?>: </span></div>
-                                        <div class="col">100</div>
+                                        <div class="col added-item-stock"></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row product-pre-basket-options">
                                 <div class="col-12">
                                     <label class="form-check-label">
-                                        <input class="form-check-input" type="radio" name="pre_basket_option" value="full_delivery">
-                                        <span><?php echo __('I would like to receive all products at once, the delivery time may be longer than usual', ''); ?></span> 
+                                        <input class="form-check-input added-item-full-quantity" type="radio" name="pre_basket_option" value="">
+                                        <span><?php echo __('As soon as possible, I would like', 'propeller-ecommerce'); ?> <div class="d-inline added-item-stock"></div> <?php echo __('items have delivered', 'propeller-ecommerce'); ?>, <?php echo __('the others', 'propeller-ecommerce'); ?> <div class="d-inline added-item-diff"></div> <?php echo __('items will be delivered later', 'propeller-ecommerce'); ?></span> 
                                     </label>
                                     <label class="form-check-label">
-                                        <input class="form-check-input" type="radio" name="pre_basket_option" value="partial_delivery">
-                                        <span><?php echo __('As soon as possible, I would like', ''); ?> 100 stucks <?php echo __('have delivered', ''); ?>, <?php echo __('the others', 'propeller-ecommerce'); ?> 50 stucks <?php echo __('will be delivered later', ''); ?></span> 
-                                    </label>
-                                    <label class="form-check-label">
-                                        <input class="form-check-input" type="radio" name="pre_basket_option" value="current_stock">
-                                        <span><?php echo __('Add', ''); ?> 100 stucks <?php echo __('to my shopping cart', ''); ?>, <?php echo __('for the other', 'propeller-ecommerce'); ?> 50 stucks <?php echo __('I am looking for an alternative.', ''); ?></span>
+                                        <input class="form-check-input added-item-full-stock" type="radio" name="pre_basket_option" value="" checked>
+                                        <span><?php echo __('Add', 'propeller-ecommerce'); ?> <div class="d-inline added-item-stock"></div> <?php echo __('items to my shopping cart', 'propeller-ecommerce'); ?>, <?php echo __('for the other', 'propeller-ecommerce'); ?> <div class="d-inline added-item-diff"></div> <?php echo __('items I am looking for an alternative.', 'propeller-ecommerce'); ?></span>
                                     </label>
                                 </div>
                             </div>

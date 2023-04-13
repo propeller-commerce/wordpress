@@ -32,6 +32,8 @@ class PageType {
     const THANK_YOU_PAGE = 'Thank you page';
     const PAYMENT_FAILED_PAGE = 'Payment failed page';
     const TERMS_CONDITIONS_PAGE = 'Terms & Conditions page';
+    const MACHINES_PAGE = 'Machines page';
+    const PRODUCT_REQUEST_PAGE = 'Price request page';
     
     static function getConstants() {
         $oClass = new ReflectionClass(__CLASS__);

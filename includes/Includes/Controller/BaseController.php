@@ -2,7 +2,7 @@
 
 namespace Propeller\Includes\Controller;
 
-use Directory;
+use Propeller\Frontend\PropellerAssets;
 use stdClass;
 use Exception;
 use GraphQL\RawObject;
@@ -10,7 +10,7 @@ use Propeller\PropellerApi;
 
 class BaseController extends PropellerApi {
     protected $model;
-    
+
     public $default_assets_url;
     public $default_assets_dir;
     public $default_templates_dir;
@@ -34,16 +34,20 @@ class BaseController extends PropellerApi {
 
     public $pagename;
 
-    const TEXT_FILTERS_KEY = 'textFilters';  
-    const RANGE_FILTERS_KEY = 'rangeFilters';  
+	protected $assets;
+
+    const TEXT_FILTERS_KEY = 'textFilters';
+    const RANGE_FILTERS_KEY = 'rangeFilters';
 
     protected $array_filters = ['textFilters', 'rangeFilters'];
 
     public function __construct() {
         parent::__construct();
 
+		$this->assets = new PropellerAssets();
+
         $this->register_directories();
-    }    
+    }
 
     private function register_directories() {
         // initial template/assets paths
@@ -63,29 +67,39 @@ class BaseController extends PropellerApi {
         $this->default_errors_dir = PROPELLER_ERROR_DIR;
 
         // theme template/assets paths
-        $this->theme_assets_url = get_template_directory_uri() . '/propeller/assets';
-        $this->theme_assets_dir = get_template_directory() . DIRECTORY_SEPARATOR . 'propeller' . DIRECTORY_SEPARATOR . 'assets';
-        $this->theme_templates_dir = get_template_directory() . DIRECTORY_SEPARATOR . 'propeller' . DIRECTORY_SEPARATOR . 'templates';
-        $this->theme_partials_dir = get_template_directory() . DIRECTORY_SEPARATOR . 'propeller' . DIRECTORY_SEPARATOR . 'partials';
-        $this->theme_emails_dir = get_template_directory() . DIRECTORY_SEPARATOR . 'propeller' . DIRECTORY_SEPARATOR . 'email';
-        $this->theme_errors_dir = get_template_directory() . DIRECTORY_SEPARATOR . 'propeller' . DIRECTORY_SEPARATOR . 'error';
+        $this->theme_assets_url = get_theme_file_uri() . '/propeller/assets';
+        $this->theme_assets_dir = get_theme_file_path() . DIRECTORY_SEPARATOR . 'propeller' . DIRECTORY_SEPARATOR . 'assets';
+        $this->theme_templates_dir = get_theme_file_path() . DIRECTORY_SEPARATOR . 'propeller' . DIRECTORY_SEPARATOR . 'templates';
+        $this->theme_partials_dir = get_theme_file_path() . DIRECTORY_SEPARATOR . 'propeller' . DIRECTORY_SEPARATOR . 'partials';
+        $this->theme_emails_dir = get_theme_file_path() . DIRECTORY_SEPARATOR . 'propeller' . DIRECTORY_SEPARATOR . 'email';
+        $this->theme_errors_dir = get_theme_file_path() . DIRECTORY_SEPARATOR . 'propeller' . DIRECTORY_SEPARATOR . 'error';
 
-        if (is_dir(PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'assets')) {
-            $this->assets_url = PROPELLER_PLUGIN_EXTEND_URL . '/public/assets';
-            $this->assets_dir = PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'assets';
-        }
+		if(defined('PROPELLER_PLUGIN_EXTEND_DIR')) {
 
-        if (is_dir(PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'templates'))
-            $this->templates_dir = PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'templates';
-        
-        if (is_dir(PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'partials'))
-            $this->partials_dir = PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'partials';
+			$extends_dir = PROPELLER_PLUGIN_EXTEND_DIR;
+			$extends_url = PROPELLER_PLUGIN_EXTEND_URL;
 
-        if (is_dir(PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'email'))
-            $this->emails_dir = PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'email';
+			if ( is_dir( $extends_dir . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'assets' ) ) {
+				$this->assets_url = $extends_url . '/public/assets';
+				$this->assets_dir = $extends_dir . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'assets';
+			}
 
-        if (is_dir(PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'error'))
-            $this->emails_dir = PROPELLER_PLUGIN_EXTEND_DIR . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'error';
+			if ( is_dir( $extends_dir . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'templates' ) ) {
+				$this->templates_dir = $extends_dir . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'templates';
+			}
+
+			if ( is_dir( $extends_dir . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'partials' ) ) {
+				$this->partials_dir = $extends_dir . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'partials';
+			}
+
+			if ( is_dir( $extends_dir . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'email' ) ) {
+				$this->emails_dir = $extends_dir . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'email';
+			}
+
+			if ( is_dir( $extends_dir . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'error' ) ) {
+				$this->errorss_dir = $extends_dir . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'error';
+			}
+		}
     }
 
     public function load_template($path, $template) {
@@ -125,35 +139,51 @@ class BaseController extends PropellerApi {
             return $theme_dir . $template;
         else if (file_exists($dir . $template))
             return $dir . $template;
-        else 
+        else
             return $default_dir . $template;
     }
 
-    public function buildUrl($realm_slug, $slug) {
-        return home_url($realm_slug . '/' . $slug . '/');
+	/**
+	 * Returns the assets instance
+	 * @return PropellerAssets
+	 */
+	public function assets() {
+		return $this->assets;
+	}
+
+    public function load_model($model) {
+        $default_ref = "Propeller\Includes\Model\\" . ucfirst($model) . 'Model';
+        $custom_ref = "Propeller\Custom\Includes\Model\\" . ucfirst($model) . 'Model';
+
+        return class_exists($custom_ref, true) ? new $custom_ref() : new $default_ref();
+    }
+
+    public function buildUrl($realm_slug, $slug, $id = null) {
+        if (empty($slug))
+            return home_url( $realm_slug . '/' );
+        else {
+            if ($id && PROPELLER_ID_IN_URL)
+                return home_url($realm_slug . '/' . $id . '/' . $slug . '/');
+            else 
+                return home_url($realm_slug . '/' . $slug . '/');
+        } 
     }
 
     public function get_salutation($obj) {
         if (!isset($obj->gender))
             return SALUTATION_U;
 
-        if ($obj->gender === 'M') 
+        if ($obj->gender === 'M')
             return SALUTATION_M;
-        else if ($obj->gender === 'F') 
+        else if ($obj->gender === 'F')
             return SALUTATION_F;
-        else 
+        else
             return SALUTATION_U;
     }
 
     // Cookies
     protected function set_cookie($name, $value, $expiration = PROPELLER_COOKIE_EXPIRATION) {
-        $res = setcookie($name, $value, [
-            'expires' => $expiration,
-            'path' => '/', 
-            // 'domain' => $_SERVER['HTTP_HOST'],
-            'secure' => true, 
-            'httponly' => true
-        ]);
+        $res = setcookie($name, $value, $expiration, "/");
     }
 
     protected function get_cookie($name) {
@@ -199,7 +229,7 @@ class BaseController extends PropellerApi {
                         else
                             $params[$key] = '"' . $value .'"';
 
-                        break; 
+                        break;
 
                     case "id":      //[Int!]
                     case "classId":
@@ -214,13 +244,13 @@ class BaseController extends PropellerApi {
                         else
                             $params[$key] = (int) $value;
 
-                        break;        
+                        break;
 
                     case "class":   //ProductClass: product/cluster
                         $params[$key] = $value;
 
                         break;
-                    
+
                     case "language":    //String = "NL" = "NL"
                         $params[$key] = '"' . $value . '"';
 
@@ -235,7 +265,7 @@ class BaseController extends PropellerApi {
 
                     case "textFilters":     //[TextFilterInput!]
                         $textFilters = [];
-                        
+
                         if (strpos($value, '|'))
                             $textFilters = explode('|', $value);
                         else
@@ -245,14 +275,17 @@ class BaseController extends PropellerApi {
                         foreach ($textFilters as $flt) {
                             $chunks = explode('=', $flt);
                             $searchId = $chunks[0];
-        
+
                             $valueChunks = explode(';', $chunks[1]);
                             $values = $valueChunks[0];
                             $type = $valueChunks[1];
-        
+
                             $text_vals = [];
-                            foreach (explode('^', $values) as $vals) 
-                                $text_vals[] = $vals;
+                            foreach (explode('^', $values) as $vals) {
+								foreach(explode('+', $vals) as $item) {
+									$text_vals[] = $item;
+								}
+                            }
 
                             $processed[] = [
                                 'searchId' => '"' . $searchId . '"',
@@ -280,7 +313,7 @@ class BaseController extends PropellerApi {
                             'exclude' => false,
                             'type' => $type
                         ];
-                            
+
                         break;
 
                     case "price":   // PriceFilterInput
@@ -320,12 +353,12 @@ class BaseController extends PropellerApi {
                             foreach ($params[$key] as $index => $val)
                                 $params[$key][$index] = new RawObject($val);
                         }
-                            
+
                         else
                             $params[$key] = new RawObject($value);
 
                         break;
-                    default: 
+                    default:
                         break;
                 }
             }
@@ -339,7 +372,7 @@ class BaseController extends PropellerApi {
         error_reporting(E_ERROR | E_PARSE);
 
         $params_arr = [];
-        
+
         foreach ($params as $key => $value) {
             try {
                 $param_str = '';
@@ -347,7 +380,7 @@ class BaseController extends PropellerApi {
                 if (is_array($value)) {
                     if (in_array($key, $this->array_filters)) {
                         $param_str .= '[';
-                        
+
                         $sub_params = [];
                         foreach ($value as $val_val) {
                             $sub_param_str = '{';
@@ -356,14 +389,14 @@ class BaseController extends PropellerApi {
                                 if (is_numeric($v_k))
                                     $sub_param_str .= $v_v . ' ';
                                 else
-                                    $sub_param_str .= $v_k . ':' . $v_v . ' '; 
+                                    $sub_param_str .= $v_k . ':' . $v_v . ' ';
                             }
-                                
+
                             $sub_param_str .= '}';
 
                             $sub_params[] = $sub_param_str;
                         }
-                        
+
                         $param_str .= implode(',', $sub_params);
 
                         $param_str .= ']';
@@ -382,7 +415,7 @@ class BaseController extends PropellerApi {
                             else
                                 $tmp_arr[] = $val_key . ':' . $val_val;
                         }
-                        
+
                         $param_str .= $param_str_open;
                         $param_str .= implode(',', $tmp_arr);
                         $param_str .= $param_str_close;
@@ -431,18 +464,18 @@ class BaseController extends PropellerApi {
                     if (strpos($key, '_from') || (strpos($key, '_to')))
                         continue;
 
-                    
+
                     if (is_array($value) && sizeof($value)) {
                         $flt_vals = [];
                         foreach ($value as $vals) {
-                            
+
                             if (strpos($vals, '~')) {
                                 $tmp_vals = explode('~', $vals);
                                 $filter->type = $tmp_vals[1];
-                                $flt_vals[] = $tmp_vals[0];
+                                $flt_vals[] = urldecode($tmp_vals[0]);
                             }
                         }
-        
+
                         $val = implode(',', $flt_vals);
                     }
                     else if (strpos($value, '~')) {
@@ -454,15 +487,15 @@ class BaseController extends PropellerApi {
                                 $tmp_vals = explode('~', $tmp_filters);
 
                                 $filter->type = $tmp_vals[1];
-                                $tmp_val_arr[] = $tmp_vals[0];
+                                $tmp_val_arr[] = urldecode($tmp_vals[0]);
                             }
 
-                            $val = implode(',', $tmp_val_arr);
+                            $val = implode('+', $tmp_val_arr);
                         }
                         else {
                             $tmp_vals = explode('~', $value);
                             $filter->type = $tmp_vals[1];
-                            $val = $tmp_vals[0];
+                            $val = urldecode($tmp_vals[0]);
                         }
                     }
                     else {
@@ -471,7 +504,7 @@ class BaseController extends PropellerApi {
                 }
 
                 $param = $val;
-                
+
                 if (isset($filter->type) && $filter->type == 'price')
                     $param = $val;
                 else {
@@ -482,25 +515,25 @@ class BaseController extends PropellerApi {
                         else {
                             $param = "$key=$val;$filter->type";
                         }
-                    }                    
+                    }
                     else {
                         $processed[$key] = "$val";
                     }
                 }
-                    
+
 
                 $param_type = '';
 
                 if (isset($filter->type) && !empty($filter->type)) {
                     switch ($filter->type) {
-                        case 'text': 
-                        case 'list': 
-                        case 'enum': 
-                        case 'enumlist': 
-                        case 'color': 
-                        case 'date': 
-                        case 'datetime': 
-                        case 'object': 
+                        case 'text':
+                        case 'list':
+                        case 'enum':
+                        case 'enumlist':
+                        case 'color':
+                        case 'date':
+                        case 'datetime':
+                        case 'object':
                             $param_type = self::TEXT_FILTERS_KEY;
                             break;
 
@@ -517,7 +550,7 @@ class BaseController extends PropellerApi {
 
                 if (isset($processed[$param_type]))
                     $processed[$param_type] .= "|$param";
-                else 
+                else
                     $processed[$param_type] = "$param";
             }
             catch (Exception $e) { }
@@ -531,15 +564,18 @@ class BaseController extends PropellerApi {
 
         foreach ($all_filters as $type => $type_filters) {
             foreach ($type_filters as $filter) {
-                
+
                 if (isset($filter->searchId) && isset($_REQUEST[$filter->searchId])) {
-                    $filter_vals = explode('^', $_REQUEST[$filter->searchId]);
+                    $filter_vals = explode('^', sanitize_text_field( $_REQUEST[$filter->searchId] ));
+					$filter_vals = wp_unslash($filter_vals);
 
                     $available_vals = [];
 
                     switch ($filter->type) {
-                        case 'text': 
+                        case 'text':
+                        case 'list':
                         case 'enum':
+                        case 'enumlist':
                             $available_vals = $filter->textFilter;
 
                             break;
@@ -548,19 +584,57 @@ class BaseController extends PropellerApi {
                     }
 
                     foreach ($available_vals as $val_obj) {
-                        if (in_array($val_obj->value . '~' . $type, $filter_vals)) {
+                        if (in_array(wp_unslash($val_obj->value) . '~' . $type, $filter_vals)) {
                             $sel_filter = new stdClass();
                             $sel_filter->filter = $filter;
-                            $sel_filter->value = $val_obj->value;
+                            $sel_filter->value = wp_unslash($val_obj->value);
 
                             $selected_filters[] = $sel_filter;
                         }
                     }
-                    
+
                 }
             }
         }
 
         return $selected_filters;
     }
+
+	/**
+	 * Check the front-end request
+	 *
+	 * @param $nonce_data_key
+	 * @param string $nonce_action_key
+	 *
+	 * @return false|int
+	 */
+	protected function validate_form_request( $nonce_data_key, $nonce_action_key = PROPELLER_NONCE_KEY_FRONTEND ) {
+		$nonce = isset( $_REQUEST[ $nonce_data_key ] ) ? sanitize_text_field($_REQUEST[ $nonce_data_key ]) : false;
+
+		if ( false === $nonce ) {
+			return false;
+		}
+
+		return wp_verify_nonce( $nonce, $nonce_action_key );
+	}
+
+	/**
+	 * Validates the ajax request
+	 * @param string $nonce_data_key
+	 * @param string $nonce_action_key
+	 *
+	 * @return bool
+	 */
+	protected function validate_ajax_request( $nonce_data_key, $nonce_action_key = PROPELLER_NONCE_KEY_FRONTEND ) {
+		return (bool) check_ajax_referer($nonce_action_key, $nonce_data_key, false);
+	}
+
+	/**
+	 * Check if request is post
+	 * @return bool
+	 */
+	protected function is_post_request() {
+		return isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST';
+	}
+
 }

@@ -6,7 +6,7 @@ $switch = (SessionController::get(PROPELLER_SPECIFIC_PRICES) ? 'on' : 'off');
 
 ?>
 <div class="propeller-price-toggle-wrapper">
-    <div class="price-toggle price-<?= $switch; ?>">
+    <div class="price-toggle price-<?php echo esc_attr($switch); ?>">
         <a class="toggle-link d-flex align-items-center justify-content-between justify-content-md-end" rel="nofollow">
             <span class="toggle">
             </span>

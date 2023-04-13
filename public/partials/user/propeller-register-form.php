@@ -1,5 +1,6 @@
 <?php
 
+use Propeller\Includes\Controller\FlashController;
 use Propeller\Includes\Enum\AddressType;
 use Propeller\Includes\Enum\UserTypes;
 
@@ -9,23 +10,27 @@ use Propeller\Includes\Enum\UserTypes;
         <div class="col-12 col-md-9 mr-auto">
             <form name="register" class="form-handler register-form checkout-form validate" method="post">
                 <input type="hidden" name="action" value="do_register">
-                <input type="hidden" name="user_type" value="<?= UserTypes::CONTACT; ?>">
+                <input type="hidden" name="user_type" value="<?php echo UserTypes::CONTACT; ?>">
+
+                <?php if (FlashController::get('register_referrer')) { ?>
+                    <input type="hidden" name="referrer" value="<?php echo esc_url(FlashController::flash('register_referrer')); ?>">
+                <?php } ?>
 
                 <fieldset class="personal">
                     <legend class="checkout-header">
-                        <?php echo __('Your details', ''); ?>
+                        <?php echo __('Your details', 'propeller-ecommerce'); ?>
                     </legend>
                     <div class="row form-group">
                         <div class="col-form-fields col-12">
                             <div class="form-row">
                                 <div class="col-auto form-group form-check">
                                     <label class="btn-radio-checkbox form-check-label ">
-                                        <input type="radio" class="form-check-input user-type-radio" name="parentId" data-type="<?= UserTypes::CONTACT; ?>" value="<?= PROPELLER_DEFAULT_CONTACT_PARENT; ?>" checked> <span><?php echo __('Company', ''); ?></span>
+                                        <input type="radio" class="form-check-input user-type-radio" name="parentId" data-type="<?php echo UserTypes::CONTACT; ?>" value="<?php echo PROPELLER_DEFAULT_CONTACT_PARENT; ?>" checked> <span><?php echo __('Company', 'propeller-ecommerce'); ?></span>
                                     </label>
                                 </div>
                                 <div class="col-auto form-group form-check">
                                     <label class="btn-radio-checkbox form-check-label ">
-                                        <input type="radio" class="form-check-input user-type-radio" name="parentId" data-type="<?= UserTypes::CUSTOMER; ?>" value="<?= PROPELLER_DEFAULT_CUSTOMER_PARENT; ?>"> <span><?php echo __('Consumer', ''); ?></span>
+                                        <input type="radio" class="form-check-input user-type-radio" name="parentId" data-type="<?php echo UserTypes::CUSTOMER; ?>" value="<?php echo PROPELLER_DEFAULT_CUSTOMER_PARENT; ?>"> <span><?php echo __('Consumer', 'propeller-ecommerce'); ?></span>
                                     </label>
                                 </div>
                             </div>  
@@ -36,12 +41,12 @@ use Propeller\Includes\Enum\UserTypes;
                             <div class="form-row">
                                 <div class="col-auto form-group form-check">
                                     <label class="btn-radio-checkbox form-check-label ">
-                                        <input type="radio" class="form-check-input" name="gender" value="M"> <span><?php echo __('Mr.', ''); ?></span>
+                                        <input type="radio" class="form-check-input" name="gender" value="M"> <span><?php echo __('Mr.', 'propeller-ecommerce'); ?></span>
                                     </label>
                                 </div>
                                 <div class="col-auto form-group form-check">
                                     <label class="btn-radio-checkbox form-check-label ">
-                                        <input type="radio" class="form-check-input" name="gender" value="F"> <span><?php echo __('Mrs.', ''); ?></span>
+                                        <input type="radio" class="form-check-input" name="gender" value="F"> <span><?php echo __('Mrs.', 'propeller-ecommerce'); ?></span>
                                     </label>
                                 </div>
                                 <div class="col-auto form-group form-check">
@@ -115,12 +120,12 @@ use Propeller\Includes\Enum\UserTypes;
                     <legend class="checkout-header">
                         <?php echo __('Address', 'propeller-ecommerce'); ?>
                     </legend>
-                    <input type="hidden" name="invoice_address[type]" value="<?= AddressType::INVOICE; ?>">
+                    <input type="hidden" name="invoice_address[type]" value="<?php echo AddressType::INVOICE; ?>">
                     <div class="row form-group">
                         <div class="col-form-fields col-12">
                             <div class="form-row">
                                 <div class="col-12 col-md-8 form-group col-user-company">
-                                    <label class="form-label" for="field_company"><?php echo __('Company name', 'propeller-ecommerce'); ?></label>
+                                    <label class="form-label" for="field_company"><?php echo __('Company name', 'propeller-ecommerce'); ?>*</label>
                                     <input type="text" name="invoice_address[company]" value="" class="form-control required" id="field_company">
                                 </div>
                             </div>  
@@ -192,7 +197,7 @@ use Propeller\Includes\Enum\UserTypes;
 
                                     <select id="field_country" name="invoice_address[country]" class="form-control required">
                                         <?php foreach ($countries as $code => $name) { ?>
-                                            <option value="<?= $code; ?>" <?php echo ($code == $selected ? 'selected' : ''); ?>><?php echo $name; ?></option>
+                                            <option value="<?php echo esc_attr($code); ?>" <?php echo ($code == $selected ? 'selected' : ''); ?>><?php echo esc_html($name); ?></option>
                                         <?php } ?>
                                     </select>
 
@@ -218,14 +223,14 @@ use Propeller\Includes\Enum\UserTypes;
                 </fieldset>
                 <fieldset class="new-delivery-address">
                     <legend class="checkout-header">
-                        <?php echo __('Bezorgadres', ''); ?> 
+                        <?php echo __('Delivery address', 'propeller-ecommerce'); ?> 
                     </legend>
-                    <input type="hidden" name="delivery_address[type]" value="<?= AddressType::DELIVERY; ?>">
+                    <input type="hidden" name="delivery_address[type]" value="<?php echo AddressType::DELIVERY; ?>">
                     <div class="row form-group">
                         <div class="col-form-fields col-12">
                             <div class="form-row">
                                 <div class="col-12 col-md-8 form-group col-user-company">
-                                    <label class="form-label" for="field_delivery_company"><?php echo __('Company name', 'propeller-ecommerce'); ?></label>
+                                    <label class="form-label" for="field_delivery_company"><?php echo __('Company name', 'propeller-ecommerce'); ?>*</label>
                                     <input type="text" name="delivery_address[company]" value="" class="form-control required" id="field_delivery_company">
                                 </div>
                             </div>  
@@ -297,7 +302,7 @@ use Propeller\Includes\Enum\UserTypes;
 
                                     <select id="field_delivery_country" name="delivery_address[country]" class="form-control required">
                                         <?php foreach ($countries as $code => $name) { ?>
-                                            <option value="<?= $code; ?>" <?php echo ($code == $selected ? 'selected' : ''); ?>><?php echo $name; ?></option>
+                                            <option value="<?php echo esc_attr($code); ?>" <?php echo ($code == $selected ? 'selected' : ''); ?>><?php echo esc_html($name); ?></option>
                                         <?php } ?>
                                     </select>
 

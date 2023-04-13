@@ -8,7 +8,6 @@
         "phpoffice/phpspreadsheet": "^1.19",
         "gettext/php-scanner": "dev-master",
         "gettext/gettext": "^5.7.0"
-        
     },
     "require-dev": {
         "gmostafa/php-graphql-client": "dev-master"
@@ -24,7 +23,6 @@
     "autoload": {
         "psr-4": {
             "Propeller\\": "./includes",
-            "Propeller\\Custom\\": "./custom",
             "Propeller\\Admin\\": "./admin",
             "Propeller\\Frontend\\": "./public"
         }
